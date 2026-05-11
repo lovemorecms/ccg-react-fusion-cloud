@@ -1,0 +1,482 @@
+/* CMS tokens (colors, spacing, component vars incl. --usa-banner__background-color) — required alongside index.css per design.cms.gov */
+@import '@cmsgov/design-system/css/core-theme.css';
+@import '@cmsgov/design-system/css/index.css';
+
+@import 'tailwindcss/theme' layer(theme);
+@import 'tailwindcss/utilities' layer(utilities);
+
+@source '../index.html';
+@source './**/*.{js,ts,jsx,tsx}';
+
+:root {
+  --font-lexend: 'Lexend', var(--font-family-heading, system-ui), sans-serif;
+  /* Match FusionSiteNav: max-w-[100rem] px-6 md:px-12 */
+  --fusion-site-max-width: 100rem;
+  --fusion-site-padding-x: 1.5rem;
+  --fusion-site-padding-x-md: 3rem;
+
+  /*
+   * Section vertical rhythm (use with `var(...)` in components).
+   * after-hero: extra top padding on the first band below the hero (~64–100px).
+   * block: default vertical padding between major homepage sections (~48–80px).
+   */
+  --fusion-section-pad-after-hero: clamp(4rem, 6vw + 1.25rem, 6.25rem);
+  --fusion-section-pad-block: clamp(3rem, 4vw + 1rem, 5rem);
+
+  /*
+   * Type scale tuned for typical laptop widths; Figma-sized caps only on very wide viewports.
+   */
+  --fusion-type-section-heading: clamp(1.625rem, 1.75vw + 0.85rem, 2.25rem);
+  --fusion-type-lede: clamp(0.9375rem, 0.25vw + 0.88rem, 1.125rem);
+
+  /* Figma Apps frame 370:41247 — matte blue sampled from export PNG (flat regions outside glow) */
+  --fusion-multi-cloud-bg: #002980;
+}
+
+@media (min-width: 1536px) {
+  :root {
+    --fusion-type-section-heading: clamp(2rem, 1.4vw + 1rem, 2.75rem);
+    --fusion-type-lede: clamp(1.0625rem, 0.3vw + 0.9rem, 1.25rem);
+  }
+}
+
+/* ─── Micro-interaction foundations ──────────────────────────────────────── */
+
+@keyframes fusion-fade-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fusion-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes fusion-slide-down {
+  from { opacity: 0; max-height: 0; padding-top: 0; padding-bottom: 0; }
+  to   { opacity: 1; max-height: 10rem; }
+}
+
+@keyframes fusion-slide-up {
+  from { opacity: 1; max-height: 10rem; }
+  to   { opacity: 0; max-height: 0; padding-top: 0; padding-bottom: 0; }
+}
+
+/* Scroll-reveal: hidden by default, animated on [data-revealed] */
+.fusion-reveal {
+  opacity: 0;
+  transform: translateY(24px);
+}
+
+.fusion-reveal[data-revealed="true"] {
+  animation: fusion-fade-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Staggered children (add .fusion-reveal-stagger to parent) */
+.fusion-reveal-stagger .fusion-reveal-child {
+  opacity: 0;
+  transform: translateY(18px);
+}
+
+.fusion-reveal-stagger[data-revealed="true"] .fusion-reveal-child {
+  animation: fusion-fade-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.fusion-reveal-stagger[data-revealed="true"] .fusion-reveal-child:nth-child(1) { animation-delay: 0ms; }
+.fusion-reveal-stagger[data-revealed="true"] .fusion-reveal-child:nth-child(2) { animation-delay: 70ms; }
+.fusion-reveal-stagger[data-revealed="true"] .fusion-reveal-child:nth-child(3) { animation-delay: 140ms; }
+.fusion-reveal-stagger[data-revealed="true"] .fusion-reveal-child:nth-child(4) { animation-delay: 210ms; }
+.fusion-reveal-stagger[data-revealed="true"] .fusion-reveal-child:nth-child(5) { animation-delay: 280ms; }
+.fusion-reveal-stagger[data-revealed="true"] .fusion-reveal-child:nth-child(6) { animation-delay: 350ms; }
+
+/* Search panel slide */
+.fusion-search-enter {
+  animation: fusion-slide-down 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  overflow: hidden;
+}
+
+.fusion-search-exit {
+  animation: fusion-slide-up 0.25s cubic-bezier(0.4, 0, 1, 1) forwards;
+  overflow: hidden;
+}
+
+/* Hero crossfade */
+.fusion-hero-slide-enter {
+  animation: fusion-fade-in 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Respect motion preferences globally */
+@media (prefers-reduced-motion: reduce) {
+  .fusion-reveal,
+  .fusion-reveal-stagger .fusion-reveal-child {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+
+  .fusion-search-enter,
+  .fusion-search-exit,
+  .fusion-hero-slide-enter {
+    animation: none;
+  }
+
+  .fusion-site-nav a.fusion-site-nav__link::after {
+    transition: none;
+  }
+
+  .fusion-quick-access a.fusion-quick-access__link {
+    transition: none;
+  }
+
+  .fusion-pathways-help .fusion-pathways-help__card {
+    transition: none;
+  }
+
+  .fusion-multi-cloud .fusion-multi-cloud__vendor-link {
+    transition: none;
+  }
+}
+
+/* ─── Typography ────────────────────────────────────────────────────────── */
+
+.fusion-hero__headline {
+  font-family: var(--font-lexend);
+}
+
+/* Align CMS USA Banner with Fusion nav row (same max width + horizontal padding) */
+.fusion-usa-banner.ds-c-usa-banner .ds-c-usa-banner__header {
+  box-sizing: border-box;
+  max-width: var(--fusion-site-max-width);
+  margin-inline: auto;
+  padding-inline: var(--fusion-site-padding-x);
+}
+
+@media (min-width: 768px) {
+  .fusion-usa-banner.ds-c-usa-banner .ds-c-usa-banner__header {
+    padding-inline: var(--fusion-site-padding-x-md);
+  }
+}
+
+.fusion-usa-banner.ds-c-usa-banner .ds-c-usa-banner__guidance {
+  box-sizing: border-box;
+  max-width: var(--fusion-site-max-width);
+  margin-inline: auto;
+  padding-inline: var(--fusion-site-padding-x);
+}
+
+@media (min-width: 768px) {
+  .fusion-usa-banner.ds-c-usa-banner .ds-c-usa-banner__guidance {
+    padding-inline: var(--fusion-site-padding-x-md);
+  }
+}
+
+/* Nav + CTA: CMS global `a` / `a:visited` use --link__color; scope design tokens here. */
+/* Nav links: animated underline on hover */
+.fusion-site-nav a.fusion-site-nav__link,
+.fusion-site-nav a.fusion-site-nav__link:visited {
+  color: #003a8f;
+  text-decoration: none;
+  position: relative;
+}
+
+.fusion-site-nav a.fusion-site-nav__link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  width: 100%;
+  height: 2px;
+  background: #003a8f;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.fusion-site-nav a.fusion-site-nav__link:hover {
+  color: #003a8f;
+  text-decoration: none;
+}
+
+.fusion-site-nav a.fusion-site-nav__link:hover::after {
+  transform: scaleX(1);
+}
+
+.fusion-site-nav a.fusion-site-nav__cta,
+.fusion-site-nav a.fusion-site-nav__cta:visited {
+  color: #003a8f;
+  text-decoration: none;
+}
+
+.fusion-site-nav a.fusion-site-nav__cta:hover {
+  color: #003a8f;
+  text-decoration: none;
+}
+
+/* Logo wrap: avoid CMS default link color on the image anchor */
+.fusion-site-nav a.fusion-site-nav__logo,
+.fusion-site-nav a.fusion-site-nav__logo:visited {
+  color: inherit;
+  text-decoration: none;
+}
+
+.fusion-site-search__submit,
+.fusion-site-search__submit:visited {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.fusion-site-search__input {
+  color: #0f172a;
+}
+
+/* Hero CTAs: keep Figma colors over CMS link tokens */
+.fusion-hero a.fusion-hero__link-primary,
+.fusion-hero a.fusion-hero__link-primary:visited {
+  color: #003a8f;
+  text-decoration: none;
+}
+
+.fusion-hero a.fusion-hero__link-primary:hover {
+  color: #003a8f;
+  text-decoration: none;
+  filter: brightness(0.97);
+}
+
+.fusion-hero a.fusion-hero__link-secondary,
+.fusion-hero a.fusion-hero__link-secondary:visited {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.fusion-hero a.fusion-hero__link-secondary:hover {
+  color: #ffffff;
+  text-decoration: none;
+  background-color: rgba(255, 255, 255, 0.16);
+}
+
+/* Quick Access link: lift + glow on hover */
+.fusion-quick-access a.fusion-quick-access__link,
+.fusion-quick-access a.fusion-quick-access__link:visited {
+  text-decoration: none;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.fusion-quick-access a.fusion-quick-access__link:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(76, 139, 245, 0.12);
+}
+
+.fusion-quick-access a.fusion-quick-access__link:active {
+  transform: translateY(-1px);
+  transition-duration: 0.1s;
+}
+
+/*
+ * Quick Access titles: CMS ships unlayered `h2 { font: inherit }`, which wins over
+ * Tailwind utilities in `@layer`. Scoped rules here restore the intended hierarchy.
+ */
+.fusion-quick-access h2.fusion-quick-access__heading {
+  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-size: var(--fusion-type-section-heading);
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  color: #003a8f;
+  margin: 0;
+}
+
+.fusion-quick-access p.fusion-quick-access__support {
+  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-size: var(--fusion-type-lede);
+  font-weight: 400;
+  line-height: 1.5;
+  color: #262626;
+  margin: 0;
+  max-width: 58.4375rem;
+}
+
+@media (min-width: 768px) {
+  .fusion-quick-access p.fusion-quick-access__support {
+    line-height: 1.55;
+  }
+}
+
+/* Pathway cards: lift + border glow on hover */
+.fusion-pathways-help .fusion-pathways-help__card {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.3s ease;
+}
+
+.fusion-pathways-help .fusion-pathways-help__card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 32px rgba(0, 58, 143, 0.2), 0 0 0 1px rgba(76, 139, 245, 0.3);
+  border-color: rgba(76, 139, 245, 0.5);
+}
+
+.fusion-pathways-help .fusion-pathways-help__card:active {
+  transform: translateY(-2px);
+  transition-duration: 0.1s;
+}
+
+.fusion-pathways-help a.fusion-pathways-help__cta,
+.fusion-pathways-help a.fusion-pathways-help__cta:visited {
+  color: #ffffff;
+  text-decoration: none;
+  margin-top: 2rem;
+}
+
+.fusion-pathways-help a.fusion-pathways-help__cta:hover {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+/* Pathways: same CMS `h2` / `h3` / `p` unlayered resets as Quick Access — explicit type */
+.fusion-pathways-help h2.fusion-pathways-help__heading {
+  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-size: var(--fusion-type-section-heading);
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.fusion-pathways-help h2.fusion-pathways-help__heading .fusion-pathways-help__heading-muted {
+  color: #0a0a0a;
+}
+
+.fusion-pathways-help h2.fusion-pathways-help__heading .fusion-pathways-help__heading-accent {
+  color: #003a8f;
+}
+
+.fusion-pathways-help p.fusion-pathways-help__lede {
+  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-size: var(--fusion-type-lede);
+  font-weight: 400;
+  line-height: 1.5;
+  color: #262626;
+  margin: 0;
+  max-width: 58.4375rem;
+}
+
+@media (min-width: 768px) {
+  .fusion-pathways-help p.fusion-pathways-help__lede {
+    line-height: 1.55;
+  }
+}
+
+.fusion-pathways-help .fusion-pathways-help__card-title {
+  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.3;
+  color: #ffffff;
+  margin: 0;
+}
+
+@media (min-width: 640px) {
+  .fusion-pathways-help .fusion-pathways-help__card-title {
+    font-size: 1rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .fusion-pathways-help .fusion-pathways-help__card-title {
+    font-size: 1.0625rem;
+    line-height: 1.35;
+  }
+}
+
+.fusion-pathways-help .fusion-pathways-help__card-body {
+  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.95);
+  margin: 0.75rem 0 0;
+}
+
+@media (min-width: 640px) {
+  .fusion-pathways-help .fusion-pathways-help__card-body {
+    font-size: 0.9375rem;
+  }
+}
+
+/* Multi-Cloud Services — Figma Apps (370:41247): section fill matches export matte so art column does not “card” */
+.fusion-multi-cloud {
+  background-color: var(--fusion-multi-cloud-bg);
+}
+
+.fusion-multi-cloud .fusion-multi-cloud__art {
+  background-color: var(--fusion-multi-cloud-bg);
+}
+
+/* Orbit graphic: circular hit targets track object-fit: cover (see FusionMultiCloudArtMedia) */
+.fusion-multi-cloud .fusion-multi-cloud__vendor-link {
+  cursor: pointer;
+  transition: background-color 0.2s ease,
+              transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.25s ease;
+}
+
+.fusion-multi-cloud .fusion-multi-cloud__vendor-link:focus {
+  outline: none;
+}
+
+.fusion-multi-cloud .fusion-multi-cloud__vendor-link:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+  transform: translate(-50%, -50%) scale(1.12);
+  box-shadow: 0 0 20px rgba(0, 180, 255, 0.25);
+}
+
+.fusion-multi-cloud .fusion-multi-cloud__vendor-link:active {
+  transform: translate(-50%, -50%) scale(1.04);
+  transition-duration: 0.1s;
+}
+
+.fusion-multi-cloud .fusion-multi-cloud__vendor-link:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.92);
+  outline-offset: 3px;
+}
+
+/* Multi-Cloud Services: section title uses global token; body uses compact on-dark scale */
+.fusion-multi-cloud h2.fusion-multi-cloud__heading {
+  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-size: var(--fusion-type-section-heading);
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  margin: 0;
+}
+
+.fusion-multi-cloud .fusion-multi-cloud__prose p {
+  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  /* Narrow column + long copy: cap below global lede for comfortable reading */
+  font-size: clamp(0.8125rem, 0.15vw + 0.76rem, 0.9375rem);
+  font-weight: 400;
+  line-height: 1.48;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0;
+  max-width: 58.4375rem;
+}
+
+@media (min-width: 768px) {
+  .fusion-multi-cloud .fusion-multi-cloud__prose p {
+    font-size: clamp(0.875rem, 0.1vw + 0.78rem, 0.9375rem);
+    line-height: 1.52;
+  }
+}
+
+.fusion-multi-cloud a.fusion-multi-cloud__cta,
+.fusion-multi-cloud a.fusion-multi-cloud__cta:visited {
+  color: #003a8f;
+  text-decoration: none;
+}
+
+.fusion-multi-cloud a.fusion-multi-cloud__cta:hover {
+  color: #003a8f;
+  text-decoration: none;
+  filter: brightness(0.97);
+}
