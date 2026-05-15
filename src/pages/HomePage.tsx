@@ -1,4 +1,7 @@
 import { SkipNav } from '@cmsgov/ds-cms-gov'
+import { FusionAcademy } from '../components/FusionAcademy'
+import { FusionEcosystem } from '../components/FusionEcosystem'
+import { FusionFeaturedResources } from '../components/FusionFeaturedResources'
 import { FusionHero } from '../components/FusionHero'
 import { FusionMultiCloudServices } from '../components/FusionMultiCloudServices'
 import { FusionPathwaysHelp } from '../components/FusionPathwaysHelp'
@@ -15,6 +18,9 @@ export default function HomePage() {
         <FusionQuickAccess />
         <FusionPathwaysHelp />
         <FusionMultiCloudServices />
+        <FusionFeaturedResources />
+        <FusionAcademy />
+        <FusionEcosystem />
       </main>
     </>
   )
