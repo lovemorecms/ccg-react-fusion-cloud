@@ -1,6 +1,7 @@
-import { SkipNav } from '@cmsgov/design-system'
+import { SkipNav } from '@cmsgov/ds-cms-gov'
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { FusionButton } from '../components/FusionButton'
 import { SiteHeader } from '../components/SiteHeader'
 
 const overviewCards = [
@@ -127,7 +128,7 @@ const additionalResources = [
 function OverviewIcon({ type }: { type: string }) {
   if (type === 'book') {
     return (
-      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#003a8f" strokeWidth={1.5} aria-hidden>
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" className="text-[color:var(--fusion-blue)]" strokeWidth={1.5} aria-hidden>
         <path d="M4 19.5A2.5 2.5 0 016.5 17H20" strokeLinecap="round" strokeLinejoin="round" />
         <path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
@@ -135,13 +136,13 @@ function OverviewIcon({ type }: { type: string }) {
   }
   if (type === 'code') {
     return (
-      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#003a8f" strokeWidth={1.5} aria-hidden>
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" className="text-[color:var(--fusion-blue)]" strokeWidth={1.5} aria-hidden>
         <path d="M16 18l6-6-6-6M8 6l-6 6 6 6" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     )
   }
   return (
-    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#003a8f" strokeWidth={1.5} aria-hidden>
+    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" className="text-[color:var(--fusion-blue)]" strokeWidth={1.5} aria-hidden>
       <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   )
@@ -149,8 +150,8 @@ function OverviewIcon({ type }: { type: string }) {
 
 function TopicIcon({ gradient }: { gradient: string }) {
   const gradients: Record<string, [string, string]> = {
-    gold: ['#ffb81c', '#e5a519'],
-    blue: ['#005ea2', '#003a8f'],
+    gold: ['var(--color-accent-primary)', 'var(--color-accent-primary-dark)'],
+    blue: ['var(--fusion-blue)', 'var(--fusion-blue-deep)'],
     green: ['#2e8540', '#1a5c28'],
   }
   const [from, to] = gradients[gradient] || gradients.gold
@@ -249,9 +250,9 @@ export default function KnowledgeCenterPage() {
                   placeholder="Search documentation..."
                   className="kc-hero__search-input"
                 />
-                <button type="button" className="kc-hero__search-btn">
+                <FusionButton type="submit" accent size="small">
                   Search
-                </button>
+                </FusionButton>
               </div>
             </div>
 
@@ -306,12 +307,12 @@ export default function KnowledgeCenterPage() {
                 <div key={item.title} className="kc-essentials-card">
                   <h3 className="kc-essentials-card__title">{item.title}</h3>
                   <p className="kc-essentials-card__body">{item.description}</p>
-                  <a href={item.href} className="kc-essentials-card__cta">
+                  <FusionButton href={item.href} variation="ghost" className="kc-essentials-card__cta">
                     {item.cta}
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
                       <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
-                  </a>
+                  </FusionButton>
                 </div>
               ))}
             </div>
@@ -396,14 +397,16 @@ export default function KnowledgeCenterPage() {
                   <h3 className="kc-glass-card__title">{card.title}</h3>
                   <p className="kc-glass-card__body">{card.description}</p>
                   {card.ctaType === 'button' ? (
-                    <a href="#" className="kc-glass-card__cta-btn">{card.cta}</a>
+                    <FusionButton href="#" accent onDark>
+                      {card.cta}
+                    </FusionButton>
                   ) : (
-                    <a href="#" className="kc-glass-card__cta-link">
+                    <FusionButton href="#" variation="ghost" onDark className="kc-glass-card__cta-link">
                       {card.cta}
                       <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
                         <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
-                    </a>
+                    </FusionButton>
                   )}
                 </div>
               ))}

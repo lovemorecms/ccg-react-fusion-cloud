@@ -1,12 +1,14 @@
-import { SkipNav } from '@cmsgov/design-system'
+import { SkipNav } from '@cmsgov/ds-cms-gov'
 import { useEffect, useRef } from 'react'
+import { FusionButton } from '../components/FusionButton'
 import { SiteHeader } from '../components/SiteHeader'
 
 const initiatives = [
   {
     num: '01',
     tag: 'Product',
-    tagGradient: 'linear-gradient(135deg, #2b7fff 0%, #615fff 100%)',
+    tagGradient:
+      'linear-gradient(135deg, var(--color-primary-lightest) 0%, var(--color-primary-light) 45%, var(--color-primary) 100%)',
     title: 'Product Showcase',
     description:
       'Enhance the product showcase experience to streamline showcasing demos of applications that utilize our application programming interfaces, fostering better understanding and adoption.',
@@ -14,7 +16,8 @@ const initiatives = [
   {
     num: '02',
     tag: 'AWS',
-    tagGradient: 'linear-gradient(135deg, #615fff 0%, #ad46ff 100%)',
+    tagGradient:
+      'linear-gradient(135deg, var(--color-primary-light) 0%, var(--color-primary) 50%, var(--color-primary-darker) 100%)',
     title: 'AWS Commercial',
     description:
       'Migrate applications to AWS Commercial cloud for improved scalability and performance.',
@@ -22,7 +25,8 @@ const initiatives = [
   {
     num: '03',
     tag: 'Azure',
-    tagGradient: 'linear-gradient(135deg, #ad46ff 0%, #f6339a 100%)',
+    tagGradient:
+      'linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-darker) 55%, var(--color-primary-darkest) 100%)',
     title: 'Azure Commercial',
     description:
       'Expand cloud infrastructure capabilities through Azure Commercial integration.',
@@ -30,7 +34,8 @@ const initiatives = [
   {
     num: '04',
     tag: 'Azure',
-    tagGradient: 'linear-gradient(135deg, #f6339a 0%, #ff2056 100%)',
+    tagGradient:
+      'linear-gradient(135deg, var(--color-primary-darker) 0%, var(--color-primary-darkest) 100%)',
     title: 'Azure GCC High',
     description:
       'Implement Azure Government Cloud solutions for enhanced security compliance.',
@@ -38,7 +43,8 @@ const initiatives = [
   {
     num: '05',
     tag: 'AWS',
-    tagGradient: 'linear-gradient(135deg, #00b8db 0%, #2b7fff 100%)',
+    tagGradient:
+      'linear-gradient(135deg, var(--color-accent-primary) 0%, var(--color-accent-primary-dark) 100%)',
     title: 'AWS Govcloud',
     description:
       'Deploy government-specific cloud infrastructure using AWS GovCloud services.',
@@ -46,7 +52,8 @@ const initiatives = [
   {
     num: '06',
     tag: 'Oracle',
-    tagGradient: 'linear-gradient(135deg, #ff6900 0%, #fe9a00 100%)',
+    tagGradient:
+      'linear-gradient(135deg, var(--color-accent-primary-dark) 0%, var(--color-accent-primary-darker) 100%)',
     title: 'Oracle Cloud (EOM)',
     description:
       'Manage end-of-migration activities for Oracle Cloud infrastructure transition.',
@@ -54,37 +61,94 @@ const initiatives = [
   {
     num: '07',
     tag: 'Google',
-    tagGradient: 'linear-gradient(135deg, #00bc7d 0%, #00bba7 100%)',
+    tagGradient:
+      'linear-gradient(135deg, var(--color-primary-light) 0%, var(--color-secondary) 100%)',
     title: 'Google Cloud (EOM)',
     description:
       'Complete migration and optimization of Google Cloud infrastructure.',
   },
 ]
 
-const timeline = [
+type TimelineStatus = 'completed' | 'current' | 'upcoming'
+
+type TimelineTag = {
+  label: string
+  /** CMS-aligned chip tone */
+  tone?: 'default' | 'accent' | 'success' | 'primary'
+}
+
+type TimelineQuarter = {
+  quarter: string
+  year: string
+  monthRange: string
+  status: TimelineStatus
+  title: string
+  description: string
+  tags: TimelineTag[]
+  /** Initiative names for this quarter (also listed in the card) */
+  items: string[]
+}
+
+const timeline: TimelineQuarter[] = [
   {
     quarter: 'Q1',
     year: '2026',
+    monthRange: 'Jan — Mar',
+    status: 'completed',
+    title: 'Initiative planning & architecture design',
+    description:
+      'Scope Product Showcase and AWS Commercial workstreams, align landing-zone patterns with governance, and lock ATO-ready architecture guardrails.',
+    tags: [
+      { label: 'Completed', tone: 'success' },
+      { label: 'Architecture', tone: 'primary' },
+      { label: 'Governance', tone: 'default' },
+    ],
     items: ['Product Showcase', 'AWS Commercial'],
-    gradient: 'linear-gradient(135deg, #003a8f, #005ea2)',
   },
   {
     quarter: 'Q2',
     year: '2026',
+    monthRange: 'Apr — Jun',
+    status: 'current',
+    title: 'AWS Commercial & Azure scale-out',
+    description:
+      'Deliver Azure Commercial onboarding and AWS GovCloud migrations with CST support, monitoring, and FinOps tagging for the first migration wave.',
+    tags: [
+      { label: 'In progress', tone: 'accent' },
+      { label: 'Azure Commercial', tone: 'primary' },
+      { label: 'AWS GovCloud', tone: 'default' },
+    ],
     items: ['Azure Commercial', 'AWS GovCloud'],
-    gradient: 'linear-gradient(135deg, #005ea2, #0076d6)',
   },
   {
     quarter: 'Q3',
     year: '2026',
+    monthRange: 'Jul — Sep',
+    status: 'upcoming',
+    title: 'Azure GCC High readiness',
+    description:
+      'Complete Azure GCC High design reviews, complete security testing milestones, and prepare production cutover playbooks.',
+    tags: [
+      { label: 'Planned', tone: 'default' },
+      { label: 'Azure GCC High', tone: 'primary' },
+      { label: 'Security', tone: 'default' },
+    ],
     items: ['Azure GCC High'],
-    gradient: 'linear-gradient(135deg, #0076d6, #ffb81c)',
   },
   {
     quarter: 'Q4',
     year: '2026',
+    monthRange: 'Oct — Dec',
+    status: 'upcoming',
+    title: 'Platform wind-down & connect services',
+    description:
+      'Execute Oracle Cloud and Google Cloud end-of-migration activities and launch cross-platform observability across hybrid environments.',
+    tags: [
+      { label: 'Planned', tone: 'default' },
+      { label: 'Oracle Cloud EOM', tone: 'primary' },
+      { label: 'Google Cloud EOM', tone: 'primary' },
+    ],
     items: ['Oracle Cloud EOM', 'Google Cloud EOM'],
-    gradient: 'linear-gradient(135deg, #ffb81c, #2e8540)',
   },
 ]
 
@@ -95,7 +159,7 @@ const whatsHappening = [
     description:
       'Get a snapshot of the results from the CMS Hybrid Cloud customer survey to help drive continuous improvement.',
     cta: 'Read more',
-    borderColor: '#005ea2',
+    borderColor: 'var(--color-primary)',
   },
   {
     date: 'FALL 2024',
@@ -103,7 +167,7 @@ const whatsHappening = [
     description:
       "Learn about the 2025 infrastructure capacity planning process and how to submit your application's capacity needs.",
     cta: 'Read more',
-    borderColor: '#005ea2',
+    borderColor: 'var(--color-primary)',
   },
   {
     date: 'ONGOING',
@@ -111,7 +175,7 @@ const whatsHappening = [
     description:
       'Join us for weekly office hours every Thursday from 2-3 PM ET to get your questions answered.',
     cta: 'Join now',
-    borderColor: '#ffb81c',
+    borderColor: 'var(--color-accent-primary)',
   },
 ]
 
@@ -239,6 +303,7 @@ function ArrowIcon() {
 
 export default function InitiativesPage() {
   const revealRef = useScrollReveal()
+  const initiativesHeroBgUrl = `${import.meta.env.BASE_URL}images/sections/initiatives-hero-cms-gov.png`
 
   return (
     <>
@@ -246,8 +311,8 @@ export default function InitiativesPage() {
       <SiteHeader />
 
       <main id="main-content" tabIndex={-1} ref={revealRef}>
-        {/* Breadcrumb Bar */}
-        <div className="kc-breadcrumb-bar">
+        {/* Sticky strip directly under site nav; CMS DS primary blues (KC pages unchanged). */}
+        <div className="kc-breadcrumb-bar kc-breadcrumb-bar--initiatives">
           <nav aria-label="Breadcrumb" className="kc-breadcrumb-inner">
             <ol className="kc-breadcrumb-list">
               <li>
@@ -273,10 +338,9 @@ export default function InitiativesPage() {
           </nav>
         </div>
 
-        {/* Hero Section */}
         <section className="init-hero">
           <img
-            src="/images/initiatiaves-hero2.png"
+            src={initiativesHeroBgUrl}
             alt=""
             className="init-hero__bg-img"
             decoding="async"
@@ -299,34 +363,13 @@ export default function InitiativesPage() {
                 and enhanced service delivery.
               </p>
               <div className="init-hero__actions">
-                <a href="#initiatives" className="init-btn init-btn--gold">
+                <FusionButton href="#initiatives" accent onDark>
                   View All Initiatives
                   <ArrowIcon />
-                </a>
-                <a href="#contact" className="init-btn init-btn--outline">
+                </FusionButton>
+                <FusionButton href="#contact" variation="ghost" onDark>
                   Contact Team
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <div className="init-hero__stats">
-            <div className="init-hero__stats-inner">
-              <div className="init-hero__stat">
-                <span className="init-hero__stat-number">7</span>
-                <span className="init-hero__stat-label">Active Initiatives</span>
-              </div>
-              <div className="init-hero__stat">
-                <span className="init-hero__stat-number">4</span>
-                <span className="init-hero__stat-label">Cloud Platforms</span>
-              </div>
-              <div className="init-hero__stat">
-                <span className="init-hero__stat-number">Q4</span>
-                <span className="init-hero__stat-label">Target Completion</span>
-              </div>
-              <div className="init-hero__stat">
-                <span className="init-hero__stat-number">01</span>
-                <span className="init-hero__stat-label">Zero Trust</span>
+                </FusionButton>
               </div>
             </div>
           </div>
@@ -351,41 +394,75 @@ export default function InitiativesPage() {
                   </div>
                   <h3 className="init-card__title">{item.title}</h3>
                   <p className="init-card__body">{item.description}</p>
-                  <a href="#" className="init-card__cta">
+                  <FusionButton href="#" variation="ghost" className="init-card__cta">
                     Learn more
                     <ArrowIcon />
-                  </a>
+                  </FusionButton>
                 </div>
               ))}
             </div>
           </section>
 
-          {/* Timeline Section */}
+          {/* Vertical timeline — CMS primary / accent / success tokens */}
           <section className="kc-section kc-reveal">
-            <h2 className="kc-section-heading">Consolidated Initiative Timeline</h2>
-            <p className="kc-section-subtitle">
-              Track our progress throughout the year
-            </p>
-            <div className="init-timeline">
-              <div className="init-timeline__bar" />
-              <div className="init-timeline__quarters">
+            <h2 className="kc-section-heading" id="initiatives-timeline">
+              Consolidated Initiative Timeline
+            </h2>
+            <p className="kc-section-subtitle">Track our progress throughout the year</p>
+
+            <div className="init-timeline" role="region" aria-labelledby="initiatives-timeline">
+              <ol className="init-timeline__list">
                 {timeline.map((q) => (
-                  <div key={q.quarter} className="init-timeline__quarter">
-                    <div className="init-timeline__badge" style={{ background: q.gradient }}>
-                      <span className="init-timeline__badge-q">{q.quarter}</span>
-                      <span className="init-timeline__badge-year">{q.year}</span>
+                  <li
+                    key={q.quarter}
+                    className={`init-timeline__row init-timeline__row--${q.status}`}
+                    aria-current={q.status === 'current' ? 'step' : undefined}
+                  >
+                    <div className="init-timeline__track">
+                      <span
+                        className={`init-timeline__marker init-timeline__marker--${q.status}`}
+                        aria-hidden
+                      />
                     </div>
-                    <div className="init-timeline__card">
-                      {q.items.map((item) => (
-                        <div key={item} className="init-timeline__item">
-                          <span className="init-timeline__dot" />
-                          <span>{item}</span>
-                        </div>
-                      ))}
+                    <div
+                      className={`init-timeline__label-cell init-timeline__label-cell--${q.status}`}
+                    >
+                      <span className="init-timeline__q">
+                        {q.quarter}{' '}
+                        <span className="init-timeline__yr">{q.year}</span>
+                      </span>
+                      <span className="init-timeline__months">{q.monthRange}</span>
+                      {q.status === 'current' ? (
+                        <span className="init-timeline__now-badge">Now</span>
+                      ) : null}
                     </div>
-                  </div>
+                    <article
+                      className={`init-timeline__hq-card init-timeline__hq-card--${q.status}`}
+                    >
+                      <h3 className="init-timeline__hq-title">{q.title}</h3>
+                      <p className="init-timeline__hq-desc">{q.description}</p>
+                      <ul className="init-timeline__tags" aria-label="Themes">
+                        {q.tags.map((t) => (
+                          <li
+                            key={`${q.quarter}-${t.label}`}
+                            className={`init-timeline__tag init-timeline__tag--${t.tone ?? 'default'}`}
+                          >
+                            {t.label}
+                          </li>
+                        ))}
+                      </ul>
+                      <ul className="init-timeline__bullets">
+                        {q.items.map((item) => (
+                          <li key={item} className="init-timeline__bullet">
+                            <span className="init-timeline__bullet-dot" aria-hidden />
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </article>
+                  </li>
                 ))}
-              </div>
+              </ol>
             </div>
           </section>
 
@@ -401,10 +478,10 @@ export default function InitiativesPage() {
                   <span className="init-happening__date">{item.date}</span>
                   <h3 className="init-happening__title">{item.title}</h3>
                   <p className="init-happening__body">{item.description}</p>
-                  <a href="#" className="init-happening__cta">
+                  <FusionButton href="#" variation="ghost" className="init-happening__cta">
                     {item.cta}
                     <ArrowIcon />
-                  </a>
+                  </FusionButton>
                 </div>
               ))}
             </div>
@@ -459,10 +536,10 @@ export default function InitiativesPage() {
                     </div>
                   </div>
                 </div>
-                <a href="#" className="init-btn init-btn--primary init-btn--full">
+                <FusionButton href="#" accent className="init-btn--full">
                   Contact Us
                   <ArrowIcon />
-                </a>
+                </FusionButton>
               </div>
             </div>
           </section>
@@ -480,14 +557,16 @@ export default function InitiativesPage() {
                   <h3 className="kc-glass-card__title">{card.title}</h3>
                   <p className="kc-glass-card__body">{card.description}</p>
                   {card.ctaType === 'button' ? (
-                    <a href="#" className="kc-glass-card__cta-btn">{card.cta}</a>
+                    <FusionButton href="#" accent onDark>
+                      {card.cta}
+                    </FusionButton>
                   ) : (
-                    <a href="#" className="kc-glass-card__cta-link">
+                    <FusionButton href="#" variation="ghost" onDark className="kc-glass-card__cta-link">
                       {card.cta}
                       <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
                         <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
-                    </a>
+                    </FusionButton>
                   )}
                 </div>
               ))}

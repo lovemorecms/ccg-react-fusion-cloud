@@ -1,4 +1,5 @@
 import { useCallback, useId, useState } from 'react'
+import { FusionButton } from './FusionButton'
 
 const W = 1262.667
 const H = 660
@@ -36,12 +37,6 @@ const STAR_STREAKS: { left: number; top: number; opacity: number }[] = [
   { left: 1135.88, top: 327.53, opacity: 0.61 },
   { left: 809.94, top: 111.98, opacity: 0.72 },
 ]
-
-const primaryCtaGradient =
-  'linear-gradient(90deg, rgb(255, 184, 28) 0%, rgb(255, 186, 44) 8.33%, rgb(255, 189, 55) 16.67%, rgb(255, 191, 65) 25%, rgb(255, 194, 74) 33.33%, rgb(255, 196, 82) 41.67%, rgb(255, 199, 89) 50%, rgb(255, 201, 97) 58.33%, rgb(255, 204, 103) 66.67%, rgb(255, 206, 110) 75%, rgb(255, 208, 116) 83.33%, rgb(255, 211, 122) 91.67%, rgb(255, 213, 128) 100%)'
-
-const headlineGoldGradient =
-  'linear-gradient(90deg, rgb(255, 184, 28) 0%, rgb(255, 188, 52) 7.14%, rgb(255, 192, 69) 14.29%, rgb(255, 197, 83) 21.43%, rgb(255, 201, 96) 28.57%, rgb(255, 205, 107) 35.71%, rgb(255, 209, 118) 42.86%, rgb(255, 213, 128) 50%, rgb(255, 209, 118) 57.14%, rgb(255, 205, 107) 64.29%, rgb(255, 201, 96) 71.43%, rgb(255, 197, 83) 78.57%, rgb(255, 192, 69) 85.71%, rgb(255, 188, 52) 92.86%, rgb(255, 184, 28) 100%)'
 
 type HeroSlide = {
   line1: string
@@ -155,9 +150,12 @@ export function FusionHero() {
     [goPrev, goNext],
   )
 
+  /** `public/images/sections/hero-cms-home-primary-blue.png` — respects Vite `base`. */
+  const heroBgUrl = `${import.meta.env.BASE_URL}images/sections/hero-cms-home-primary-blue.png`
+
   return (
     <section
-      className="fusion-hero relative isolate w-full overflow-x-clip bg-[#000d26] pb-1"
+      className="fusion-hero relative isolate w-full overflow-x-clip pb-1"
       aria-roledescription="carousel"
       aria-labelledby={labelId}
     >
@@ -168,27 +166,20 @@ export function FusionHero() {
       </p>
 
       <img
-        src="/images/hero/hero-background.png"
+        src={heroBgUrl}
         alt=""
         className="pointer-events-none absolute inset-0 h-full w-full max-w-none object-cover object-[100%_30%] sm:object-[100%_28%] md:object-[100%_30%] lg:object-[100%_32%]"
         decoding="async"
         fetchPriority="high"
       />
 
-      {/* Left scrim — width tracks a readable copy column, not a % of the whole hero */}
+      {/* Left scrim — CMS primary mixes (replaces legacy #000d26 / Ocean tints) */}
       <div
-        className="pointer-events-none absolute inset-y-0 left-0 z-[1] w-full max-w-[min(100%,24rem)] bg-gradient-to-r from-[#000d26]/95 via-[#000d26]/45 to-transparent sm:max-w-[min(100%,28rem)] md:max-w-[min(100%,32rem)] lg:max-w-[min(100%,36rem)]"
+        className="fusion-hero__scrim pointer-events-none absolute inset-y-0 left-0 z-[1] w-full max-w-[min(100%,24rem)] sm:max-w-[min(100%,28rem)] md:max-w-[min(100%,32rem)] lg:max-w-[min(100%,36rem)]"
         aria-hidden
       />
 
-      <div
-        className="pointer-events-none absolute inset-0 z-[2] opacity-20"
-        aria-hidden
-        style={{
-          backgroundImage:
-            'linear-gradient(90deg, rgba(0, 94, 162, 0.1) 0%, rgba(0, 0, 0, 0) 50%), linear-gradient(180deg, rgba(0, 94, 162, 0.1) 0%, rgba(0, 0, 0, 0) 40%)',
-        }}
-      />
+      <div className="fusion-hero__tint pointer-events-none absolute inset-0 z-[2]" aria-hidden />
 
       <div
         className="pointer-events-none absolute inset-0 z-[2] overflow-hidden"
@@ -226,10 +217,7 @@ export function FusionHero() {
                   <span className="block text-3xl font-semibold leading-[1.12] tracking-wide text-white sm:text-4xl md:text-4xl lg:text-5xl">
                     {slide.line1}
                   </span>
-                  <span
-                    className="block bg-clip-text text-3xl font-semibold leading-[1.12] tracking-tight text-transparent drop-shadow-[0_0_16px_rgba(255,184,28,0.38)] sm:text-4xl md:text-4xl lg:text-5xl"
-                    style={{ backgroundImage: headlineGoldGradient }}
-                  >
+                  <span className="fusion-hero__headline-accent block text-3xl font-semibold leading-[1.12] tracking-tight sm:text-4xl md:text-4xl lg:text-5xl">
                     {slide.line2}
                   </span>
                 </h1>
@@ -239,20 +227,18 @@ export function FusionHero() {
                 </p>
               </div>
 
-              <div className="mt-4 flex flex-col gap-3 sm:mt-5 sm:flex-row sm:flex-nowrap sm:items-center sm:gap-3">
-                <a
-                  href="#get-started"
-                  className="fusion-hero__link-primary inline-flex h-12 w-full shrink-0 items-center justify-center rounded-[10px] px-5 font-sans text-sm font-semibold shadow-[0_0_28px_rgba(255,184,28,0.35)] sm:w-auto sm:min-w-[11rem] sm:px-6 sm:text-base"
-                  style={{ backgroundImage: primaryCtaGradient }}
-                >
+              <div className="fusion-hero__actions mt-4 flex flex-col gap-3 sm:mt-5 sm:flex-row sm:flex-nowrap sm:items-center sm:gap-3">
+                <FusionButton href="#get-started" accent onDark className="fusion-hero__cta-primary">
                   Start your journey
-                </a>
-                <a
+                </FusionButton>
+                <FusionButton
                   href="#explore-cloud"
-                  className="fusion-hero__link-secondary inline-flex h-12 w-full shrink-0 items-center justify-center rounded-[10px] border-2 border-white/30 bg-white/10 px-5 font-sans text-sm font-semibold sm:w-auto sm:min-w-[11rem] sm:px-6 sm:text-base"
+                  variation="ghost"
+                  onDark
+                  className="fusion-hero__cta-secondary"
                 >
                   Explore cloud options
-                </a>
+                </FusionButton>
               </div>
             </div>
           </div>
@@ -262,7 +248,7 @@ export function FusionHero() {
       {/* Carousel: full-bleed hero, bottom center (not tied to left copy column) */}
       <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[15] flex justify-center px-4 pb-20 pt-2 sm:pb-24 md:pb-[5.5rem]">
         <div
-          className="pointer-events-auto flex items-center justify-center gap-3 rounded-full border border-white/25 bg-[#000d26]/65 px-4 py-2 shadow-lg backdrop-blur-md sm:gap-4 sm:px-5 sm:py-2.5"
+          className="fusion-hero__carousel-well pointer-events-auto flex items-center justify-center gap-3 rounded-full border border-white/25 px-4 py-2 shadow-lg backdrop-blur-md sm:gap-4 sm:px-5 sm:py-2.5"
           role="group"
           aria-label="Carousel controls"
           tabIndex={0}
@@ -293,7 +279,7 @@ export function FusionHero() {
                 onClick={() => setSlideIndex(i)}
                 className={`transition-all duration-300 ease-out ${
                   i === slideIndex
-                    ? 'h-2.5 min-w-10 rounded-full bg-[#ffb81c] sm:h-3 sm:min-w-12'
+                    ? 'h-2.5 min-w-10 rounded-full bg-[var(--color-accent-primary)] sm:h-3 sm:min-w-12'
                     : 'size-2.5 shrink-0 rounded-full bg-white/30 hover:bg-white/50 sm:size-3'
                 }`}
               />

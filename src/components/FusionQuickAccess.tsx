@@ -2,9 +2,6 @@ import type { ReactNode } from 'react'
 import { useScrollReveal } from '../hooks/useScrollReveal'
 
 /** Quick Access row — Figma node 370:41106 */
-const sectionGradient =
-  'linear-gradient(180deg, #ffffff 0%, #fbfdfe 7.14%, #f8fbfd 14.29%, #f4f9fc 21.43%, #f1f7fb 28.57%, #edf5fa 35.71%, #eaf3f9 42.86%, #e6f1f8 50%, #eaf3f9 57.14%, #edf5fa 64.29%, #f1f7fb 71.43%, #f4f9fc 78.57%, #f8fbfd 85.71%, #fbfdfe 92.86%, #ffffff 100%)'
-
 const items = [
   {
     id: 'launchpad',
@@ -56,8 +53,7 @@ export function FusionQuickAccess() {
 
   return (
     <section
-      className="fusion-quick-access relative overflow-hidden"
-      style={{ backgroundImage: sectionGradient }}
+      className="fusion-quick-access fusion-band-gradient-primary-mist relative overflow-hidden"
       aria-labelledby="fusion-quick-access-heading"
     >
       <div
@@ -65,7 +61,7 @@ export function FusionQuickAccess() {
         aria-hidden
       />
       <div
-        className="pointer-events-none absolute -right-8 top-10 size-64 rounded-full bg-[rgba(0,113,188,0.05)] blur-[64px] md:right-[10%]"
+        className="pointer-events-none absolute -right-8 top-10 size-64 rounded-full fusion-quick-access__blur-primary blur-[64px] md:right-[10%]"
         aria-hidden
       />
 
@@ -82,7 +78,7 @@ export function FusionQuickAccess() {
           </p>
         </header>
 
-        <div ref={panelRef} className="fusion-quick-access__panel fusion-reveal-stagger relative overflow-hidden rounded-2xl border border-[rgba(76,139,245,0.3)] bg-[rgba(255,255,255,0.45)] p-6 shadow-[0_4px_16px_rgba(0,113,188,0.05),0_20px_44px_-8px_rgba(76,139,245,0.09)] backdrop-blur-sm md:p-8">
+        <div ref={panelRef} className="fusion-quick-access__panel fusion-reveal-stagger relative overflow-hidden rounded-2xl border bg-[rgba(255,255,255,0.45)] p-6 backdrop-blur-sm md:p-8">
           <div
             className="pointer-events-none absolute inset-x-0 bottom-0 z-0 h-24 bg-gradient-to-t from-[rgba(220,238,252,0.45)] via-[rgba(236,248,252,0.2)] to-transparent"
             aria-hidden
@@ -93,21 +89,21 @@ export function FusionQuickAccess() {
                 key={item.id}
                 className={`fusion-reveal-child flex min-w-0 flex-col items-center text-center xl:px-3 ${
                   index < items.length - 1
-                    ? 'sm:border-transparent xl:border-e xl:border-[rgba(107,163,255,0.45)]'
+                    ? 'sm:border-transparent xl:border-e xl:border-[color:color-mix(in_srgb,var(--fusion-blue-bright)_45%,transparent)]'
                     : ''
                 }`}
               >
                 <a
                   href={item.href}
-                  className="fusion-quick-access__link group flex w-full max-w-[14rem] flex-col items-center rounded-xl px-2 py-1 outline-offset-4 transition-colors hover:bg-[rgba(76,139,245,0.06)] focus-visible:ring-2 focus-visible:ring-[#003a8f]/35"
+                  className="fusion-quick-access__link group flex w-full max-w-[14rem] flex-col items-center rounded-xl px-2 py-1 outline-offset-4 transition-colors"
                 >
                   <IconRing>
-                    <item.Icon className="h-6 w-6 text-[#003a8f]" />
+                    <item.Icon className="h-6 w-6 text-[color:var(--fusion-blue)]" />
                   </IconRing>
-                  <span className="mt-5 font-sans text-sm font-semibold uppercase tracking-[0.35px] text-[#003a8f] sm:text-base">
+                  <span className="mt-5 font-sans text-sm font-semibold uppercase tracking-[0.35px] text-[color:var(--fusion-blue)] sm:text-base">
                     {item.title}
                   </span>
-                  <span className="mt-1 font-sans text-xs leading-tight text-[#003a8f]/90 sm:text-sm">
+                  <span className="mt-1 font-sans text-xs leading-tight text-[color:color-mix(in_srgb,var(--fusion-blue)_90%,transparent)] sm:text-sm">
                     {item.subtitle}
                   </span>
                 </a>
@@ -126,12 +122,11 @@ function IconRing({ children }: { children: ReactNode }) {
       <div
         className="pointer-events-none absolute inset-0 rounded-full opacity-20 blur-md"
         style={{
-          backgroundImage:
-            'linear-gradient(90deg, #4c8bf5 0%, #6ba3ff 100%)',
+          backgroundImage: 'linear-gradient(90deg, var(--fusion-blue-bright), color-mix(in srgb, var(--fusion-blue) 70%, white))',
         }}
         aria-hidden
       />
-      <div className="relative flex h-12 w-12 items-center justify-center rounded-full border-2 border-[rgba(76,139,245,0.5)] bg-[rgba(76,139,245,0.1)]">
+      <div className="relative flex h-12 w-12 items-center justify-center rounded-full border-2 border-[color:color-mix(in_srgb,var(--fusion-blue-bright)_50%,transparent)] bg-[color:color-mix(in_srgb,var(--fusion-blue-bright)_12%,transparent)]">
         {children}
       </div>
     </div>

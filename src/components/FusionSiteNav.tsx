@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { FusionButton } from './FusionButton'
 import { SearchIcon } from './SearchIcon'
 
 type MenuLink = { label: string; href: string }
@@ -141,14 +142,11 @@ const megaMenuItems: MegaMenuItem[] = [
   },
 ]
 
-const ctaVariantClasses: Record<FeaturedCard['ctaVariant'], string> = {
-  navy: 'bg-[#003a8f] text-white hover:bg-[#002d6e]',
-  gold: 'bg-[#f5a623] text-white hover:bg-[#e09515]',
-  green: 'bg-[#1b5e20] text-white hover:bg-[#134417]',
+function megaMenuCtaProps(variant: FeaturedCard['ctaVariant']) {
+  if (variant === 'gold') return { accent: true as const }
+  if (variant === 'green') return { variation: 'solid' as const }
+  return { variation: 'solid' as const }
 }
-
-const supportGradient =
-  'linear-gradient(90deg, rgb(255, 184, 28) 0%, rgb(255, 186, 44) 8.33%, rgb(255, 189, 55) 16.67%, rgb(255, 191, 65) 25%, rgb(255, 194, 74) 33.333%, rgb(255, 196, 82) 41.667%, rgb(255, 199, 89) 50%, rgb(255, 201, 97) 58.333%, rgb(255, 204, 103) 66.667%, rgb(255, 206, 110) 75%, rgb(255, 208, 116) 83.333%, rgb(255, 211, 122) 91.667%, rgb(255, 213, 128) 100%)'
 
 function ChevronDown({ className, style }: { className?: string; style?: React.CSSProperties }) {
   return (
@@ -274,7 +272,7 @@ export function FusionSiteNav({
               <button
                 key={item.id}
                 type="button"
-                className={`fusion-mega-trigger relative inline-flex items-center gap-1 border-0 bg-transparent px-3 py-2.5 text-[#003a8f] transition-colors hover:text-[#002d6e] lg:px-4 ${
+                className={`fusion-mega-trigger relative inline-flex items-center gap-1 border-0 bg-transparent px-3 py-2.5 text-[color:var(--fusion-blue)] transition-colors hover:text-[color:var(--color-primary-darkest)] lg:px-4 ${
                   isActive ? 'fusion-mega-trigger--active' : ''
                 }`}
                 style={{ fontSize: '0.9375rem', fontWeight: 600, lineHeight: 1 }}
@@ -294,7 +292,7 @@ export function FusionSiteNav({
                   style={{ width: 12, height: 12, marginLeft: 4, marginTop: 2 }}
                 />
                 <span
-                  className={`pointer-events-none absolute bottom-0 left-3 right-3 h-[2.5px] rounded-full bg-[#003a8f] transition-transform duration-200 origin-left ${
+                  className={`pointer-events-none absolute bottom-0 left-3 right-3 h-[2.5px] rounded-full bg-[color:var(--fusion-blue)] transition-transform duration-200 origin-left ${
                     isActive ? 'scale-x-100' : 'scale-x-0'
                   }`}
                 />
@@ -307,7 +305,7 @@ export function FusionSiteNav({
         <div className="flex shrink-0 items-center gap-3">
           <button
             type="button"
-            className={`flex size-10 items-center justify-center rounded-lg border-0 p-2 text-[#003a8f] transition-colors hover:bg-neutral-100 ${
+            className={`flex size-10 items-center justify-center rounded-lg border-0 p-2 text-[color:var(--fusion-blue)] transition-colors hover:bg-neutral-100 ${
               searchOpen
                 ? 'bg-neutral-100'
                 : 'bg-transparent'
@@ -322,19 +320,15 @@ export function FusionSiteNav({
 
           <a
             href="#support"
-            className="fusion-site-nav__support hidden items-center gap-1.5 px-2 text-sm font-medium text-[#003a8f] transition-colors hover:text-[#002d6e] lg:inline-flex"
+            className="fusion-site-nav__support hidden items-center gap-1.5 px-2 text-sm font-medium text-[color:var(--fusion-blue)] transition-colors hover:text-[color:var(--color-primary-darkest)] lg:inline-flex"
           >
             <SparkleIcon className="size-4 text-[#f5a623]" />
             Need Support?
           </a>
 
-          <a
-            href="#get-help"
-            className="fusion-site-nav__cta inline-flex h-10 items-center justify-center rounded-full px-5 text-sm font-bold text-[#003a8f] transition-[filter] hover:brightness-95 md:text-base"
-            style={{ backgroundImage: supportGradient }}
-          >
+          <FusionButton href="#get-help" accent size="small">
             Get Help
-          </a>
+          </FusionButton>
         </div>
       </div>
 
@@ -359,16 +353,15 @@ export function FusionSiteNav({
               <p className="mt-3 text-sm leading-relaxed text-neutral-600 md:text-[0.9375rem]">
                 {activeItem.featured.description}
               </p>
-              <a
+              <FusionButton
                 href={activeItem.featured.ctaHref}
-                className={`fusion-mega-featured__cta mt-6 inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-bold transition-colors ${
-                  ctaVariantClasses[activeItem.featured.ctaVariant]
-                }`}
+                className="fusion-mega-featured__cta mt-6"
                 onClick={(e) => handleLinkClick(e, activeItem.featured.ctaHref)}
+                {...megaMenuCtaProps(activeItem.featured.ctaVariant)}
               >
                 {activeItem.featured.ctaLabel}
                 <span aria-hidden>&#8594;</span>
-              </a>
+              </FusionButton>
             </div>
 
             {/* Menu columns */}
@@ -389,7 +382,7 @@ export function FusionSiteNav({
                       <li key={link.href} className="p-0">
                         <a
                           href={link.href}
-                          className="fusion-mega-link group inline-flex items-center gap-1.5 text-[0.9375rem] font-semibold text-[#003a8f] transition-colors hover:text-[#002d6e]"
+                          className="fusion-mega-link group inline-flex items-center gap-1.5 text-[0.9375rem] font-semibold text-[color:var(--fusion-blue)] transition-colors hover:text-[color:var(--color-primary-darkest)]"
                           onClick={(e) => handleLinkClick(e, link.href)}
                         >
                           {link.label}

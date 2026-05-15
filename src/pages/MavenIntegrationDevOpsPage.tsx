@@ -1,6 +1,7 @@
-import { SkipNav } from '@cmsgov/design-system'
+import { SkipNav } from '@cmsgov/ds-cms-gov'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { FusionButton } from '../components/FusionButton'
 import { SiteHeader } from '../components/SiteHeader'
 
 const JENKINSFILE_SAMPLE = `pipeline {
@@ -96,12 +97,12 @@ function DocIcon() {
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
       <path
         d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z"
-        stroke="#005ea2"
+        stroke="var(--fusion-blue)"
         strokeWidth={1.5}
         strokeLinecap="round"
         strokeLinejoin="round"
       />
-      <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" stroke="#005ea2" strokeWidth={1.5} strokeLinecap="round" />
+      <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" stroke="var(--fusion-blue)" strokeWidth={1.5} strokeLinecap="round" />
     </svg>
   )
 }
@@ -365,12 +366,12 @@ export default function MavenIntegrationDevOpsPage() {
                   or corrections) to help us improve our documentation.
                 </p>
                 <div className="ddoc-feedback__actions">
-                  <button type="button" className="ddoc-feedback__btn ddoc-feedback__btn--yes">
+                  <FusionButton type="button" accent size="small">
                     Yes
-                  </button>
-                  <button type="button" className="ddoc-feedback__btn ddoc-feedback__btn--no">
+                  </FusionButton>
+                  <FusionButton type="button" variation="ghost" size="small">
                     No
-                  </button>
+                  </FusionButton>
                   <a href="#" className="ddoc-feedback__link">
                     Submit Feedback
                     <ChevronRight />
@@ -410,9 +411,9 @@ export default function MavenIntegrationDevOpsPage() {
               <div className="ddoc-rail__cta">
                 <h3 className="ddoc-rail__cta-title">Need assistance?</h3>
                 <p className="ddoc-rail__cta-text">Our support team is here to help you with any questions.</p>
-                <a href="#" className="ddoc-rail__cta-btn">
+                <FusionButton href="#" accent onDark className="ddoc-rail__cta-btn">
                   Contact Support
-                </a>
+                </FusionButton>
               </div>
             </aside>
           </div>
@@ -425,9 +426,9 @@ export default function MavenIntegrationDevOpsPage() {
               <p className="ddoc-footer-cta__p">
                 Get started with our comprehensive guides and tutorials to begin building on CMS Hybrid Cloud.
               </p>
-              <a href="#" className="ddoc-footer-cta__btn">
+              <FusionButton href="#" accent onDark>
                 Request Access
-              </a>
+              </FusionButton>
             </div>
             <div className="ddoc-footer-cta__col">
               <h3 className="ddoc-footer-cta__heading">Want assistance?</h3>

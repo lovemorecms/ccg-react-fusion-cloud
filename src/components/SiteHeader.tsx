@@ -1,4 +1,4 @@
-import { UsaBanner } from '@cmsgov/design-system'
+import { UsaBanner } from '@cmsgov/ds-cms-gov'
 import { useCallback, useEffect, useState } from 'react'
 import { FusionSiteNav } from './FusionSiteNav'
 import { SiteSearchPanel } from './SiteSearchPanel'

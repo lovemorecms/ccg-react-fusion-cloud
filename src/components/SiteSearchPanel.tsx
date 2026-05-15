@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+﻿import { useCallback, useEffect, useRef, useState } from 'react'
+import { FusionButton } from './FusionButton'
 
 type SiteSearchPanelProps = {
   open: boolean
@@ -71,27 +72,23 @@ export function SiteSearchPanel({ open, onClose }: SiteSearchPanelProps) {
           type="search"
           name="q"
           placeholder="Search cloud topics, guidance, and services…"
-          className="fusion-site-search__input min-h-11 w-full flex-1 rounded-lg border-2 border-neutral-300 bg-white px-4 py-2 font-sans text-base text-neutral-900 outline-none ring-[#003a8f] transition-shadow placeholder:text-neutral-500 focus-visible:border-[#003a8f] focus-visible:ring-2"
+          className="fusion-site-search__input min-h-11 w-full flex-1 rounded-lg border-2 border-neutral-300 bg-white px-4 py-2 font-sans text-base text-neutral-900 outline-none ring-[color:var(--fusion-blue)] transition-shadow placeholder:text-neutral-500 focus-visible:border-[color:var(--fusion-blue)] focus-visible:ring-2"
           autoComplete="off"
           tabIndex={phase === 'exiting' ? -1 : 0}
         />
-        <div className="flex shrink-0 gap-2 sm:gap-3">
-          <button
-            type="submit"
-            className="fusion-site-search__submit inline-flex min-h-11 min-w-[5.5rem] items-center justify-center rounded-lg bg-[#003a8f] px-5 font-sans text-base font-semibold text-white hover:bg-[#002d6e]"
-            tabIndex={phase === 'exiting' ? -1 : 0}
-          >
+        <div className="fusion-site-search__actions">
+          <FusionButton type="submit" accent tabIndex={phase === 'exiting' ? -1 : 0}>
             Search
-          </button>
-          <button
+          </FusionButton>
+          <FusionButton
             type="button"
-            className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg border-2 border-neutral-300 bg-white font-sans text-lg font-semibold text-neutral-700 hover:bg-neutral-50"
+            variation="ghost"
             aria-label="Close search"
             onClick={onClose}
             tabIndex={phase === 'exiting' ? -1 : 0}
           >
-            ×
-          </button>
+            Close
+          </FusionButton>
         </div>
       </form>
     </div>

@@ -1,4 +1,4 @@
-import { SkipNav } from '@cmsgov/design-system'
+import { SkipNav } from '@cmsgov/ds-cms-gov'
 import { FusionHero } from '../components/FusionHero'
 import { FusionMultiCloudServices } from '../components/FusionMultiCloudServices'
 import { FusionPathwaysHelp } from '../components/FusionPathwaysHelp'

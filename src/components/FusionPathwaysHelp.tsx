@@ -1,9 +1,7 @@
-﻿import { useScrollReveal } from '../hooks/useScrollReveal'
+﻿import { FusionButton } from './FusionButton'
+import { useScrollReveal } from '../hooks/useScrollReveal'
 
 /** “How can we help you today?” pathway cards — Figma node 370:41188 */
-const sectionGradient =
-  'linear-gradient(180deg, #ffffff 0%, #fbfdfe 7.14%, #f8fbfd 14.29%, #f4f9fc 21.43%, #f1f7fb 28.57%, #edf5fa 35.71%, #eaf3f9 42.86%, #e6f1f8 50%, #eaf3f9 57.14%, #edf5fa 64.29%, #f1f7fb 71.43%, #f4f9fc 78.57%, #f8fbfd 85.71%, #fbfdfe 92.86%, #ffffff 100%)'
-
 const pathways = [
   {
     id: 'host',
@@ -53,8 +51,7 @@ export function FusionPathwaysHelp() {
 
   return (
     <section
-      className="fusion-pathways-help relative overflow-hidden"
-      style={{ backgroundImage: sectionGradient }}
+      className="fusion-pathways-help fusion-band-gradient-primary-mist relative overflow-hidden"
       aria-labelledby="fusion-pathways-heading"
     >
       <div
@@ -62,7 +59,7 @@ export function FusionPathwaysHelp() {
         aria-hidden
       />
       <div
-        className="pointer-events-none absolute -right-8 top-16 size-64 rounded-full bg-[rgba(0,113,188,0.05)] blur-[64px] md:right-[10%]"
+        className="pointer-events-none absolute -right-8 top-16 size-64 rounded-full fusion-pathways-help__orb-blue blur-[64px] md:right-[10%]"
         aria-hidden
       />
 
@@ -94,7 +91,7 @@ export function FusionPathwaysHelp() {
             <article
               key={card.id}
               role="listitem"
-              className="fusion-pathways-help__card fusion-reveal-child flex w-[min(280px,82vw)] shrink-0 snap-center flex-col items-center rounded-[10px] border border-[rgba(0,113,188,0.2)] bg-[#003a8f] px-4 pb-8 pt-8 text-center text-white shadow-sm sm:w-[min(300px,70vw)] xl:min-w-0 xl:w-full xl:max-w-none xl:px-5 xl:pt-9"
+              className="fusion-pathways-help__card fusion-reveal-child flex w-[min(280px,82vw)] shrink-0 snap-center flex-col items-center rounded-[10px] border px-4 pb-8 pt-8 text-center text-white shadow-sm sm:w-[min(300px,70vw)] xl:min-w-0 xl:w-full xl:max-w-none xl:px-5 xl:pt-9"
             >
               <card.Icon className="mb-5 h-12 w-12 shrink-0 text-sky-200/90 xl:mb-6" />
               <h3 className="fusion-pathways-help__card-title m-0">
@@ -103,12 +100,9 @@ export function FusionPathwaysHelp() {
               <p className="fusion-pathways-help__card-body m-0">
                 {card.body}
               </p>
-              <a
-                href={card.href}
-                className="fusion-pathways-help__cta inline-flex min-h-[48px] w-[min(100%,220px)] items-center justify-center rounded-[10px] border-2 border-[rgba(255,255,255,0.35)] bg-[rgba(255,255,255,0.1)] px-5 font-sans text-sm font-semibold text-white transition-colors hover:bg-[rgba(255,255,255,0.18)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:min-h-[52px] sm:px-6 sm:text-base"
-              >
+              <FusionButton href={card.href} accent className="fusion-pathways-help__cta">
                 {card.cta}
-              </a>
+              </FusionButton>
             </article>
           ))}
         </div>

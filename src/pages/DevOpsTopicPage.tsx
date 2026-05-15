@@ -1,5 +1,6 @@
-import { SkipNav } from '@cmsgov/design-system'
+import { SkipNav } from '@cmsgov/ds-cms-gov'
 import { Link } from 'react-router-dom'
+import { FusionButton } from '../components/FusionButton'
 import { SiteHeader } from '../components/SiteHeader'
 
 const devOpsTopics: { title: string; to?: string }[] = [
@@ -106,9 +107,9 @@ export default function DevOpsTopicPage() {
                   Our team is ready to help you with DevOps services on CMS Hybrid Cloud.
                 </p>
               </div>
-              <a href="#" className="ktd-help-bar__btn">
+              <FusionButton href="#" accent onDark>
                 Contact Support
-              </a>
+              </FusionButton>
             </div>
           </div>
         </div>
