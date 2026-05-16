@@ -59,7 +59,7 @@ export function FusionFeaturedResources() {
       <div className="relative z-[1] mx-auto max-w-[var(--fusion-site-max-width)] px-[var(--fusion-site-padding-x)] py-[var(--fusion-section-pad-block)] md:px-[var(--fusion-site-padding-x-md)]">
         <header
           ref={headerRef}
-          className="fusion-featured-resources__header fusion-reveal mb-8 flex max-w-[935px] flex-col gap-3 md:mb-10 md:gap-4"
+          className="fusion-featured-resources__header fusion-home-section__header fusion-reveal max-w-[935px]"
         >
           <h2 id="fusion-featured-resources-heading" className="fusion-featured-resources__heading m-0">
             Featured Resources

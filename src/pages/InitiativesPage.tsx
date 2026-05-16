@@ -1,6 +1,7 @@
 import { SkipNav } from '@cmsgov/ds-cms-gov'
 import { useEffect, useRef } from 'react'
 import { FusionButton } from '../components/FusionButton'
+import { SiteFooter } from '../components/SiteFooter'
 import { SiteHeader } from '../components/SiteHeader'
 
 const initiatives = [
@@ -210,23 +211,6 @@ const gettingStartedCards = [
   },
 ]
 
-const cmsWebsites = [
-  'CMS.gov',
-  'MyMedicare.gov',
-  'Medicare.gov',
-  'Medicaid.gov',
-  'CMS.gov',
-  'HHS.gov',
-]
-
-const additionalResources = [
-  'CMS Design System',
-  'Inspector General',
-  'The Act Act',
-  'Plain Writing',
-  'USA.gov',
-]
-
 function useScrollReveal() {
   const ref = useRef<HTMLDivElement>(null)
 
@@ -264,7 +248,7 @@ function useScrollReveal() {
 function LearnIcon({ type }: { type: string }) {
   if (type === 'headset') {
     return (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth={1.5} aria-hidden>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} aria-hidden>
         <path d="M3 18v-6a9 9 0 0118 0v6" strokeLinecap="round" strokeLinejoin="round" />
         <path d="M21 19a2 2 0 01-2 2h-1a2 2 0 01-2-2v-3a2 2 0 012-2h3v5zM3 19a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3v5z" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
@@ -272,21 +256,21 @@ function LearnIcon({ type }: { type: string }) {
   }
   if (type === 'wrench') {
     return (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth={1.5} aria-hidden>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} aria-hidden>
         <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     )
   }
   if (type === 'calendar') {
     return (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth={1.5} aria-hidden>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} aria-hidden>
         <rect x="3" y="4" width="18" height="18" rx="2" strokeLinecap="round" strokeLinejoin="round" />
         <path d="M16 2v4M8 2v4M3 10h18" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     )
   }
   return (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth={1.5} aria-hidden>
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} aria-hidden>
       <path d="M22 10v6M2 10l10-5 10 5-10 5z" strokeLinecap="round" strokeLinejoin="round" />
       <path d="M6 12v5c3 3 9 3 12 0v-5" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
@@ -573,33 +557,8 @@ export default function InitiativesPage() {
             </div>
           </div>
         </section>
-
-        {/* Footer Links */}
-        <section className="kc-footer-links kc-reveal">
-          <div className="kc-footer-links__inner">
-            <div className="kc-footer-links__col">
-              <h3 className="kc-footer-links__heading">CMS &amp; HHS Websites</h3>
-              <ul className="kc-footer-links__list">
-                {cmsWebsites.map((site, i) => (
-                  <li key={`${site}-${i}`}>
-                    <a href="#" className="kc-footer-links__link">{site}</a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="kc-footer-links__col">
-              <h3 className="kc-footer-links__heading">Additional resources</h3>
-              <ul className="kc-footer-links__list">
-                {additionalResources.map((resource) => (
-                  <li key={resource}>
-                    <a href="#" className="kc-footer-links__link">{resource}</a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </section>
       </main>
+      <SiteFooter />
     </>
   )
 }

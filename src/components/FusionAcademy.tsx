@@ -62,7 +62,7 @@ export function FusionAcademy() {
               and confidently navigate the multi-cloud landscape.
             </p>
 
-            <div className="fusion-academy__actions mt-8 flex flex-col gap-3 sm:mt-9 sm:flex-row sm:flex-wrap sm:items-center">
+            <div className="fusion-academy__actions flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
               <FusionButton href="#fusion-academy-start-learning" accent className="fusion-academy__cta-primary">
                 Start Learning
               </FusionButton>

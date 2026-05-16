@@ -1,7 +1,8 @@
 import { SkipNav } from '@cmsgov/ds-cms-gov'
-import { useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { FusionButton } from '../components/FusionButton'
+import { SiteFooter } from '../components/SiteFooter'
 import { SiteHeader } from '../components/SiteHeader'
 
 const JENKINSFILE_SAMPLE = `pipeline {
@@ -74,20 +75,18 @@ const quickLinks = [
   { label: 'DevOps Best Practices', href: '#' },
 ]
 
-const cmsWebsites = ['CMS.gov', 'MyMedicare.gov', 'Medicare.gov', 'Medicaid.gov', 'CMS.gov', 'HHS.gov']
-
-const additionalResources = [
-  'CMS Design System',
-  'Inspector General',
-  'The Act Act',
-  'Plain Writing',
-  'USA.gov',
-]
-
 function ChevronRight({ className }: { className?: string }) {
   return (
     <svg className={className} width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden>
       <path d="M6 4l4 4-4 4" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  )
+}
+
+function ChevronLeft({ className }: { className?: string }) {
+  return (
+    <svg className={className} width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden>
+      <path d="M10 4L6 8l4 4" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   )
 }
@@ -115,9 +114,44 @@ function ExternalLinkIcon({ className }: { className?: string }) {
   )
 }
 
+function useDocNavFilter(query: string) {
+  return useMemo(() => {
+    const q = query.trim().toLowerCase()
+    const match = (s: string) => !q || s.toLowerCase().includes(q)
+    const top = topNavSections.filter(match)
+    const bottom = bottomNavSections.filter(match)
+    const devOpsLinks = devOpsSubLinks.filter((item) => match(item.label))
+    const showDevOpsGroup = !q || match('DevOps') || devOpsSubLinks.some((item) => match(item.label))
+    return { q, top, bottom, devOpsLinks, showDevOpsGroup }
+  }, [query])
+}
+
 export default function MavenIntegrationDevOpsPage() {
   const [mobileNavOpen, setMobileNavOpen] = useState(false)
   const [devOpsNavOpen, setDevOpsNavOpen] = useState(true)
+  const [navSearch, setNavSearch] = useState('')
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
+
+  const filteredNav = useDocNavFilter(navSearch)
+
+  useEffect(() => {
+    if (navSearch.trim()) setDevOpsNavOpen(true)
+  }, [navSearch])
+
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 1100px)')
+    function onChange() {
+      if (mq.matches) setSidebarCollapsed(false)
+    }
+    onChange()
+    mq.addEventListener('change', onChange)
+    return () => mq.removeEventListener('change', onChange)
+  }, [])
+
+  const navIsEmpty =
+    filteredNav.top.length === 0 &&
+    !filteredNav.showDevOpsGroup &&
+    filteredNav.bottom.length === 0
 
   return (
     <>
@@ -145,7 +179,7 @@ export default function MavenIntegrationDevOpsPage() {
                 <ChevronRight />
               </li>
               <li>
-                <Link to="/learn/knowledge-center/devops" className="ddoc-breadcrumb-link">
+                <Link to="/learn/knowledge-center#category-devops" className="ddoc-breadcrumb-link">
                   DevOps
                 </Link>
               </li>
@@ -170,67 +204,151 @@ export default function MavenIntegrationDevOpsPage() {
             <ChevronRight className={mobileNavOpen ? 'ddoc-mobile-nav-toggle__chev--open' : undefined} />
           </button>
 
-          <div className={`ddoc-layout ${mobileNavOpen ? 'ddoc-layout--nav-open' : ''}`}>
-            <aside className="ddoc-sidebar" aria-label="Documentation sections">
-              <div className="ddoc-sidebar__card">
-                <nav className="ddoc-side-nav">
-                  {topNavSections.map((label) => (
-                    <button key={label} type="button" className="ddoc-side-nav__row">
-                      <span className="ddoc-side-nav__label">{label}</span>
-                      <ChevronRight className="ddoc-side-nav__chev" />
-                    </button>
-                  ))}
-
-                  <div className="ddoc-side-nav__group">
+          <div
+            className={[
+              'ddoc-layout',
+              mobileNavOpen && 'ddoc-layout--nav-open',
+              sidebarCollapsed && 'ddoc-layout--sidebar-collapsed',
+            ]
+              .filter(Boolean)
+              .join(' ')}
+          >
+            <aside className={`ddoc-sidebar${sidebarCollapsed ? ' ddoc-sidebar--collapsed' : ''}`} aria-label="Documentation sections">
+              {sidebarCollapsed ? (
+                <button
+                  type="button"
+                  className="ddoc-sidebar__rail-toggle"
+                  onClick={() => setSidebarCollapsed(false)}
+                  aria-expanded={false}
+                  aria-label="Expand documentation navigation"
+                  title="Expand documentation navigation"
+                >
+                  <ChevronRight />
+                  <span className="ddoc-sidebar__rail-toggle-text">Nav</span>
+                </button>
+              ) : (
+                <div className="ddoc-sidebar__sticky-stack">
+                  <form className="ddoc-sidebar__search" role="search" onSubmit={(e) => e.preventDefault()}>
+                    <label htmlFor="ddoc-nav-search" className="ddoc-sidebar__search-label">
+                      Filter documentation navigation
+                    </label>
+                    <div className="ddoc-sidebar__search-field">
+                      <svg
+                        className="ddoc-sidebar__search-icon"
+                        width="18"
+                        height="18"
+                        viewBox="0 0 20 20"
+                        fill="none"
+                        aria-hidden
+                      >
+                        <path
+                          d="M19 19l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                          stroke="#9ca3af"
+                          strokeWidth={2}
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                      <input
+                        id="ddoc-nav-search"
+                        type="search"
+                        value={navSearch}
+                        onChange={(e) => setNavSearch(e.target.value)}
+                        placeholder="Search navigation…"
+                        className="ddoc-sidebar__search-input"
+                        autoComplete="off"
+                      />
+                    </div>
+                  </form>
+                  <div className="ddoc-sidebar__toolbar">
                     <button
                       type="button"
-                      className="ddoc-side-nav__group-header"
-                      aria-expanded={devOpsNavOpen}
-                      aria-controls="ddoc-devops-submenu"
-                      id="ddoc-devops-nav-toggle"
-                      onClick={() => setDevOpsNavOpen((o) => !o)}
+                      className="ddoc-sidebar__collapse-trigger"
+                      onClick={() => setSidebarCollapsed(true)}
+                      aria-expanded={!sidebarCollapsed}
+                      aria-controls="ddoc-sidebar-panel"
+                      aria-label="Collapse documentation navigation"
+                      title="Collapse documentation navigation"
                     >
-                      <span className="ddoc-side-nav__group-title">DevOps</span>
-                      <ChevronRight
-                        className={`ddoc-side-nav__chev${devOpsNavOpen ? ' ddoc-side-nav__chev--open' : ''}`}
-                      />
+                      <ChevronLeft />
+                      <span>Collapse</span>
                     </button>
-                    <ul
-                      id="ddoc-devops-submenu"
-                      className="ddoc-side-nav__sub"
-                      hidden={!devOpsNavOpen}
-                      aria-labelledby="ddoc-devops-nav-toggle"
-                    >
-                      {devOpsSubLinks.map((item) => (
-                        <li key={item.label}>
-                          {item.to ? (
-                            <Link
-                              to={item.to}
-                              className={
-                                item.active ? 'ddoc-side-nav__sublink ddoc-side-nav__sublink--active' : 'ddoc-side-nav__sublink'
-                              }
-                              aria-current={item.active ? 'page' : undefined}
-                            >
-                              {item.label}
-                            </Link>
-                          ) : (
-                            <a href="#" className="ddoc-side-nav__sublink">
-                              {item.label}
-                            </a>
-                          )}
-                        </li>
-                      ))}
-                    </ul>
                   </div>
+                  <div id="ddoc-sidebar-panel" className="ddoc-sidebar__card">
+                    <nav className="ddoc-side-nav">
+                      {navIsEmpty ? (
+                        <p className="ddoc-sidebar__empty">No matching sections.</p>
+                      ) : (
+                        <>
+                          {filteredNav.top.map((label) => (
+                            <button key={label} type="button" className="ddoc-side-nav__row">
+                              <span className="ddoc-side-nav__label">{label}</span>
+                              <ChevronRight className="ddoc-side-nav__chev" />
+                            </button>
+                          ))}
 
-                  {bottomNavSections.map((label) => (
-                    <button key={label} type="button" className="ddoc-side-nav__row">
-                      <span className="ddoc-side-nav__label">{label}</span>
-                      <ChevronRight className="ddoc-side-nav__chev" />
-                    </button>
-                  ))}
-                </nav>
-              </div>
+                          {filteredNav.showDevOpsGroup ? (
+                            <div className="ddoc-side-nav__group">
+                              <button
+                                type="button"
+                                className="ddoc-side-nav__group-header"
+                                aria-expanded={devOpsNavOpen}
+                                aria-controls="ddoc-devops-submenu"
+                                id="ddoc-devops-nav-toggle"
+                                onClick={() => setDevOpsNavOpen((o) => !o)}
+                              >
+                                <span className="ddoc-side-nav__group-title">DevOps</span>
+                                <ChevronRight
+                                  className={`ddoc-side-nav__chev${devOpsNavOpen ? ' ddoc-side-nav__chev--open' : ''}`}
+                                />
+                              </button>
+                              <ul
+                                id="ddoc-devops-submenu"
+                                className="ddoc-side-nav__sub"
+                                hidden={!devOpsNavOpen}
+                                aria-labelledby="ddoc-devops-nav-toggle"
+                              >
+                                {filteredNav.devOpsLinks.length === 0 ? (
+                                  <li className="ddoc-sidebar__sub-empty">No matching topics.</li>
+                                ) : (
+                                  filteredNav.devOpsLinks.map((item) => (
+                                    <li key={item.label}>
+                                      {item.to ? (
+                                        <Link
+                                          to={item.to}
+                                          className={
+                                            item.active
+                                              ? 'ddoc-side-nav__sublink ddoc-side-nav__sublink--active'
+                                              : 'ddoc-side-nav__sublink'
+                                          }
+                                          aria-current={item.active ? 'page' : undefined}
+                                        >
+                                          {item.label}
+                                        </Link>
+                                      ) : (
+                                        <a href="#" className="ddoc-side-nav__sublink">
+                                          {item.label}
+                                        </a>
+                                      )}
+                                    </li>
+                                  ))
+                                )}
+                              </ul>
+                            </div>
+                          ) : null}
+
+                          {filteredNav.bottom.map((label) => (
+                            <button key={label} type="button" className="ddoc-side-nav__row">
+                              <span className="ddoc-side-nav__label">{label}</span>
+                              <ChevronRight className="ddoc-side-nav__chev" />
+                            </button>
+                          ))}
+                        </>
+                      )}
+                    </nav>
+                  </div>
+                </div>
+              )}
             </aside>
 
             <article className="ddoc-article">
@@ -452,36 +570,8 @@ export default function MavenIntegrationDevOpsPage() {
             </div>
           </div>
         </section>
-
-        <section className="kc-footer-links">
-          <div className="kc-footer-links__inner">
-            <div className="kc-footer-links__col">
-              <h3 className="kc-footer-links__heading">CMS &amp; HHS Websites</h3>
-              <ul className="kc-footer-links__list">
-                {cmsWebsites.map((site, i) => (
-                  <li key={`${site}-${i}`}>
-                    <a href="#" className="kc-footer-links__link">
-                      {site}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="kc-footer-links__col">
-              <h3 className="kc-footer-links__heading">Additional resources</h3>
-              <ul className="kc-footer-links__list">
-                {additionalResources.map((resource) => (
-                  <li key={resource}>
-                    <a href="#" className="kc-footer-links__link">
-                      {resource}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </section>
       </main>
+      <SiteFooter />
     </>
   )
 }

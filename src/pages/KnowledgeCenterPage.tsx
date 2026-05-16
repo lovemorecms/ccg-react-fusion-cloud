@@ -1,8 +1,13 @@
 import { SkipNav } from '@cmsgov/ds-cms-gov'
-import { useEffect, useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useEffect, useLayoutEffect, useRef, useState, type ReactNode } from 'react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { knowledgeCenterDocCategories } from '../data/knowledgeCenterDocCategories'
+import type { DocCategory } from '../data/knowledgeCenterDocCategories'
 import { FusionButton } from '../components/FusionButton'
+import { SiteFooter } from '../components/SiteFooter'
 import { SiteHeader } from '../components/SiteHeader'
+
+const docCategories = knowledgeCenterDocCategories
 
 const overviewCards = [
   {
@@ -49,23 +54,6 @@ const accountEssentials = [
   },
 ]
 
-const docCategories: { title: string; href: string }[] = [
-  { title: 'CMS Hybrid Cloud', href: '#' },
-  { title: 'Cloud Governance', href: '#' },
-  { title: 'Quickstarts', href: '#' },
-  { title: 'Computing', href: '#' },
-  { title: 'Containers', href: '#' },
-  { title: 'DevOps', href: '/learn/knowledge-center/devops' },
-  { title: 'Incident Management', href: '#' },
-  { title: 'Monitoring', href: '#' },
-  { title: 'Networking', href: '#' },
-  { title: 'Security & Compliance', href: '#' },
-  { title: 'Site reliability', href: '#' },
-  { title: 'Storage', href: '#' },
-  { title: 'User Access', href: '#' },
-  { title: 'Platforms', href: '#' },
-]
-
 const popularTopics: {
   title: string
   tag: string
@@ -76,7 +64,7 @@ const popularTopics: {
     title: 'DevOps services & tools',
     tag: 'How-to guide',
     gradient: 'blue',
-    to: '/learn/knowledge-center/devops',
+    to: '/learn/knowledge-center#category-devops',
   },
   { title: 'Setting up your group', tag: 'How-to guide', gradient: 'gold' },
   { title: 'CMS approved security tools and services', tag: 'How-to guide', gradient: 'blue' },
@@ -108,22 +96,21 @@ const gettingStartedCards = [
   },
 ]
 
-const cmsWebsites = [
-  'CMS.gov',
-  'MyMedicare.gov',
-  'Medicare.gov',
-  'Medicaid.gov',
-  'CMS.gov',
-  'HHS.gov',
-]
+function parseExpandedCategoryId(hash: string): string | null {
+  const m = /^#category-(.+)$/.exec(hash)
+  if (!m) return null
+  const id = m[1]
+  const cat = docCategories.find((c) => c.id === id)
+  return cat ? id : null
+}
 
-const additionalResources = [
-  'CMS Design System',
-  'Inspector General',
-  'The Act Act',
-  'Plain Writing',
-  'USA.gov',
-]
+function CategoryCardChevron() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
+      <path d="M6 4l4 4-4 4" stroke="#9ca3af" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  )
+}
 
 function OverviewIcon({ type }: { type: string }) {
   if (type === 'book') {
@@ -199,9 +186,166 @@ function useScrollReveal() {
   return ref
 }
 
+/** Categories that use placeholder `href: '#'` open the inline panel on the Knowledge Base page. */
+function categoryExpandsInlineOnKb(cat: DocCategory): boolean {
+  return cat.href === '#'
+}
+
+/** Must match `.kc-categories-grid` breakpoints in `index.css` (4 → 3 → 2 columns). */
+function categoriesGridColumnCount(viewportWidth: number): number {
+  if (viewportWidth <= 768) return 2
+  if (viewportWidth <= 1024) return 3
+  return 4
+}
+
+function useCategoriesGridColumns(): number {
+  const [cols, setCols] = useState(4)
+
+  useLayoutEffect(() => {
+    function update() {
+      setCols(categoriesGridColumnCount(window.innerWidth))
+    }
+    update()
+    window.addEventListener('resize', update)
+    return () => window.removeEventListener('resize', update)
+  }, [])
+
+  return cols
+}
+
 export default function KnowledgeCenterPage() {
   const [searchQuery, setSearchQuery] = useState('')
   const revealRef = useScrollReveal()
+  const location = useLocation()
+  const navigate = useNavigate()
+  const categoryPanelRef = useRef<HTMLDivElement>(null)
+  const categoryGridColumns = useCategoriesGridColumns()
+
+  const expandedCategoryId = parseExpandedCategoryId(location.hash)
+
+  useEffect(() => {
+    if (!expandedCategoryId || !categoryPanelRef.current) return
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    categoryPanelRef.current.scrollIntoView({
+      behavior: prefersReducedMotion ? 'auto' : 'smooth',
+      block: 'nearest',
+    })
+  }, [expandedCategoryId])
+
+  const expandedCategory = expandedCategoryId
+    ? docCategories.find((c) => c.id === expandedCategoryId)
+    : undefined
+
+  function toggleInlineCategory(id: string) {
+    if (location.hash === `#category-${id}`) {
+      navigate({ hash: '' }, { replace: true })
+    } else {
+      navigate({ hash: `category-${id}` }, { replace: true })
+    }
+  }
+
+  function renderCategoryCard(cat: DocCategory) {
+    const inner = (
+      <>
+        <span className="kc-category-link__main">
+          <span className="kc-category-link__text">{cat.title}</span>
+          <span className="kc-category-link__count">{cat.itemCount}</span>
+        </span>
+        <CategoryCardChevron />
+      </>
+    )
+    const countHint = `${cat.itemCount} documentation items in ${cat.title}`
+    const isExpanded = expandedCategoryId === cat.id
+
+    if (categoryExpandsInlineOnKb(cat)) {
+      return (
+        <button
+          key={cat.id}
+          type="button"
+          className={`kc-category-link${isExpanded ? ' kc-category-link--active' : ''}`}
+          onClick={() => toggleInlineCategory(cat.id)}
+          aria-expanded={isExpanded}
+          title={countHint}
+        >
+          {inner}
+        </button>
+      )
+    }
+
+    if (cat.href.startsWith('/')) {
+      return (
+        <Link key={cat.id} to={cat.href} className="kc-category-link" title={countHint}>
+          {inner}
+        </Link>
+      )
+    }
+
+    return (
+      <a key={cat.id} href={cat.href} className="kc-category-link" title={countHint}>
+        {inner}
+      </a>
+    )
+  }
+
+  function renderCategoryPanel() {
+    if (!expandedCategory) return null
+    const topics = expandedCategory.topics
+    const hasTopics = Boolean(topics?.length)
+    return (
+      <div
+        key="kc-category-panel"
+        ref={categoryPanelRef}
+        id="kc-category-panel"
+        className="kc-category-panel"
+        role="region"
+        aria-labelledby="kc-category-panel-heading"
+      >
+        <h3 id="kc-category-panel-heading" className="kc-category-panel__heading">
+          {expandedCategory.expandPanelTitle ?? `${expandedCategory.title} documentation`}
+        </h3>
+        {hasTopics && topics ? (
+          <ul className="kc-category-panel__grid">
+            {topics.map((topic) => (
+              <li key={topic.label}>
+                {topic.to ? (
+                  <Link to={topic.to} className="kc-category-panel__topic">
+                    <span className="kc-category-panel__topic-label">{topic.label}</span>
+                  </Link>
+                ) : (
+                  <a href="#" className="kc-category-panel__topic">
+                    <span className="kc-category-panel__topic-label">{topic.label}</span>
+                  </a>
+                )}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="kc-category-panel__placeholder">Links coming soon</p>
+        )}
+      </div>
+    )
+  }
+
+  function renderCategoryGridItems() {
+    const expandedIdx =
+      expandedCategoryId != null ? docCategories.findIndex((c) => c.id === expandedCategoryId) : -1
+
+    let insertAfter = -1
+    if (expandedIdx >= 0 && expandedCategory) {
+      const row = Math.floor(expandedIdx / categoryGridColumns)
+      insertAfter = Math.min((row + 1) * categoryGridColumns - 1, docCategories.length - 1)
+    }
+
+    const items: ReactNode[] = []
+    docCategories.forEach((cat, i) => {
+      items.push(renderCategoryCard(cat))
+      if (i === insertAfter) {
+        const panel = renderCategoryPanel()
+        if (panel) items.push(panel)
+      }
+    })
+    return items
+  }
 
   return (
     <>
@@ -209,7 +353,6 @@ export default function KnowledgeCenterPage() {
       <SiteHeader />
 
       <main id="main-content" tabIndex={-1} ref={revealRef}>
-        {/* Breadcrumb Bar */}
         <div className="kc-breadcrumb-bar">
           <nav aria-label="Breadcrumb" className="kc-breadcrumb-inner">
             <ol className="kc-breadcrumb-list">
@@ -228,7 +371,6 @@ export default function KnowledgeCenterPage() {
           </nav>
         </div>
 
-        {/* Hero Section */}
         <section className="kc-hero">
           <div className="kc-hero__inner">
             <h1 className="kc-hero__heading">Knowledge Base</h1>
@@ -262,7 +404,7 @@ export default function KnowledgeCenterPage() {
                 <span className="kc-hero__stat-label">Guide Articles</span>
               </div>
               <div className="kc-hero__stat">
-                <span className="kc-hero__stat-number">13</span>
+                <span className="kc-hero__stat-number">{docCategories.length}</span>
                 <span className="kc-hero__stat-label">Categories</span>
               </div>
               <div className="kc-hero__stat">
@@ -277,9 +419,24 @@ export default function KnowledgeCenterPage() {
           </div>
         </section>
 
-        {/* Content Area */}
         <div className="kc-content">
-          {/* Overview Section */}
+          <section
+            id="kc-doc-categories"
+            className="kc-section kc-section--categories kc-reveal"
+            aria-labelledby="kc-doc-categories-heading"
+          >
+            <h2 id="kc-doc-categories-heading" className="kc-section-heading">
+              Documentation categories
+            </h2>
+            <p className="kc-section-subtitle">
+              Parent topics for CMS Hybrid Cloud documentation. Select a category to browse guides and references in
+              that area.
+            </p>
+            <div className="kc-category-inline-stack">
+              <div className="kc-categories-grid">{renderCategoryGridItems()}</div>
+            </div>
+          </section>
+
           <section className="kc-section kc-reveal">
             <h2 className="kc-section-heading">What You&rsquo;ll Find in This Documentation</h2>
             <div className="kc-overview-grid">
@@ -295,7 +452,6 @@ export default function KnowledgeCenterPage() {
             </div>
           </section>
 
-          {/* Account Essentials */}
           <section className="kc-section kc-reveal">
             <h2 className="kc-section-heading">Account Essentials</h2>
             <p className="kc-section-subtitle">
@@ -318,33 +474,6 @@ export default function KnowledgeCenterPage() {
             </div>
           </section>
 
-          {/* Documentation Categories */}
-          <section className="kc-section kc-reveal">
-            <h2 className="kc-section-heading">Documentation Categories</h2>
-            <div className="kc-categories-grid">
-              {docCategories.map((cat) => {
-                const inner = (
-                  <>
-                    <span className="kc-category-link__text">{cat.title}</span>
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
-                      <path d="M6 4l4 4-4 4" stroke="#9ca3af" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </>
-                )
-                return cat.href.startsWith('/') ? (
-                  <Link key={cat.title} to={cat.href} className="kc-category-link">
-                    {inner}
-                  </Link>
-                ) : (
-                  <a key={cat.title} href={cat.href} className="kc-category-link">
-                    {inner}
-                  </a>
-                )
-              })}
-            </div>
-          </section>
-
-          {/* Popular Topics */}
           <section className="kc-section kc-reveal">
             <div className="kc-popular-header">
               <div className="kc-popular-header__left">
@@ -385,7 +514,6 @@ export default function KnowledgeCenterPage() {
           </section>
         </div>
 
-        {/* Getting Started Section */}
         <section className="kc-getting-started kc-reveal">
           <div className="kc-getting-started__bg-orb kc-getting-started__bg-orb--gold" />
           <div className="kc-getting-started__bg-orb kc-getting-started__bg-orb--blue" />
@@ -413,33 +541,8 @@ export default function KnowledgeCenterPage() {
             </div>
           </div>
         </section>
-
-        {/* Footer Links */}
-        <section className="kc-footer-links kc-reveal">
-          <div className="kc-footer-links__inner">
-            <div className="kc-footer-links__col">
-              <h3 className="kc-footer-links__heading">CMS &amp; HHS Websites</h3>
-              <ul className="kc-footer-links__list">
-                {cmsWebsites.map((site, i) => (
-                  <li key={`${site}-${i}`}>
-                    <a href="#" className="kc-footer-links__link">{site}</a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="kc-footer-links__col">
-              <h3 className="kc-footer-links__heading">Additional resources</h3>
-              <ul className="kc-footer-links__list">
-                {additionalResources.map((resource) => (
-                  <li key={resource}>
-                    <a href="#" className="kc-footer-links__link">{resource}</a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </section>
       </main>
+      <SiteFooter />
     </>
   )
 }

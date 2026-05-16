@@ -66,7 +66,10 @@ export function FusionQuickAccess() {
       />
 
       <div className="relative z-[1] mx-auto max-w-[var(--fusion-site-max-width)] px-[var(--fusion-site-padding-x)] pb-[var(--fusion-section-pad-block)] pt-[var(--fusion-section-pad-after-hero)] md:px-[var(--fusion-site-padding-x-md)]">
-        <header ref={headerRef} className="fusion-quick-access__header fusion-reveal mb-8 flex max-w-[935px] flex-col gap-3 md:mb-10 md:gap-4">
+        <header
+          ref={headerRef}
+          className="fusion-quick-access__header fusion-home-section__header fusion-reveal max-w-[935px]"
+        >
           <h2
             id="fusion-quick-access-heading"
             className="fusion-quick-access__heading m-0"

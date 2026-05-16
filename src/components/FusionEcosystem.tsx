@@ -1,22 +1,15 @@
 /** Explore the FUSION ecosystem — orbital diagram + capability cards (CMS.gov DS tokens) */
-import type { CSSProperties } from 'react'
 import { useScrollReveal } from '../hooks/useScrollReveal'
 
 const base = `${import.meta.env.BASE_URL}images/sections/ecosphere/`
 
-type OrbitIcon = {
-  id: string
-  src: string
-  angleDeg: number
-}
-
-const orbitIcons: OrbitIcon[] = [
-  { id: 'toolkit', src: `${base}fusion-toolkit-icon2.png`, angleDeg: -90 },
-  { id: 'multi-cloud', src: `${base}multi-cloud-icon2.png`, angleDeg: -32 },
-  { id: 'product-teams', src: `${base}cloud-product-teams-icon2.png`, angleDeg: 52 },
-  { id: 'cost', src: `${base}cost-optimization-icon2.png`, angleDeg: 132 },
-  { id: 'security', src: `${base}security-networking-icon2.png`, angleDeg: -148 },
-]
+const orbitIcons = [
+  { id: 'toolkit' as const, src: `${base}fusion-toolkit-icon2.png` },
+  { id: 'security' as const, src: `${base}security-networking-icon2.png` },
+  { id: 'multi-cloud' as const, src: `${base}multi-cloud-icon2.png` },
+  { id: 'cost' as const, src: `${base}cost-optimization-icon2.png` },
+  { id: 'product-teams' as const, src: `${base}cloud-product-teams-icon2.png` },
+] as const
 
 const capabilityTiles = [
   {
@@ -27,18 +20,18 @@ const capabilityTiles = [
     slot: 'toolkit' as const,
   },
   {
-    id: 'multi-cloud',
-    title: 'Multi Cloud Env',
-    body:
-      'Best-of breed public cloud, physical data center, and platform services delivered by AWS, Microsoft, Google, and Oracle CSPs',
-    slot: 'multi-cloud' as const,
-  },
-  {
     id: 'security',
     title: 'Security & Networking',
     body:
       'Zero Trust security and continuous compliance monitoring with simplified networking across every cloud platform',
     slot: 'security' as const,
+  },
+  {
+    id: 'multi-cloud',
+    title: 'Multi Cloud Env',
+    body:
+      'Best-of breed public cloud, physical data center, and platform services delivered by AWS, Microsoft, Google, and Oracle CSPs',
+    slot: 'multi-cloud' as const,
   },
   {
     id: 'cost',
@@ -58,8 +51,7 @@ const capabilityTiles = [
 
 export function FusionEcosystem() {
   const headerRef = useScrollReveal<HTMLElement>()
-  const orbitRef = useScrollReveal<HTMLDivElement>({ threshold: 0.1, rootMargin: '0px 0px -28px 0px' })
-  const cardsRef = useScrollReveal<HTMLUListElement>({ threshold: 0.06, rootMargin: '0px 0px -20px 0px' })
+  const clusterRef = useScrollReveal<HTMLDivElement>({ threshold: 0.06, rootMargin: '0px 0px -24px 0px' })
   const coreSrc = `${base}logo-fusion.png`
 
   return (
@@ -77,23 +69,23 @@ export function FusionEcosystem() {
         }}
       />
 
-      <div className="relative z-[1] mx-auto max-w-[var(--fusion-site-max-width)] px-[var(--fusion-site-padding-x)] pb-[var(--fusion-section-pad-block)] pt-[clamp(3.25rem,5vw+1.5rem,6.25rem)] md:px-[var(--fusion-site-padding-x-md)]">
+      <div className="relative z-[1] mx-auto max-w-[var(--fusion-site-max-width)] px-[var(--fusion-site-padding-x)] py-[var(--fusion-section-pad-block)] md:px-[var(--fusion-site-padding-x-md)]">
         <header
           ref={headerRef}
-          className="fusion-ecosphere__header fusion-reveal mb-10 max-w-[58rem] md:mb-12 lg:mb-14"
+          className="fusion-ecosphere__header fusion-home-section__header fusion-reveal max-w-[58rem]"
         >
           <h2 id="fusion-ecosphere-heading" className="fusion-ecosphere__heading m-0">
             <span className="fusion-ecosphere__heading-muted">Explore the </span>
             <span className="fusion-hero__headline-accent fusion-ecosphere__heading-accent font-bold">FUSION</span>
             <span className="fusion-ecosphere__heading-muted"> ecosystem</span>
           </h2>
-          <p className="fusion-ecosphere__lede m-0 mt-3 max-w-[40rem] md:mt-4">
+          <p className="fusion-ecosphere__lede m-0 max-w-[40rem]">
             A constellation of connected tools working in harmony
           </p>
         </header>
 
-        <div className="fusion-ecosphere__scene">
-          <div ref={orbitRef} className="fusion-ecosphere__orbit-host fusion-reveal" aria-hidden>
+        <div ref={clusterRef} className="fusion-ecosphere__cluster fusion-reveal-stagger">
+          <div className="fusion-ecosphere__orbit-host fusion-reveal-child" aria-hidden>
             <div className="fusion-ecosphere__orbit-board">
               <div className="fusion-ecosphere__ring fusion-ecosphere__ring--outer" />
               <div className="fusion-ecosphere__ring fusion-ecosphere__ring--mid" />
@@ -110,8 +102,7 @@ export function FusionEcosystem() {
               {orbitIcons.map((node) => (
                 <div
                   key={node.id}
-                  className="fusion-ecosphere__orbit-node"
-                  style={{ '--fusion-orbit-angle': `${node.angleDeg}deg` } as CSSProperties}
+                  className={`fusion-ecosphere__orbit-node fusion-ecosphere__orbit-node--${node.id}`}
                 >
                   <img src={node.src} alt="" width={120} height={120} decoding="async" />
                 </div>
@@ -119,24 +110,20 @@ export function FusionEcosystem() {
             </div>
           </div>
 
-          <ul ref={cardsRef} className="fusion-ecosphere__cards fusion-reveal-stagger m-0 list-none p-0">
-            {capabilityTiles.map((tile) => (
-              <li
-                key={tile.id}
-                className={`fusion-ecosphere__card-slot fusion-ecosphere__card-slot--${tile.slot} fusion-reveal-child min-w-0`}
-              >
-                <article
-                  className="fusion-ecosphere__card h-full rounded-2xl border border-solid p-4 shadow-lg sm:p-5"
-                  aria-labelledby={`fusion-ecosphere-tile-${tile.id}`}
-                >
-                  <h3 id={`fusion-ecosphere-tile-${tile.id}`} className="fusion-ecosphere__card-title m-0 text-center">
-                    {tile.title}
-                  </h3>
-                  <p className="fusion-ecosphere__card-body m-0 mt-2 text-center sm:mt-3">{tile.body}</p>
-                </article>
-              </li>
-            ))}
-          </ul>
+          {capabilityTiles.map((tile) => (
+            <article
+              key={tile.id}
+              className={`fusion-ecosphere__tile fusion-ecosphere__tile--${tile.slot} fusion-reveal-child min-w-0`}
+              aria-labelledby={`fusion-ecosphere-tile-${tile.id}`}
+            >
+              <div className="fusion-ecosphere__card h-full rounded-2xl border border-solid p-4 shadow-lg sm:p-5">
+                <h3 id={`fusion-ecosphere-tile-${tile.id}`} className="fusion-ecosphere__card-title m-0 text-center">
+                  {tile.title}
+                </h3>
+                <p className="fusion-ecosphere__card-body m-0 mt-2 text-center sm:mt-3">{tile.body}</p>
+              </div>
+            </article>
+          ))}
         </div>
       </div>
     </section>

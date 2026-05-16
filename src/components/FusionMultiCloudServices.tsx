@@ -23,7 +23,7 @@ export function FusionMultiCloudServices() {
             Multi-Cloud Services
           </h2>
 
-          <div className="fusion-multi-cloud__prose mt-5 flex flex-col gap-3.5 sm:gap-4 lg:mt-6">
+          <div className="fusion-multi-cloud__prose flex flex-col gap-3.5 sm:gap-4">
             <p className="m-0">
               Fusion provides a true multi-cloud service that leverages the
               best features of each Cloud Service Provider to deliver value to
@@ -47,7 +47,7 @@ export function FusionMultiCloudServices() {
           <FusionButton
             href="#multi-cloud-services"
             accent
-            className="fusion-multi-cloud__cta mt-7 sm:mt-8"
+            className="fusion-multi-cloud__cta"
           >
             Learn more
           </FusionButton>

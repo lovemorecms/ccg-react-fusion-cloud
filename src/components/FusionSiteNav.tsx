@@ -17,7 +17,6 @@ type FeaturedCard = {
 type MegaMenuItem = {
   id: string
   label: string
-  panelBg: string
   featured: FeaturedCard
   columns: MenuColumn[]
 }
@@ -26,7 +25,6 @@ const megaMenuItems: MegaMenuItem[] = [
   {
     id: 'about',
     label: 'About',
-    panelBg: 'bg-[#faf9f7]',
     featured: {
       title: 'Success Stories',
       description:
@@ -49,7 +47,6 @@ const megaMenuItems: MegaMenuItem[] = [
   {
     id: 'explore',
     label: 'Explore',
-    panelBg: 'bg-[#e8f4fd]',
     featured: {
       title: 'Cloud Platforms',
       description:
@@ -99,7 +96,6 @@ const megaMenuItems: MegaMenuItem[] = [
   {
     id: 'learn',
     label: 'Learn',
-    panelBg: 'bg-[#fef9e7]',
     featured: {
       title: 'Training & Enablement',
       description:
@@ -122,7 +118,6 @@ const megaMenuItems: MegaMenuItem[] = [
   {
     id: 'get-started',
     label: 'Get Started',
-    panelBg: 'bg-[#e8f8f0]',
     featured: {
       title: 'Quick Onboarding',
       description:
@@ -337,7 +332,7 @@ export function FusionSiteNav({
         <div
           key={activeItem.id}
           id={`mega-panel-${activeItem.id}`}
-          className={`fusion-mega-panel border-t border-neutral-200/60 ${activeItem.panelBg}`}
+          className="fusion-mega-panel"
           role="region"
           aria-label={`${activeItem.label} menu`}
         >

@@ -1,53 +1,45 @@
-﻿import { FusionButton } from './FusionButton'
-import { useScrollReveal } from '../hooks/useScrollReveal'
+﻿import { useScrollReveal } from '../hooks/useScrollReveal'
 
-/** “How can we help you today?” pathway cards — Figma node 370:41188 */
+/** “How can we help you today?” — staggered pill pathways */
 const pathways = [
   {
     id: 'host',
     title: 'I Need to Host an Application',
-    body: 'Start hosting in the right environment.',
-    cta: 'Start Hosting',
     href: '#host-application',
-    Icon: IconHost,
+    Icon: IconSpeechBubble,
   },
   {
     id: 'migrate',
     title: 'I Need to Migrate an Application',
-    body: 'Move your applications to the cloud with confidence.',
-    cta: 'Start Migration',
     href: '#migrate-application',
-    Icon: IconMigrate,
+    Icon: IconRefresh,
   },
   {
     id: 'guidance',
     title: 'I Need Guidance',
-    body: 'Get expert advice and decision support.',
-    cta: 'Get Advice',
     href: '#guidance',
-    Icon: IconGuidance,
+    Icon: IconStopwatch,
   },
   {
     id: 'support',
     title: 'I Need Support',
-    body: 'Access help, tools and support services.',
-    cta: 'Get Support',
     href: '#support-services',
-    Icon: IconSupportCard,
+    Icon: IconQuestion,
+    iconWrapSupport: true,
   },
   {
     id: 'explore',
     title: 'Explore Options',
-    body: 'Compare platforms and capabilities.',
-    cta: 'Explore',
     href: '#explore-options',
-    Icon: IconExplore,
+    Icon: IconGrid,
   },
 ] as const
 
 export function FusionPathwaysHelp() {
   const headerRef = useScrollReveal<HTMLElement>()
-  const cardsRef = useScrollReveal<HTMLDivElement>({ threshold: 0.08, rootMargin: '0px 0px -20px 0px' })
+  const rowsRef = useScrollReveal<HTMLDivElement>({ threshold: 0.08, rootMargin: '0px 0px -20px 0px' })
+  const row1 = pathways.slice(0, 2)
+  const row2 = pathways.slice(2, 5)
 
   return (
     <section
@@ -64,154 +56,150 @@ export function FusionPathwaysHelp() {
       />
 
       <div className="relative z-[1] mx-auto max-w-[var(--fusion-site-max-width)] px-[var(--fusion-site-padding-x)] py-[var(--fusion-section-pad-block)] md:px-[var(--fusion-site-padding-x-md)]">
-        <header ref={headerRef} className="fusion-pathways-help__header fusion-reveal mb-10 flex max-w-[62rem] flex-col gap-4 md:mb-12 md:gap-5">
-          <h2
-            id="fusion-pathways-heading"
-            className="fusion-pathways-help__heading m-0"
-          >
-            <span className="fusion-pathways-help__heading-muted">
-              How can we{' '}
-            </span>
-            <span className="fusion-pathways-help__heading-accent">
-              help you today?
-            </span>
+        <header
+          ref={headerRef}
+          className="fusion-pathways-help__header fusion-home-section__header fusion-reveal max-w-[62rem]"
+        >
+          <h2 id="fusion-pathways-heading" className="fusion-pathways-help__heading m-0">
+            How can we help you today?
           </h2>
           <p className="fusion-pathways-help__lede m-0 max-w-[935px]">
-            Select a pathway to access services, resources, and support across
-            the cloud ecosystem
+            Select a pathway to access services, resources, and support across the cloud ecosystem
           </p>
         </header>
 
-        <div
-          ref={cardsRef}
-          className="fusion-pathways-help__cards fusion-reveal-stagger flex snap-x snap-mandatory gap-4 overflow-x-auto pb-3 [-webkit-overflow-scrolling:touch] xl:grid xl:grid-cols-5 xl:gap-4 xl:overflow-visible xl:pb-0 xl:snap-none 2xl:gap-5"
-          role="list"
-        >
-          {pathways.map((card) => (
-            <article
-              key={card.id}
-              role="listitem"
-              className="fusion-pathways-help__card fusion-reveal-child flex w-[min(280px,82vw)] shrink-0 snap-center flex-col items-center rounded-[10px] border px-4 pb-8 pt-8 text-center text-white shadow-sm sm:w-[min(300px,70vw)] xl:min-w-0 xl:w-full xl:max-w-none xl:px-5 xl:pt-9"
-            >
-              <card.Icon className="mb-5 h-12 w-12 shrink-0 text-sky-200/90 xl:mb-6" />
-              <h3 className="fusion-pathways-help__card-title m-0">
-                {card.title}
-              </h3>
-              <p className="fusion-pathways-help__card-body m-0">
-                {card.body}
-              </p>
-              <FusionButton href={card.href} accent className="fusion-pathways-help__cta">
-                {card.cta}
-              </FusionButton>
-            </article>
-          ))}
+        <div ref={rowsRef} className="fusion-pathways-help__layout fusion-reveal-stagger">
+          <div className="fusion-pathways-help__row fusion-pathways-help__row--two">
+            {row1.map((card) => (
+              <a key={card.id} href={card.href} className="fusion-pathways-help__pill fusion-reveal-child">
+                <span
+                  className={
+                    'iconWrapSupport' in card && card.iconWrapSupport
+                      ? 'fusion-pathways-help__pill-icon-wrap fusion-pathways-help__pill-icon-wrap--support'
+                      : 'fusion-pathways-help__pill-icon-wrap'
+                  }
+                  aria-hidden
+                >
+                  <card.Icon className="fusion-pathways-help__pill-icon" />
+                </span>
+                <span className="fusion-pathways-help__pill-label">{card.title}</span>
+                <ChevronRight className="fusion-pathways-help__pill-chevron" />
+              </a>
+            ))}
+          </div>
+          <div className="fusion-pathways-help__row fusion-pathways-help__row--three">
+            {row2.map((card) => (
+              <a
+                key={card.id}
+                href={card.href}
+                className="fusion-pathways-help__pill fusion-pathways-help__pill--compact fusion-reveal-child"
+              >
+                <span
+                  className={
+                    'iconWrapSupport' in card && card.iconWrapSupport
+                      ? 'fusion-pathways-help__pill-icon-wrap fusion-pathways-help__pill-icon-wrap--support'
+                      : 'fusion-pathways-help__pill-icon-wrap'
+                  }
+                  aria-hidden
+                >
+                  <card.Icon className="fusion-pathways-help__pill-icon" />
+                </span>
+                <span className="fusion-pathways-help__pill-label">{card.title}</span>
+                <ChevronRight className="fusion-pathways-help__pill-chevron" />
+              </a>
+            ))}
+          </div>
         </div>
       </div>
     </section>
   )
 }
 
-function IconHost({ className }: { className?: string }) {
+function ChevronRight({ className }: { className?: string }) {
   return (
-    <svg className={className} viewBox="0 0 48 48" fill="none" aria-hidden>
-      <rect
-        x="8"
-        y="10"
-        width="32"
-        height="24"
-        rx="3"
-        stroke="currentColor"
-        strokeWidth="2"
-      />
+    <svg className={className} width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
       <path
-        d="M16 34v4M24 34v4M32 34v4"
+        d="M9 18l6-6-6-6"
         stroke="currentColor"
-        strokeWidth="2"
+        strokeWidth={2}
         strokeLinecap="round"
-      />
-      <path
-        d="M18 18h12M18 24h8"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   )
 }
 
-function IconMigrate({ className }: { className?: string }) {
+function IconSpeechBubble({ className }: { className?: string }) {
   return (
-    <svg className={className} viewBox="0 0 48 48" fill="none" aria-hidden>
+    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden>
       <path
-        d="M10 32h28M10 32l6-6M10 32l6 6"
+        d="M8 9h8M8 13h5"
         stroke="currentColor"
-        strokeWidth="2"
+        strokeWidth={1.75}
+        strokeLinecap="round"
+      />
+      <path
+        d="M8 5h12a2 2 0 012 2v8a2 2 0 01-2 2h-4l-4 3v-3H8a2 2 0 01-2-2V7a2 2 0 012-2z"
+        stroke="currentColor"
+        strokeWidth={1.75}
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
+
+function IconRefresh({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden>
+      <path
+        d="M5 9a7 7 0 0113-2l1 2M19 15a7 7 0 01-13 2l-1-2"
+        stroke="currentColor"
+        strokeWidth={1.75}
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
-        d="M14 18h20a4 4 0 0 1 4 4v6H10v-6a4 4 0 0 1 4-4z"
+        d="M5 9V5h4M19 15v4h-4"
         stroke="currentColor"
-        strokeWidth="2"
+        strokeWidth={1.75}
+        strokeLinecap="round"
         strokeLinejoin="round"
       />
-      <path
-        d="M22 14V10h4v4"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
     </svg>
   )
 }
 
-function IconGuidance({ className }: { className?: string }) {
+function IconStopwatch({ className }: { className?: string }) {
   return (
-    <svg className={className} viewBox="0 0 48 48" fill="none" aria-hidden>
-      <circle cx="24" cy="22" r="10" stroke="currentColor" strokeWidth="2" />
-      <path
-        d="M18 36h12M24 32v4"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
-      <path
-        d="M24 18v4M24 18h.01"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
+    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden>
+      <circle cx="12" cy="14" r="7" stroke="currentColor" strokeWidth={1.75} />
+      <path d="M12 10V7M9 3h6" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" />
+      <path d="M12 14l3-2" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" />
     </svg>
   )
 }
 
-function IconSupportCard({ className }: { className?: string }) {
+function IconQuestion({ className }: { className?: string }) {
   return (
-    <svg className={className} viewBox="0 0 48 48" fill="none" aria-hidden>
-      <circle cx="24" cy="24" r="14" stroke="currentColor" strokeWidth="2" />
+    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden>
       <path
-        d="M18 20a6 6 0 0 1 12 0c0 2-1.5 3.5-3 4.5S24 27 24 30"
+        d="M9.5 9a2.5 2.5 0 114.8 1.2c-.6.8-1.3 1.1-1.8 1.8-.4.6-.5 1-.5 1.5V14"
         stroke="currentColor"
-        strokeWidth="2"
+        strokeWidth={1.75}
         strokeLinecap="round"
       />
-      <path
-        d="M24 34h.01"
-        stroke="currentColor"
-        strokeWidth="3"
-        strokeLinecap="round"
-      />
+      <path d="M12 17h.01" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" />
     </svg>
   )
 }
 
-function IconExplore({ className }: { className?: string }) {
+function IconGrid({ className }: { className?: string }) {
   return (
-    <svg className={className} viewBox="0 0 48 48" fill="none" aria-hidden>
+    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden>
       <path
-        d="M14 14h8v8h-8zM26 14h8v8h-8zM14 26h8v8h-8zM26 26h8v8h-8z"
+        d="M5 5h6v6H5zM13 5h6v6h-6zM5 13h6v6H5zM13 13h6v6h-6z"
         stroke="currentColor"
-        strokeWidth="2"
+        strokeWidth={1.75}
         strokeLinejoin="round"
       />
     </svg>
