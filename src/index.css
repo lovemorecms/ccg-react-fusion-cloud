@@ -551,6 +551,20 @@ h2.fusion-mega-featured__title {
   box-shadow: 0 12px 28px rgba(15, 23, 42, 0.12);
 }
 
+/*
+ * Match desktop nav breakpoint (`md:` ≈ 768px). CMS DS button rules can override Tailwind
+ * `md:hidden` on the menu trigger — force-hide hamburger and drawer on wider viewports.
+ */
+@media (min-width: 768px) {
+  .fusion-site-nav button.fusion-site-nav__menu-btn {
+    display: none !important;
+  }
+
+  .fusion-site-nav .fusion-site-nav__mobile-drawer {
+    display: none !important;
+  }
+}
+
 .fusion-site-nav__menu-btn:focus-visible {
   outline: 2px solid var(--color-accent-primary);
   outline-offset: 2px;
