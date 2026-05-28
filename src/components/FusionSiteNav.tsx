@@ -350,7 +350,7 @@ export function FusionSiteNav({
       document.removeEventListener('keydown', onKeyDown)
       if (appRoot) {
         appRoot.inert = false
-        if (prevAriaHidden === null) appRoot.removeAttribute('aria-hidden')
+        if (prevAriaHidden == null) appRoot.removeAttribute('aria-hidden')
         else appRoot.setAttribute('aria-hidden', prevAriaHidden)
       }
     }
