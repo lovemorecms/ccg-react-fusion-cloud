@@ -155,6 +155,7 @@ export function FusionHero() {
 
   return (
     <section
+      id="fusion-hero"
       className="fusion-hero relative isolate w-full overflow-x-clip pb-1"
       aria-roledescription="carousel"
       aria-labelledby={labelId}
@@ -228,11 +229,11 @@ export function FusionHero() {
               </div>
 
               <div className="fusion-hero__actions mt-4 flex flex-col gap-3 sm:mt-5 sm:flex-row sm:flex-nowrap sm:items-center sm:gap-3">
-                <FusionButton href="#get-started" accent onDark className="fusion-hero__cta-primary">
+                <FusionButton href="#pathways" accent onDark className="fusion-hero__cta-primary">
                   Start your journey
                 </FusionButton>
                 <FusionButton
-                  href="#explore-cloud"
+                  href="#multi-cloud-services"
                   variation="ghost"
                   onDark
                   className="fusion-hero__cta-secondary"
@@ -256,7 +257,7 @@ export function FusionHero() {
         >
           <button
             type="button"
-            className="flex size-10 shrink-0 items-center justify-center rounded-full border-2 border-white/30 bg-white/10 text-white transition-[background-color,transform] duration-200 ease-out hover:bg-white/20 hover:scale-110 active:scale-95 sm:size-11"
+            className="fusion-hero__carousel-btn flex size-10 shrink-0 items-center justify-center rounded-full border-2 border-white/30 bg-white/10 text-white transition-[background-color,transform] duration-200 ease-out hover:bg-white/20 hover:scale-110 active:scale-95 sm:size-11"
             aria-label="Previous slide"
             onClick={goPrev}
           >
@@ -270,24 +271,29 @@ export function FusionHero() {
               <button
                 key={i}
                 type="button"
-                aria-current={i === slideIndex ? 'true' : undefined}
+                aria-pressed={i === slideIndex}
                 aria-label={
                   i === slideIndex
                     ? `Slide ${i + 1} of ${n}, current`
                     : `Go to slide ${i + 1} of ${n}`
                 }
                 onClick={() => setSlideIndex(i)}
-                className={`transition-all duration-300 ease-out ${
-                  i === slideIndex
-                    ? 'h-2.5 min-w-10 rounded-full bg-[var(--color-accent-primary)] sm:h-3 sm:min-w-12'
-                    : 'size-2.5 shrink-0 rounded-full bg-white/30 hover:bg-white/50 sm:size-3'
-                }`}
-              />
+                className="fusion-hero__carousel-dot-btn flex min-h-6 min-w-6 items-center justify-center rounded-full p-1.5"
+              >
+                <span
+                  className={`fusion-hero__carousel-dot block transition-all duration-300 ease-out ${
+                    i === slideIndex
+                      ? 'h-2.5 min-w-10 rounded-full bg-[var(--color-accent-primary)] sm:h-3 sm:min-w-12'
+                      : 'size-2.5 shrink-0 rounded-full bg-white/30 hover:bg-white/50 sm:size-3'
+                  }`}
+                  aria-hidden
+                />
+              </button>
             ))}
           </div>
           <button
             type="button"
-            className="flex size-10 shrink-0 items-center justify-center rounded-full border-2 border-white/30 bg-white/10 text-white transition-[background-color,transform] duration-200 ease-out hover:bg-white/20 hover:scale-110 active:scale-95 sm:size-11"
+            className="fusion-hero__carousel-btn flex size-10 shrink-0 items-center justify-center rounded-full border-2 border-white/30 bg-white/10 text-white transition-[background-color,transform] duration-200 ease-out hover:bg-white/20 hover:scale-110 active:scale-95 sm:size-11"
             aria-label="Next slide"
             onClick={goNext}
           >

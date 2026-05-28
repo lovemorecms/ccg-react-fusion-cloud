@@ -1,10 +1,11 @@
 import { SkipNav } from '@cmsgov/ds-cms-gov'
 import { useEffect, useRef } from 'react'
 import { FusionButton } from '../components/FusionButton'
+import { exploreCardHrefByTitle } from '../data/platformPages'
 import { SiteFooter } from '../components/SiteFooter'
 import { SiteHeader } from '../components/SiteHeader'
 
-const initiatives = [
+const platforms = [
   {
     num: '01',
     tag: 'Connect',
@@ -285,9 +286,16 @@ function ArrowIcon() {
   )
 }
 
-export default function InitiativesPage() {
+export default function ExplorePage() {
   const revealRef = useScrollReveal()
-  const initiativesHeroBgUrl = `${import.meta.env.BASE_URL}images/sections/initiatives-hero-cms-gov.png`
+  const exploreHeroBgUrl = `${import.meta.env.BASE_URL}images/sections/initiatives-hero-cms-gov.png`
+
+  useEffect(() => {
+    document.title = 'Explore | FUSION Sphere'
+    return () => {
+      document.title = 'FUSION Sphere'
+    }
+  }, [])
 
   return (
     <>
@@ -308,15 +316,7 @@ export default function InitiativesPage() {
                 </svg>
               </li>
               <li>
-                <a href="#" className="kc-breadcrumb-link">Infrastructure</a>
-              </li>
-              <li aria-hidden="true" className="kc-breadcrumb-sep">
-                <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
-                  <path d="M6 4l4 4-4 4" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </li>
-              <li>
-                <span className="kc-breadcrumb-current">Initiatives</span>
+                <span className="kc-breadcrumb-current">Explore</span>
               </li>
             </ol>
           </nav>
@@ -324,7 +324,7 @@ export default function InitiativesPage() {
 
         <section className="init-hero">
           <img
-            src={initiativesHeroBgUrl}
+            src={exploreHeroBgUrl}
             alt=""
             className="init-hero__bg-img"
             decoding="async"
@@ -338,17 +338,16 @@ export default function InitiativesPage() {
           <div className="init-hero__inner">
             <div className="init-hero__text">
               <h1 className="init-hero__heading">
-                Infrastructure Hosting{' '}
-                <span className="init-hero__heading-accent">Initiatives</span>
+                <span className="init-hero__heading-accent">Explore</span>{' '}
+                Platforms &amp; Services
               </h1>
               <p className="init-hero__description">
-                The CMS Hybrid Cloud Infrastructure Hosting Team has a number of initiatives
-                planned for 2026, focusing on cloud migration, infrastructure optimization,
-                and enhanced service delivery.
+                Discover cloud platforms, FUSION toolkit products, and shared services available
+                on CMS Hybrid Cloud—built for secure, scalable, and compliant hosting.
               </p>
               <div className="init-hero__actions">
-                <FusionButton href="#initiatives" accent onDark>
-                  View All Initiatives
+                <FusionButton href="#platforms" accent onDark>
+                  View All Platforms
                   <ArrowIcon />
                 </FusionButton>
                 <FusionButton href="#contact" variation="ghost" onDark>
@@ -362,17 +361,14 @@ export default function InitiativesPage() {
         {/* Content Area */}
         <div className="kc-content">
           {/* 2026 Initiatives Section */}
-          <section className="kc-section kc-reveal" id="initiatives">
-            <h2 className="kc-section-heading">2026 Initiatives</h2>
+          <section className="kc-section kc-reveal" id="platforms">
+            <h2 className="kc-section-heading">Platforms</h2>
             <p className="kc-section-subtitle">
-              OIT's Infrastructure Hosting Initiatives are transforming how we deliver technology.
-              We're expanding modern hosting options, simplifying operations through automation,
-              adopting open technologies, and improving financial transparency—all while reducing
-              costs and mitigating risks. These efforts create a resilient, scalable environment designed
-              to support innovation and growth.
+              Enterprise-grade infrastructure across AWS, Azure, Google Cloud, and Oracle—plus
+              specialized offerings like Amazon Connect and AWS Outposts to meet diverse workload needs.
             </p>
             <div className="init-cards-grid">
-              {initiatives.map((item) => (
+              {platforms.map((item) => (
                 <div key={item.num} className="init-card">
                   <span className="init-card__num">{item.num}</span>
                   <div className="init-card__tag">
@@ -381,7 +377,11 @@ export default function InitiativesPage() {
                   </div>
                   <h3 className="init-card__title">{item.title}</h3>
                   <p className="init-card__body">{item.description}</p>
-                  <FusionButton href="#" variation="ghost" className="init-card__cta">
+                  <FusionButton
+                    href={exploreCardHrefByTitle[item.title] ?? '#'}
+                    variation="ghost"
+                    className="init-card__cta"
+                  >
                     Learn More
                     <ArrowIcon />
                   </FusionButton>
@@ -392,12 +392,12 @@ export default function InitiativesPage() {
 
           {/* Vertical timeline — CMS primary / accent / success tokens */}
           <section className="kc-section kc-reveal">
-            <h2 className="kc-section-heading" id="initiatives-timeline">
-              Consolidated Initiative Timeline
+            <h2 className="kc-section-heading" id="explore-timeline">
+              Platform &amp; Service Roadmap
             </h2>
-            <p className="kc-section-subtitle">Track our progress throughout the year</p>
+            <p className="kc-section-subtitle">Track availability and rollout across the year</p>
 
-            <div className="init-timeline" role="region" aria-labelledby="initiatives-timeline">
+            <div className="init-timeline" role="region" aria-labelledby="explore-timeline">
               <ol className="init-timeline__list">
                 {timeline.map((q) => (
                   <li

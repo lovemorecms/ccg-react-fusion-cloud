@@ -1,26 +1,30 @@
 import { UsaBanner } from '@cmsgov/ds-cms-gov'
 import { useCallback, useEffect, useState } from 'react'
-import { navNewCcgMenuItems } from '../data/navNewCcgMenu'
-import { FusionSiteNavV2 } from './nav-demo/FusionSiteNavV2'
-import { SiteSearchPanel } from './SiteSearchPanel'
+import { FusionSiteNav } from '../FusionSiteNav'
+import { SiteSearchPanel } from '../SiteSearchPanel'
 
-const newCcgLegacy = {
-  label: 'New CCG',
-  href: '#new-ccg',
-  modalTitle: 'Redirecting to New CCG',
-  modalMessage: 'You are being redirected to the new CCG website.',
-}
-
-export function SiteHeader() {
+/** Previous global nav (featured-card mega menu) — kept for Nav Option 2 demo only. */
+export function NavOption2Header() {
   const [searchOpen, setSearchOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const [activeMenu, setActiveMenu] = useState<string | null>(null)
 
   const onSearchToggle = useCallback(() => {
     setSearchOpen((open) => !open)
+    setActiveMenu(null)
   }, [])
 
   const closeSearch = useCallback(() => {
     setSearchOpen(false)
+  }, [])
+
+  const onMenuToggle = useCallback((id: string) => {
+    setActiveMenu((current) => (current === id ? null : id))
+    setSearchOpen(false)
+  }, [])
+
+  const onMenuClose = useCallback(() => {
+    setActiveMenu(null)
   }, [])
 
   useEffect(() => {
@@ -42,12 +46,13 @@ export function SiteHeader() {
             : 'border-b border-neutral-200/50 bg-white/80 shadow-[0_10px_15px_rgba(0,0,0,0.06),0_4px_6px_rgba(0,0,0,0.05)]'
         }`}
       >
-        <FusionSiteNavV2
+        <FusionSiteNav
           searchOpen={searchOpen}
           onSearchToggle={onSearchToggle}
           onSearchClose={closeSearch}
-          menuItems={navNewCcgMenuItems}
-          legacyCcg={newCcgLegacy}
+          activeMenu={activeMenu}
+          onMenuToggle={onMenuToggle}
+          onMenuClose={onMenuClose}
         />
         <SiteSearchPanel open={searchOpen} onClose={closeSearch} />
       </div>

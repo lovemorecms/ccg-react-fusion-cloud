@@ -28,7 +28,7 @@ const defaultAnnouncements: AnnouncementItem[] = [
     dateIso: '2026-04-15',
     title: 'New Multi-Cloud Migration Tools Available',
     description: 'Enhanced automation capabilities for seamless cloud transitions',
-    href: '#',
+    href: '/about/program-overview',
   },
   {
     id: '2',
@@ -36,7 +36,7 @@ const defaultAnnouncements: AnnouncementItem[] = [
     dateIso: '2026-04-18',
     title: 'Scheduled Maintenance: Match Platform',
     description: 'System updates on April 20, 2026 from 2:00 AM - 4:00 AM EST',
-    href: '#',
+    href: '/learn/knowledge-center',
   },
   {
     id: '3',
@@ -44,7 +44,7 @@ const defaultAnnouncements: AnnouncementItem[] = [
     dateIso: '2026-04-22',
     title: 'Introducing Catalyst: Accelerated Deployments',
     description: 'New platform tool for faster CI/CD pipeline integration',
-    href: '#',
+    href: '/learn/initiatives',
   },
   {
     id: '4',
@@ -52,7 +52,7 @@ const defaultAnnouncements: AnnouncementItem[] = [
     dateIso: '2026-04-28',
     title: 'Governance Office Hours — May Sessions',
     description: 'Drop-in Q&A for ATO artifacts and cloud control alignment',
-    href: '#',
+    href: '/learn/knowledge-center',
   },
   {
     id: '5',
@@ -60,7 +60,7 @@ const defaultAnnouncements: AnnouncementItem[] = [
     dateIso: '2026-05-01',
     title: 'Fusion Academy: New Learning Paths Live',
     description: 'Self-paced modules for cloud governance and DevOps fundamentals',
-    href: '#',
+    href: '/#fusion-academy',
   },
   {
     id: '6',
@@ -68,7 +68,7 @@ const defaultAnnouncements: AnnouncementItem[] = [
     dateIso: '2026-05-08',
     title: 'Security Baseline Updates',
     description: 'Review revised controls effective for new workload onboarding',
-    href: '#',
+    href: '/learn/knowledge-center',
   },
 ]
 
@@ -102,7 +102,7 @@ function Chevron({ dir }: { dir: 'left' | 'right' }) {
 
 function LatestAnnouncementsSection({
   items = defaultAnnouncements,
-  viewAllHref = '#',
+  viewAllHref = '/learn/initiatives',
 }: {
   items?: AnnouncementItem[]
   viewAllHref?: string
@@ -152,7 +152,7 @@ function LatestAnnouncementsSection({
   const trackId = 'fusion-announcements-track'
 
   return (
-    <section className="fusion-announcements" aria-labelledby="fusion-announcements-heading">
+    <section id="fusion-announcements" className="fusion-announcements" aria-labelledby="fusion-announcements-heading">
       <div className="fusion-announcements__inner">
         <header
           ref={headerRef}

@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useId, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { useNavigate } from 'react-router-dom'
 import { FusionButton } from './FusionButton'
 import { SearchIcon } from './SearchIcon'
@@ -30,16 +31,16 @@ const megaMenuItems: MegaMenuItem[] = [
       description:
         'Discover how organizations are transforming with our platform',
       ctaLabel: 'Read Case Studies',
-      ctaHref: '#case-studies',
+      ctaHref: '/learn/initiatives',
       ctaVariant: 'navy',
     },
     columns: [
       {
         links: [
-          { label: 'Program Overview', href: '#program-overview' },
-          { label: 'Benefits', href: '#benefits' },
-          { label: 'Success Stories', href: '#success-stories' },
-          { label: 'Contact Us', href: '#contact-us' },
+          { label: 'Program Overview', href: '/about/program-overview' },
+          { label: 'Benefits', href: '/about/program-overview' },
+          { label: 'Success Stories', href: '/learn/initiatives' },
+          { label: 'Contact Us', href: '/#site-footer' },
         ],
       },
     ],
@@ -52,43 +53,43 @@ const megaMenuItems: MegaMenuItem[] = [
       description:
         'Enterprise-grade infrastructure across AWS, Azure, GCP, and Oracle',
       ctaLabel: 'View All Platforms',
-      ctaHref: '#platforms',
+      ctaHref: '/explore',
       ctaVariant: 'navy',
     },
     columns: [
       {
         title: 'Platforms',
         links: [
-          { label: 'AWS Commercial', href: '#aws-commercial' },
-          { label: 'AWS Outposts', href: '#aws-outposts' },
-          { label: 'Azure Commercial', href: '#azure-commercial' },
-          { label: 'Google Cloud Platform', href: '#gcp' },
-          { label: 'Oracle Cloud Infrastructure', href: '#oci' },
-          { label: 'Oracle at Customer', href: '#oracle-at-customer' },
+          { label: 'AWS Commercial', href: '/explore#platforms' },
+          { label: 'AWS Outposts', href: '/explore#platforms' },
+          { label: 'Azure Commercial', href: '/explore#platforms' },
+          { label: 'Google Cloud Platform', href: '/explore#platforms' },
+          { label: 'Oracle Cloud Infrastructure', href: '/explore#platforms' },
+          { label: 'Oracle at Customer', href: '/explore#platforms' },
         ],
       },
       {
         title: 'Fusion Toolkit',
         links: [
-          { label: 'BaseCamp', href: '#basecamp' },
-          { label: 'Helix', href: '#helix' },
-          { label: 'Lens', href: '#lens' },
-          { label: 'Match', href: '#match' },
+          { label: 'BaseCamp', href: '/explore/fusion-toolkit#basecamp' },
+          { label: 'Helix', href: '/explore/fusion-toolkit#helix' },
+          { label: 'Lens', href: '/explore/fusion-toolkit#lens' },
+          { label: 'Match', href: '/explore/fusion-toolkit#match' },
         ],
       },
       {
         title: 'Shared Services',
         links: [
-          { label: 'Compute', href: '#compute' },
-          { label: 'Development Support', href: '#dev-support' },
-          { label: 'Financial Operations (FinOps)', href: '#finops' },
-          { label: 'Network', href: '#network' },
-          { label: 'Operations & Maintenance', href: '#ops-maintenance' },
-          { label: 'Platform', href: '#platform' },
-          { label: 'Security & Compliance', href: '#security-compliance' },
-          { label: 'Storage', href: '#storage' },
-          { label: 'Solutions Engineering', href: '#solutions-engineering' },
-          { label: 'User Access', href: '#user-access' },
+          { label: 'Compute', href: '/learn/knowledge-center' },
+          { label: 'Development Support', href: '/learn/knowledge-center' },
+          { label: 'Financial Operations (FinOps)', href: '/learn/knowledge-center' },
+          { label: 'Network', href: '/learn/knowledge-center' },
+          { label: 'Operations & Maintenance', href: '/learn/knowledge-center' },
+          { label: 'Platform', href: '/learn/knowledge-center' },
+          { label: 'Security & Compliance', href: '/learn/knowledge-center' },
+          { label: 'Storage', href: '/learn/knowledge-center' },
+          { label: 'Solutions Engineering', href: '/learn/knowledge-center' },
+          { label: 'User Access', href: '/learn/knowledge-center' },
         ],
       },
     ],
@@ -101,16 +102,15 @@ const megaMenuItems: MegaMenuItem[] = [
       description:
         'Comprehensive learning paths and certification programs',
       ctaLabel: 'Start Learning',
-      ctaHref: '#training',
+      ctaHref: '/#fusion-academy',
       ctaVariant: 'gold',
     },
     columns: [
       {
         links: [
           { label: 'Knowledge Center', href: '/learn/knowledge-center' },
-          { label: 'Initiatives', href: '/learn/initiatives' },
-          { label: 'Training & Enablement', href: '#training-enablement' },
-          { label: 'Customer Roadmap', href: '#customer-roadmap' },
+          { label: 'Training & Enablement', href: '/#fusion-academy' },
+          { label: 'Customer Roadmap', href: '/learn/initiatives' },
         ],
       },
     ],
@@ -123,19 +123,21 @@ const megaMenuItems: MegaMenuItem[] = [
       description:
         'Get up and running in minutes with our guided setup process',
       ctaLabel: 'Begin Setup',
-      ctaHref: '#onboarding',
+      ctaHref: '/#pathways',
       ctaVariant: 'green',
     },
     columns: [
       {
         links: [
-          { label: 'New Onboarding', href: '#new-onboarding' },
-          { label: 'Migrate', href: '#migrate' },
+          { label: 'New Onboarding', href: '/#pathways' },
+          { label: 'Migrate', href: '/learn/initiatives' },
         ],
       },
     ],
   },
 ]
+
+const legacyCcgLink: MenuLink = { label: 'Legacy CCG', href: '/learn/knowledge-center' }
 
 function megaMenuCtaProps(variant: FeaturedCard['ctaVariant']) {
   if (variant === 'gold') return { accent: true as const }
@@ -158,24 +160,6 @@ function ChevronDown({ className, style }: { className?: string; style?: React.C
         strokeWidth={1.8}
         strokeLinecap="round"
         strokeLinejoin="round"
-      />
-    </svg>
-  )
-}
-
-function SparkleIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      className={className}
-      width={18}
-      height={18}
-      viewBox="0 0 24 24"
-      fill="none"
-      aria-hidden
-    >
-      <path
-        d="M12 2L13.09 8.26L18 6L14.74 10.91L21 12L14.74 13.09L18 18L13.09 15.74L12 22L10.91 15.74L6 18L9.26 13.09L3 12L9.26 10.91L6 6L10.91 8.26L12 2Z"
-        fill="currentColor"
       />
     </svg>
   )
@@ -216,8 +200,29 @@ export function FusionSiteNav({
   onMenuClose,
 }: FusionSiteNavProps) {
   const navRef = useRef<HTMLDivElement>(null)
+  const legacyModalRef = useRef<HTMLDivElement>(null)
+  const legacyTriggerRef = useRef<HTMLButtonElement>(null)
   const navigate = useNavigate()
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false)
+  const [legacyCcgModalOpen, setLegacyCcgModalOpen] = useState(false)
+  const legacyModalTitleId = useId()
+  const legacyModalDescId = useId()
+
+  const openLegacyCcgModal = useCallback(() => {
+    setMobileDrawerOpen(false)
+    onMenuClose()
+    setLegacyCcgModalOpen(true)
+  }, [onMenuClose])
+
+  const closeLegacyCcgModal = useCallback(() => {
+    setLegacyCcgModalOpen(false)
+    legacyTriggerRef.current?.focus()
+  }, [])
+
+  const continueToLegacyCcg = useCallback(() => {
+    setLegacyCcgModalOpen(false)
+    navigate(legacyCcgLink.href)
+  }, [navigate])
 
   const handleLinkClick = useCallback(
     (e: React.MouseEvent<Element>, href: string) => {
@@ -291,6 +296,65 @@ export function FusionSiteNav({
       document.body.style.overflow = prev
     }
   }, [mobileDrawerOpen])
+
+  useEffect(() => {
+    if (!legacyCcgModalOpen) return
+    const prev = document.body.style.overflow
+    const appRoot = document.getElementById('root') as (HTMLElement & { inert?: boolean }) | null
+    const prevAriaHidden = appRoot?.getAttribute('aria-hidden')
+    document.body.style.overflow = 'hidden'
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        closeLegacyCcgModal()
+        return
+      }
+
+      if (e.key !== 'Tab') return
+
+      const panel = legacyModalRef.current
+      const focusable = panel
+        ? Array.from(
+            panel.querySelectorAll<HTMLElement>(
+              'button:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])',
+            ),
+          )
+        : []
+
+      if (focusable.length === 0) {
+        e.preventDefault()
+        panel?.focus()
+        return
+      }
+
+      const first = focusable[0]
+      const last = focusable[focusable.length - 1]
+      const active = document.activeElement
+
+      if (e.shiftKey && active === first) {
+        e.preventDefault()
+        last.focus()
+      } else if (!e.shiftKey && active === last) {
+        e.preventDefault()
+        first.focus()
+      }
+    }
+    document.addEventListener('keydown', onKeyDown)
+    if (appRoot) {
+      appRoot.inert = true
+      appRoot.setAttribute('aria-hidden', 'true')
+    }
+    const firstAction = legacyModalRef.current?.querySelector<HTMLElement>('button:not([disabled]), a[href]')
+    firstAction?.focus()
+    return () => {
+      document.body.style.overflow = prev
+      document.removeEventListener('keydown', onKeyDown)
+      if (appRoot) {
+        appRoot.inert = false
+        if (prevAriaHidden === null) appRoot.removeAttribute('aria-hidden')
+        else appRoot.setAttribute('aria-hidden', prevAriaHidden)
+      }
+    }
+  }, [legacyCcgModalOpen, closeLegacyCcgModal])
 
   const activeItem = megaMenuItems.find((item) => item.id === activeMenu)
 
@@ -380,19 +444,59 @@ export function FusionSiteNav({
             <SearchIcon className="size-5 shrink-0" />
           </button>
 
-          <a
-            href="#support"
-            className="fusion-site-nav__support hidden items-center gap-1.5 px-2 text-sm font-medium text-[color:var(--fusion-blue)] transition-colors hover:text-[color:var(--color-primary-darkest)] lg:inline-flex"
+          <button
+            ref={legacyTriggerRef}
+            type="button"
+            className="fusion-site-nav__legacy-link"
+            onClick={openLegacyCcgModal}
           >
-            <SparkleIcon className="size-4 text-[#f5a623]" />
-            Need Support?
-          </a>
+            {legacyCcgLink.label}
+          </button>
 
-          <FusionButton href="#get-help" accent size="small">
+          <FusionButton to="/learn/knowledge-center" accent size="small" className="fusion-site-nav__get-help">
             Get Help
           </FusionButton>
         </div>
       </div>
+
+      {legacyCcgModalOpen
+        ? createPortal(
+            <div className="fusion-legacy-modal" role="presentation">
+              <button
+                type="button"
+                className="fusion-legacy-modal__backdrop"
+                aria-label="Close dialog"
+                onClick={closeLegacyCcgModal}
+              />
+              <div
+                ref={legacyModalRef}
+                className="fusion-legacy-modal__panel"
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby={legacyModalTitleId}
+                aria-describedby={legacyModalDescId}
+                tabIndex={-1}
+              >
+                <h2 id={legacyModalTitleId} className="fusion-legacy-modal__title">
+                  Legacy CCG is unavailable
+                </h2>
+                <p id={legacyModalDescId} className="fusion-legacy-modal__message">
+                  The legacy CCG destination is not available from this experience. You can open the
+                  Knowledge Center for current guidance instead.
+                </p>
+                <div className="fusion-legacy-modal__actions">
+                  <FusionButton type="button" variation="ghost" onClick={closeLegacyCcgModal}>
+                    Cancel
+                  </FusionButton>
+                  <FusionButton type="button" variation="solid" onClick={continueToLegacyCcg}>
+                    Open Knowledge Center
+                  </FusionButton>
+                </div>
+              </div>
+            </div>,
+            document.body,
+          )
+        : null}
 
       {/* Mobile primary navigation (< md) */}
       <div

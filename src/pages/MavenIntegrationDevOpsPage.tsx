@@ -1,6 +1,7 @@
 import { SkipNav } from '@cmsgov/ds-cms-gov'
 import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { DocOnThisPageNav } from '../components/layouts/DocOnThisPageNav'
 import { FusionButton } from '../components/FusionButton'
 import { SiteFooter } from '../components/SiteFooter'
 import { SiteHeader } from '../components/SiteHeader'
@@ -228,6 +229,20 @@ export default function MavenIntegrationDevOpsPage() {
                 </button>
               ) : (
                 <div className="ddoc-sidebar__sticky-stack">
+                  <div className="ddoc-sidebar__toolbar">
+                    <button
+                      type="button"
+                      className="ddoc-sidebar__collapse-trigger"
+                      onClick={() => setSidebarCollapsed(true)}
+                      aria-expanded={!sidebarCollapsed}
+                      aria-controls="ddoc-sidebar-panel"
+                      aria-label="Collapse documentation navigation"
+                      title="Collapse documentation navigation"
+                    >
+                      <ChevronLeft />
+                      <span>Collapse</span>
+                    </button>
+                  </div>
                   <form className="ddoc-sidebar__search" role="search" onSubmit={(e) => e.preventDefault()}>
                     <label htmlFor="ddoc-nav-search" className="ddoc-sidebar__search-label">
                       Filter documentation navigation
@@ -260,20 +275,6 @@ export default function MavenIntegrationDevOpsPage() {
                       />
                     </div>
                   </form>
-                  <div className="ddoc-sidebar__toolbar">
-                    <button
-                      type="button"
-                      className="ddoc-sidebar__collapse-trigger"
-                      onClick={() => setSidebarCollapsed(true)}
-                      aria-expanded={!sidebarCollapsed}
-                      aria-controls="ddoc-sidebar-panel"
-                      aria-label="Collapse documentation navigation"
-                      title="Collapse documentation navigation"
-                    >
-                      <ChevronLeft />
-                      <span>Collapse</span>
-                    </button>
-                  </div>
                   <div id="ddoc-sidebar-panel" className="ddoc-sidebar__card">
                     <nav className="ddoc-side-nav">
                       {navIsEmpty ? (
@@ -354,9 +355,9 @@ export default function MavenIntegrationDevOpsPage() {
             <article className="ddoc-article">
               <h1 className="ddoc-article__title">Maven Integration for DevOps</h1>
               <p className="ddoc-article__intro">
-                The Maven plugin designed to streamline the integration of Maven builds with CMS Hybrid Cloud. Maven is a
-                powerful build automation tool used primarily for Java projects. It provides developers with a clean and
-                efficient way to manage project builds, dependencies, and documentation.
+                This Maven integration streamlines how teams run Maven builds in CMS Hybrid Cloud. Maven is a powerful
+                build automation tool used primarily for Java projects, and this guidance helps teams manage build
+                lifecycles, dependencies, and release workflows in a consistent, cloud-ready way.
               </p>
 
               <h2 id="jenkinsfile" className="ddoc-article__h2">
@@ -501,17 +502,7 @@ export default function MavenIntegrationDevOpsPage() {
             <aside className="ddoc-rail" aria-label="Page tools">
               <div className="ddoc-rail__card">
                 <h3 className="ddoc-rail__title">On this page</h3>
-                <nav aria-label="On this page">
-                  <ul className="ddoc-toc">
-                    {onThisPage.map((item) => (
-                      <li key={item.id}>
-                        <a href={`#${item.id}`} className="ddoc-toc__link">
-                          {item.label}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </nav>
+                <DocOnThisPageNav items={onThisPage} />
               </div>
               <div className="ddoc-rail__card">
                 <h3 className="ddoc-rail__title">Quick links</h3>

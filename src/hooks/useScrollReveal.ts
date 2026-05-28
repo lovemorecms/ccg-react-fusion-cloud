@@ -17,7 +17,10 @@ export function useScrollReveal<T extends HTMLElement>(
     const el = ref.current
     if (!el) return
 
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    if (
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
+      document.documentElement.classList.contains('figma-capture')
+    ) {
       el.setAttribute('data-revealed', 'true')
       return
     }

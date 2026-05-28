@@ -6,13 +6,13 @@ const pathways = [
   {
     id: 'host',
     title: 'I Need to Host an Application',
-    href: '#host-application',
+    href: '#multi-cloud-services',
     Icon: IconSpeechBubble,
   },
   {
     id: 'migrate',
     title: 'I Need to Migrate an Application',
-    href: '#migrate-application',
+    href: '/learn/initiatives',
     Icon: IconRefresh,
   },
   {
@@ -24,14 +24,14 @@ const pathways = [
   {
     id: 'support',
     title: 'I Need Support',
-    href: '#support-services',
+    href: '#site-footer',
     Icon: IconQuestion,
     iconWrapSupport: true,
   },
   {
     id: 'explore',
     title: 'Explore Options',
-    href: '#explore-options',
+    href: '#fusion-ecosystem',
     Icon: IconGrid,
   },
 ] as const
@@ -118,18 +118,22 @@ export function FusionPathwaysHelp() {
           </p>
         </header>
 
-        <div ref={rowsRef} className="fusion-pathways-help__layout fusion-reveal-stagger">
-          <div className="fusion-pathways-help__row fusion-pathways-help__row--two">
+        <nav ref={rowsRef} className="fusion-pathways-help__layout fusion-reveal-stagger" aria-labelledby="fusion-pathways-heading">
+          <ul className="fusion-pathways-help__row fusion-pathways-help__row--two m-0 list-none p-0">
             {row1.map((card) => (
-              <PathwayPill key={card.id} card={card} compact={false} />
+              <li key={card.id} className="flex min-w-0">
+                <PathwayPill card={card} compact={false} />
+              </li>
             ))}
-          </div>
-          <div className="fusion-pathways-help__row fusion-pathways-help__row--three">
+          </ul>
+          <ul className="fusion-pathways-help__row fusion-pathways-help__row--three m-0 list-none p-0">
             {row2.map((card) => (
-              <PathwayPill key={card.id} card={card} compact />
+              <li key={card.id} className="flex min-w-0">
+                <PathwayPill card={card} compact />
+              </li>
             ))}
-          </div>
-        </div>
+          </ul>
+        </nav>
       </div>
     </section>
   )

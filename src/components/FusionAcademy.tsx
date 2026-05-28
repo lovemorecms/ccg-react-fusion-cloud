@@ -11,7 +11,7 @@ const academyOfferings = [
     title: 'Role-based learning paths:',
     bullets: ['Business', 'Technical', 'Support teams'],
     cta: 'Start Learning',
-    href: '#fusion-academy-role-paths',
+    href: '#fusion-academy-offerings-heading',
     accent: 'sky' as OfferingAccent,
   },
   {
@@ -19,7 +19,7 @@ const academyOfferings = [
     title: 'Documentation Library',
     bullets: ['Playbooks', 'Architecture patterns', 'Onboarding guides'],
     cta: 'View Docs',
-    href: '#fusion-academy-documentation',
+    href: '/learn/knowledge-center',
     accent: 'violet' as OfferingAccent,
   },
   {
@@ -27,7 +27,7 @@ const academyOfferings = [
     title: 'Decision Support Tools',
     bullets: ['Cost calculators', 'Platform selection tools', 'Migration readiness assessments'],
     cta: 'View Tools',
-    href: '#fusion-academy-tools',
+    href: '/about/program-overview',
     accent: 'success' as OfferingAccent,
   },
 ] as const
@@ -63,11 +63,11 @@ export function FusionAcademy() {
             </p>
 
             <div className="fusion-academy__actions flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
-              <FusionButton href="#fusion-academy-start-learning" accent className="fusion-academy__cta-primary">
+              <FusionButton href="#fusion-academy-offerings-heading" accent className="fusion-academy__cta-primary">
                 Start Learning
               </FusionButton>
               <FusionButton
-                href="#fusion-academy-explore-paths"
+                href="#fusion-academy-offerings-heading"
                 variation="ghost"
                 className="fusion-academy__cta-secondary"
               >

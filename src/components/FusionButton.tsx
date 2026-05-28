@@ -22,6 +22,7 @@ export function FusionButton({
   ...props
 }: FusionButtonProps) {
   const navigate = useNavigate()
+  const internalTarget = to ?? (typeof href === 'string' && href.startsWith('/') ? href : undefined)
   const classes = [
     'fusion-ds-button',
     accent ? 'fusion-btn--accent' : '',
@@ -31,9 +32,9 @@ export function FusionButton({
     .join(' ')
 
   const handleClick = (e: MouseEvent<HTMLButtonElement & HTMLAnchorElement>) => {
-    if (to) {
+    if (internalTarget) {
       e.preventDefault()
-      navigate(to)
+      navigate(internalTarget)
     }
     onClick?.(e)
   }
@@ -45,8 +46,8 @@ export function FusionButton({
     variation: props.variation ?? 'solid',
   }
 
-  if (to) {
-    return <Button href={to} onClick={handleClick} {...buttonProps} />
+  if (internalTarget) {
+    return <Button href={internalTarget} onClick={handleClick} {...buttonProps} />
   }
 
   return <Button href={href} onClick={onClick} {...buttonProps} />

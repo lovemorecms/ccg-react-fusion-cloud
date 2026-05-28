@@ -261,6 +261,7 @@ export default function KnowledgeCenterPage() {
       return (
         <button
           key={cat.id}
+          id={`category-${cat.id}`}
           type="button"
           className={`kc-category-link${isExpanded ? ' kc-category-link--active' : ''}`}
           onClick={() => toggleInlineCategory(cat.id)}

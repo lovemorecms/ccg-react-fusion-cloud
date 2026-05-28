@@ -1,17 +1,9 @@
 import { UsaBanner } from '@cmsgov/ds-cms-gov'
 import { useCallback, useEffect, useState } from 'react'
-import { navNewCcgMenuItems } from '../data/navNewCcgMenu'
-import { FusionSiteNavV2 } from './nav-demo/FusionSiteNavV2'
-import { SiteSearchPanel } from './SiteSearchPanel'
+import { SiteSearchPanel } from '../SiteSearchPanel'
+import { FusionSiteNavV2 } from './FusionSiteNavV2'
 
-const newCcgLegacy = {
-  label: 'New CCG',
-  href: '#new-ccg',
-  modalTitle: 'Redirecting to New CCG',
-  modalMessage: 'You are being redirected to the new CCG website.',
-}
-
-export function SiteHeader() {
+export function NavDemoHeader() {
   const [searchOpen, setSearchOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
 
@@ -46,8 +38,6 @@ export function SiteHeader() {
           searchOpen={searchOpen}
           onSearchToggle={onSearchToggle}
           onSearchClose={closeSearch}
-          menuItems={navNewCcgMenuItems}
-          legacyCcg={newCcgLegacy}
         />
         <SiteSearchPanel open={searchOpen} onClose={closeSearch} />
       </div>

@@ -8,7 +8,7 @@ const resources = [
     id: 'spotlight',
     title: 'FUSION Spotlight',
     description: 'Platform overview',
-    href: '#fusion-spotlight',
+    href: '/about/program-overview',
     accent: 'none' as AccentBar,
     Icon: IconDocument,
   },
@@ -16,7 +16,7 @@ const resources = [
     id: 'briefings',
     title: 'Executive Briefings',
     description: 'Stakeholder updates',
-    href: '#executive-briefings',
+    href: '/learn/initiatives',
     accent: 'violet' as AccentBar,
     Icon: IconChart,
   },
@@ -24,7 +24,7 @@ const resources = [
     id: 'status',
     title: 'System Status',
     description: 'All Systems Operational',
-    href: '#system-status',
+    href: '/learn/knowledge-center',
     accent: 'success' as AccentBar,
     Icon: IconInfo,
   },
@@ -32,7 +32,7 @@ const resources = [
     id: 'announcements',
     title: 'Announcements',
     description: 'Latest program updates',
-    href: '#announcements',
+    href: '#fusion-announcements',
     accent: 'sky' as AccentBar,
     Icon: IconBell,
   },
@@ -44,6 +44,7 @@ export function FusionFeaturedResources() {
 
   return (
     <section
+      id="fusion-featured-resources"
       className="fusion-featured-resources fusion-band-gradient-primary-mist relative overflow-hidden"
       aria-labelledby="fusion-featured-resources-heading"
     >

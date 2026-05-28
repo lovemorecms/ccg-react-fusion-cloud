@@ -1,5 +1,23 @@
+import { Link } from 'react-router-dom'
+
 /** CMS-style site footer (three columns). No chat widget or roadmap CTA. */
 const brandBase = `${import.meta.env.BASE_URL}images/footer/`
+
+function FooterLink({ label, href }: { label: string; href: string }) {
+  const isInternal = href.startsWith('/') && !href.startsWith('//')
+  if (isInternal) {
+    return (
+      <Link to={href} className="fusion-site-footer__link">
+        {label}
+      </Link>
+    )
+  }
+  return (
+    <a href={href} className="fusion-site-footer__link">
+      {label}
+    </a>
+  )
+}
 
 const cmsHhsWebsites: { label: string; href: string }[] = [
   { label: 'CMS.gov', href: 'https://www.cms.gov/' },
@@ -13,6 +31,10 @@ const cmsHhsWebsites: { label: string; href: string }[] = [
 ]
 
 const additionalResources: { label: string; href: string }[] = [
+  { label: 'Page layouts', href: '/resources/page-layouts' },
+  { label: 'Nav Legacy Demo', href: '/nav-demo' },
+  { label: 'Nav New CCG', href: '/nav-new-ccg' },
+  { label: 'Nav Option 2', href: '/nav-option-2' },
   { label: 'CMS Design System', href: 'https://design.cms.gov/' },
   { label: 'Freedom of Information Act', href: 'https://www.cms.gov/center/freedom-of-information-act-center' },
   { label: 'Inspector General', href: 'https://oig.hhs.gov/' },
@@ -60,9 +82,7 @@ export function SiteFooter() {
           <ul className="fusion-site-footer__list">
             {cmsHhsWebsites.map(({ label, href }) => (
               <li key={label}>
-                <a href={href} className="fusion-site-footer__link">
-                  {label}
-                </a>
+                <FooterLink label={label} href={href} />
               </li>
             ))}
           </ul>
@@ -75,9 +95,7 @@ export function SiteFooter() {
           <ul className="fusion-site-footer__list">
             {additionalResources.map(({ label, href }) => (
               <li key={label}>
-                <a href={href} className="fusion-site-footer__link">
-                  {label}
-                </a>
+                <FooterLink label={label} href={href} />
               </li>
             ))}
           </ul>
