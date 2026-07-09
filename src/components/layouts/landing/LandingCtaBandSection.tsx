@@ -23,7 +23,7 @@ export function LandingCtaBandSection({
   const secondaryIsExternal = secondaryHref.startsWith('http')
 
   return (
-    <section id={id} className="lpl-section lpl-section--cta-band" aria-labelledby={`${id}-heading`} tabIndex={-1}>
+    <section id={id} className="lpl-section lpl-section--cta-band fusion-section-reveal" aria-labelledby={`${id}-heading`} tabIndex={-1}>
       <div className="lpl-container lpl-cta-band">
         <h2 id={`${id}-heading`} className="lpl-cta-band__title">
           {title}

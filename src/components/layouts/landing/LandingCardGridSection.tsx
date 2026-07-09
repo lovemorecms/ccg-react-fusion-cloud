@@ -53,7 +53,12 @@ export function LandingCardGridSection({
   const isTextOnly = activeLayout?.id === 'text'
 
   return (
-    <section id={id} className="lpl-section lpl-section--cards" aria-labelledby={`${id}-heading`} tabIndex={-1}>
+    <section
+      id={id}
+      className="lpl-section lpl-section--cards fusion-section-reveal fusion-section-reveal--stagger"
+      aria-labelledby={`${id}-heading`}
+      tabIndex={-1}
+    >
       <div className="lpl-container">
         <LandingSectionHeader title={title} lede={lede} headingId={`${id}-heading`} />
 

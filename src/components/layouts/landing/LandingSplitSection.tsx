@@ -65,7 +65,7 @@ export type LandingSplitSectionProps = {
 
 export function LandingSplitSection({ id, title, lede, primary, reverse }: LandingSplitSectionProps) {
   return (
-    <section id={id} className="lpl-section lpl-section--split" aria-labelledby={`${id}-heading`} tabIndex={-1}>
+    <section id={id} className="lpl-section lpl-section--split fusion-section-reveal" aria-labelledby={`${id}-heading`} tabIndex={-1}>
       <div className="lpl-container">
         <header className="lpl-section__intro">
           <h2 id={`${id}-heading`} className="lpl-section__title">

@@ -85,7 +85,7 @@ export function LandingAccordionSection({
   items,
 }: LandingAccordionSectionProps) {
   return (
-    <section id={id} className="lpl-section lpl-section--faq" aria-labelledby={`${id}-heading`} tabIndex={-1}>
+    <section id={id} className="lpl-section lpl-section--faq fusion-section-reveal" aria-labelledby={`${id}-heading`} tabIndex={-1}>
       <div className="lpl-container">
         <LandingSectionHeader title={title} lede={lede} headingId={`${id}-heading`} />
         <div className="lpl-faq">

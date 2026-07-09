@@ -2,6 +2,7 @@ import { SkipNav } from '@cmsgov/ds-cms-gov'
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { FusionButton } from '../components/FusionButton'
+import { useSectionReveal } from '../hooks/useSectionReveal'
 import { LandingAccordionSection } from '../components/layouts/landing/LandingAccordionSection'
 import { LandingCardGridSection } from '../components/layouts/landing/LandingCardGridSection'
 import { LandingCtaBandSection } from '../components/layouts/landing/LandingCtaBandSection'
@@ -36,6 +37,8 @@ function ArrowRight() {
 }
 
 export default function LandingPageTemplateDemoPage() {
+  const revealRef = useSectionReveal()
+
   useEffect(() => {
     document.title = 'Landing page Layout | Page layouts | FUSION Sphere'
     return () => {
@@ -48,7 +51,7 @@ export default function LandingPageTemplateDemoPage() {
       <SkipNav href="#main-content">Skip to main content</SkipNav>
       <SiteHeader />
 
-      <main id="main-content" tabIndex={-1} className="lpl-page">
+      <main id="main-content" tabIndex={-1} className="lpl-page" ref={revealRef}>
         <InteriorSectionNavProvider>
           <HideableInteriorBreadcrumbs className="kc-breadcrumb-bar ft-breadcrumb-bar">
             <nav aria-label="Breadcrumb" className="kc-breadcrumb-inner">

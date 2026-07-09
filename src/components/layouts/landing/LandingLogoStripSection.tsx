@@ -9,7 +9,7 @@ export type LandingLogoStripSectionProps = {
 
 export function LandingLogoStripSection({ id, title, lede, logos }: LandingLogoStripSectionProps) {
   return (
-    <section id={id} className="lpl-section lpl-section--partners" aria-labelledby={`${id}-heading`} tabIndex={-1}>
+    <section id={id} className="lpl-section lpl-section--partners fusion-section-reveal fusion-section-reveal--stagger" aria-labelledby={`${id}-heading`} tabIndex={-1}>
       <div className="lpl-container">
         <LandingSectionHeader title={title} lede={lede} headingId={`${id}-heading`} />
         <ul className="lpl-logos">

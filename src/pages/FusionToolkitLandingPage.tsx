@@ -11,6 +11,7 @@ import {
 import { FusionToolkitStickyNav } from '../components/fusion-toolkit/FusionToolkitStickyNav'
 import { HideableInteriorBreadcrumbs } from '../components/layouts/HideableInteriorBreadcrumbs'
 import { InteriorSectionNavProvider } from '../components/layouts/InteriorSectionNav'
+import { useSectionReveal } from '../hooks/useSectionReveal'
 import { SiteFooter } from '../components/SiteFooter'
 import { SiteHeader } from '../components/SiteHeader'
 
@@ -88,6 +89,8 @@ function ProductVisualization({ productId }: { productId: 'basecamp' | 'helix' |
 }
 
 export default function FusionToolkitLandingPage() {
+  const revealRef = useSectionReveal()
+
   useEffect(() => {
     document.title = 'Fusion Toolkit | Explore | FUSION Sphere'
     return () => {
@@ -100,7 +103,7 @@ export default function FusionToolkitLandingPage() {
       <SkipNav href="#main-content">Skip to main content</SkipNav>
       <SiteHeader />
 
-      <main id="main-content" tabIndex={-1} className="ft-page">
+      <main id="main-content" tabIndex={-1} className="ft-page" ref={revealRef}>
         <InteriorSectionNavProvider>
           <FusionToolkitBreadcrumbs />
 
@@ -134,7 +137,12 @@ export default function FusionToolkitLandingPage() {
         <FusionToolkitStickyNav />
         </InteriorSectionNavProvider>
 
-        <section id="toolkit-grid" className="ft-section ft-section--grid" aria-labelledby="ft-grid-heading" tabIndex={-1}>
+        <section
+          id="toolkit-grid"
+          className="ft-section ft-section--grid fusion-section-reveal fusion-section-reveal--stagger"
+          aria-labelledby="ft-grid-heading"
+          tabIndex={-1}
+        >
           <div className="ft-container">
             <header className="ft-section__intro">
               <h2 id="ft-grid-heading" className="ft-section__title">
@@ -168,7 +176,7 @@ export default function FusionToolkitLandingPage() {
           <section
             key={product.id}
             id={product.id}
-            className={`ft-section ft-section--product ft-section--${product.sectionVariant ?? 'light'}${product.imageReverse ? ' ft-section--reverse' : ''}`}
+            className={`ft-section ft-section--product ft-section--${product.sectionVariant ?? 'light'}${product.imageReverse ? ' ft-section--reverse' : ''} fusion-section-reveal`}
             aria-labelledby={`ft-product-${product.id}`}
             tabIndex={-1}
           >
@@ -204,7 +212,7 @@ export default function FusionToolkitLandingPage() {
           </section>
         ))}
 
-        <section className="ft-section ft-section--footer-band" aria-label="Fusion Toolkit">
+        <section className="ft-section ft-section--footer-band fusion-section-reveal" aria-label="Fusion Toolkit">
           <div className="ft-container ft-footer-band">
             <p className="ft-footer-band__text">
               Ready to explore the full Fusion Toolkit ecosystem on CMS Hybrid Cloud?

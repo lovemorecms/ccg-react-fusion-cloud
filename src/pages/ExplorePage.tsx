@@ -1,11 +1,12 @@
 import { SkipNav } from '@cmsgov/ds-cms-gov'
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { ExploreSectionNav } from '../components/explore/ExploreSectionNav'
 import { FusionButton } from '../components/FusionButton'
 import { HideableInteriorBreadcrumbs } from '../components/layouts/HideableInteriorBreadcrumbs'
 import { InteriorSectionNavProvider } from '../components/layouts/InteriorSectionNav'
 import { exploreCardHrefByTitle } from '../data/platformPages'
+import { useSectionReveal } from '../hooks/useSectionReveal'
 import { SiteFooter } from '../components/SiteFooter'
 import { SiteHeader } from '../components/SiteHeader'
 
@@ -207,40 +208,6 @@ const gettingStartedCards = [
   },
 ]
 
-function useScrollReveal() {
-  const ref = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    const container = ref.current
-    if (!container) return
-
-    const elements = container.querySelectorAll('.kc-reveal')
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-
-    if (prefersReducedMotion) {
-      elements.forEach((el) => el.classList.add('kc-visible'))
-      return
-    }
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('kc-visible')
-            observer.unobserve(entry.target)
-          }
-        })
-      },
-      { threshold: 0.15, rootMargin: '0px 0px -40px 0px' },
-    )
-
-    elements.forEach((el) => observer.observe(el))
-    return () => observer.disconnect()
-  }, [])
-
-  return ref
-}
-
 function LearnIcon({ type }: { type: string }) {
   if (type === 'headset') {
     return (
@@ -282,7 +249,7 @@ function ArrowIcon() {
 }
 
 export default function ExplorePage() {
-  const revealRef = useScrollReveal()
+  const revealRef = useSectionReveal()
   const exploreHeroBgUrl = `${import.meta.env.BASE_URL}images/sections/initiatives-hero-cms-gov.png`
 
   useEffect(() => {
@@ -361,7 +328,7 @@ export default function ExplorePage() {
         {/* Content Area */}
         <div className="kc-content">
           {/* 2026 Initiatives Section */}
-          <section className="kc-section kc-reveal" id="platforms">
+          <section className="kc-section fusion-section-reveal fusion-section-reveal--stagger" id="platforms">
             <h2 className="kc-section-heading">Platforms</h2>
             <p className="kc-section-subtitle">
               Enterprise-grade infrastructure across AWS, Azure, Google Cloud, and Oracle—plus
@@ -391,7 +358,7 @@ export default function ExplorePage() {
           </section>
 
           {/* Vertical timeline — CMS primary / accent / success tokens */}
-          <section className="kc-section kc-reveal" id="roadmap" aria-labelledby="explore-timeline">
+          <section className="kc-section fusion-section-reveal" id="roadmap" aria-labelledby="explore-timeline">
             <h2 className="kc-section-heading" id="explore-timeline">
               Platform &amp; Service Roadmap
             </h2>
@@ -454,7 +421,7 @@ export default function ExplorePage() {
           </section>
 
           {/* What's Happening Section */}
-          <section className="kc-section kc-reveal" id="whats-happening">
+          <section className="kc-section fusion-section-reveal fusion-section-reveal--stagger" id="whats-happening">
             <h2 className="kc-section-heading">What&rsquo;s Happening?</h2>
             <p className="kc-section-subtitle">
               Stay informed with the latest updates and opportunities
@@ -475,7 +442,7 @@ export default function ExplorePage() {
           </section>
 
           {/* Learn & Connect */}
-          <section className="kc-section kc-reveal" id="learn-connect">
+          <section className="kc-section fusion-section-reveal" id="learn-connect">
             <div className="init-bottom-grid">
               <div className="init-learn">
                 <div className="init-learn__icon">
@@ -533,7 +500,7 @@ export default function ExplorePage() {
         </div>
 
         {/* Getting Started Section */}
-        <section id="getting-started" className="kc-getting-started kc-reveal">
+        <section id="getting-started" className="kc-getting-started fusion-section-reveal fusion-section-reveal--stagger">
           <div className="kc-getting-started__bg-orb kc-getting-started__bg-orb--gold" />
           <div className="kc-getting-started__bg-orb kc-getting-started__bg-orb--blue" />
           <div className="kc-getting-started__inner">

@@ -20,7 +20,7 @@ export type LandingTimelineSectionProps = {
 
 export function LandingTimelineSection({ id, title, lede, quarters }: LandingTimelineSectionProps) {
   return (
-    <section id={id} className="lpl-section lpl-section--timeline" aria-labelledby={`${id}-heading`} tabIndex={-1}>
+    <section id={id} className="lpl-section lpl-section--timeline fusion-section-reveal" aria-labelledby={`${id}-heading`} tabIndex={-1}>
       <div className="lpl-container">
         <LandingSectionHeader title={title} lede={lede} headingId={`${id}-heading`} />
         <div className="init-timeline lpl-timeline" role="region" aria-label={title}>

@@ -282,12 +282,135 @@ html.figma-capture .fusion-reveal-stagger .fusion-reveal-child {
 }
 
 /* Respect motion preferences globally */
+/* Soft section-to-section motion (landing / explore / toolkit) */
+@keyframes fusion-section-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fusion-section-settle {
+  0% {
+    box-shadow: inset 0 0 0 0 transparent;
+  }
+  35% {
+    box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--color-primary) 22%, transparent);
+  }
+  100% {
+    box-shadow: inset 0 0 0 0 transparent;
+  }
+}
+
+.fusion-section-reveal {
+  opacity: 0;
+  transform: translateY(12px);
+}
+
+.fusion-section-reveal[data-revealed='true'] {
+  animation: fusion-section-fade-up 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.fusion-section-reveal.fusion-section-settle[data-revealed='true'] {
+  animation:
+    fusion-section-fade-up 0.45s cubic-bezier(0.22, 1, 0.36, 1) forwards,
+    fusion-section-settle 0.65s ease-out;
+}
+
+.fusion-section-reveal.fusion-section-reveal--stagger[data-revealed='true'] .lpl-card-grid > *,
+.fusion-section-reveal.fusion-section-reveal--stagger[data-revealed='true'] .lpl-stats > *,
+.fusion-section-reveal.fusion-section-reveal--stagger[data-revealed='true'] .lpl-logos > *,
+.fusion-section-reveal.fusion-section-reveal--stagger[data-revealed='true'] .init-cards-grid > *,
+.fusion-section-reveal.fusion-section-reveal--stagger[data-revealed='true'] .init-happening > *,
+.fusion-section-reveal.fusion-section-reveal--stagger[data-revealed='true'] .kc-getting-started__grid > *,
+.fusion-section-reveal.fusion-section-reveal--stagger[data-revealed='true'] .ft-grid > * {
+  opacity: 0;
+  animation: fusion-section-fade-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.fusion-section-reveal.fusion-section-reveal--stagger[data-revealed='true'] .lpl-card-grid > *:nth-child(1),
+.fusion-section-reveal.fusion-section-reveal--stagger[data-revealed='true'] .lpl-stats > *:nth-child(1),
+.fusion-section-reveal.fusion-section-reveal--stagger[data-revealed='true'] .lpl-logos > *:nth-child(1),
+.fusion-section-reveal.fusion-section-reveal--stagger[data-revealed='true'] .init-cards-grid > *:nth-child(1),
+.fusion-section-reveal.fusion-section-reveal--stagger[data-revealed='true'] .init-happening > *:nth-child(1),
+.fusion-section-reveal.fusion-section-reveal--stagger[data-revealed='true'] .kc-getting-started__grid > *:nth-child(1),
+.fusion-section-reveal.fusion-section-reveal--stagger[data-revealed='true'] .ft-grid > *:nth-child(1) {
+  animation-delay: 40ms;
+}
+.fusion-section-reveal.fusion-section-reveal--stagger[data-revealed='true'] .lpl-card-grid > *:nth-child(2),
+.fusion-section-reveal.fusion-section-reveal--stagger[data-revealed='true'] .lpl-stats > *:nth-child(2),
+.fusion-section-reveal.fusion-section-reveal--stagger[data-revealed='true'] .lpl-logos > *:nth-child(2),
+.fusion-section-reveal.fusion-section-reveal--stagger[data-revealed='true'] .init-cards-grid > *:nth-child(2),
+.fusion-section-reveal.fusion-section-reveal--stagger[data-revealed='true'] .init-happening > *:nth-child(2),
+.fusion-section-reveal.fusion-section-reveal--stagger[data-revealed='true'] .kc-getting-started__grid > *:nth-child(2),
+.fusion-section-reveal.fusion-section-reveal--stagger[data-revealed='true'] .ft-grid > *:nth-child(2) {
+  animation-delay: 90ms;
+}
+.fusion-section-reveal.fusion-section-reveal--stagger[data-revealed='true'] .lpl-card-grid > *:nth-child(3),
+.fusion-section-reveal.fusion-section-reveal--stagger[data-revealed='true'] .lpl-stats > *:nth-child(3),
+.fusion-section-reveal.fusion-section-reveal--stagger[data-revealed='true'] .lpl-logos > *:nth-child(3),
+.fusion-section-reveal.fusion-section-reveal--stagger[data-revealed='true'] .init-cards-grid > *:nth-child(3),
+.fusion-section-reveal.fusion-section-reveal--stagger[data-revealed='true'] .init-happening > *:nth-child(3),
+.fusion-section-reveal.fusion-section-reveal--stagger[data-revealed='true'] .kc-getting-started__grid > *:nth-child(3),
+.fusion-section-reveal.fusion-section-reveal--stagger[data-revealed='true'] .ft-grid > *:nth-child(3) {
+  animation-delay: 140ms;
+}
+.fusion-section-reveal.fusion-section-reveal--stagger[data-revealed='true'] .lpl-card-grid > *:nth-child(4),
+.fusion-section-reveal.fusion-section-reveal--stagger[data-revealed='true'] .lpl-stats > *:nth-child(4),
+.fusion-section-reveal.fusion-section-reveal--stagger[data-revealed='true'] .lpl-logos > *:nth-child(4),
+.fusion-section-reveal.fusion-section-reveal--stagger[data-revealed='true'] .init-cards-grid > *:nth-child(4),
+.fusion-section-reveal.fusion-section-reveal--stagger[data-revealed='true'] .ft-grid > *:nth-child(4) {
+  animation-delay: 190ms;
+}
+.fusion-section-reveal.fusion-section-reveal--stagger[data-revealed='true'] .lpl-logos > *:nth-child(5),
+.fusion-section-reveal.fusion-section-reveal--stagger[data-revealed='true'] .init-cards-grid > *:nth-child(5) {
+  animation-delay: 240ms;
+}
+.fusion-section-reveal.fusion-section-reveal--stagger[data-revealed='true'] .lpl-logos > *:nth-child(6),
+.fusion-section-reveal.fusion-section-reveal--stagger[data-revealed='true'] .init-cards-grid > *:nth-child(6) {
+  animation-delay: 290ms;
+}
+
+html.figma-capture .fusion-section-reveal,
+html.figma-capture .fusion-section-reveal.fusion-section-reveal--stagger .lpl-card-grid > *,
+html.figma-capture .fusion-section-reveal.fusion-section-reveal--stagger .lpl-stats > *,
+html.figma-capture .fusion-section-reveal.fusion-section-reveal--stagger .lpl-logos > *,
+html.figma-capture .fusion-section-reveal.fusion-section-reveal--stagger .init-cards-grid > *,
+html.figma-capture .fusion-section-reveal.fusion-section-reveal--stagger .init-happening > *,
+html.figma-capture .fusion-section-reveal.fusion-section-reveal--stagger .kc-getting-started__grid > *,
+html.figma-capture .fusion-section-reveal.fusion-section-reveal--stagger .ft-grid > * {
+  opacity: 1 !important;
+  transform: none !important;
+  animation: none !important;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .fusion-reveal,
   .fusion-reveal-stagger .fusion-reveal-child {
     opacity: 1;
     transform: none;
     animation: none;
+  }
+
+  .fusion-section-reveal,
+  .fusion-section-reveal.fusion-section-reveal--stagger .lpl-card-grid > *,
+  .fusion-section-reveal.fusion-section-reveal--stagger .lpl-stats > *,
+  .fusion-section-reveal.fusion-section-reveal--stagger .lpl-logos > *,
+  .fusion-section-reveal.fusion-section-reveal--stagger .init-cards-grid > *,
+  .fusion-section-reveal.fusion-section-reveal--stagger .init-happening > *,
+  .fusion-section-reveal.fusion-section-reveal--stagger .kc-getting-started__grid > *,
+  .fusion-section-reveal.fusion-section-reveal--stagger .ft-grid > * {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+
+  .interior-section-nav__indicator {
+    transition: none;
   }
 
   .fusion-search-enter,
@@ -8262,6 +8385,11 @@ main:has(.tpl-3col-page) + .fusion-site-footer {
   overflow: hidden;
 }
 
+.interior-section-nav__track {
+  position: relative;
+  min-width: 0;
+}
+
 #main-content .interior-section-nav ul.interior-section-nav__list,
 .interior-section-nav__list {
   display: flex;
@@ -8275,6 +8403,21 @@ main:has(.tpl-3col-page) + .fusion-site-footer {
   overflow-x: auto;
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
+}
+
+.interior-section-nav__indicator {
+  position: absolute;
+  left: 0;
+  bottom: 0.2rem;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--color-primary);
+  pointer-events: none;
+  transition:
+    transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+    width 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.18s ease;
+  will-change: transform, width;
 }
 
 #main-content .interior-section-nav ul.interior-section-nav__list > li,
@@ -8325,15 +8468,9 @@ main:has(.tpl-3col-page) + .fusion-site-footer {
   font-weight: 600;
 }
 
+/* Sliding indicator replaces per-link ::after underline */
 .interior-section-nav__link--active::after {
-  content: '';
-  position: absolute;
-  left: 0.75rem;
-  right: 0.75rem;
-  bottom: 0.25rem;
-  height: 3px;
-  border-radius: 2px;
-  background: var(--color-primary);
+  content: none;
 }
 
 .interior-section-nav__cta {

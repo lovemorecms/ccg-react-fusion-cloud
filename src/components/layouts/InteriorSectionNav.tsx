@@ -3,11 +3,13 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState,
   type ReactNode,
 } from 'react'
+import { triggerSectionSettle } from '../../hooks/useSectionReveal'
 
 export type InteriorSectionNavItem = {
   id: string
@@ -88,17 +90,26 @@ function pickActiveSection(sectionIds: string[]): string {
   return current
 }
 
+type IndicatorStyle = {
+  left: number
+  width: number
+  opacity: number
+}
+
 export function InteriorSectionNav({ items, sectionIds, ariaLabel, cta }: InteriorSectionNavProps) {
   const { setIsPinned: setContextPinned } = useInteriorSectionNavContext()
   const [isPinned, setIsPinned] = useState(false)
   const [activeId, setActiveId] = useState(sectionIds[0] ?? '')
   const [spacerHeight, setSpacerHeight] = useState(0)
+  const [indicator, setIndicator] = useState<IndicatorStyle>({ left: 0, width: 0, opacity: 0 })
 
   const activeIdRef = useRef(activeId)
   const rafRef = useRef<number | null>(null)
   const pendingTargetRef = useRef<string | null>(null)
   const shellRef = useRef<HTMLDivElement>(null)
   const sentinelRef = useRef<HTMLDivElement>(null)
+  const listRef = useRef<HTMLUListElement>(null)
+  const linkRefs = useRef<Map<string, HTMLAnchorElement>>(new Map())
   const pageRootRef = useRef<HTMLElement | null>(null)
 
   const updateActiveSection = useCallback(() => {
@@ -128,6 +139,23 @@ export function InteriorSectionNav({ items, sectionIds, ariaLabel, cta }: Interi
       updateActiveSection()
     })
   }, [updateActiveSection])
+
+  const updateIndicator = useCallback(() => {
+    const list = listRef.current
+    const link = linkRefs.current.get(activeId)
+    if (!list || !link) {
+      setIndicator((prev) => ({ ...prev, opacity: 0 }))
+      return
+    }
+
+    const listRect = list.getBoundingClientRect()
+    const linkRect = link.getBoundingClientRect()
+    setIndicator({
+      left: linkRect.left - listRect.left,
+      width: linkRect.width,
+      opacity: 1,
+    })
+  }, [activeId])
 
   useEffect(() => {
     activeIdRef.current = activeId
@@ -201,11 +229,27 @@ export function InteriorSectionNav({ items, sectionIds, ariaLabel, cta }: Interi
     }
   }, [scheduleUpdate, updateActiveSection])
 
+  useLayoutEffect(() => {
+    updateIndicator()
+  }, [updateIndicator, isPinned, items])
+
+  useEffect(() => {
+    const list = listRef.current
+    if (!list) return
+
+    const onScrollOrResize = () => updateIndicator()
+    list.addEventListener('scroll', onScrollOrResize, { passive: true })
+    window.addEventListener('resize', onScrollOrResize, { passive: true })
+
+    return () => {
+      list.removeEventListener('scroll', onScrollOrResize)
+      window.removeEventListener('resize', onScrollOrResize)
+    }
+  }, [updateIndicator])
+
   useEffect(() => {
     if (!isPinned) return
-    const link = document.querySelector<HTMLElement>(
-      `.interior-section-nav__link[href="#${activeId}"]`,
-    )
+    const link = linkRefs.current.get(activeId)
     link?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' })
   }, [activeId, isPinned])
 
@@ -215,7 +259,16 @@ export function InteriorSectionNav({ items, sectionIds, ariaLabel, cta }: Interi
     pendingTargetRef.current = id
     activeIdRef.current = id
     setActiveId(id)
-    target.scrollIntoView({ behavior: 'smooth', block: 'start' })
+
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' })
+
+    window.setTimeout(
+      () => {
+        triggerSectionSettle(id)
+      },
+      reduceMotion ? 0 : 420,
+    )
   }
 
   return (
@@ -232,26 +285,41 @@ export function InteriorSectionNav({ items, sectionIds, ariaLabel, cta }: Interi
         <div className="interior-section-nav__wrap">
           <div ref={shellRef} className="interior-section-nav__shell">
             <nav className="interior-section-nav__nav" aria-label={ariaLabel}>
-              <ul className="interior-section-nav__list">
-                {items.map((item) => {
-                  const isActive = activeId === item.id
-                  return (
-                    <li key={item.id} className="interior-section-nav__item">
-                      <a
-                        href={`#${item.id}`}
-                        className={`interior-section-nav__link${isActive ? ' interior-section-nav__link--active' : ''}`}
-                        aria-current={isActive ? 'true' : undefined}
-                        onClick={(e) => {
-                          e.preventDefault()
-                          handleNavClick(item.id)
-                        }}
-                      >
-                        {item.label}
-                      </a>
-                    </li>
-                  )
-                })}
-              </ul>
+              <div className="interior-section-nav__track">
+                <ul ref={listRef} className="interior-section-nav__list">
+                  {items.map((item) => {
+                    const isActive = activeId === item.id
+                    return (
+                      <li key={item.id} className="interior-section-nav__item">
+                        <a
+                          ref={(node) => {
+                            if (node) linkRefs.current.set(item.id, node)
+                            else linkRefs.current.delete(item.id)
+                          }}
+                          href={`#${item.id}`}
+                          className={`interior-section-nav__link${isActive ? ' interior-section-nav__link--active' : ''}`}
+                          aria-current={isActive ? 'true' : undefined}
+                          onClick={(e) => {
+                            e.preventDefault()
+                            handleNavClick(item.id)
+                          }}
+                        >
+                          {item.label}
+                        </a>
+                      </li>
+                    )
+                  })}
+                </ul>
+                <span
+                  className="interior-section-nav__indicator"
+                  aria-hidden
+                  style={{
+                    transform: `translateX(${indicator.left}px)`,
+                    width: indicator.width,
+                    opacity: indicator.opacity,
+                  }}
+                />
+              </div>
             </nav>
             {cta ? <div className="interior-section-nav__cta shrink-0">{cta}</div> : null}
           </div>

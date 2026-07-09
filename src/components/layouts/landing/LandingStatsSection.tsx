@@ -15,7 +15,7 @@ export type LandingStatsSectionProps = {
 
 export function LandingStatsSection({ id, title, lede, stats }: LandingStatsSectionProps) {
   return (
-    <section id={id} className="lpl-section lpl-section--metrics" aria-labelledby={`${id}-heading`} tabIndex={-1}>
+    <section id={id} className="lpl-section lpl-section--metrics fusion-section-reveal fusion-section-reveal--stagger" aria-labelledby={`${id}-heading`} tabIndex={-1}>
       <div className="lpl-container">
         <LandingSectionHeader title={title} lede={lede} headingId={`${id}-heading`} />
         <dl className="lpl-stats">

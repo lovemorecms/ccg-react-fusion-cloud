@@ -24,7 +24,7 @@ export function LandingTabsSection({ id, title, lede, tabs }: LandingTabsSection
   if (!selected) return null
 
   return (
-    <section id={id} className="lpl-section lpl-section--tabs" aria-labelledby={`${id}-heading`} tabIndex={-1}>
+    <section id={id} className="lpl-section lpl-section--tabs fusion-section-reveal" aria-labelledby={`${id}-heading`} tabIndex={-1}>
       <div className="lpl-container">
         <LandingSectionHeader title={title} lede={lede} headingId={`${id}-heading`} />
 
