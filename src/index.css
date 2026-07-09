@@ -8079,9 +8079,12 @@ main:has(.tpl-3col-page) + .fusion-site-footer {
 
 /* Fusion Toolkit landing — glossy CMS primary palette (Figma 2216:326) */
 .ft-page {
-  --ft-sticky-nav-block-height: 3.75rem; /* shell min-height + tight vertical padding */
+  --ft-sticky-nav-block-height: 3.75rem; /* interior section nav shell + padding */
+  --interior-section-nav-block-height: var(--ft-sticky-nav-block-height);
   background: var(--color-white);
   color: var(--color-gray-darkest);
+  max-width: 100%;
+  overflow-x: clip;
 }
 
 /* Light breadcrumb strip — continues white header into hero gradient */
@@ -8127,44 +8130,88 @@ main:has(.tpl-3col-page) + .fusion-site-footer {
   font-weight: 700;
 }
 
-/* Sticky in-page nav (Azure-style pill bar below site header) */
-.ft-sticky-nav {
-  position: fixed;
-  top: var(--fusion-sticky-stack-top, 5.5rem);
-  left: 0;
-  right: 0;
-  z-index: 55;
-  padding: 0.25rem var(--fusion-site-padding-x);
-  pointer-events: none;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(-0.75rem);
+/* Collapse breadcrumb bar when interior section nav pins */
+.ft-page .ft-breadcrumb-bar {
+  max-height: var(--fusion-breadcrumb-bar-height);
   transition:
-    opacity 0.22s ease,
-    transform 0.22s ease,
-    visibility 0.22s ease;
+    max-height 0.22s ease,
+    opacity 0.18s ease,
+    visibility 0.18s ease,
+    border-color 0.18s ease;
 }
 
-.ft-sticky-nav--visible {
-  pointer-events: auto;
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
+.kc-breadcrumb-bar.fusion-interior-breadcrumb-bar--hidden {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+  border-bottom-width: 0;
+  pointer-events: none;
+}
+
+.ft-page.interior-section-nav--page-pinned {
+  --fusion-sticky-stack-top: var(--fusion-nav-sticky-height);
+}
+
+/* Hero-anchored interior section nav (resting below hero, pins under site header) */
+.interior-section-nav-root {
+  position: relative;
+  z-index: 5;
+  max-width: 100%;
+  margin-top: calc(var(--interior-section-nav-block-height, 3.75rem) * -0.55);
+  margin-bottom: 0.5rem;
+  padding: 0 var(--fusion-site-padding-x);
+  overflow-x: clip;
+}
+
+.interior-section-nav__sentinel {
+  height: 1px;
+  width: 100%;
+  margin: 0;
+  pointer-events: none;
+}
+
+.interior-section-nav__spacer {
+  width: 100%;
+  pointer-events: none;
+}
+
+.interior-section-nav {
+  position: relative;
+  width: 100%;
+}
+
+.interior-section-nav--pinned {
+  position: fixed;
+  left: 0;
+  width: 100%;
+  max-width: 100%;
+  top: var(--fusion-nav-sticky-height);
+  z-index: 55;
+  margin-top: 0;
+  padding: 0.25rem var(--fusion-site-padding-x);
+  box-sizing: border-box;
 }
 
 @media (min-width: 768px) {
-  .ft-sticky-nav {
+  .interior-section-nav-root {
+    padding-left: var(--fusion-site-padding-x-md);
+    padding-right: var(--fusion-site-padding-x-md);
+  }
+
+  .interior-section-nav--pinned {
     padding-left: var(--fusion-site-padding-x-md);
     padding-right: var(--fusion-site-padding-x-md);
   }
 }
 
-.ft-sticky-nav__wrap {
+.interior-section-nav__wrap {
   max-width: var(--fusion-site-max-width);
   margin: 0 auto;
+  min-width: 0;
 }
 
-.ft-sticky-nav__shell {
+.interior-section-nav__shell {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -8172,6 +8219,9 @@ main:has(.tpl-3col-page) + .fusion-site-footer {
   justify-content: space-between;
   gap: 1rem;
   min-height: 3.25rem;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
   padding: 0.375rem 0.375rem 0.375rem 0.25rem;
   border: 1px solid color-mix(in srgb, var(--color-gray-lighter) 85%, var(--color-primary-lightest));
   border-radius: 2rem;
@@ -8181,15 +8231,14 @@ main:has(.tpl-3col-page) + .fusion-site-footer {
     0 8px 24px color-mix(in srgb, var(--color-primary) 10%, transparent);
 }
 
-.ft-sticky-nav__nav {
+.interior-section-nav__nav {
   flex: 1 1 auto;
   min-width: 0;
   overflow: hidden;
 }
 
-/* Beat CMS global #main-content ul column layout if nav is ever inside main */
-#main-content .ft-sticky-nav ul.ft-sticky-nav__list,
-.ft-sticky-nav__list {
+#main-content .interior-section-nav ul.interior-section-nav__list,
+.interior-section-nav__list {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -8203,23 +8252,23 @@ main:has(.tpl-3col-page) + .fusion-site-footer {
   -webkit-overflow-scrolling: touch;
 }
 
-#main-content .ft-sticky-nav ul.ft-sticky-nav__list > li,
-.ft-sticky-nav__list > li {
+#main-content .interior-section-nav ul.interior-section-nav__list > li,
+.interior-section-nav__list > li {
   display: block;
   width: auto;
   margin: 0;
   padding: 0;
 }
 
-.ft-sticky-nav__list::-webkit-scrollbar {
+.interior-section-nav__list::-webkit-scrollbar {
   display: none;
 }
 
-.ft-sticky-nav__item {
+.interior-section-nav__item {
   flex-shrink: 0;
 }
 
-.ft-sticky-nav__link {
+.interior-section-nav__link {
   position: relative;
   display: block;
   padding: 0.625rem 0.875rem;
@@ -8236,22 +8285,22 @@ main:has(.tpl-3col-page) + .fusion-site-footer {
     background-color 0.15s ease;
 }
 
-.ft-sticky-nav__link:hover {
+.interior-section-nav__link:hover {
   color: var(--color-primary-darkest);
   background: color-mix(in srgb, var(--color-primary-lightest) 45%, transparent);
 }
 
-.ft-sticky-nav__link:focus-visible {
+.interior-section-nav__link:focus-visible {
   outline: 2px solid var(--color-primary);
   outline-offset: 2px;
 }
 
-.ft-sticky-nav__link--active {
+.interior-section-nav__link--active {
   color: var(--color-primary-darkest);
   font-weight: 600;
 }
 
-.ft-sticky-nav__link--active::after {
+.interior-section-nav__link--active::after {
   content: '';
   position: absolute;
   left: 0.75rem;
@@ -8262,19 +8311,19 @@ main:has(.tpl-3col-page) + .fusion-site-footer {
   background: var(--color-primary);
 }
 
-.ft-sticky-nav__cta {
+.interior-section-nav__cta {
   flex: 0 0 auto;
   margin-right: 0.125rem;
   white-space: nowrap;
 }
 
 @media (max-width: 720px) {
-  .ft-sticky-nav__shell {
+  .interior-section-nav__shell {
     border-radius: 1rem;
     padding: 0.375rem 0.5rem;
   }
 
-  .ft-sticky-nav__cta .ds-c-button {
+  .interior-section-nav__cta .ds-c-button {
     font-size: 0.8125rem;
     padding-inline: 0.875rem;
   }
@@ -8286,8 +8335,16 @@ main:has(.tpl-3col-page) + .fusion-site-footer {
 
 #toolkit-grid {
   scroll-margin-top: calc(
-    var(--fusion-sticky-stack-top, 5.5rem) + var(--ft-sticky-nav-block-height, 3.75rem)
+    var(--fusion-sticky-stack-top, 5.5rem) + var(--interior-section-nav-block-height, 3.75rem)
   );
+}
+
+.ft-hero--with-section-nav {
+  padding-bottom: clamp(4.5rem, 7vw, 6rem);
+}
+
+.ft-hero--with-section-nav + .interior-section-nav-root + .ft-section {
+  padding-top: clamp(2.5rem, 4vw, 3.5rem);
 }
 
 .ft-container {
@@ -8533,7 +8590,7 @@ main:has(.tpl-3col-page) + .fusion-site-footer {
 
 .ft-section--product {
   scroll-margin-top: calc(
-    var(--fusion-sticky-stack-top, 5.5rem) + var(--ft-sticky-nav-block-height, 3.75rem)
+    var(--fusion-sticky-stack-top, 5.5rem) + var(--interior-section-nav-block-height, 3.75rem)
   );
 }
 

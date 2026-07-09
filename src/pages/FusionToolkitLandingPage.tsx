@@ -9,6 +9,8 @@ import {
   fusionToolkitProducts,
 } from '../data/fusionToolkitContent'
 import { FusionToolkitStickyNav } from '../components/fusion-toolkit/FusionToolkitStickyNav'
+import { HideableInteriorBreadcrumbs } from '../components/layouts/HideableInteriorBreadcrumbs'
+import { InteriorSectionNavProvider } from '../components/layouts/InteriorSectionNav'
 import { SiteFooter } from '../components/SiteFooter'
 import { SiteHeader } from '../components/SiteHeader'
 
@@ -30,7 +32,7 @@ function FeatureBullet() {
 
 function FusionToolkitBreadcrumbs() {
   return (
-    <div className="kc-breadcrumb-bar ft-breadcrumb-bar">
+    <HideableInteriorBreadcrumbs className="kc-breadcrumb-bar ft-breadcrumb-bar">
       <nav aria-label="Breadcrumb" className="kc-breadcrumb-inner">
         <ol className="kc-breadcrumb-list">
           <li>
@@ -70,7 +72,7 @@ function FusionToolkitBreadcrumbs() {
           </li>
         </ol>
       </nav>
-    </div>
+    </HideableInteriorBreadcrumbs>
   )
 }
 
@@ -99,10 +101,15 @@ export default function FusionToolkitLandingPage() {
       <SiteHeader />
 
       <main id="main-content" tabIndex={-1} className="ft-page">
-        <FusionToolkitBreadcrumbs />
-        <FusionToolkitStickyNav />
+        <InteriorSectionNavProvider>
+          <FusionToolkitBreadcrumbs />
 
-        <section id="overview" className="ft-hero" aria-labelledby="ft-hero-heading" tabIndex={-1}>
+          <section
+            id="overview"
+            className="ft-hero ft-hero--with-section-nav"
+            aria-labelledby="ft-hero-heading"
+            tabIndex={-1}
+          >
           <div className="ft-hero__glow ft-hero__glow--one" aria-hidden />
           <div className="ft-hero__glow ft-hero__glow--two" aria-hidden />
           <div className="ft-hero__streak" aria-hidden />
@@ -123,6 +130,9 @@ export default function FusionToolkitLandingPage() {
             </div>
           </div>
         </section>
+
+        <FusionToolkitStickyNav />
+        </InteriorSectionNavProvider>
 
         <section id="toolkit-grid" className="ft-section ft-section--grid" aria-labelledby="ft-grid-heading" tabIndex={-1}>
           <div className="ft-container">
