@@ -285,9 +285,9 @@ export function FusionSiteNav({
           className="fusion-site-nav__logo inline-flex shrink-0 items-center"
         >
           <img
-            src={`${import.meta.env.BASE_URL}images/nexus-logo.png`}
-            alt="NEXUS"
-            width={213}
+            src={`${import.meta.env.BASE_URL}images/cloud-fusion-logo.png`}
+            alt="Cloud Fusion"
+            width={346}
             height={49}
             className="h-10 w-auto md:h-[49px]"
           />

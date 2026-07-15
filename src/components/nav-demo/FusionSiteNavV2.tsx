@@ -452,9 +452,9 @@ export function FusionSiteNavV2({
       <div className="fusion-nav-v2__bar mx-auto flex max-w-[var(--fusion-site-max-width)] items-center justify-between px-[var(--fusion-site-padding-x)] py-3 md:px-[var(--fusion-site-padding-x-md)]">
         <a href="/" className="fusion-site-nav__logo inline-flex shrink-0 items-center">
           <img
-            src={`${import.meta.env.BASE_URL}images/nexus-logo.png`}
-            alt="NEXUS"
-            width={213}
+            src={`${import.meta.env.BASE_URL}images/cloud-fusion-logo.png`}
+            alt="Cloud Fusion"
+            width={346}
             height={49}
             className="h-10 w-auto md:h-[49px]"
           />
