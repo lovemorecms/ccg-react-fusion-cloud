@@ -22,22 +22,23 @@ import {
 
 function ChevronIcon({ open }: { open: boolean }) {
   return (
-    <svg
-      className={`ss-acc__chevron${open ? ' ss-acc__chevron--open' : ''}`}
-      width="20"
-      height="20"
-      viewBox="0 0 16 16"
-      fill="none"
-      aria-hidden
-    >
-      <path
-        d="M4 6l4 4 4-4"
-        stroke="currentColor"
-        strokeWidth={1.5}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
+    <span className={`ss-acc__chevron-wrap${open ? ' ss-acc__chevron-wrap--open' : ''}`} aria-hidden>
+      <svg
+        className={`ss-acc__chevron${open ? ' ss-acc__chevron--open' : ''}`}
+        width="18"
+        height="18"
+        viewBox="0 0 16 16"
+        fill="none"
+      >
+        <path
+          d="M4 6l4 4 4-4"
+          stroke="currentColor"
+          strokeWidth={1.5}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    </span>
   )
 }
 
@@ -49,14 +50,25 @@ function CategoryIcon({ categoryId }: { categoryId: string }) {
   )
 }
 
-function ServiceCard({ service }: { service: SharedService }) {
+function ServiceCard({
+  service,
+  categoryId,
+}: {
+  service: SharedService
+  categoryId: string
+}) {
   return (
-    <article className="lpl-card" aria-labelledby={`ss-service-${service.id}`}>
-      <h3 id={`ss-service-${service.id}`} className="lpl-card__title">
+    <article className="ss-service-card" aria-labelledby={`ss-service-${service.id}`}>
+      <div className="ss-service-card__top">
+        <span className="ss-service-card__icon" aria-hidden>
+          <SharedServicesCategoryIcon id={categoryId} />
+        </span>
+      </div>
+      <h3 id={`ss-service-${service.id}`} className="ss-service-card__title">
         {service.title}
       </h3>
-      <p className="lpl-card__body">{service.description}</p>
-      <FusionButton href={service.href ?? '#'} variation="ghost" className="lpl-card__cta">
+      <p className="ss-service-card__body">{service.description}</p>
+      <FusionButton href={service.href ?? '#'} variation="ghost" className="ss-service-card__cta">
         Learn more
         <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden>
           <path
@@ -166,9 +178,9 @@ function CategoryAccordion({
         className="ss-acc__panel"
         hidden={!isOpen}
       >
-        <div className="ss-service-grid lpl-card-grid lpl-card-grid--three">
+        <div className="ss-service-grid">
           {visibleServices.map((service) => (
-            <ServiceCard key={service.id} service={service} />
+            <ServiceCard key={service.id} service={service} categoryId={category.id} />
           ))}
         </div>
       </div>
@@ -369,6 +381,8 @@ export default function SharedServicesPage() {
         </InteriorSectionNavProvider>
 
         <div className="ss-content">
+          <div className="ss-content__glow ss-content__glow--one" aria-hidden />
+          <div className="ss-content__glow ss-content__glow--two" aria-hidden />
           <section className="ss-section" aria-labelledby="ss-categories-heading">
             <div className="ss-container">
               <header className="ss-section__header">

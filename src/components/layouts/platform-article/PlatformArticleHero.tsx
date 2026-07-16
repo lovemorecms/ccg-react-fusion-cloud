@@ -8,6 +8,7 @@ export type PlatformArticleHeroProps = {
   imageSrc: string
   imageAlt?: string
   titleId?: string
+  badge?: string
 }
 
 function MetaIcon({ children }: { children: ReactNode }) {
@@ -21,6 +22,7 @@ export function PlatformArticleHero({
   imageSrc,
   imageAlt = '',
   titleId = 'pa-hero-title',
+  badge,
 }: PlatformArticleHeroProps) {
   const imageUrl = `${import.meta.env.BASE_URL}${imageSrc.replace(/^\//, '')}`
 
@@ -38,9 +40,12 @@ export function PlatformArticleHero({
 
       <div className="init-hero__inner pa-hero__inner">
         <div className="init-hero__text pa-hero__text">
-          <h1 id={titleId} className="init-hero__heading pa-hero__title">
-            {title}
-          </h1>
+          <div className="pa-hero__title-row">
+            <h1 id={titleId} className="init-hero__heading pa-hero__title">
+              {title}
+            </h1>
+            {badge ? <span className="pa-hero__badge">{badge}</span> : null}
+          </div>
           <p className="init-hero__description pa-hero__summary">{summary}</p>
 
           <dl className="pa-hero__meta">
