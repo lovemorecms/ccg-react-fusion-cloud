@@ -46,7 +46,7 @@ const defaultSections = (platformName: string): PlatformSection[] => [
     contentTitle: 'Onboarding',
     paragraphs: [
       'Follow staged onboarding: discovery, sandbox validation, security assessment, and production cutover.',
-      'Platform-specific runbooks and guardrails are published in the Knowledge Center as they become available.',
+      'Platform-specific runbooks and guardrails are published in Documentation as they become available.',
     ],
   },
   {
@@ -134,5 +134,6 @@ export const exploreCardHrefByTitle: Record<string, string> = {
   'AWS Outposts': platformInteriorPath('aws-outposts'),
   'Azure Commercial': platformInteriorPath('azure-commercial'),
   'Google Cloud (GCP)': platformInteriorPath('google-cloud-platform'),
+  'Oracle Cloud Infrastructure': platformInteriorPath('oracle-cloud-infrastructure'),
   'Oracle Cloud@Customer': platformInteriorPath('oracle-at-customer'),
 }

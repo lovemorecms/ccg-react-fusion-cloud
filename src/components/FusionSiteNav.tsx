@@ -80,16 +80,16 @@ const megaMenuItems: MegaMenuItem[] = [
       {
         title: 'Shared Services',
         links: [
-          { label: 'Compute', href: '/learn/knowledge-center' },
-          { label: 'Development Support', href: '/learn/knowledge-center' },
-          { label: 'Financial Operations (FinOps)', href: '/learn/knowledge-center' },
-          { label: 'Network', href: '/learn/knowledge-center' },
-          { label: 'Operations & Maintenance', href: '/learn/knowledge-center' },
-          { label: 'Platform', href: '/learn/knowledge-center' },
-          { label: 'Security & Compliance', href: '/learn/knowledge-center' },
-          { label: 'Storage', href: '/learn/knowledge-center' },
-          { label: 'Solutions Engineering', href: '/learn/knowledge-center' },
-          { label: 'User Access', href: '/learn/knowledge-center' },
+          { label: 'Network', href: '/explore/shared-services#network' },
+          { label: 'Storage', href: '/explore/shared-services#storage' },
+          { label: 'User Access', href: '/explore/shared-services#user-access' },
+          { label: 'Compute', href: '/explore/shared-services#compute' },
+          { label: 'Security & Compliance', href: '/explore/shared-services#security-compliance' },
+          { label: 'Platform', href: '/explore/shared-services#platform' },
+          { label: 'Development Support', href: '/explore/shared-services#development-support' },
+          { label: 'Operations & Maintenance', href: '/explore/shared-services#operations-maintenance' },
+          { label: 'Financial Operations (FinOps)', href: '/explore/shared-services#finops' },
+          { label: 'Solutions Engineering', href: '/explore/shared-services#solutions-engineering' },
         ],
       },
     ],
@@ -108,7 +108,7 @@ const megaMenuItems: MegaMenuItem[] = [
     columns: [
       {
         links: [
-          { label: 'Knowledge Center', href: '/learn/knowledge-center' },
+          { label: 'Documentation', href: '/learn/knowledge-center' },
           { label: 'Training & Enablement', href: '/learn/training-enablement' },
           { label: 'Customer Roadmap', href: '/learn/initiatives' },
         ],

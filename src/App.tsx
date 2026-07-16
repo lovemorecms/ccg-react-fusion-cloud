@@ -16,6 +16,7 @@ import LandingPageTemplateDemoPage from './pages/LandingPageTemplateDemoPage'
 import PageLayoutTemplatePage from './pages/PageLayoutTemplatePage'
 import ThreeColumnTemplateDemoPage from './pages/ThreeColumnTemplateDemoPage'
 import TwoColumnTemplateDemoPage from './pages/TwoColumnTemplateDemoPage'
+import SharedServicesPage from './pages/SharedServicesPage'
 import ProgramOverviewPage from './pages/ProgramOverviewPage'
 import TrainingEnablementPage from './pages/TrainingEnablementPage'
 
@@ -31,6 +32,7 @@ function App() {
         <Route path="/explore" element={<ExplorePage />} />
         <Route path="/explore/platforms/:platformSlug" element={<PlatformRoutePage />} />
         <Route path="/explore/fusion-toolkit" element={<FusionToolkitLandingPage />} />
+        <Route path="/explore/shared-services" element={<SharedServicesPage />} />
         <Route path="/learn/initiatives" element={<InitiativesPage />} />
         <Route path="/learn/training-enablement" element={<TrainingEnablementPage />} />
         <Route path="/nav-demo" element={<NavDemoPage />} />

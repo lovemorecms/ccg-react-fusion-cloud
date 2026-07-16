@@ -1,4 +1,5 @@
 import { fusionToolkitNavLinks, fusionToolkitPath } from './fusionToolkitContent'
+import { sharedServicesPath, sharedServiceCategories } from './sharedServicesContent'
 import { platformNavLinks } from './platformPages'
 
 export type NavLink = { label: string; href: string }
@@ -40,7 +41,7 @@ function sortLinks(links: NavLink[]): NavLink[] {
 }
 
 /** Panels with fixed link order (do not alphabetize). */
-const PRESERVE_LINK_ORDER_CATEGORY_IDS = new Set(['fusion-toolkit'])
+const PRESERVE_LINK_ORDER_CATEGORY_IDS = new Set(['fusion-toolkit', 'shared-services'])
 
 function sortPanel(panel: NavCategoryPanel, categoryId?: string): NavCategoryPanel {
   if (panel.type === 'empty') {
@@ -157,20 +158,11 @@ export const navNewCcgMenuItems: NavMenuItem[] = sortMenuItems([
       {
         id: 'shared-services',
         label: 'Shared Services',
-        href: '/explore',
+        href: sharedServicesPath,
         panel: {
           type: 'list',
-          links: list(
-            'Compute',
-            'Development Support',
-            'Financial Operations (FinOps)',
-            'Network',
-            'Operations & Maintenance',
-            'Platform',
-            'Security & Compliance',
-            'Storage',
-            'Solutions Engineering',
-            'User Access',
+          links: sharedServiceCategories.map((category) =>
+            link(category.label, `${sharedServicesPath}#${category.id}`),
           ),
         },
       },
@@ -183,7 +175,7 @@ export const navNewCcgMenuItems: NavMenuItem[] = sortMenuItems([
     categories: [
       {
         id: 'knowledge-center',
-        label: 'Knowledge Center',
+        label: 'Documentation',
         href: '/learn/knowledge-center',
         panel: {
           type: 'columns',

@@ -1,6 +1,6 @@
 /**
- * Knowledge Base documentation parent categories.
- * On the Knowledge Base page, categories with `href: '#'` expand inline; `topics` lists real links when present.
+ * Documentation parent categories.
+ * On the Documentation page, categories with `href: '#'` expand inline; `topics` lists real links when present.
  */
 export type DocCategoryTopic = { label: string; to?: string }
 

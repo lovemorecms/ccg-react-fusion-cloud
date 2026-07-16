@@ -9,7 +9,6 @@ import { PlatformArticleSectionNav } from '../components/layouts/platform-articl
 import { PlatformArticleTableBlock } from '../components/layouts/platform-article/PlatformArticleTable'
 import { getPlatformArticleBySlug } from '../data/platformArticleContent'
 import type { PlatformArticleSection } from '../data/platformArticleContent'
-import { useSectionReveal } from '../hooks/useSectionReveal'
 import { SiteFooter } from '../components/SiteFooter'
 import { SiteHeader } from '../components/SiteHeader'
 
@@ -49,7 +48,7 @@ function ArticleSection({ section }: { section: PlatformArticleSection }) {
   return (
     <section
       id={section.id}
-      className="pa-article__section fusion-section-reveal"
+      className="pa-article__section"
       aria-labelledby={`${section.id}-heading`}
       tabIndex={-1}
     >
@@ -76,6 +75,15 @@ function ArticleSection({ section }: { section: PlatformArticleSection }) {
               {paragraph}
             </p>
           ))}
+          {section.bullets && section.bullets.length > 0 ? (
+            <ul className="pa-article__list">
+              {section.bullets.map((bullet) => (
+                <li key={bullet.slice(0, 40)} className="pa-article__list-item">
+                  {bullet}
+                </li>
+              ))}
+            </ul>
+          ) : null}
           {section.links && section.links.length > 0 ? (
             <p className="pa-article__p">
               {section.links.map((link, index) => (
@@ -96,7 +104,6 @@ function ArticleSection({ section }: { section: PlatformArticleSection }) {
 
 export default function PlatformArticlePage({ articleSlug }: { articleSlug: string }) {
   const article = getPlatformArticleBySlug(articleSlug)
-  const revealRef = useSectionReveal()
 
   useEffect(() => {
     if (article) {
@@ -121,7 +128,7 @@ export default function PlatformArticlePage({ articleSlug }: { articleSlug: stri
       <SkipNav href="#main-content">Skip to main content</SkipNav>
       <SiteHeader />
 
-      <main id="main-content" tabIndex={-1} className="pa-page" ref={revealRef}>
+      <main id="main-content" tabIndex={-1} className="pa-page">
         <InteriorSectionNavProvider>
           <HideableInteriorBreadcrumbs className="kc-breadcrumb-bar kc-breadcrumb-bar--initiatives">
             <PlatformArticleBreadcrumbs title={article.title} />
@@ -135,6 +142,7 @@ export default function PlatformArticlePage({ articleSlug }: { articleSlug: stri
               readingTime: article.metadata.readingTime,
             }}
             imageSrc={article.heroImageSrc}
+            imageAlt={article.heroImageAlt}
           />
 
           <PlatformArticleSectionNav sectionIds={article.sectionIds} items={navItems} />

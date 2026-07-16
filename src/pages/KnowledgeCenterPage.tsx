@@ -186,7 +186,7 @@ function useScrollReveal() {
   return ref
 }
 
-/** Categories that use placeholder `href: '#'` open the inline panel on the Knowledge Base page. */
+/** Categories that use placeholder `href: '#'` open the inline panel on the Documentation page. */
 function categoryExpandsInlineOnKb(cat: DocCategory): boolean {
   return cat.href === '#'
 }
@@ -366,7 +366,7 @@ export default function KnowledgeCenterPage() {
                 </svg>
               </li>
               <li>
-                <span className="kc-breadcrumb-current">Knowledge Base</span>
+                <span className="kc-breadcrumb-current">Documentation</span>
               </li>
             </ol>
           </nav>
@@ -374,7 +374,7 @@ export default function KnowledgeCenterPage() {
 
         <section className="kc-hero">
           <div className="kc-hero__inner">
-            <h1 className="kc-hero__heading">Knowledge Base</h1>
+            <h1 className="kc-hero__heading">Documentation</h1>
             <p className="kc-hero__description">
               Welcome to CMS Hybrid Cloud Documentation. Everything you need to start building
               with CMS Hybrid Cloud. Our guides and resources will help you set up and optimize
@@ -427,7 +427,7 @@ export default function KnowledgeCenterPage() {
             aria-labelledby="kc-doc-categories-heading"
           >
             <h2 id="kc-doc-categories-heading" className="kc-section-heading">
-              Documentation categories
+              Categories
             </h2>
             <p className="kc-section-subtitle">
               Parent topics for CMS Hybrid Cloud documentation. Select a category to browse guides and references in

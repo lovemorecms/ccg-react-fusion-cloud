@@ -5,6 +5,8 @@ export type PlatformArticleTableBlockProps = {
 }
 
 export function PlatformArticleTableBlock({ table }: PlatformArticleTableBlockProps) {
+  const rowHeaderColumn = table.rowHeaderColumn ?? table.headers.length === 2
+
   return (
     <div className="pa-table-wrap">
       {table.intro ? <p className="pa-article__p pa-table-wrap__intro">{table.intro}</p> : null}
@@ -13,15 +15,26 @@ export function PlatformArticleTableBlock({ table }: PlatformArticleTableBlockPr
           {table.caption ? <caption className="pa-table__caption">{table.caption}</caption> : null}
           <thead>
             <tr>
-              <th scope="col">{table.headers[0]}</th>
-              <th scope="col">{table.headers[1]}</th>
+              {table.headers.map((header) => (
+                <th key={header} scope="col">
+                  {header}
+                </th>
+              ))}
             </tr>
           </thead>
           <tbody>
             {table.rows.map((row) => (
-              <tr key={row.category}>
-                <th scope="row">{row.category}</th>
-                <td>{row.value}</td>
+              <tr key={row.join('|')}>
+                {row.map((cell, cellIndex) => {
+                  if (rowHeaderColumn && cellIndex === 0) {
+                    return (
+                      <th key={`${cell}-h`} scope="row">
+                        {cell}
+                      </th>
+                    )
+                  }
+                  return <td key={`${cell}-${cellIndex}`}>{cell}</td>
+                })}
               </tr>
             ))}
           </tbody>

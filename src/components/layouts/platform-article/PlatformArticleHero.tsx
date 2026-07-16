@@ -6,6 +6,7 @@ export type PlatformArticleHeroProps = {
   summary: string
   metadata: Pick<PlatformArticleMetadata, 'updated' | 'readingTime'>
   imageSrc: string
+  imageAlt?: string
   titleId?: string
 }
 
@@ -18,6 +19,7 @@ export function PlatformArticleHero({
   summary,
   metadata,
   imageSrc,
+  imageAlt = '',
   titleId = 'pa-hero-title',
 }: PlatformArticleHeroProps) {
   const imageUrl = `${import.meta.env.BASE_URL}${imageSrc.replace(/^\//, '')}`
@@ -29,13 +31,6 @@ export function PlatformArticleHero({
       aria-labelledby={titleId}
       tabIndex={-1}
     >
-      <img
-        src={imageUrl}
-        alt=""
-        className="init-hero__bg-img pa-hero__bg-cloud"
-        decoding="async"
-        fetchPriority="high"
-      />
       <div className="init-hero__scrim pa-hero__scrim" aria-hidden />
       <div className="init-hero__orb init-hero__orb--1" aria-hidden />
       <div className="init-hero__orb init-hero__orb--2" aria-hidden />
@@ -74,6 +69,16 @@ export function PlatformArticleHero({
               </div>
             </div>
           </dl>
+        </div>
+
+        <div className="pa-hero__visual" aria-hidden={imageAlt ? undefined : true}>
+          <img
+            src={imageUrl}
+            alt={imageAlt}
+            className="pa-hero__visual-img"
+            decoding="async"
+            fetchPriority="high"
+          />
         </div>
       </div>
     </section>

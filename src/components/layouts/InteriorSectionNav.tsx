@@ -14,6 +14,7 @@ import { triggerSectionSettle } from '../../hooks/useSectionReveal'
 export type InteriorSectionNavItem = {
   id: string
   label: string
+  icon?: ReactNode
 }
 
 export type InteriorSectionNavProps = {
@@ -21,6 +22,10 @@ export type InteriorSectionNavProps = {
   sectionIds: string[]
   ariaLabel: string
   cta?: ReactNode
+  onNavClick?: (id: string) => void
+  /** When set, highlights this section and skips scroll-spy updates. */
+  activeSectionId?: string
+  variant?: 'text' | 'icon'
 }
 
 type InteriorSectionNavContextValue = {
@@ -96,12 +101,23 @@ type IndicatorStyle = {
   opacity: number
 }
 
-export function InteriorSectionNav({ items, sectionIds, ariaLabel, cta }: InteriorSectionNavProps) {
+export function InteriorSectionNav({
+  items,
+  sectionIds,
+  ariaLabel,
+  cta,
+  onNavClick,
+  activeSectionId,
+  variant = 'text',
+}: InteriorSectionNavProps) {
   const { setIsPinned: setContextPinned } = useInteriorSectionNavContext()
   const [isPinned, setIsPinned] = useState(false)
-  const [activeId, setActiveId] = useState(sectionIds[0] ?? '')
+  const [activeId, setActiveId] = useState(activeSectionId ?? sectionIds[0] ?? '')
   const [spacerHeight, setSpacerHeight] = useState(0)
   const [indicator, setIndicator] = useState<IndicatorStyle>({ left: 0, width: 0, opacity: 0 })
+  const [canScrollRight, setCanScrollRight] = useState(false)
+
+  const isActiveControlled = activeSectionId != null
 
   const activeIdRef = useRef(activeId)
   const rafRef = useRef<number | null>(null)
@@ -113,6 +129,8 @@ export function InteriorSectionNav({ items, sectionIds, ariaLabel, cta }: Interi
   const pageRootRef = useRef<HTMLElement | null>(null)
 
   const updateActiveSection = useCallback(() => {
+    if (isActiveControlled) return
+
     const pendingTargetId = pendingTargetRef.current
     if (pendingTargetId) {
       const pendingEl = document.getElementById(pendingTargetId)
@@ -130,7 +148,15 @@ export function InteriorSectionNav({ items, sectionIds, ariaLabel, cta }: Interi
       activeIdRef.current = next
       setActiveId(next)
     }
-  }, [sectionIds])
+  }, [isActiveControlled, sectionIds])
+
+  useEffect(() => {
+    if (!isActiveControlled || !activeSectionId) return
+    if (activeSectionId === activeIdRef.current) return
+    activeIdRef.current = activeSectionId
+    setActiveId(activeSectionId)
+    pendingTargetRef.current = activeSectionId
+  }, [activeSectionId, isActiveControlled])
 
   const scheduleUpdate = useCallback(() => {
     if (rafRef.current !== null) return
@@ -156,6 +182,26 @@ export function InteriorSectionNav({ items, sectionIds, ariaLabel, cta }: Interi
       opacity: 1,
     })
   }, [activeId])
+
+  const updateOverflow = useCallback(() => {
+    const list = listRef.current
+    if (!list) {
+      setCanScrollRight(false)
+      return
+    }
+    const remaining = list.scrollWidth - list.clientWidth - list.scrollLeft
+    setCanScrollRight(remaining > 4)
+  }, [])
+
+  const scrollNavRight = useCallback(() => {
+    const list = listRef.current
+    if (!list) return
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    list.scrollBy({
+      left: Math.max(160, list.clientWidth * 0.65),
+      behavior: reduceMotion ? 'auto' : 'smooth',
+    })
+  }, [])
 
   useEffect(() => {
     activeIdRef.current = activeId
@@ -231,21 +277,29 @@ export function InteriorSectionNav({ items, sectionIds, ariaLabel, cta }: Interi
 
   useLayoutEffect(() => {
     updateIndicator()
-  }, [updateIndicator, isPinned, items])
+    updateOverflow()
+  }, [updateIndicator, updateOverflow, isPinned, items])
 
   useEffect(() => {
     const list = listRef.current
     if (!list) return
 
-    const onScrollOrResize = () => updateIndicator()
+    const onScrollOrResize = () => {
+      updateIndicator()
+      updateOverflow()
+    }
     list.addEventListener('scroll', onScrollOrResize, { passive: true })
     window.addEventListener('resize', onScrollOrResize, { passive: true })
+
+    const ro = new ResizeObserver(onScrollOrResize)
+    ro.observe(list)
 
     return () => {
       list.removeEventListener('scroll', onScrollOrResize)
       window.removeEventListener('resize', onScrollOrResize)
+      ro.disconnect()
     }
-  }, [updateIndicator])
+  }, [updateIndicator, updateOverflow])
 
   useEffect(() => {
     if (!isPinned) return
@@ -254,11 +308,17 @@ export function InteriorSectionNav({ items, sectionIds, ariaLabel, cta }: Interi
   }, [activeId, isPinned])
 
   const handleNavClick = (id: string) => {
-    const target = document.getElementById(id)
-    if (!target) return
     pendingTargetRef.current = id
     activeIdRef.current = id
     setActiveId(id)
+
+    if (onNavClick) {
+      onNavClick(id)
+      return
+    }
+
+    const target = document.getElementById(id)
+    if (!target) return
 
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' })
@@ -272,7 +332,7 @@ export function InteriorSectionNav({ items, sectionIds, ariaLabel, cta }: Interi
   }
 
   return (
-    <div className="interior-section-nav-root">
+    <div className={`interior-section-nav-root${variant === 'icon' ? ' interior-section-nav-root--icon' : ''}`}>
       <div ref={sentinelRef} className="interior-section-nav__sentinel" aria-hidden />
       {isPinned ? (
         <div
@@ -283,28 +343,49 @@ export function InteriorSectionNav({ items, sectionIds, ariaLabel, cta }: Interi
       ) : null}
       <div className={`interior-section-nav${isPinned ? ' interior-section-nav--pinned' : ''}`}>
         <div className="interior-section-nav__wrap">
-          <div ref={shellRef} className="interior-section-nav__shell">
-            <nav className="interior-section-nav__nav" aria-label={ariaLabel}>
+          <div
+            ref={shellRef}
+            className={`interior-section-nav__shell${variant === 'icon' ? ' interior-section-nav__shell--icon' : ''}`}
+          >
+            <nav
+              className={`interior-section-nav__nav${canScrollRight ? ' interior-section-nav__nav--overflow-right' : ''}${variant === 'icon' ? ' interior-section-nav__nav--icon' : ''}`}
+              aria-label={ariaLabel}
+            >
               <div className="interior-section-nav__track">
-                <ul ref={listRef} className="interior-section-nav__list">
+                <ul
+                  ref={listRef}
+                  className={`interior-section-nav__list${variant === 'icon' ? ' interior-section-nav__list--icon' : ''}`}
+                >
                   {items.map((item) => {
                     const isActive = activeId === item.id
                     return (
-                      <li key={item.id} className="interior-section-nav__item">
+                      <li
+                        key={item.id}
+                        className={`interior-section-nav__item${variant === 'icon' ? ' interior-section-nav__item--icon' : ''}`}
+                      >
                         <a
                           ref={(node) => {
                             if (node) linkRefs.current.set(item.id, node)
                             else linkRefs.current.delete(item.id)
                           }}
                           href={`#${item.id}`}
-                          className={`interior-section-nav__link${isActive ? ' interior-section-nav__link--active' : ''}`}
+                          className={`interior-section-nav__link${variant === 'icon' ? ' interior-section-nav__link--icon' : ''}${isActive ? ' interior-section-nav__link--active' : ''}`}
                           aria-current={isActive ? 'true' : undefined}
                           onClick={(e) => {
                             e.preventDefault()
                             handleNavClick(item.id)
                           }}
                         >
-                          {item.label}
+                          {variant === 'icon' ? (
+                            <>
+                              <span className="interior-section-nav__icon" aria-hidden>
+                                {item.icon}
+                              </span>
+                              <span className="interior-section-nav__label">{item.label}</span>
+                            </>
+                          ) : (
+                            item.label
+                          )}
                         </a>
                       </li>
                     )
@@ -320,6 +401,24 @@ export function InteriorSectionNav({ items, sectionIds, ariaLabel, cta }: Interi
                   }}
                 />
               </div>
+              {canScrollRight ? (
+                <button
+                  type="button"
+                  className="interior-section-nav__more"
+                  aria-label="Show more sections"
+                  onClick={scrollNavRight}
+                >
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
+                    <path
+                      d="M6 4l4 4-4 4"
+                      stroke="currentColor"
+                      strokeWidth={1.75}
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </button>
+              ) : null}
             </nav>
             {cta ? <div className="interior-section-nav__cta shrink-0">{cta}</div> : null}
           </div>

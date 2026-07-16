@@ -40,7 +40,7 @@ const onThisPage = [
 ]
 
 const quickLinks = [
-  { label: 'Knowledge Center', href: '/learn/knowledge-center' },
+  { label: 'Documentation', href: '/learn/knowledge-center' },
   { label: 'Maven integration example', href: '/learn/knowledge-center/devops/maven-integration' },
   { label: '2-Column template', href: '/resources/page-layouts/2-column' },
   { label: 'Page layouts library', href: '/resources/page-layouts' },
@@ -88,9 +88,9 @@ export default function ThreeColumnTemplateDemoPage() {
         <KnowledgeBasePageLayout
           breadcrumbs={<Breadcrumbs />}
           pageTitle="3 Column Layout"
-          pageSubtext="Knowledge-base documentation layout: searchable left navigation, center article, and a right rail with on-page links and quick resources."
-          articleTitle="3-Column knowledge base template"
-          articleIntro="This template mirrors the Knowledge Center article layout used on pages such as Maven Integration for DevOps. Use the page header for the topic; the center column holds the article; side panels support wayfinding."
+          pageSubtext="Documentation layout: searchable left navigation, center article, and a right rail with on-page links and quick resources."
+          articleTitle="3-Column documentation template"
+          articleIntro="This template mirrors the Documentation article layout used on pages such as Maven Integration for DevOps. Use the page header for the topic; the center column holds the article; side panels support wayfinding."
           topNavSections={topNavSections}
           navGroups={[
             {
@@ -110,7 +110,7 @@ export default function ThreeColumnTemplateDemoPage() {
           <p className="ddoc-article__p">
             Three columns divide responsibilities: navigation on the left, long-form content in the center, and
             contextual tools on the right. On smaller viewports the left nav collapses behind a toggle, matching the live
-            Knowledge Center experience.
+            Documentation experience.
           </p>
 
           <h2 id="left-navigation" className="ddoc-article__h2">
@@ -131,7 +131,7 @@ export default function ThreeColumnTemplateDemoPage() {
             Center content
           </h2>
           <p className="ddoc-article__p">
-            The article panel uses the same typography and spacing as Knowledge Center articles. Section headings include
+            The article panel uses the same typography and spacing as Documentation articles. Section headings include
             anchor IDs so the right-rail table of contents can jump to each block.
           </p>
 
@@ -164,7 +164,7 @@ export default function ThreeColumnTemplateDemoPage() {
           </h2>
           <p className="ddoc-article__p">
             The right column provides an on-this-page list, quick links to related resources, and an optional support
-            call-to-action. A full-width footer CTA band below the grid matches the knowledge-base article footer pattern.
+            call-to-action. A full-width footer CTA band below the grid matches the documentation article footer pattern.
           </p>
         </KnowledgeBasePageLayout>
       </main>

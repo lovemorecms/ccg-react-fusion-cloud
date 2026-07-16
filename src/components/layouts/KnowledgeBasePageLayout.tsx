@@ -373,7 +373,7 @@ export function KnowledgeBasePageLayout({
               <div className="ddoc-footer-cta__col">
                 <h3 className="ddoc-footer-cta__heading">Have more questions?</h3>
                 <p className="ddoc-footer-cta__p">
-                  Browse our knowledge base and community forums for answers to common questions.
+                  Browse our documentation and community forums for answers to common questions.
                 </p>
                 <a href="#" className="ddoc-footer-cta__textlink">
                   Visit Help Center

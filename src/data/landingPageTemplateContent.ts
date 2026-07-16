@@ -217,7 +217,7 @@ export const landingTabs = {
       label: 'Support',
       title: 'How teams get help',
       body: 'Describe support channels, office hours, and escalation paths associated with each tab selection.',
-      bullets: ['Customer Service Team engagement', 'Knowledge base and runbooks', 'Incident management integration'],
+      bullets: ['Customer Service Team engagement', 'Documentation and runbooks', 'Incident management integration'],
     },
   ],
 }
