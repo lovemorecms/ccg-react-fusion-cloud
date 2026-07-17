@@ -113,7 +113,7 @@ export function FusionAcademy() {
                   />
 
                   <AcademyIconRing>
-                    <IconInsightBars className="h-6 w-6 text-white" />
+                    <IconInsightBars className="h-6 w-6 text-[#ffe400]" />
                   </AcademyIconRing>
 
                   <h3 id={`fusion-academy-offering-${item.id}`} className="fusion-academy-offerings__title">
@@ -148,11 +148,11 @@ function AcademyIconRing({ children }: { children: ReactNode }) {
       <div
         className="pointer-events-none absolute inset-0 rounded-full opacity-25 blur-md"
         style={{
-          background: 'color-mix(in srgb, var(--color-accent-primary) 55%, transparent)',
+          background: 'color-mix(in srgb, #ffe400 55%, transparent)',
         }}
         aria-hidden
       />
-      <div className="relative flex size-[3.25rem] items-center justify-center rounded-full border-2 border-[color:var(--color-accent-primary)] bg-[color:color-mix(in_srgb,var(--color-primary-darker)_35%,transparent)]">
+      <div className="relative flex size-[3.25rem] items-center justify-center rounded-full border-2 border-[#ffe400] bg-[color:color-mix(in_srgb,var(--color-primary-darker)_35%,transparent)]">
         {children}
       </div>
     </div>

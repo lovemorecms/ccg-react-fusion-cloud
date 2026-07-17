@@ -47,6 +47,7 @@ export function FusionMultiCloudServices() {
           <FusionButton
             to="/about/program-overview"
             accent
+            onDark
             className="fusion-multi-cloud__cta"
           >
             Learn more
