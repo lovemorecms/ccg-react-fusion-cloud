@@ -45,6 +45,14 @@ function IconMenuClose() {
   )
 }
 
+function LinkIndicatorIcon() {
+  return (
+    <svg className="fusion-nav-v2__link-indicator" width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden>
+      <path d="M5 11 11 5M6 5h5v5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  )
+}
+
 function MegaLink({ label, href, onNavigate }: { label: string; href: string; onNavigate: (e: React.MouseEvent, href: string) => void }) {
   return (
     <a href={href} className="fusion-mega-link group inline-flex items-center gap-1.5" onClick={(e) => onNavigate(e, href)}>
@@ -227,6 +235,233 @@ function RightPanel({
           </li>
         ))}
       </ul>
+    </div>
+  )
+}
+
+const overviewMenuCopy: Record<
+  string,
+  {
+    description: string
+    footerTitle: string
+    footerDescription: string
+    footerLabel: string
+    footerHref: string
+  }
+> = {
+  explore: {
+    description: 'Discover our cloud platforms, solutions, and shared services.',
+    footerTitle: 'Need guidance?',
+    footerDescription: 'Explore documentation, tutorials, and resources to help you succeed in the cloud.',
+    footerLabel: 'Visit Documentation',
+    footerHref: '/learn/knowledge-center',
+  },
+  about: {
+    description: 'Learn about CMS Hybrid Cloud, its benefits, and the team supporting your cloud journey.',
+    footerTitle: 'Have questions?',
+    footerDescription: 'Connect with our team to learn how CMS Hybrid Cloud can support your organization.',
+    footerLabel: 'Contact Us',
+    footerHref: '/about/contact-us',
+  },
+  'get-started': {
+    description: 'Find the onboarding and migration resources you need to begin your cloud journey.',
+    footerTitle: 'Need help getting started?',
+    footerDescription: 'Our support team can help you identify the right path and next steps.',
+    footerLabel: 'Get Help',
+    footerHref: '#get-help',
+  },
+  learn: {
+    description: 'Build your expertise. Access documentation, training, and resources to succeed in the cloud.',
+    footerTitle: 'Need help finding something?',
+    footerDescription: 'Visit our documentation center for articles, tutorials, and support.',
+    footerLabel: 'Go to Documentation',
+    footerHref: '/learn/knowledge-center',
+  },
+}
+
+function getPanelLinks(panel: NavCategoryPanel) {
+  if (panel.type === 'list' || panel.type === 'cards') {
+    return panel.links
+  }
+  if (panel.type === 'columns') {
+    return panel.columns.flatMap((column) => column.links)
+  }
+  return []
+}
+
+function MegaOverviewMenu({
+  menuItem,
+  onNavigate,
+}: {
+  menuItem: NavMenuItem
+  onNavigate: (e: React.MouseEvent, href: string) => void
+}) {
+  const copy = overviewMenuCopy[menuItem.id]
+
+  return (
+    <div className={`fusion-nav-v2__overview fusion-nav-v2__overview--${menuItem.id}`}>
+      <div className="fusion-nav-v2__overview-main">
+        <header className="fusion-nav-v2__overview-header">
+          <h2 className="fusion-nav-v2__overview-title">
+            <a href={menuItem.href} onClick={(e) => onNavigate(e, menuItem.href)}>
+              {menuItem.label}
+              <LinkIndicatorIcon />
+            </a>
+          </h2>
+          <p>{copy.description}</p>
+        </header>
+
+        <div
+          className={`fusion-nav-v2__overview-grid fusion-nav-v2__overview-grid--${menuItem.id}`}
+          aria-label={`${menuItem.label} categories`}
+        >
+          {menuItem.categories.map((category) => {
+            const links = getPanelLinks(category.panel)
+            const categoryHref = getCategoryHref(category, menuItem)
+            return (
+              <section
+                key={category.id}
+                className={`fusion-nav-v2__overview-category fusion-nav-v2__overview-category--${category.id}`}
+              >
+                <h3>
+                  <a href={categoryHref} onClick={(e) => onNavigate(e, categoryHref)}>
+                    {category.label}
+                    <LinkIndicatorIcon />
+                  </a>
+                </h3>
+                <ul>
+                  {links.map((item) => (
+                    <li key={`${category.id}-${item.label}`}>
+                      <MegaLink label={item.label} href={item.href} onNavigate={onNavigate} />
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            )
+          })}
+        </div>
+      </div>
+
+      <footer className="fusion-nav-v2__overview-footer">
+        <div>
+          <strong>{copy.footerTitle}</strong>
+          <span>{copy.footerDescription}</span>
+        </div>
+        <a
+          href={copy.footerHref}
+          className="fusion-nav-v2__overview-footer-link"
+          onClick={(e) => onNavigate(e, copy.footerHref)}
+        >
+          {copy.footerLabel}
+          <LinkIndicatorIcon />
+        </a>
+      </footer>
+    </div>
+  )
+}
+
+const learnCategoryCopy: Record<string, { viewLabel: string }> = {
+  'knowledge-center': {
+    viewLabel: 'View all documentation',
+  },
+  'training-enablement': {
+    viewLabel: 'View all training',
+  },
+  'resource-center': {
+    viewLabel: 'View all resources',
+  },
+  'customer-roadmap': {
+    viewLabel: 'View roadmap',
+  },
+}
+
+const learnGroupLabels: Record<string, string> = {
+  'ARCHITECTURE & INFRASTRUCTURE': 'Architecture & Infrastructure',
+  'COMPUTING & DEVOPS': 'Computing & DevOps',
+  MONITORING: 'Monitoring',
+  'NETWORKING & SECURITY': 'Networking & Security',
+  'CLOUD PLATFORM': 'Cloud Platforms',
+  'AGILE TOOLS': 'Agile Tools',
+  'HYBRID CLOUD HOSTING SERVICES SELF-PACED LEARNING': 'Self-paced Learning',
+  'HYBRID CLOUD PROGRAM SESSIONS': 'Program Sessions',
+  'FINANCIAL OPERATIONS': 'Financial Operations',
+  'COST TOOLS': 'Cost Tools',
+  'CLOUD CONSUMPTION': 'Cloud Consumption',
+}
+
+function LearnOverviewMenu({
+  menuItem,
+  onNavigate,
+}: {
+  menuItem: NavMenuItem
+  onNavigate: (e: React.MouseEvent, href: string) => void
+}) {
+  const copy = overviewMenuCopy.learn
+
+  return (
+    <div className="fusion-nav-v2__overview fusion-nav-v2__overview--learn">
+      <div className="fusion-nav-v2__overview-main fusion-nav-v2__learn-main">
+        <header className="fusion-nav-v2__overview-header">
+          <h2 className="fusion-nav-v2__overview-title">
+            <a href={menuItem.href} onClick={(e) => onNavigate(e, menuItem.href)}>
+              {menuItem.label}
+              <LinkIndicatorIcon />
+            </a>
+          </h2>
+          <p>{copy.description}</p>
+        </header>
+
+        <div className="fusion-nav-v2__learn-grid" aria-label="Learn categories">
+          {menuItem.categories.map((category) => {
+            const categoryCopy = learnCategoryCopy[category.id]
+            const categoryHref = getCategoryHref(category, menuItem)
+            const groups = category.panel.type === 'columns' ? category.panel.columns : []
+            return (
+              <section key={category.id} className={`fusion-nav-v2__learn-category fusion-nav-v2__learn-category--${category.id}`}>
+                <div className="fusion-nav-v2__learn-category-heading">
+                  <h3>
+                    <a href={categoryHref} onClick={(e) => onNavigate(e, categoryHref)}>
+                      {category.label}
+                      <LinkIndicatorIcon />
+                    </a>
+                  </h3>
+                </div>
+                <span className="fusion-nav-v2__learn-accent" aria-hidden />
+                {groups.length ? (
+                  <ul className="fusion-nav-v2__learn-group-list">
+                    {groups.map((group) => (
+                      <li key={group.title}>
+                        <a
+                          href={`${categoryHref}#${group.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')}`}
+                          onClick={(e) => onNavigate(e, e.currentTarget.getAttribute('href') ?? categoryHref)}
+                        >
+                          {learnGroupLabels[group.title] ?? group.title}
+                          <span aria-hidden>›</span>
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                ) : null}
+                <a className="fusion-nav-v2__learn-view-all" href={categoryHref} onClick={(e) => onNavigate(e, categoryHref)}>
+                  {categoryCopy.viewLabel}
+                  <span aria-hidden>→</span>
+                </a>
+              </section>
+            )
+          })}
+        </div>
+      </div>
+
+      <footer className="fusion-nav-v2__overview-footer">
+        <div>
+          <strong>{copy.footerTitle}</strong>
+          <span>{copy.footerDescription}</span>
+        </div>
+        <a href={copy.footerHref} className="fusion-nav-v2__overview-footer-link" onClick={(e) => onNavigate(e, copy.footerHref)}>
+          {copy.footerLabel}
+          <LinkIndicatorIcon />
+        </a>
+      </footer>
     </div>
   )
 }
@@ -545,59 +780,73 @@ export function FusionSiteNavV2({
           <div className="fusion-nav-v2__mega-veil" aria-hidden="true" />
           <div key={activeItem.id} className="fusion-nav-v2__mega-swap">
             <div className="fusion-nav-v2__mega-container mx-auto max-w-[var(--fusion-site-max-width)] px-[var(--fusion-site-padding-x)] md:px-[var(--fusion-site-padding-x-md)]">
-              <div className="fusion-nav-v2__mega-inner">
-              <div className="fusion-nav-v2__left">
-                <h2
-                  id={`fusion-nav-v2-menu-${activeItem.id}`}
-                  className="fusion-nav-v2__menu-title"
-                >
-                  <a
-                    href={activeItem.href}
-                    className="fusion-nav-v2__menu-title-link"
-                    onClick={(e) => handleLinkClick(e, activeItem.href)}
-                  >
-                    {activeItem.label}
-                  </a>
-                </h2>
-                <div
-                  role="tablist"
-                  aria-labelledby={`fusion-nav-v2-menu-${activeItem.id}`}
-                  className="fusion-nav-v2__categories"
-                >
-                {activeItem.categories.map((cat, index) => {
-                  const selected = activeCategoryId === cat.id
-                  return (
-                    <button
-                      key={cat.id}
-                      type="button"
-                      role="tab"
-                      id={`fusion-nav-v2-tab-${activeItem.id}-${cat.id}`}
-                      aria-selected={selected}
-                      aria-controls={`fusion-nav-v2-panel-${activeItem.id}`}
-                      tabIndex={selected ? 0 : -1}
-                      className={`fusion-nav-v2__category${selected ? ' fusion-nav-v2__category--active' : ''}`}
-                      onFocus={() => setActiveCategoryId(cat.id)}
-                      onClick={() => setActiveCategoryId(cat.id)}
-                      onKeyDown={(e) => onCategoryKeyDown(e, activeItem, index)}
-                    >
-                      {cat.label}
-                    </button>
-                  )
-                })}
-                </div>
-              </div>
               <div
-                id={`fusion-nav-v2-panel-${activeItem.id}`}
-                role="tabpanel"
-                aria-labelledby={`fusion-nav-v2-tab-${activeItem.id}-${activeCategory.id}`}
-                className="fusion-nav-v2__right"
+                className={`fusion-nav-v2__mega-inner${
+                  overviewMenuCopy[activeItem.id] ? ' fusion-nav-v2__mega-inner--overview' : ''
+                }`}
               >
-                <RightPanel
-                  category={activeCategory}
-                  menuItem={activeItem}
-                  onNavigate={handleLinkClick}
-                />
-              </div>
+              {overviewMenuCopy[activeItem.id] ? (
+                activeItem.id === 'learn' ? (
+                  <LearnOverviewMenu menuItem={activeItem} onNavigate={handleLinkClick} />
+                ) : (
+                  <MegaOverviewMenu menuItem={activeItem} onNavigate={handleLinkClick} />
+                )
+              ) : (
+                <>
+                  <div className="fusion-nav-v2__left">
+                    <h2
+                      id={`fusion-nav-v2-menu-${activeItem.id}`}
+                      className="fusion-nav-v2__menu-title"
+                    >
+                      <a
+                        href={activeItem.href}
+                        className="fusion-nav-v2__menu-title-link"
+                        onClick={(e) => handleLinkClick(e, activeItem.href)}
+                      >
+                        {activeItem.label}
+                      </a>
+                    </h2>
+                    <div
+                      role="tablist"
+                      aria-labelledby={`fusion-nav-v2-menu-${activeItem.id}`}
+                      className="fusion-nav-v2__categories"
+                    >
+                    {activeItem.categories.map((cat, index) => {
+                      const selected = activeCategoryId === cat.id
+                      return (
+                        <button
+                          key={cat.id}
+                          type="button"
+                          role="tab"
+                          id={`fusion-nav-v2-tab-${activeItem.id}-${cat.id}`}
+                          aria-selected={selected}
+                          aria-controls={`fusion-nav-v2-panel-${activeItem.id}`}
+                          tabIndex={selected ? 0 : -1}
+                          className={`fusion-nav-v2__category${selected ? ' fusion-nav-v2__category--active' : ''}`}
+                          onFocus={() => setActiveCategoryId(cat.id)}
+                          onClick={() => setActiveCategoryId(cat.id)}
+                          onKeyDown={(e) => onCategoryKeyDown(e, activeItem, index)}
+                        >
+                          {cat.label}
+                        </button>
+                      )
+                    })}
+                    </div>
+                  </div>
+                  <div
+                    id={`fusion-nav-v2-panel-${activeItem.id}`}
+                    role="tabpanel"
+                    aria-labelledby={`fusion-nav-v2-tab-${activeItem.id}-${activeCategory.id}`}
+                    className="fusion-nav-v2__right"
+                  >
+                    <RightPanel
+                      category={activeCategory}
+                      menuItem={activeItem}
+                      onNavigate={handleLinkClick}
+                    />
+                  </div>
+                </>
+              )}
               </div>
             </div>
           </div>

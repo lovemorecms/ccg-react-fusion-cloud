@@ -7,6 +7,8 @@ import {
 import { FusionButton } from '../FusionButton'
 import { InteriorSectionNav } from '../layouts/InteriorSectionNav'
 
+const aboutHeroBackground = `${import.meta.env.BASE_URL}images/sections/benefits/customer-support-hero.png`
+
 function ArrowIcon() {
   return (
     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
@@ -47,7 +49,7 @@ export function AboutHybridCloudHero({
   currentLabel,
   title = aboutHybridCloudHero.title,
   description = aboutHybridCloudHero.description,
-  backgroundImage,
+  backgroundImage = aboutHeroBackground,
   showActions = true,
 }: AboutHybridCloudHeroProps) {
   return (

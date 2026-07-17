@@ -270,6 +270,32 @@ html.figma-capture .fusion-reveal-stagger .fusion-reveal-child {
   background-color: var(--color-primary);
 }
 
+.fusion-hero__bg-fill,
+.fusion-hero__bg-art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  pointer-events: none;
+}
+
+/* Full-bleed color/texture layer; fades before it can duplicate the right-side art. */
+.fusion-hero__bg-fill {
+  object-fit: cover;
+  object-position: left center;
+  -webkit-mask-image: linear-gradient(to right, #000 0%, #000 34%, transparent 54%);
+  mask-image: linear-gradient(to right, #000 0%, #000 34%, transparent 54%);
+}
+
+/* Uncropped focal artwork layer (cloud, orbit icons, and globe). */
+.fusion-hero__bg-art {
+  object-fit: contain;
+  object-position: right center;
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, transparent 26%, #000 48%, #000 100%);
+  mask-image: linear-gradient(to right, transparent 0%, transparent 26%, #000 48%, #000 100%);
+}
+
 .fusion-hero__scrim {
   background-image: linear-gradient(
     to right,
@@ -298,9 +324,35 @@ html.figma-capture .fusion-reveal-stagger .fusion-reveal-child {
   background-color: color-mix(in srgb, var(--color-primary-darkest) 68%, transparent);
 }
 
-/* Hero crossfade */
-.fusion-hero-slide-enter {
-  animation: fusion-fade-in 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+/*
+ * All slides share one grid cell. The grid track takes the height of the
+ * longest slide, so changing content never resizes the hero.
+ */
+.fusion-hero__slide-stage {
+  display: grid;
+}
+
+.fusion-hero__slide {
+  grid-area: 1 / 1;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px);
+  filter: blur(2px);
+  transition:
+    opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.45s ease,
+    visibility 0s linear 0.55s;
+  pointer-events: none;
+}
+
+.fusion-hero__slide--active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  filter: blur(0);
+  transition-delay: 0.08s, 0.08s, 0.08s, 0s;
+  pointer-events: auto;
 }
 
 /* Respect motion preferences globally */
@@ -437,12 +489,18 @@ html.figma-capture .fusion-section-reveal.fusion-section-reveal--stagger .ft-gri
 
   .fusion-search-enter,
   .fusion-search-exit,
-  .fusion-hero-slide-enter,
+  .fusion-hero__slide,
   .fusion-mega-panel,
   .fusion-nav-v2__mega,
   .fusion-nav-v2__mega-swap,
   .fusion-nav-v2__panel-content {
     animation: none;
+  }
+
+  .fusion-hero__slide {
+    transform: none;
+    filter: none;
+    transition: none;
   }
 
   .fusion-nav-v2__category:hover,
@@ -558,6 +616,28 @@ html.figma-capture .fusion-section-reveal.fusion-section-reveal--stagger .ft-gri
   --color--d: var(--color-gray-dark);
 }
 
+/* Accent CTAs on dark blue surfaces use the high-contrast yellow treatment. */
+.fusion-btn--accent-on-dark.ds-c-button--solid,
+.fusion-btn--accent-on-dark.ds-c-button--solid:link,
+.fusion-btn--accent-on-dark.ds-c-button--solid:visited {
+  --backgroundColor: #ffe400;
+  --borderColor: #ffe400;
+  --color: var(--color-primary-darkest);
+  --backgroundColor--h: #e6cd07;
+  --borderColor--h: #e6cd07;
+  --color--h: var(--color-primary-darkest);
+  --backgroundColor--a: #b3a006;
+  --borderColor--a: #b3a006;
+  --color--a: var(--color-primary-darkest);
+  color: var(--color-primary-darkest);
+}
+
+.fusion-btn--accent-on-dark.ds-c-button--solid:hover,
+.fusion-btn--accent-on-dark.ds-c-button--solid:focus,
+.fusion-btn--accent-on-dark.ds-c-button--solid:active {
+  color: var(--color-primary-darkest);
+}
+
 /* Re-assert hover label color for <a> buttons (CMS link styles can win otherwise) */
 a.fusion-ds-button.ds-c-button:hover,
 a.fusion-ds-button.ds-c-button:focus,
@@ -604,7 +684,19 @@ a.fusion-ds-button.ds-c-button:visited:hover {
 /* ─── Typography ────────────────────────────────────────────────────────── */
 
 .fusion-hero__headline {
+  display: -webkit-box;
+  overflow: hidden;
   font-family: var(--font-lexend);
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.fusion-hero__body {
+  display: -webkit-box;
+  overflow: hidden;
+  text-wrap: pretty;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
 }
 
 /* Dark hero accent: white maintains AA contrast against the navy surface */
@@ -663,21 +755,32 @@ a.fusion-ds-button.ds-c-button:visited:hover {
     inset 0 -2px 0 var(--fusion-dandelion);
 }
 
+/*
+ * Open trigger styles. Both .fusion-nav-v2--mega-open and .fusion-site-nav live on the
+ * same root node, so a descendant selector (.mega-open .site-nav …) never matches.
+ */
+.fusion-nav-v2.fusion-nav-v2--mega-open button.fusion-mega-trigger--active,
 .fusion-nav-v2--mega-open .fusion-site-nav button.fusion-mega-trigger--active {
   z-index: 63;
-  margin-bottom: -3px;
-  padding-bottom: calc(0.625rem + 3px);
+  align-self: stretch;
+  margin-bottom: 0;
+  padding-bottom: 0.75rem;
   color: var(--color-primary-darkest);
   background: linear-gradient(
     180deg,
     color-mix(in srgb, var(--color-white) 96%, var(--color-primary-lightest)) 0%,
     color-mix(in srgb, var(--color-primary-lightest) 48%, var(--color-white)) 72%,
-    color-mix(in srgb, var(--color-white) 82%, var(--color-primary-lightest)) 100%
+    color-mix(in srgb, var(--color-white) 88%, var(--color-primary-lightest)) 100%
   );
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--color-white) 90%, transparent);
+}
+
+.fusion-nav-v2.fusion-nav-v2--mega-open button.fusion-mega-trigger--active:focus,
+.fusion-nav-v2.fusion-nav-v2--mega-open button.fusion-mega-trigger--active:focus-visible {
+  outline: none;
   box-shadow:
     inset 0 1px 0 color-mix(in srgb, var(--color-white) 90%, transparent),
-    0 0 24px var(--fusion-mega-cyan-soft),
-    0 8px 20px color-mix(in srgb, var(--color-primary-darker) 8%, transparent);
+    0 0 24px var(--fusion-mega-cyan-soft);
 }
 
 .fusion-site-nav button.fusion-mega-trigger--active {
@@ -754,6 +857,7 @@ a.fusion-ds-button.ds-c-button:visited:hover {
 .fusion-nav-v2--mega-open .fusion-nav-v2__bar {
   position: relative;
   z-index: 64;
+  padding-bottom: 0;
 }
 
 .fusion-nav-v2--mega-open .fusion-nav-v2__bar::after {
@@ -1163,7 +1267,47 @@ h2.fusion-mega-featured__title {
 .fusion-hero .fusion-hero__cta-primary {
   width: 100%;
   min-width: 11rem;
-  box-shadow: 0 0 28px color-mix(in srgb, var(--color-accent-primary) 35%, transparent);
+  box-shadow: 0 0 28px color-mix(in srgb, #ffe400 35%, transparent);
+}
+
+/* Homepage-only yellow/white palette; yellow has strong contrast on the navy hero. */
+.fusion-hero .fusion-hero__headline-accent {
+  background-image: none;
+  color: #ffe400;
+  -webkit-text-fill-color: #ffe400;
+}
+
+.fusion-hero .fusion-hero__cta-primary.fusion-btn--accent.ds-c-button--solid,
+.fusion-hero .fusion-hero__cta-primary.fusion-btn--accent.ds-c-button--solid:link,
+.fusion-hero .fusion-hero__cta-primary.fusion-btn--accent.ds-c-button--solid:visited {
+  --backgroundColor: #ffe400;
+  --borderColor: #ffe400;
+  --color: var(--color-primary-darkest);
+  --backgroundColor--h: #e6cd07;
+  --borderColor--h: #e6cd07;
+  --color--h: var(--color-primary-darkest);
+  --backgroundColor--a: #b3a006;
+  --borderColor--a: #b3a006;
+  --color--a: var(--color-primary-darkest);
+  color: var(--color-primary-darkest);
+}
+
+.fusion-hero .fusion-hero__cta-primary.fusion-btn--accent.ds-c-button--solid:hover,
+.fusion-hero .fusion-hero__cta-primary.fusion-btn--accent.ds-c-button--solid:focus,
+.fusion-hero .fusion-hero__cta-primary.fusion-btn--accent.ds-c-button--solid:active {
+  color: var(--color-primary-darkest);
+}
+
+.fusion-hero .fusion-hero__cta-secondary.ds-c-button--ghost,
+.fusion-hero .fusion-hero__cta-secondary.ds-c-button--ghost:link,
+.fusion-hero .fusion-hero__cta-secondary.ds-c-button--ghost:visited,
+.fusion-hero .fusion-hero__cta-secondary.ds-c-button--ghost:hover,
+.fusion-hero .fusion-hero__cta-secondary.ds-c-button--ghost:focus {
+  color: var(--color-white);
+}
+
+.fusion-hero .fusion-hero__carousel-dot-btn[aria-pressed='true'] .fusion-hero__carousel-dot {
+  background-color: #ffe400;
 }
 
 .fusion-hero .fusion-hero__cta-secondary {
@@ -1214,7 +1358,7 @@ h2.fusion-mega-featured__title {
 
 .fusion-hero__carousel-btn:focus-visible,
 .fusion-hero__carousel-dot-btn:focus-visible {
-  outline: 3px solid var(--color-accent-primary);
+  outline: 3px solid #ffe400;
   outline-offset: 3px;
   box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-primary-darkest) 85%, transparent);
 }
@@ -4210,6 +4354,475 @@ h3.kc-footer-links__heading {
   border-radius: 1px;
   background: var(--fusion-dandelion);
   box-shadow: 0 0 6px color-mix(in srgb, var(--fusion-dandelion) 50%, transparent);
+}
+
+/* Wide overview mega menus — Explore, About, and Get Started */
+.fusion-nav-v2__mega--explore,
+.fusion-nav-v2__mega--about,
+.fusion-nav-v2__mega--get-started,
+.fusion-nav-v2__mega--learn {
+  overflow: hidden;
+  background: var(--color-white);
+  box-shadow: 0 14px 34px color-mix(in srgb, var(--color-primary-darkest) 16%, transparent);
+}
+
+.fusion-nav-v2__mega--explore::before,
+.fusion-nav-v2__mega--about::before,
+.fusion-nav-v2__mega--get-started::before,
+.fusion-nav-v2__mega--learn::before,
+.fusion-nav-v2__mega--explore .fusion-nav-v2__mega-atmosphere,
+.fusion-nav-v2__mega--about .fusion-nav-v2__mega-atmosphere,
+.fusion-nav-v2__mega--get-started .fusion-nav-v2__mega-atmosphere,
+.fusion-nav-v2__mega--learn .fusion-nav-v2__mega-atmosphere,
+.fusion-nav-v2__mega--explore .fusion-nav-v2__mega-veil,
+.fusion-nav-v2__mega--about .fusion-nav-v2__mega-veil,
+.fusion-nav-v2__mega--get-started .fusion-nav-v2__mega-veil,
+.fusion-nav-v2__mega--learn .fusion-nav-v2__mega-veil {
+  display: none;
+}
+
+.fusion-nav-v2__mega--explore .fusion-nav-v2__mega-container,
+.fusion-nav-v2__mega--about .fusion-nav-v2__mega-container,
+.fusion-nav-v2__mega--get-started .fusion-nav-v2__mega-container,
+.fusion-nav-v2__mega--learn .fusion-nav-v2__mega-container {
+  padding-block: 0;
+}
+
+.fusion-nav-v2__mega-inner--overview {
+  display: block;
+  min-height: 0;
+  max-height: min(76vh, 42rem);
+  margin-inline: 0;
+  border: 0;
+  border-radius: 0;
+  background: var(--color-white);
+  box-shadow: none;
+  backdrop-filter: none;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.fusion-nav-v2__mega-inner--overview::before,
+.fusion-nav-v2__mega-inner--overview::after {
+  display: none;
+}
+
+.fusion-nav-v2__overview {
+  position: relative;
+  z-index: 1;
+}
+
+.fusion-nav-v2__overview-main {
+  padding: 1.75rem 2rem 1.5rem;
+}
+
+.fusion-nav-v2__overview-header {
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--color-gray-lighter);
+}
+
+.fusion-nav-v2__overview-title {
+  margin: 0;
+  font-family: var(--font-family-heading, var(--global__font-family, 'Lexend', system-ui, sans-serif));
+  font-size: clamp(1.5rem, 0.75vw + 1.15rem, 2rem);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.fusion-nav-v2__overview-title a,
+.fusion-nav-v2__overview-title a:visited {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--color-primary-darkest);
+  text-decoration: none;
+}
+
+.fusion-nav-v2__overview-title a:hover,
+.fusion-nav-v2__overview-title a:focus-visible {
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.fusion-nav-v2__overview-header p {
+  max-width: 48rem;
+  margin: 0.35rem 0 0;
+  color: var(--color-gray-dark);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+
+.fusion-nav-v2__overview-grid {
+  display: grid;
+  gap: 0;
+  padding-top: 1.5rem;
+}
+
+.fusion-nav-v2__overview-grid--explore {
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 0.85fr) minmax(0, 1.65fr);
+}
+
+.fusion-nav-v2__overview-grid--about {
+  grid-template-columns: minmax(18rem, 30rem);
+}
+
+.fusion-nav-v2__overview-grid--get-started {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.fusion-nav-v2__overview-category {
+  min-width: 0;
+  padding: 0 2rem;
+  border-left: 1px solid var(--color-gray-lighter);
+}
+
+.fusion-nav-v2__overview-category:first-child {
+  padding-left: 0;
+  border-left: 0;
+}
+
+.fusion-nav-v2__overview-category:last-child {
+  padding-right: 0;
+}
+
+.fusion-nav-v2__overview-category h3 {
+  position: relative;
+  margin: 0 0 0.8rem;
+  padding-bottom: 0.8rem;
+  font-family: var(--font-family-heading, var(--global__font-family, 'Lexend', system-ui, sans-serif));
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.fusion-nav-v2__overview-category h3::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 2.5rem;
+  height: 2px;
+  background: #b38f00;
+}
+
+.fusion-nav-v2__overview-category h3 a,
+.fusion-nav-v2__overview-category h3 a:visited {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--color-primary-darker);
+  text-decoration: none;
+}
+
+.fusion-nav-v2__overview-category--platforms h3 a {
+  color: #146c43;
+}
+
+.fusion-nav-v2__overview-category--fusion-toolkit h3 a {
+  color: #74156f;
+}
+
+.fusion-nav-v2__overview-category--shared-services h3 a {
+  color: var(--color-primary);
+}
+
+.fusion-nav-v2__overview-category h3 a:hover,
+.fusion-nav-v2__overview-category h3 a:focus-visible {
+  color: var(--color-primary-darkest);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.fusion-nav-v2__overview-category ul {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.fusion-nav-v2__overview-category--shared-services ul {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 2rem;
+}
+
+.fusion-nav-v2__overview-category--migrate ul {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 2rem;
+}
+
+.fusion-nav-v2__link-indicator {
+  flex-shrink: 0;
+}
+
+.fusion-nav-v2__overview-title .fusion-nav-v2__link-indicator,
+.fusion-nav-v2__overview-category h3 .fusion-nav-v2__link-indicator {
+  opacity: 0.72;
+  transition:
+    opacity 0.18s ease,
+    transform 0.18s ease;
+}
+
+.fusion-nav-v2__overview-title a:hover .fusion-nav-v2__link-indicator,
+.fusion-nav-v2__overview-title a:focus-visible .fusion-nav-v2__link-indicator,
+.fusion-nav-v2__overview-category h3 a:hover .fusion-nav-v2__link-indicator,
+.fusion-nav-v2__overview-category h3 a:focus-visible .fusion-nav-v2__link-indicator {
+  opacity: 1;
+  transform: translate(1px, -1px);
+}
+
+.fusion-nav-v2__overview-category li {
+  min-width: 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-gray-lighter) 75%, transparent);
+}
+
+.fusion-nav-v2 .fusion-nav-v2__overview-category .fusion-mega-link,
+.fusion-nav-v2 .fusion-nav-v2__overview-category .fusion-mega-link:visited {
+  width: 100%;
+  margin: 0;
+  padding: 0.62rem 0;
+  border-radius: 0.25rem;
+  color: var(--color-primary-darker);
+  font-size: 0.875rem;
+  line-height: 1.35;
+}
+
+.fusion-nav-v2 .fusion-nav-v2__overview-category .fusion-mega-link::after {
+  display: none;
+}
+
+.fusion-nav-v2 .fusion-nav-v2__overview-category .fusion-mega-link:hover,
+.fusion-nav-v2 .fusion-nav-v2__overview-category .fusion-mega-link:focus-visible {
+  padding-inline: 0.5rem;
+  background: var(--color-primary-lightest);
+  transform: none;
+}
+
+.fusion-nav-v2__learn-main {
+  padding-top: 1.75rem;
+}
+
+.fusion-nav-v2__learn-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  padding-top: 1.5rem;
+}
+
+.fusion-nav-v2__learn-category {
+  min-width: 0;
+  padding: 0 2rem;
+  border-left: 1px solid var(--color-gray-lighter);
+}
+
+.fusion-nav-v2__learn-category:first-child {
+  padding-left: 0;
+  border-left: 0;
+}
+
+.fusion-nav-v2__learn-category:last-child {
+  padding-right: 0;
+}
+
+.fusion-nav-v2__learn-category-heading {
+  min-height: 1.5rem;
+}
+
+.fusion-nav-v2__learn-category h3 {
+  margin: 0;
+  font-family: var(--font-family-heading, var(--global__font-family, 'Lexend', system-ui, sans-serif));
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.fusion-nav-v2__learn-category h3 a,
+.fusion-nav-v2__learn-category h3 a:visited {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--color-primary-darker);
+  text-decoration: none;
+}
+
+.fusion-nav-v2__learn-category h3 a:hover,
+.fusion-nav-v2__learn-category h3 a:focus-visible {
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.fusion-nav-v2__learn-accent {
+  display: block;
+  width: 2.5rem;
+  height: 2px;
+  margin: 0.8rem 0;
+  background: var(--color-primary);
+}
+
+.fusion-nav-v2__learn-category--training-enablement .fusion-nav-v2__learn-accent {
+  background: #146c43;
+}
+
+.fusion-nav-v2__learn-category--resource-center .fusion-nav-v2__learn-accent {
+  background: #74156f;
+}
+
+.fusion-nav-v2__learn-category--customer-roadmap .fusion-nav-v2__learn-accent {
+  background: #b38f00;
+}
+
+.fusion-nav-v2__learn-group-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.fusion-nav-v2__learn-group-list li {
+  min-width: 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-gray-lighter) 75%, transparent);
+}
+
+.fusion-nav-v2__learn-group-list a,
+.fusion-nav-v2__learn-group-list a:visited {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0.62rem 0;
+  border-radius: 0.25rem;
+  color: var(--color-primary-darker);
+  font-size: 0.875rem;
+  line-height: 1.35;
+  text-decoration: none;
+  transition:
+    color 0.18s ease,
+    background-color 0.18s ease,
+    padding 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.fusion-nav-v2__learn-group-list a:hover,
+.fusion-nav-v2__learn-group-list a:focus-visible {
+  padding-inline: 0.5rem;
+  color: var(--color-primary-darkest);
+  background: var(--color-primary-lightest);
+  text-decoration: none;
+  outline: none;
+  box-shadow:
+    0 0 18px color-mix(in srgb, var(--fusion-mega-cyan) 12%, transparent),
+    inset 0 1px 0 color-mix(in srgb, var(--color-white) 50%, transparent);
+}
+
+.fusion-nav-v2__learn-group-list a:focus-visible {
+  box-shadow:
+    inset 0 0 0 2px var(--color-primary),
+    0 0 0 3px color-mix(in srgb, var(--fusion-mega-cyan) 25%, transparent);
+}
+
+.fusion-nav-v2__learn-view-all,
+.fusion-nav-v2__learn-view-all:visited {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin-top: 0.65rem;
+  color: var(--color-primary);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.fusion-nav-v2__learn-view-all:hover,
+.fusion-nav-v2__learn-view-all:focus-visible {
+  color: var(--color-primary-darkest);
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
+.fusion-nav-v2__overview-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 1rem 2rem;
+  border-top: 1px solid color-mix(in srgb, var(--color-primary-light) 14%, transparent);
+  background: color-mix(in srgb, var(--color-primary-lightest) 45%, var(--color-white));
+}
+
+.fusion-nav-v2__overview-footer > div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.fusion-nav-v2__overview-footer strong {
+  color: var(--color-primary-darkest);
+  font-size: 0.875rem;
+}
+
+.fusion-nav-v2__overview-footer span {
+  color: var(--color-gray-dark);
+  font-size: 0.8125rem;
+}
+
+.fusion-nav-v2__overview-footer-link,
+.fusion-nav-v2__overview-footer-link:visited {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 2.5rem;
+  padding: 0.55rem 1.25rem;
+  border: 1px solid var(--color-primary-darker);
+  border-radius: 999px;
+  color: var(--color-primary-darkest);
+  background: var(--color-white);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.fusion-nav-v2__overview-footer-link:hover,
+.fusion-nav-v2__overview-footer-link:focus-visible {
+  border-color: var(--color-primary);
+  color: var(--color-white);
+  background: var(--color-primary);
+  text-decoration: none;
+  outline: none;
+}
+
+.fusion-nav-v2__overview-footer-link:focus-visible {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary-light) 45%, transparent);
+}
+
+@media (max-width: 1100px) {
+  .fusion-nav-v2__overview-main {
+    padding-inline: 1.5rem;
+  }
+
+  .fusion-nav-v2__overview-category {
+    padding-inline: 1.25rem;
+  }
+
+  .fusion-nav-v2__learn-category {
+    padding-inline: 1.25rem;
+  }
+
+  .fusion-nav-v2__overview-category--shared-services ul {
+    column-gap: 1.25rem;
+  }
+
+  .fusion-nav-v2__overview-category--migrate ul {
+    column-gap: 1.25rem;
+  }
 }
 
 .fusion-nav-v2__toolkit-grid {
@@ -11986,13 +12599,13 @@ h3.te-cta-card__title {
   overflow: hidden;
 }
 
-.cst-page .about-hybrid-cloud-hero .po-hero__glow,
-.cst-page .about-hybrid-cloud-hero .po-hero__inner {
+.about-hybrid-cloud-hero .po-hero__glow,
+.about-hybrid-cloud-hero .po-hero__inner {
   position: relative;
   z-index: 2;
 }
 
-.cst-page .about-hybrid-cloud-hero .po-hero__inner {
+.about-hybrid-cloud-hero .po-hero__inner {
   min-height: clamp(17rem, 25vw, 21rem);
   padding-top: clamp(2rem, 3vw, 3rem);
   padding-right: var(--fusion-site-padding-x);
@@ -12001,22 +12614,22 @@ h3.te-cta-card__title {
 }
 
 /* Override init-hero 6/12 grid so About hero copy spans ~64% */
-.cst-page .about-hybrid-cloud-hero .init-hero__text.po-hero__text {
+.about-hybrid-cloud-hero .init-hero__text.po-hero__text {
   grid-column: 1 / -1;
   width: min(64%, 52rem);
   max-width: none;
 }
 
-.cst-page .about-hybrid-cloud-hero h1.init-hero__heading.po-hero__heading,
-.cst-page .about-hybrid-cloud-hero h1.po-hero__heading {
+.about-hybrid-cloud-hero h1.init-hero__heading.po-hero__heading,
+.about-hybrid-cloud-hero h1.po-hero__heading {
   max-width: none;
   width: 100%;
   font-size: clamp(1.875rem, 2.35vw + 0.35rem, 3rem);
   line-height: 1.08;
 }
 
-.cst-page .about-hybrid-cloud-hero .init-hero__description.po-hero__description,
-.cst-page .about-hybrid-cloud-hero .po-hero__description {
+.about-hybrid-cloud-hero .init-hero__description.po-hero__description,
+.about-hybrid-cloud-hero .po-hero__description {
   max-width: none;
   width: 100%;
   font-size: clamp(0.9375rem, 0.45vw + 0.82rem, 1.125rem);
@@ -12033,7 +12646,7 @@ h3.te-cta-card__title {
 }
 
 @media (min-width: 768px) {
-  .cst-page .about-hybrid-cloud-hero .po-hero__inner {
+  .about-hybrid-cloud-hero .po-hero__inner {
     padding-right: var(--fusion-site-padding-x-md);
     padding-left: var(--fusion-site-padding-x-md);
   }
@@ -12390,7 +13003,7 @@ h3.te-cta-card__title {
 }
 
 @media (max-width: 900px) {
-  .cst-page .about-hybrid-cloud-hero .init-hero__text.po-hero__text {
+  .about-hybrid-cloud-hero .init-hero__text.po-hero__text {
     width: min(64%, 100%);
   }
 
@@ -12433,12 +13046,12 @@ h3.te-cta-card__title {
 }
 
 @media (max-width: 640px) {
-  .cst-page .about-hybrid-cloud-hero .init-hero__text.po-hero__text {
+  .about-hybrid-cloud-hero .init-hero__text.po-hero__text {
     width: 100%;
     max-width: 100%;
   }
 
-  .cst-page .about-hybrid-cloud-hero .po-hero__inner {
+  .about-hybrid-cloud-hero .po-hero__inner {
     min-height: 18rem;
   }
 

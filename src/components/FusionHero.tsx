@@ -169,14 +169,21 @@ export function FusionHero() {
       <img
         src={heroBgUrl}
         alt=""
-        className="pointer-events-none absolute inset-0 h-full w-full max-w-none object-cover object-[100%_30%] sm:object-[100%_28%] md:object-[100%_30%] lg:object-[100%_32%]"
+        className="fusion-hero__bg-fill"
+        decoding="async"
+        fetchPriority="high"
+      />
+      <img
+        src={heroBgUrl}
+        alt=""
+        className="fusion-hero__bg-art"
         decoding="async"
         fetchPriority="high"
       />
 
       {/* Left scrim — CMS primary mixes (replaces legacy #000d26 / Ocean tints) */}
       <div
-        className="fusion-hero__scrim pointer-events-none absolute inset-y-0 left-0 z-[1] w-full max-w-[min(100%,24rem)] sm:max-w-[min(100%,28rem)] md:max-w-[min(100%,32rem)] lg:max-w-[min(100%,36rem)]"
+        className="fusion-hero__scrim pointer-events-none absolute inset-y-0 left-0 z-[1] w-full max-w-[min(100%,24rem)] sm:max-w-[min(100%,28rem)] md:max-w-[50%] lg:max-w-[52%]"
         aria-hidden
       />
 
@@ -200,32 +207,41 @@ export function FusionHero() {
         ))}
       </div>
 
-      <div className="pointer-events-none relative z-10 mx-auto w-full max-w-[1904px] px-4 pb-24 pt-8 sm:px-8 sm:pb-28 sm:pt-9 md:px-12 md:pb-28 md:pt-10 lg:px-16 lg:pb-32">
+      <div className="pointer-events-none relative z-10 mx-auto w-full max-w-[1904px] px-4 pb-24 pt-6 sm:px-8 sm:pb-24 sm:pt-7 md:px-12 md:pb-24 md:pt-8 lg:px-16 lg:pb-28">
         <div className="grid grid-cols-12 gap-y-4 lg:gap-x-10">
-          <div className="col-span-12 w-full sm:col-span-10 md:col-span-8 lg:col-span-6 xl:col-span-5">
-            <div className="pointer-events-auto w-full max-w-[40rem]">
-              <div
-                key={slideIndex}
-                className="fusion-hero-slide-enter"
-                aria-live="polite"
-                aria-atomic="true"
-                id={liveId}
-              >
-                <h1
-                  id="fusion-hero-heading"
-                  className="fusion-hero__headline space-y-1 sm:space-y-1.5"
-                >
-                  <span className="block text-3xl font-semibold leading-[1.12] tracking-wide text-white sm:text-4xl md:text-4xl lg:text-5xl">
-                    {slide.line1}
-                  </span>
-                  <span className="fusion-hero__headline-accent block text-3xl font-semibold leading-[1.12] tracking-tight sm:text-4xl md:text-4xl lg:text-5xl">
-                    {slide.line2}
-                  </span>
-                </h1>
+          <div className="col-span-12 w-full sm:col-span-10 md:col-span-8 lg:col-span-6 xl:col-span-6">
+            <div className="pointer-events-auto w-full max-w-[48rem]">
+              <p id={liveId} className="sr-only" aria-live="polite" aria-atomic="true">
+                Slide {slideIndex + 1} of {n}: {slide.line1} {slide.line2}. {slide.body}
+              </p>
 
-                <p className="mt-4 max-w-prose font-sans text-base font-semibold leading-relaxed text-white/90 sm:mt-5 sm:text-lg">
-                  {slide.body}
-                </p>
+              <div className="fusion-hero__slide-stage">
+                {HERO_SLIDES.map((item, index) => {
+                  const isActive = index === slideIndex
+                  return (
+                    <div
+                      key={`${item.line1}-${item.line2}`}
+                      className={`fusion-hero__slide${isActive ? ' fusion-hero__slide--active' : ''}`}
+                      aria-hidden={!isActive}
+                    >
+                      <h1
+                        id={isActive ? 'fusion-hero-heading' : undefined}
+                        className="fusion-hero__headline space-y-1 sm:space-y-1.5"
+                      >
+                        <span className="block text-3xl font-semibold leading-[1.12] tracking-wide text-white sm:text-4xl md:text-4xl lg:text-[2.5rem]">
+                          {item.line1}
+                        </span>
+                        <span className="fusion-hero__headline-accent block text-3xl font-semibold leading-[1.12] tracking-tight sm:text-4xl md:text-4xl lg:text-[2.5rem]">
+                          {item.line2}
+                        </span>
+                      </h1>
+
+                      <p className="fusion-hero__body mt-4 max-w-[52rem] font-sans text-base font-semibold leading-relaxed text-white/90 sm:mt-5 sm:text-lg">
+                        {item.body}
+                      </p>
+                    </div>
+                  )
+                })}
               </div>
 
               <div className="fusion-hero__actions mt-4 flex flex-col gap-3 sm:mt-5 sm:flex-row sm:flex-nowrap sm:items-center sm:gap-4">
@@ -247,9 +263,9 @@ export function FusionHero() {
       </div>
 
       {/* Carousel: full-bleed hero, bottom center */}
-      <div className="fusion-hero__carousel-dock pointer-events-none absolute inset-x-0 bottom-0 z-[15] flex justify-center px-4 pb-20 pt-6 sm:pb-24 sm:pt-8 md:pb-[5.5rem]">
+      <div className="fusion-hero__carousel-dock pointer-events-none absolute inset-x-0 bottom-0 z-[15] flex justify-center px-4 pb-12 pt-4 sm:pb-12 sm:pt-5 md:pb-12">
         <div
-          className="fusion-hero__carousel-well pointer-events-auto flex items-center justify-center gap-3 rounded-full border border-white/25 px-4 py-2 shadow-lg backdrop-blur-md sm:gap-4 sm:px-5 sm:py-2.5"
+          className="fusion-hero__carousel-well pointer-events-auto flex items-center justify-center gap-2 rounded-full border border-white/25 px-3 py-1.5 shadow-lg backdrop-blur-md sm:gap-2.5 sm:px-4 sm:py-2"
           role="group"
           aria-label="Carousel controls"
           tabIndex={0}
@@ -257,13 +273,13 @@ export function FusionHero() {
         >
           <button
             type="button"
-            className="fusion-hero__carousel-btn flex size-10 shrink-0 items-center justify-center rounded-full border-2 border-white/30 bg-white/10 text-white transition-[background-color,transform] duration-200 ease-out hover:bg-white/20 hover:scale-110 active:scale-95 sm:size-11"
+            className="fusion-hero__carousel-btn flex size-11 shrink-0 items-center justify-center rounded-full border-2 border-white/30 bg-white/10 text-white transition-[background-color,transform] duration-200 ease-out hover:bg-white/20 hover:scale-110 active:scale-95"
             aria-label="Previous slide"
             onClick={goPrev}
           >
             <ChevronLeft className="shrink-0" />
           </button>
-          <div className="flex items-center justify-center gap-2.5 sm:gap-3" aria-label="Slides">
+          <div className="flex items-center justify-center gap-1.5 sm:gap-2" aria-label="Slides">
             {HERO_SLIDES.map((_, i) => (
               <button
                 key={i}
@@ -275,13 +291,13 @@ export function FusionHero() {
                     : `Go to slide ${i + 1} of ${n}`
                 }
                 onClick={() => setSlideIndex(i)}
-                className="fusion-hero__carousel-dot-btn flex min-h-6 min-w-6 items-center justify-center rounded-full p-1.5"
+                className="fusion-hero__carousel-dot-btn flex min-h-6 min-w-6 items-center justify-center rounded-full p-1"
               >
                 <span
                   className={`fusion-hero__carousel-dot block transition-all duration-300 ease-out ${
                     i === slideIndex
-                      ? 'h-2.5 min-w-10 rounded-full bg-[var(--color-accent-primary)] sm:h-3 sm:min-w-12'
-                      : 'size-2.5 shrink-0 rounded-full bg-white/30 hover:bg-white/50 sm:size-3'
+                      ? 'h-2 min-w-8 rounded-full bg-[var(--color-accent-primary)] sm:h-2.5 sm:min-w-10'
+                      : 'size-2 shrink-0 rounded-full bg-white/30 hover:bg-white/50 sm:size-2.5'
                   }`}
                   aria-hidden
                 />
@@ -290,7 +306,7 @@ export function FusionHero() {
           </div>
           <button
             type="button"
-            className="fusion-hero__carousel-btn flex size-10 shrink-0 items-center justify-center rounded-full border-2 border-white/30 bg-white/10 text-white transition-[background-color,transform] duration-200 ease-out hover:bg-white/20 hover:scale-110 active:scale-95 sm:size-11"
+            className="fusion-hero__carousel-btn flex size-11 shrink-0 items-center justify-center rounded-full border-2 border-white/30 bg-white/10 text-white transition-[background-color,transform] duration-200 ease-out hover:bg-white/20 hover:scale-110 active:scale-95"
             aria-label="Next slide"
             onClick={goNext}
           >

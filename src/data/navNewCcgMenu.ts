@@ -78,7 +78,8 @@ function sortMenuItems(items: NavMenuItem[]): NavMenuItem[] {
           const order: Record<string, number> = {
             'knowledge-center': 0,
             'training-enablement': 1,
-            'customer-roadmap': 2,
+            'resource-center': 2,
+            'customer-roadmap': 3,
           }
           const rankA = order[a.id] ?? Number.MAX_SAFE_INTEGER
           const rankB = order[b.id] ?? Number.MAX_SAFE_INTEGER
@@ -271,9 +272,9 @@ export const navNewCcgMenuItems: NavMenuItem[] = sortMenuItems([
         },
       },
       {
-        id: 'customer-roadmap',
-        label: 'Customer Roadmap',
-        href: '/learn/initiatives',
+        id: 'resource-center',
+        label: 'Resource Center',
+        href: '/learn/knowledge-center',
         panel: {
           type: 'columns',
           columns: [
@@ -325,6 +326,12 @@ export const navNewCcgMenuItems: NavMenuItem[] = sortMenuItems([
           ],
         },
       },
+      {
+        id: 'customer-roadmap',
+        label: 'Customer Roadmap',
+        href: '/learn/initiatives',
+        panel: { type: 'empty' },
+      },
     ],
   },
   {
@@ -340,7 +347,8 @@ export const navNewCcgMenuItems: NavMenuItem[] = sortMenuItems([
           type: 'list',
           links: list(
             'Onboarding Stages',
-            'Onboarding Process Key Activities and Supporting Team',
+            'Onboarding Process',
+            'Onboarding FAQs',
           ),
         },
       },

@@ -19,6 +19,7 @@ export function FusionButton({
   className,
   accent,
   isAlternate,
+  onDark,
   ...props
 }: FusionButtonProps) {
   const navigate = useNavigate()
@@ -26,6 +27,7 @@ export function FusionButton({
   const classes = [
     'fusion-ds-button',
     accent ? 'fusion-btn--accent' : '',
+    accent && onDark ? 'fusion-btn--accent-on-dark' : '',
     className,
   ]
     .filter(Boolean)
@@ -43,6 +45,7 @@ export function FusionButton({
     ...props,
     className: classes,
     isAlternate: accent ? false : isAlternate,
+    onDark,
     variation: props.variation ?? 'solid',
   }
 
