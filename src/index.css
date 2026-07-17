@@ -4727,6 +4727,23 @@ h3.kc-footer-links__heading {
     0 0 0 3px color-mix(in srgb, var(--fusion-mega-cyan) 25%, transparent);
 }
 
+.fusion-nav-v2__learn-group-list a > span,
+.fusion-nav-v2__learn-view-all > span {
+  opacity: 0;
+  transform: translateX(-0.25rem);
+  transition:
+    opacity 0.15s ease,
+    transform 0.15s ease;
+}
+
+.fusion-nav-v2__learn-group-list a:hover > span,
+.fusion-nav-v2__learn-group-list a:focus-visible > span,
+.fusion-nav-v2__learn-view-all:hover > span,
+.fusion-nav-v2__learn-view-all:focus-visible > span {
+  opacity: 1;
+  transform: translateX(0);
+}
+
 .fusion-nav-v2__learn-view-all,
 .fusion-nav-v2__learn-view-all:visited {
   display: inline-flex;
