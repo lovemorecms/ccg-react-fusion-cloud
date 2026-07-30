@@ -32,6 +32,7 @@ const cmsHhsWebsites: { label: string; href: string }[] = [
 
 const additionalResources: { label: string; href: string }[] = [
   { label: 'Page layouts', href: '/resources/page-layouts' },
+  { label: 'Shared Services (first open)', href: '/resources/shared-services-first-open' },
   { label: 'Nav Legacy Demo', href: '/nav-demo' },
   { label: 'Nav New CCG', href: '/nav-new-ccg' },
   { label: 'Nav Option 2', href: '/nav-option-2' },

@@ -188,12 +188,20 @@ function CategoryAccordion({
   )
 }
 
-export default function SharedServicesPage() {
+type SharedServicesPageProps = {
+  /** When true, the first category accordion starts expanded. */
+  defaultOpenFirst?: boolean
+}
+
+export default function SharedServicesPage({ defaultOpenFirst = false }: SharedServicesPageProps) {
   const location = useLocation()
+  const firstCategoryId = sharedServicesSectionIds[0] ?? ''
+  const initialOpenIds = () =>
+    defaultOpenFirst && firstCategoryId ? new Set([firstCategoryId]) : new Set<string>()
   const [searchQuery, setSearchQuery] = useState('')
-  const [manualOpenIds, setManualOpenIds] = useState<Set<string>>(() => new Set())
+  const [manualOpenIds, setManualOpenIds] = useState<Set<string>>(initialOpenIds)
   const [categoryOrder, setCategoryOrder] = useState<string[]>(() => [...sharedServicesSectionIds])
-  const [activeCategoryId, setActiveCategoryId] = useState(sharedServicesSectionIds[0] ?? '')
+  const [activeCategoryId, setActiveCategoryId] = useState(firstCategoryId)
   const pendingScrollId = useRef<string | null>(null)
 
   const categoriesById = useMemo(
@@ -280,9 +288,9 @@ export default function SharedServicesPage() {
   function handleSearchChange(value: string) {
     setSearchQuery(value)
     if (!value.trim()) {
-      setManualOpenIds(new Set())
+      setManualOpenIds(initialOpenIds())
       setCategoryOrder([...sharedServicesSectionIds])
-      setActiveCategoryId(sharedServicesSectionIds[0] ?? '')
+      setActiveCategoryId(firstCategoryId)
     }
   }
 

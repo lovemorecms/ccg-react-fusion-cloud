@@ -228,10 +228,10 @@ export function FusionHero() {
                         id={isActive ? 'fusion-hero-heading' : undefined}
                         className="fusion-hero__headline space-y-1 sm:space-y-1.5"
                       >
-                        <span className="block text-3xl font-semibold leading-[1.12] tracking-wide text-white sm:text-4xl md:text-4xl lg:text-[2.5rem]">
+                        <span className="block font-semibold leading-[1.12] tracking-wide text-white">
                           {item.line1}
                         </span>
-                        <span className="fusion-hero__headline-accent block text-3xl font-semibold leading-[1.12] tracking-tight sm:text-4xl md:text-4xl lg:text-[2.5rem]">
+                        <span className="fusion-hero__headline-accent block font-semibold leading-[1.12] tracking-tight">
                           {item.line2}
                         </span>
                       </h1>

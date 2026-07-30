@@ -31,10 +31,18 @@
   --fusion-section-heading-stack-gap: clamp(0.625rem, 1vw + 0.35rem, 1rem);
 
   /*
-   * Type scale tuned for typical laptop widths; Figma-sized caps only on very wide viewports.
+   * Heading sizes: H1 = 60px, H2 = 48px (CMS DS 5xl / 4xl desktop equivalents).
    */
-  --fusion-type-section-heading: clamp(1.625rem, 1.75vw + 0.85rem, 2.25rem);
+  --fusion-type-h1: 3.75rem; /* 60px */
+  --fusion-type-h2: 3rem; /* 48px */
+  --fusion-type-section-heading: var(--fusion-type-h2);
   --fusion-type-lede: clamp(0.9375rem, 0.25vw + 0.88rem, 1.125rem);
+
+  /* Align CMS ds-content h1→3xl / h2→2xl with the site heading sizes */
+  --font-size-3xl--mobile: var(--fusion-type-h1);
+  --font-size-3xl: var(--fusion-type-h1);
+  --font-size-2xl--mobile: var(--fusion-type-h2);
+  --font-size-2xl: var(--fusion-type-h2);
 
   /* Multi-cloud band: CMS.gov primary (#0d2499 in child theme; tracks `--color-primary`) */
   --fusion-multi-cloud-bg: var(--color-primary);
@@ -147,9 +155,28 @@
 
 @media (min-width: 1536px) {
   :root {
-    --fusion-type-section-heading: clamp(2rem, 1.4vw + 1rem, 2.75rem);
     --fusion-type-lede: clamp(1.125rem, 0.3vw + 0.9rem, 1.25rem);
   }
+}
+
+/*
+ * Sitewide H1 / H2 sizes. !important beats CMS `font: inherit` resets and
+ * component-level clamps so every semantic heading matches the type scale.
+ * Visually hidden headings stay excluded.
+ */
+:where(body) h1:not(.sr-only),
+:where(body) h1:not(.sr-only)[class] {
+  font-size: var(--fusion-type-h1) !important;
+}
+
+:where(body) h2:not(.sr-only),
+:where(body) h2:not(.sr-only)[class] {
+  font-size: var(--fusion-type-h2) !important;
+}
+
+/* Homepage hero sizes live on child spans, not the h1 itself */
+:where(body) .fusion-hero__headline > span {
+  font-size: var(--fusion-type-h1) !important;
 }
 
 /* ─── Micro-interaction foundations ──────────────────────────────────────── */
@@ -190,6 +217,103 @@ html.figma-capture .fusion-reveal-stagger .fusion-reveal-child {
   opacity: 1 !important;
   transform: none !important;
   animation: none !important;
+}
+
+/* Force a desktop canvas width so capture does not collapse to mobile stack */
+html.figma-capture,
+html.figma-capture body {
+  min-width: 1440px !important;
+}
+
+html.figma-capture #root {
+  min-width: 1440px !important;
+}
+
+/*
+ * Figma html-to-design often mishandles CSS grid + absolute children.
+ * For capture, flatten the constellation into one relative board with absolute tiles.
+ */
+html.figma-capture .fusion-ecosphere__cluster {
+  display: block !important;
+  position: relative !important;
+  width: 100% !important;
+  height: 44rem !important;
+  min-height: 44rem !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+html.figma-capture .fusion-ecosphere__orbit-host {
+  position: absolute !important;
+  left: 50% !important;
+  top: 54% !important;
+  transform: translate(-50%, -50%) !important;
+  width: 26rem !important;
+  max-width: 26rem !important;
+  margin: 0 !important;
+  z-index: 0 !important;
+  pointer-events: none !important;
+}
+
+html.figma-capture .fusion-ecosphere__tile {
+  position: absolute !important;
+  z-index: 1 !important;
+  width: 21.5rem !important;
+  margin: 0 !important;
+}
+
+html.figma-capture .fusion-ecosphere__tile--toolkit {
+  left: 50% !important;
+  top: 0 !important;
+  transform: translateX(-50%) !important;
+}
+
+html.figma-capture .fusion-ecosphere__tile--security {
+  left: 0 !important;
+  top: 32% !important;
+  transform: none !important;
+}
+
+html.figma-capture .fusion-ecosphere__tile--multi-cloud {
+  right: 0 !important;
+  left: auto !important;
+  top: 32% !important;
+  transform: none !important;
+}
+
+html.figma-capture .fusion-ecosphere__tile--cost {
+  left: 0 !important;
+  top: 68% !important;
+  transform: none !important;
+}
+
+html.figma-capture .fusion-ecosphere__tile--product-teams {
+  right: 0 !important;
+  left: auto !important;
+  top: 68% !important;
+  transform: none !important;
+}
+
+html.figma-capture .fusion-ecosphere__orbit-node {
+  width: min(27%, 5.25rem) !important;
+  transform: translate(-50%, -50%) !important;
+  filter: none !important;
+  transition: none !important;
+}
+
+html.figma-capture .fusion-ecosphere__orbit-node img,
+html.figma-capture .fusion-ecosphere__core-img {
+  transition: none !important;
+  transform: none !important;
+}
+
+html.figma-capture .fusion-ecosphere__core-img {
+  object-position: center;
+}
+
+html.figma-capture .fusion-ecosphere__tile .fusion-ecosphere__card {
+  transform: none !important;
+  transition: none !important;
 }
 
 /* Staggered children (add .fusion-reveal-stagger to parent) */

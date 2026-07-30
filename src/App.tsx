@@ -37,6 +37,10 @@ function App() {
         <Route path="/explore/fusion-toolkit" element={<FusionToolkitLandingPage />} />
         <Route path="/explore/shared-services" element={<SharedServicesPage />} />
         <Route
+          path="/resources/shared-services-first-open"
+          element={<SharedServicesPage defaultOpenFirst />}
+        />
+        <Route
           path="/explore/shared-services/:categorySlug/:serviceSlug"
           element={<SharedServiceArticlePage />}
         />
