@@ -38,6 +38,9 @@
   --fusion-type-section-heading: var(--fusion-type-h2);
   --fusion-type-lede: clamp(0.9375rem, 0.25vw + 0.88rem, 1.125rem);
 
+  /* Interior landing/content page hero banners (not homepage `.fusion-hero`) */
+  --fusion-interior-hero-height: 500px;
+
   /* Align CMS ds-content h1→3xl / h2→2xl with the site heading sizes */
   --font-size-3xl--mobile: var(--fusion-type-h1);
   --font-size-3xl: var(--fusion-type-h1);
@@ -13247,6 +13250,67 @@ h3.te-cta-card__title {
   .ss-service-card:hover {
     transform: none;
   }
+}
+
+/*
+ * Interior landing / content page hero banners — fixed 500px.
+ * Homepage carousel (`.fusion-hero`) is intentionally excluded.
+ */
+.kc-hero,
+.init-hero,
+.po-hero,
+.ft-hero,
+.ktd-hero,
+.te-hero,
+.tpl-2col-hero-band > .po-hero,
+.tpl-2col-hero-band .tpl-2col-hero.po-hero,
+.about-hybrid-cloud-hero,
+.explore-page #overview.init-hero {
+  height: var(--fusion-interior-hero-height) !important;
+  min-height: var(--fusion-interior-hero-height) !important;
+  max-height: var(--fusion-interior-hero-height) !important;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.kc-hero__inner,
+.init-hero__inner,
+.po-hero__inner,
+.ft-hero__inner,
+.ktd-hero__inner,
+.te-hero__inner,
+.pa-hero__inner,
+.tpl-2col-hero__frame,
+.explore-page #overview.init-hero.init-hero--with-section-nav .init-hero__inner,
+.about-hybrid-cloud-hero .po-hero__inner,
+.init-hero.init-hero--with-section-nav .init-hero__inner,
+.ss-hero.kc-hero .kc-hero__inner {
+  flex: 1 1 auto;
+  width: 100%;
+  height: 100% !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  box-sizing: border-box;
+  align-content: center;
+  align-items: center;
+}
+
+/* Keep Fusion Toolkit hero padding from blowing past the fixed banner height */
+.ft-hero {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.ft-hero--with-section-nav {
+  padding-bottom: 0 !important;
+}
+
+.ss-hero--with-section-nav,
+.init-hero.init-hero--with-section-nav {
+  padding-bottom: 0 !important;
 }
 
 
