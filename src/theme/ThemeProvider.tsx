@@ -28,15 +28,19 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     applyColorMode(colorMode)
-    persistColorMode(colorMode)
   }, [colorMode])
 
   const setColorMode = useCallback((mode: ColorMode) => {
     setColorModeState(mode)
+    persistColorMode(mode)
   }, [])
 
   const toggleColorMode = useCallback(() => {
-    setColorModeState((prev) => (prev === 'dark' ? 'light' : 'dark'))
+    setColorModeState((prev) => {
+      const next = prev === 'dark' ? 'light' : 'dark'
+      persistColorMode(next)
+      return next
+    })
   }, [])
 
   const value = useMemo(

@@ -9,6 +9,7 @@ import {
 } from '../../data/navDemoMenu'
 import { SearchIcon } from '../SearchIcon'
 import { ThemeToggle } from '../ThemeToggle'
+import { ChevronRight } from '../icons/Chevron'
 
 function ChevronDown({ className, rotated }: { className?: string; rotated?: boolean }) {
   return (
@@ -445,7 +446,9 @@ function LearnOverviewMenu({
                 ) : null}
                 <a className="fusion-nav-v2__learn-view-all" href={categoryHref} onClick={(e) => onNavigate(e, categoryHref)}>
                   {categoryCopy.viewLabel}
-                  <span aria-hidden>→</span>
+                  <span aria-hidden>
+                    <ChevronRight size={16} />
+                  </span>
                 </a>
               </section>
             )
@@ -688,11 +691,18 @@ export function FusionSiteNavV2({
       <div className="fusion-nav-v2__bar mx-auto flex max-w-[var(--fusion-site-max-width)] items-center justify-between px-[var(--fusion-site-padding-x)] py-3 md:px-[var(--fusion-site-padding-x-md)]">
         <a href="/" className="fusion-site-nav__logo inline-flex shrink-0 items-center">
           <img
-            src={`${import.meta.env.BASE_URL}images/cloud-fusion-logo.png`}
+            src={`${import.meta.env.BASE_URL}images/ccg-fusion-logo-light.png`}
             alt="Cloud Fusion"
-            width={282}
-            height={40}
-            className="h-8 w-auto md:h-10"
+            width={161}
+            height={48}
+            className="fusion-site-nav__logo-img fusion-site-nav__logo-img--light h-8 w-auto md:h-10"
+          />
+          <img
+            src={`${import.meta.env.BASE_URL}images/ccg-fusion-logo-dark.png`}
+            alt="Cloud Fusion"
+            width={154}
+            height={46}
+            className="fusion-site-nav__logo-img fusion-site-nav__logo-img--dark h-8 w-auto md:h-10"
           />
         </a>
 

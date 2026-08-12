@@ -4,6 +4,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { knowledgeCenterDocCategories } from '../data/knowledgeCenterDocCategories'
 import type { DocCategory } from '../data/knowledgeCenterDocCategories'
 import { FusionButton } from '../components/FusionButton'
+import { ChevronRight } from '../components/icons/Chevron'
 import { SiteFooter } from '../components/SiteFooter'
 import { SiteHeader } from '../components/SiteHeader'
 
@@ -466,9 +467,7 @@ export default function KnowledgeCenterPage() {
                   <p className="kc-essentials-card__body">{item.description}</p>
                   <FusionButton href={item.href} variation="ghost" className="kc-essentials-card__cta">
                     {item.cta}
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
-                      <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
+                    <ChevronRight />
                   </FusionButton>
                 </div>
               ))}
@@ -482,9 +481,7 @@ export default function KnowledgeCenterPage() {
               </div>
               <a href="#" className="kc-view-all">
                 View all guides
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
-                  <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
+                <ChevronRight />
               </a>
             </div>
             <div className="kc-topics-grid">
@@ -532,9 +529,7 @@ export default function KnowledgeCenterPage() {
                   ) : (
                     <FusionButton href="#" variation="ghost" onDark className="kc-glass-card__cta-link">
                       {card.cta}
-                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
-                        <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
+                      <ChevronRight />
                     </FusionButton>
                   )}
                 </div>

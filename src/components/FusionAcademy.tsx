@@ -1,6 +1,7 @@
 /** Fusion Academy — full-bleed hero + offerings tiles (CMS.gov DS tokens; mirrors Featured Resources card patterns) */
 import type { ReactNode } from 'react'
 import { FusionButton } from './FusionButton'
+import { ChevronRight } from './icons/Chevron'
 import { useScrollReveal } from '../hooks/useScrollReveal'
 
 type OfferingAccent = 'violet' | 'success' | 'sky'
@@ -36,13 +37,20 @@ export function FusionAcademy() {
   const contentRef = useScrollReveal<HTMLDivElement>({ threshold: 0.12 })
   const offeringsRef = useScrollReveal<HTMLUListElement>({ threshold: 0.08, rootMargin: '0px 0px -20px 0px' })
   const academyHeroUrl = `${import.meta.env.BASE_URL}images/sections/fusion-academy-hero.png`
+  const academyIllustrationUrl = `${import.meta.env.BASE_URL}images/sections/academy-illustration-dark.png`
 
   return (
     <section id="fusion-academy" className="fusion-academy relative isolate overflow-hidden">
       <div
-        className="fusion-academy__hero text-[color:var(--fusion-blue-deep)]"
+        className="fusion-academy__hero relative isolate overflow-hidden text-[color:var(--fusion-blue-deep)]"
         style={{ backgroundImage: `url(${academyHeroUrl})` }}
       >
+        <img
+          src={academyIllustrationUrl}
+          alt=""
+          className="fusion-academy__illustration"
+          decoding="async"
+        />
         <div className="relative z-[1] mx-auto flex min-h-[min(22rem,58vh)] max-w-[var(--fusion-site-max-width)] items-center px-[var(--fusion-site-padding-x)] py-[var(--fusion-section-pad-block)] md:px-[var(--fusion-site-padding-x-md)] lg:min-h-[min(38rem,62vh)] xl:min-h-[min(42rem,64vh)]">
           <div ref={contentRef} className="fusion-academy__copy fusion-reveal w-full">
             <p className="fusion-academy__eyebrow">Empowering knowledge across the cloud ecosystem.</p>
@@ -129,7 +137,7 @@ export function FusionAcademy() {
                   <a href={item.href} className="fusion-academy-offerings__cta">
                     <span>{item.cta}</span>
                     <span className="fusion-academy-offerings__cta-arrow" aria-hidden>
-                      →
+                      <ChevronRight size={16} />
                     </span>
                   </a>
                 </article>

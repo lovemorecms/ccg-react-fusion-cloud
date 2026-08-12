@@ -2,6 +2,7 @@ import { SkipNav } from '@cmsgov/ds-cms-gov'
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { FusionButton } from '../components/FusionButton'
+import { ChevronRight } from '../components/icons/Chevron'
 import { HideableInteriorBreadcrumbs } from '../components/layouts/HideableInteriorBreadcrumbs'
 import { InteriorSectionNavProvider } from '../components/layouts/InteriorSectionNav'
 import { SharedServicesStickyNav } from '../components/shared-services/SharedServicesStickyNav'
@@ -70,15 +71,7 @@ function ServiceCard({
       <p className="ss-service-card__body">{service.description}</p>
       <FusionButton href={service.href ?? '#'} variation="ghost" className="ss-service-card__cta">
         Learn more
-        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden>
-          <path
-            d="M3 8h10M9 4l4 4-4 4"
-            stroke="currentColor"
-            strokeWidth={1.5}
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
+        <ChevronRight size={14} />
       </FusionButton>
     </article>
   )

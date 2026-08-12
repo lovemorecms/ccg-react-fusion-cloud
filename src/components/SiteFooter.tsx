@@ -52,7 +52,7 @@ export function SiteFooter() {
           <div className="fusion-site-footer__brand-logos">
             <img
               className="fusion-site-footer__brand-logo fusion-site-footer__brand-logo--hhs"
-              src={`${brandBase}hhs-lockup.svg`}
+              src={`${brandBase}hhs-logo.png`}
               alt="U.S. Department of Health and Human Services"
               width={72}
               height={72}
@@ -60,7 +60,7 @@ export function SiteFooter() {
             />
             <img
               className="fusion-site-footer__brand-logo fusion-site-footer__brand-logo--cms"
-              src={`${brandBase}cms-lockup.svg`}
+              src={`${brandBase}cms-logo.png`}
               alt="Centers for Medicare & Medicaid Services"
               width={200}
               height={72}

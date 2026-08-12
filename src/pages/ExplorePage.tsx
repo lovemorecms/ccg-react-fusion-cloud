@@ -3,6 +3,7 @@ import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { ExploreSectionNav } from '../components/explore/ExploreSectionNav'
 import { FusionButton } from '../components/FusionButton'
+import { ChevronRight } from '../components/icons/Chevron'
 import { HideableInteriorBreadcrumbs } from '../components/layouts/HideableInteriorBreadcrumbs'
 import { InteriorSectionNavProvider } from '../components/layouts/InteriorSectionNav'
 import { exploreCardHrefByTitle } from '../data/platformPages'
@@ -241,11 +242,7 @@ function LearnIcon({ type }: { type: string }) {
 }
 
 function ArrowIcon() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
-      <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  )
+  return <ChevronRight />
 }
 
 export default function ExplorePage() {
@@ -517,9 +514,7 @@ export default function ExplorePage() {
                   ) : (
                     <FusionButton href="#" variation="ghost" onDark className="kc-glass-card__cta-link">
                       {card.cta}
-                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
-                        <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
+                      <ChevronRight />
                     </FusionButton>
                   )}
                 </div>

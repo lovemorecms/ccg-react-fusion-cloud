@@ -104,8 +104,14 @@ function FeatureIcon({ type }: { type: string }) {
 function CheckIcon() {
   return (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden className="po-security__check">
-      <circle cx="12" cy="12" r="10" fill="color-mix(in srgb, var(--color-primary) 12%, white)" />
-      <path d="M8 12l3 3 5-6" stroke="var(--color-primary)" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round" />
+      <circle className="po-security__check-well" cx="12" cy="12" r="10" />
+      <path
+        className="po-security__check-mark"
+        d="M8 12l3 3 5-6"
+        strokeWidth={1.75}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   )
 }
@@ -181,7 +187,7 @@ export default function ProgramOverviewPage() {
           </section>
         </div>
 
-        <section className="po-band kc-reveal" aria-labelledby="po-features-heading">
+        <section className="po-band po-band--features kc-reveal" aria-labelledby="po-features-heading">
           <div className="po-band__inner">
             <h2 id="po-features-heading" className="sr-only">
               Platform capabilities
@@ -203,7 +209,7 @@ export default function ProgramOverviewPage() {
         </section>
 
         <div className="kc-content">
-          <section className="kc-section kc-reveal" id="services">
+          <section className="kc-section po-stats-section kc-reveal" id="services">
             <h2 className="kc-section-heading po-section-heading">Services to suit your needs</h2>
             <p className="kc-section-subtitle po-section-lede">
               From legacy modernization to cloud migration, CMS offers comprehensive technology services
@@ -220,7 +226,7 @@ export default function ProgramOverviewPage() {
           </section>
         </div>
 
-        <section className="po-band kc-reveal" aria-labelledby="po-security-heading">
+        <section className="po-band po-band--security kc-reveal" aria-labelledby="po-security-heading">
           <div className="po-band__inner po-security">
             <h2 id="po-security-heading" className="kc-section-heading po-section-heading">
               Keeping security top-of-mind

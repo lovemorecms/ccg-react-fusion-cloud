@@ -12,17 +12,12 @@
     />
     <title>FUSION Sphere</title>
     <script>
-      // Apply saved color mode before paint (CMS Deepsea 800 dark / light).
+      // Apply color mode before paint. Default is dark; honor an explicit toggle.
       ;(function () {
         try {
-          var key = 'fusion-color-mode'
+          var key = 'fusion-color-mode-v2'
           var stored = localStorage.getItem(key)
-          var mode =
-            stored === 'light' || stored === 'dark'
-              ? stored
-              : window.matchMedia('(prefers-color-scheme: dark)').matches
-                ? 'dark'
-                : 'light'
+          var mode = stored === 'light' || stored === 'dark' ? stored : 'dark'
           document.documentElement.dataset.theme = mode
           document.documentElement.style.colorScheme = mode
           if (mode === 'dark') {

@@ -150,8 +150,9 @@ export function FusionHero() {
     [goPrev, goNext],
   )
 
-  /** `public/images/sections/hero-cms-home-primary-blue.png` — respects Vite `base`. */
-  const heroBgUrl = `${import.meta.env.BASE_URL}images/sections/hero-cms-home-primary-blue.png`
+  const base = import.meta.env.BASE_URL
+  const heroBgLightUrl = `${base}images/sections/hero-cms-home-primary-blue.png`
+  const heroIllustrationDarkUrl = `${base}images/sections/hero-cms-home-dark-illustration.png`
 
   return (
     <section
@@ -167,18 +168,24 @@ export function FusionHero() {
       </p>
 
       <img
-        src={heroBgUrl}
+        src={heroBgLightUrl}
         alt=""
-        className="fusion-hero__bg-fill"
+        className="fusion-hero__bg-fill fusion-hero__bg--light"
         decoding="async"
         fetchPriority="high"
       />
       <img
-        src={heroBgUrl}
+        src={heroBgLightUrl}
         alt=""
-        className="fusion-hero__bg-art"
+        className="fusion-hero__bg-art fusion-hero__bg--light"
         decoding="async"
         fetchPriority="high"
+      />
+      <img
+        src={heroIllustrationDarkUrl}
+        alt=""
+        className="fusion-hero__illustration"
+        decoding="async"
       />
 
       {/* Left scrim — CMS primary mixes (replaces legacy #000d26 / Ocean tints) */}
@@ -190,7 +197,7 @@ export function FusionHero() {
       <div className="fusion-hero__tint pointer-events-none absolute inset-0 z-[2]" aria-hidden />
 
       <div
-        className="pointer-events-none absolute inset-0 z-[2] overflow-hidden"
+        className="fusion-hero__stars pointer-events-none absolute inset-0 z-[2] overflow-hidden"
         aria-hidden
       >
         {STAR_STREAKS.map((s, i) => (

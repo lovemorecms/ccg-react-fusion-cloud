@@ -408,7 +408,7 @@ html.figma-capture .fusion-ecosphere__tile .fusion-ecosphere__card {
   overflow: hidden;
 }
 
-/* Homepage hero — CMS.gov primary (+ darkest for readable left scrim); art from `public/images/sections/hero-cms-home-primary-blue.png` overlays */
+/* Homepage hero — light: `hero-cms-home-primary-blue.png`; dark: right-aligned illustration */
 .fusion-hero {
   background-color: var(--color-primary);
 }
@@ -770,6 +770,64 @@ a.fusion-ds-button.ds-c-button:visited:hover {
   text-decoration: none;
 }
 
+/*
+ * Sitewide button chrome: no underline, label centered, consistent padding.
+ * Bordered / solid / ghost CTAs should never look like text links.
+ */
+.fusion-ds-button.ds-c-button,
+a.fusion-ds-button.ds-c-button,
+a.fusion-ds-button.ds-c-button:link,
+a.fusion-ds-button.ds-c-button:visited,
+a.fusion-ds-button.ds-c-button:hover,
+a.fusion-ds-button.ds-c-button:focus,
+a.fusion-ds-button.ds-c-button:focus-visible,
+a.fusion-ds-button.ds-c-button:active {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  text-align: center;
+  text-decoration: none !important;
+  line-height: 1.2;
+  vertical-align: middle;
+  box-sizing: border-box;
+}
+
+.fusion-ds-button.ds-c-button--solid:not(.ds-c-button--small),
+.fusion-ds-button.ds-c-button--outline:not(.ds-c-button--small),
+.fusion-ds-button.ds-c-button--ghost:not(.ds-c-button--small) {
+  min-height: 3rem;
+  padding: 0.75rem 1.5rem;
+}
+
+.fusion-ds-button.ds-c-button--small {
+  min-height: 2.25rem;
+  padding: 0.375rem 1rem;
+}
+
+.fusion-ds-button.ds-c-button--ghost,
+.fusion-ds-button.ds-c-button--outline {
+  border-width: 2px;
+  border-style: solid;
+}
+
+.kc-hero__search-field .fusion-ds-button.ds-c-button {
+  min-height: 0;
+  padding: 0.35rem 0.75rem;
+}
+
+html[data-theme='dark'] .fusion-ds-button.ds-c-button--ghost.ds-c-button--on-dark,
+html[data-theme='dark'] .fusion-ds-button.ds-c-button--ghost.ds-c-button--on-dark:link,
+html[data-theme='dark'] .fusion-ds-button.ds-c-button--ghost.ds-c-button--on-dark:visited,
+html[data-theme='dark'] .fusion-ds-button.ds-c-button--ghost.ds-c-button--on-dark:hover,
+html[data-theme='dark'] .fusion-ds-button.ds-c-button--ghost.ds-c-button--on-dark:focus {
+  --color: #ffffff;
+  --borderColor: #ffffff;
+  --color--h: #ffffff;
+  color: #ffffff !important;
+  text-decoration: none !important;
+}
+
 .fusion-ds-button.ds-c-button--full,
 .init-get-started .fusion-ds-button,
 .init-btn--full.fusion-ds-button {
@@ -874,41 +932,84 @@ a.fusion-ds-button.ds-c-button:visited:hover {
   box-shadow: 0 4px 24px color-mix(in srgb, var(--color-base) 10%, transparent);
 }
 
-/* Settings / color-mode toggle in primary nav */
+/* Sun / moon color-mode toggle in primary nav */
 .fusion-theme-toggle {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 2.5rem;
-  height: 2.5rem;
-  padding: 0.5rem;
+  width: auto;
+  height: auto;
+  padding: 0;
   border: 0;
-  border-radius: 0.5rem;
+  border-radius: 9999px;
   background: transparent;
   color: var(--fusion-blue, var(--color-primary));
   cursor: pointer;
-  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-.fusion-theme-toggle:hover,
+.fusion-theme-toggle__track {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  width: 3.75rem;
+  height: 2rem;
+  padding: 3px;
+  border-radius: 9999px;
+  border: 1.5px solid color-mix(in srgb, var(--color-primary) 28%, transparent);
+  background: color-mix(in srgb, var(--color-primary) 8%, var(--color-gray-lightest, #f0f0f0));
+  box-sizing: border-box;
+}
+
+.fusion-theme-toggle__thumb {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: calc(50% - 3px);
+  height: calc(100% - 6px);
+  border-radius: 9999px;
+  background: var(--color-white, #fff);
+  box-shadow: 0 1px 4px color-mix(in srgb, var(--color-base, #262626) 16%, transparent);
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+.fusion-theme-toggle[aria-pressed='true'] .fusion-theme-toggle__thumb {
+  transform: translateX(100%);
+}
+
+.fusion-theme-toggle__icon {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: color-mix(in srgb, var(--color-primary) 55%, transparent);
+  transition: color 0.2s ease;
+}
+
+.fusion-theme-toggle:not([aria-pressed='true']) .fusion-theme-toggle__icon--sun,
+.fusion-theme-toggle[aria-pressed='true'] .fusion-theme-toggle__icon--moon {
+  color: var(--color-primary-darkest, #07124d);
+}
+
+.fusion-theme-toggle:hover .fusion-theme-toggle__track,
+.fusion-theme-toggle:focus-visible .fusion-theme-toggle__track {
+  border-color: color-mix(in srgb, var(--color-primary) 55%, transparent);
+}
+
 .fusion-theme-toggle:focus-visible {
-  background-color: var(--color-gray-lightest);
   outline: none;
 }
 
-.fusion-theme-toggle:focus-visible {
+.fusion-theme-toggle:focus-visible .fusion-theme-toggle__track {
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 35%, transparent);
-}
-
-.fusion-theme-toggle[aria-pressed='true'] {
-  background-color: color-mix(in srgb, var(--color-primary) 14%, transparent);
-  color: var(--color-primary-lightest);
 }
 
 /*
  * Dark color mode — CMS.gov Deep Sea palette (color-only theme).
- * Foundation: Deep Sea 800 (#07124D) = --color-primary-darkest
- * Hierarchy via 700/500 surfaces, 100/50 text — not a flat navy wash.
+ * 800 = atmosphere. 700 = depth. 500 = illumination / interaction / focus — not fill.
+ * Copy on dark surfaces is white. Existing CMS yellow = brand warmth.
  */
 html[data-theme='dark'] {
   color-scheme: dark;
@@ -920,22 +1021,24 @@ html[data-theme='dark'] {
   --fusion-deep-sea-700: #09196b;
   --fusion-deep-sea-800: #07124d;
 
-  /* Canvas = Deep Sea 800. Surfaces are 800/700 blends — 500 is emphasis only. */
+  /* Canvas = Deep Sea 800. Surfaces are 800/700 elevation. 500 is glow/hover only. */
   --color-background: var(--fusion-deep-sea-800);
-  --fusion-on-dark: var(--fusion-deep-sea-50);
-  --fusion-on-dark-muted: var(--fusion-deep-sea-100);
+  --fusion-on-dark: #ffffff;
+  --fusion-on-dark-muted: #ffffff;
+  --color-base-inverse: #ffffff;
+  --color-muted-inverse: #ffffff;
   --fusion-yellow: #ffe400;
   --fusion-on-light: #262626; /* Granite 900 — readable on white cards */
   --fusion-on-light-muted: #5a5a5a; /* Granite 700 */
 
   --fusion-dark-canvas: var(--fusion-deep-sea-800);
-  --fusion-dark-band: color-mix(in srgb, var(--fusion-deep-sea-800) 72%, var(--fusion-deep-sea-700));
-  --fusion-dark-card: color-mix(in srgb, var(--fusion-deep-sea-800) 58%, var(--fusion-deep-sea-700));
-  --fusion-dark-card-hover: color-mix(in srgb, var(--fusion-deep-sea-700) 70%, var(--fusion-deep-sea-500));
+  --fusion-dark-band: color-mix(in srgb, var(--fusion-deep-sea-800) 82%, var(--fusion-deep-sea-700));
+  --fusion-dark-card: color-mix(in srgb, var(--fusion-deep-sea-800) 74%, var(--fusion-deep-sea-700));
+  --fusion-dark-card-hover: color-mix(in srgb, var(--fusion-deep-sea-700) 86%, var(--fusion-deep-sea-500));
   --fusion-dark-interactive: var(--fusion-deep-sea-500);
   --fusion-dark-border: color-mix(in srgb, var(--fusion-deep-sea-100) 22%, transparent);
-  --fusion-dark-border-strong: color-mix(in srgb, var(--fusion-deep-sea-100) 38%, transparent);
-  --fusion-dark-glow: color-mix(in srgb, var(--fusion-deep-sea-500) 22%, transparent);
+  --fusion-dark-border-strong: color-mix(in srgb, var(--fusion-deep-sea-100) 28%, transparent);
+  --fusion-dark-glow: color-mix(in srgb, var(--fusion-deep-sea-500) 16%, transparent);
 
   /* Neutrals for dark chrome (borders, subtle fills) — not for body copy on white cards */
   --color-gray-lightest: color-mix(in srgb, var(--color-white) 10%, var(--fusion-deep-sea-800));
@@ -963,9 +1066,14 @@ html[data-theme='dark'] body {
 }
 
 html[data-theme='dark'] .fusion-site-header {
-  border-bottom-color: color-mix(in srgb, var(--color-white) 14%, transparent);
-  background-color: color-mix(in srgb, var(--color-primary-darkest) 88%, transparent);
-  box-shadow: 0 8px 28px color-mix(in srgb, #000 35%, transparent);
+  border-bottom-color: color-mix(in srgb, var(--fusion-deep-sea-100) 20%, transparent);
+  background-color: var(--fusion-deep-sea-800);
+  background-image: linear-gradient(
+    180deg,
+    var(--fusion-deep-sea-800) 0%,
+    color-mix(in srgb, var(--fusion-deep-sea-800) 88%, var(--fusion-deep-sea-700)) 100%
+  );
+  box-shadow: none;
 }
 
 html[data-theme='dark'] .fusion-site-header--scrolled {
@@ -975,9 +1083,8 @@ html[data-theme='dark'] .fusion-site-header--scrolled {
 html[data-theme='dark'] .fusion-mega-trigger,
 html[data-theme='dark'] .fusion-site-nav__get-help,
 html[data-theme='dark'] .fusion-site-nav__menu-btn,
-html[data-theme='dark'] .fusion-site-nav__search-btn,
-html[data-theme='dark'] .fusion-theme-toggle {
-  color: var(--color-base-inverse);
+html[data-theme='dark'] .fusion-site-nav__search-btn {
+  color: #ffffff;
 }
 
 html[data-theme='dark'] .fusion-mega-trigger:hover,
@@ -990,8 +1097,6 @@ html[data-theme='dark'] .fusion-site-nav__menu-btn {
   background-color: color-mix(in srgb, var(--color-primary-darker) 80%, transparent);
 }
 
-html[data-theme='dark'] .fusion-theme-toggle:hover,
-html[data-theme='dark'] .fusion-theme-toggle:focus-visible,
 html[data-theme='dark'] .fusion-site-nav__search-btn:hover,
 html[data-theme='dark'] .fusion-site-nav__search-btn.bg-neutral-100,
 html[data-theme='dark'] .fusion-site-nav__search-btn[aria-expanded='true'] {
@@ -1108,7 +1213,13 @@ html[data-theme='dark'] .fusion-nav-v2__overview-footer-link:focus-visible {
 
 html[data-theme='dark'] .fusion-site-header {
   background-color: var(--fusion-deep-sea-800) !important;
-  border-bottom-color: var(--fusion-dark-border) !important;
+  background-image: linear-gradient(
+    180deg,
+    var(--fusion-deep-sea-800) 0%,
+    color-mix(in srgb, var(--fusion-deep-sea-800) 88%, var(--fusion-deep-sea-700)) 100%
+  ) !important;
+  border-bottom-color: color-mix(in srgb, var(--fusion-deep-sea-100) 20%, transparent) !important;
+  box-shadow: none !important;
 }
 
 html[data-theme='dark'] .fusion-site-nav a.fusion-site-nav__get-help,
@@ -1132,9 +1243,28 @@ html.fusion-theme-dark .fusion-site-nav a.fusion-site-nav__get-help:hover {
   color: #ffffff !important;
 }
 
-html[data-theme='dark'] .fusion-theme-toggle[aria-pressed='true'] {
-  background-color: color-mix(in srgb, var(--color-white) 16%, transparent);
-  color: var(--color-white);
+html[data-theme='dark'] .fusion-theme-toggle__track {
+  border-color: color-mix(in srgb, var(--fusion-deep-sea-100) 28%, transparent);
+  background: color-mix(in srgb, var(--fusion-deep-sea-800) 70%, #000);
+}
+
+html[data-theme='dark'] .fusion-theme-toggle__thumb {
+  background: color-mix(in srgb, var(--fusion-deep-sea-100) 22%, var(--fusion-deep-sea-700));
+  box-shadow: 0 1px 6px color-mix(in srgb, #000 40%, transparent);
+}
+
+html[data-theme='dark'] .fusion-theme-toggle__icon {
+  color: color-mix(in srgb, var(--fusion-deep-sea-100) 55%, transparent);
+}
+
+html[data-theme='dark'] .fusion-theme-toggle:not([aria-pressed='true']) .fusion-theme-toggle__icon--sun,
+html[data-theme='dark'] .fusion-theme-toggle[aria-pressed='true'] .fusion-theme-toggle__icon--moon {
+  color: #ffffff;
+}
+
+html[data-theme='dark'] .fusion-theme-toggle:hover .fusion-theme-toggle__track,
+html[data-theme='dark'] .fusion-theme-toggle:focus-visible .fusion-theme-toggle__track {
+  border-color: color-mix(in srgb, var(--fusion-deep-sea-100) 48%, transparent);
 }
 
 html[data-theme='dark'] .fusion-site-footer {
@@ -1436,7 +1566,9 @@ html[data-theme='dark'] .fusion-site-nav__mobile-drawer {
   font-weight: 600;
   line-height: 1;
   color: var(--fusion-blue-deep);
+  text-align: center;
   text-decoration: none;
+  justify-content: center;
   border: 1.5px solid var(--fusion-blue-deep);
   border-radius: 9999px;
   background: transparent;
@@ -1766,6 +1898,18 @@ h2.fusion-mega-featured__title {
   text-decoration: none;
 }
 
+.fusion-site-nav__logo-img--dark {
+  display: none;
+}
+
+html[data-theme='dark'] .fusion-site-nav__logo-img--light {
+  display: none;
+}
+
+html[data-theme='dark'] .fusion-site-nav__logo-img--dark {
+  display: block;
+}
+
 .fusion-site-search__submit,
 .fusion-site-search__submit:visited {
   color: #ffffff;
@@ -1810,12 +1954,35 @@ h2.fusion-mega-featured__title {
   color: var(--color-primary-darkest);
 }
 
+.fusion-hero .fusion-hero__cta-primary.fusion-ds-button,
+.fusion-hero .fusion-hero__cta-secondary.fusion-ds-button {
+  border-radius: 9999px;
+  min-height: 3rem;
+  padding-inline: 1.5rem;
+}
+
 .fusion-hero .fusion-hero__cta-secondary.ds-c-button--ghost,
 .fusion-hero .fusion-hero__cta-secondary.ds-c-button--ghost:link,
-.fusion-hero .fusion-hero__cta-secondary.ds-c-button--ghost:visited,
-.fusion-hero .fusion-hero__cta-secondary.ds-c-button--ghost:hover,
-.fusion-hero .fusion-hero__cta-secondary.ds-c-button--ghost:focus {
+.fusion-hero .fusion-hero__cta-secondary.ds-c-button--ghost:visited {
+  --borderColor: var(--color-white);
+  --color: var(--color-white);
   color: var(--color-white);
+  border-width: 2px;
+  border-style: solid;
+  background-color: transparent;
+  box-shadow: none;
+  text-decoration: none;
+}
+
+.fusion-hero .fusion-hero__cta-secondary.ds-c-button--ghost:hover,
+.fusion-hero .fusion-hero__cta-secondary.ds-c-button--ghost:focus,
+.fusion-hero .fusion-hero__cta-secondary.ds-c-button--ghost:focus-visible {
+  --borderColor: var(--color-white);
+  --color: var(--color-white);
+  --color--h: var(--color-white);
+  color: var(--color-white);
+  background-color: color-mix(in srgb, var(--color-white) 12%, transparent);
+  text-decoration: none;
 }
 
 /* Reset native/CMS button chrome — was painting grey squares behind dots */
@@ -2237,7 +2404,13 @@ h2.fusion-mega-featured__title {
 
 .fusion-featured-resources .fusion-featured-resources__arrow {
   flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
   transition: transform 0.2s ease-out;
+}
+
+.fusion-featured-resources .fusion-featured-resources__arrow svg {
+  display: block;
 }
 
 .fusion-featured-resources a.fusion-featured-resources__card-link:hover .fusion-featured-resources__arrow {
@@ -2590,7 +2763,13 @@ h2.fusion-mega-featured__title {
 
 .fusion-academy .fusion-academy-offerings__cta-arrow {
   flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
   transition: transform 0.2s ease-out;
+}
+
+.fusion-academy .fusion-academy-offerings__cta-arrow svg {
+  display: block;
 }
 
 .fusion-academy a.fusion-academy-offerings__cta:hover .fusion-academy-offerings__cta-arrow {
@@ -5682,6 +5861,7 @@ h1.po-hero__heading {
 }
 
 .po-platform-card__media {
+  position: relative;
   aspect-ratio: 16 / 9;
   overflow: hidden;
   background: var(--color-gray-lightest);
@@ -5830,6 +6010,15 @@ h3.po-feature-card__title {
 
 .po-security__check {
   flex-shrink: 0;
+}
+
+.po-security__check-well {
+  fill: color-mix(in srgb, var(--color-primary) 12%, white);
+}
+
+.po-security__check-mark {
+  stroke: var(--color-primary);
+  fill: none;
 }
 
 .po-cta {
@@ -12722,8 +12911,7 @@ h3.te-cta-card__title {
 
 .pa-cta-card__btn--link.ds-c-button--ghost {
   color: color-mix(in srgb, #ffffff 92%, transparent);
-  text-decoration: underline;
-  text-underline-offset: 0.15em;
+  text-decoration: none;
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -13130,19 +13318,31 @@ h3.te-cta-card__title {
 .ss-service-card__cta.ds-c-button--ghost:visited {
   align-self: flex-start;
   margin-top: 0.5rem;
-  padding-left: 0;
-  padding-right: 0;
-  min-height: 0;
-  border-width: 0;
   font-weight: 600;
+  --borderColor: var(--fusion-blue);
+  --color: var(--fusion-blue);
   color: var(--fusion-blue);
   background: transparent;
+  text-decoration: none;
 }
 
 .ss-service-card__cta.ds-c-button--ghost:hover,
 .ss-service-card__cta.ds-c-button--ghost:focus {
   color: var(--fusion-blue-deep);
   background: transparent;
+  text-decoration: none;
+}
+
+html[data-theme='dark'] .ss-service-card__cta.ds-c-button--ghost,
+html[data-theme='dark'] .ss-service-card__cta.ds-c-button--ghost:link,
+html[data-theme='dark'] .ss-service-card__cta.ds-c-button--ghost:visited,
+html[data-theme='dark'] .ss-service-card__cta.ds-c-button--ghost:hover,
+html[data-theme='dark'] .ss-service-card__cta.ds-c-button--ghost:focus {
+  --color: #ffffff;
+  --borderColor: #ffffff;
+  --color--h: #ffffff;
+  color: #ffffff !important;
+  text-decoration: none !important;
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -13872,7 +14072,6 @@ html[data-theme='dark'] .fusion-nav-v2__learn-group-list a:focus-visible {
 html[data-theme='dark'] .fusion-nav-v2.fusion-nav-v2--mega-open button.fusion-mega-trigger,
 html[data-theme='dark'] .fusion-nav-v2.fusion-nav-v2--mega-open button.fusion-mega-trigger--active,
 html[data-theme='dark'] .fusion-site-header:has(.fusion-nav-v2--mega-open) .fusion-mega-trigger,
-html[data-theme='dark'] .fusion-site-header:has(.fusion-nav-v2--mega-open) .fusion-theme-toggle,
 html[data-theme='dark'] .fusion-site-header:has(.fusion-nav-v2--mega-open) .fusion-site-nav__search-btn,
 html[data-theme='dark'] .fusion-site-header:has(.fusion-nav-v2--mega-open) .fusion-site-nav a.fusion-site-nav__get-help,
 html.fusion-theme-dark .fusion-site-header:has(.fusion-nav-v2--mega-open) .fusion-site-nav a.fusion-site-nav__get-help {
@@ -13906,7 +14105,7 @@ html[data-theme='dark'] .kc-content {
 }
 
 html[data-theme='dark'] .po-band {
-  background: color-mix(in srgb, var(--color-primary-darker) 55%, var(--color-primary-darkest)) !important;
+  background: var(--fusion-deep-sea-800) !important;
 }
 
 /* Section titles + ledes on dark canvas */
@@ -13958,33 +14157,10 @@ html[data-theme='dark'] .po-cta__lede {
   color: var(--fusion-on-dark) !important;
 }
 
-/* Light cards / chips sitting on dark pages — granite text, not white */
-html[data-theme='dark'] .po-platform-card,
-html[data-theme='dark'] .po-feature-card,
-html[data-theme='dark'] .po-security__item,
+/* Light chips on dark pages (non-PO) — granite text, not white */
 html[data-theme='dark'] .interior-section-nav__shell,
 html[data-theme='dark'] .interior-section-nav {
   color: var(--fusion-on-light);
-}
-
-html[data-theme='dark'] .po-platform-card,
-html[data-theme='dark'] .po-feature-card,
-html[data-theme='dark'] .po-security__item {
-  background: var(--color-white) !important;
-  border-color: color-mix(in srgb, var(--color-white) 20%, transparent);
-}
-
-html[data-theme='dark'] .po-platform-card__title,
-html[data-theme='dark'] .po-feature-card__title,
-html[data-theme='dark'] .po-security__item,
-html[data-theme='dark'] h3.po-platform-card__title,
-html[data-theme='dark'] h3.po-feature-card__title {
-  color: var(--fusion-on-light) !important;
-}
-
-html[data-theme='dark'] .po-platform-card__desc,
-html[data-theme='dark'] .po-feature-card__desc {
-  color: var(--fusion-on-light-muted) !important;
 }
 
 /* Dark-tinted catalog cards — keep white text */
@@ -14019,76 +14195,233 @@ html[data-theme='dark'] .interior-section-nav__link--active {
 }
 
 /*
- * Homepage dark mode — layered Deep Sea surfaces (not 800/700/500 buckets).
- * 800 = canvas. Cards = 800/700 lift. 500 = interactive/glow only.
- * Academy hero stays light. Yellow only where the original design used it.
+ * Homepage dark mode — Deep Sea rhythm (not 800/700/500 slabs).
+ * 800 atmosphere → 700 depth around artwork → 800/700 cards → localized 500 glow.
+ * 500 is illumination, interaction, and focus — never a filled rectangle.
  */
 html[data-theme='dark'] .fusion-band-gradient-primary-mist {
-  background-color: var(--fusion-dark-canvas) !important;
+  background-color: var(--fusion-deep-sea-800) !important;
+  background-image: none !important;
+  color: #ffffff !important;
+}
+
+/* 1. Hero: same 800 → 700 → 800 wash as ecosystem, plus localized 500 around artwork */
+html[data-theme='dark'] .fusion-hero {
+  background-color: var(--fusion-deep-sea-800);
+  background-image:
+    radial-gradient(
+      ellipse 52% 68% at 78% 46%,
+      color-mix(in srgb, var(--fusion-deep-sea-500) 26%, transparent),
+      transparent 70%
+    ),
+    linear-gradient(
+      180deg,
+      var(--fusion-deep-sea-800) 0%,
+      var(--fusion-deep-sea-700) 28%,
+      var(--fusion-deep-sea-700) 72%,
+      var(--fusion-deep-sea-800) 100%
+    );
+}
+
+.fusion-hero__illustration {
+  display: none;
+}
+
+html[data-theme='dark'] .fusion-hero__bg--light,
+html[data-theme='dark'] .fusion-hero__scrim,
+html[data-theme='dark'] .fusion-hero__tint,
+html[data-theme='dark'] .fusion-hero__stars {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  html[data-theme='dark'] .fusion-hero__illustration {
+    display: block;
+    position: absolute;
+    z-index: 1;
+    pointer-events: none;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: min(100%, var(--fusion-site-max-width));
+    height: 100%;
+    max-width: none;
+    box-sizing: border-box;
+    padding-top: 1.25rem;
+    padding-bottom: 5.5rem;
+    padding-left: 42%;
+    padding-right: var(--fusion-site-padding-x-md);
+    transform: translateX(-50%);
+    object-fit: contain;
+    object-position: right center;
+    mix-blend-mode: lighten;
+    -webkit-mask-image:
+      linear-gradient(to right, transparent 0%, #000 10%),
+      linear-gradient(to bottom, transparent 0%, #000 12%, #000 78%, transparent 100%);
+    mask-image:
+      linear-gradient(to right, transparent 0%, #000 10%),
+      linear-gradient(to bottom, transparent 0%, #000 12%, #000 78%, transparent 100%);
+    -webkit-mask-composite: source-in;
+    mask-composite: intersect;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-size: 100% 100%;
+    mask-size: 100% 100%;
+  }
+}
+
+@media (min-width: 1024px) {
+  html[data-theme='dark'] .fusion-hero__illustration {
+    padding-left: 48%;
+  }
+}
+
+html[data-theme='dark'] .fusion-hero__page-fade {
+  height: 14rem;
   background-image: linear-gradient(
-    180deg,
-    var(--fusion-dark-canvas) 0%,
-    var(--fusion-dark-band) 50%,
-    var(--fusion-dark-canvas) 100%
+    to top,
+    var(--fusion-deep-sea-800) 0%,
+    color-mix(in srgb, var(--fusion-deep-sea-800) 82%, transparent) 38%,
+    color-mix(in srgb, var(--fusion-deep-sea-800) 28%, transparent) 72%,
+    transparent 100%
   ) !important;
-  color: var(--fusion-deep-sea-50) !important;
 }
 
-html[data-theme='dark'] .fusion-quick-access {
-  background-color: var(--fusion-dark-canvas) !important;
-  background-image: radial-gradient(
-    ellipse 80% 55% at 50% 100%,
-    var(--fusion-dark-glow),
-    transparent 70%
-  ) !important;
-  color: var(--fusion-deep-sea-50) !important;
+html[data-theme='dark'] .fusion-hero .fusion-hero__headline > span {
+  color: #ffffff !important;
 }
 
+html[data-theme='dark'] .fusion-hero .fusion-hero__headline-accent {
+  color: var(--fusion-yellow) !important;
+  -webkit-text-fill-color: var(--fusion-yellow) !important;
+}
+
+html[data-theme='dark'] .fusion-hero .fusion-hero__body {
+  color: #ffffff !important;
+}
+
+html[data-theme='dark'] .fusion-hero .fusion-hero__cta-secondary.ds-c-button--ghost,
+html[data-theme='dark'] .fusion-hero .fusion-hero__cta-secondary.ds-c-button--ghost:link,
+html[data-theme='dark'] .fusion-hero .fusion-hero__cta-secondary.ds-c-button--ghost:visited {
+  --borderColor: #ffffff;
+  --color: #ffffff;
+  color: #ffffff !important;
+  text-decoration: none;
+}
+
+html[data-theme='dark'] .fusion-hero .fusion-hero__cta-secondary.ds-c-button--ghost:hover,
+html[data-theme='dark'] .fusion-hero .fusion-hero__cta-secondary.ds-c-button--ghost:focus,
+html[data-theme='dark'] .fusion-hero .fusion-hero__cta-secondary.ds-c-button--ghost:focus-visible {
+  --borderColor: #ffffff;
+  --color: #ffffff;
+  --color--h: #ffffff;
+  color: #ffffff !important;
+  background-color: color-mix(in srgb, var(--fusion-deep-sea-50) 12%, transparent);
+  text-decoration: none;
+}
+
+/* 2–3. Quick Access + pathways: start at 800 so the hero seam matches ecosystem → announcements */
+html[data-theme='dark'] .fusion-quick-access,
 html[data-theme='dark'] .fusion-pathways-help {
-  background-color: var(--fusion-dark-band) !important;
-  background-image: linear-gradient(
-    180deg,
-    color-mix(in srgb, var(--fusion-deep-sea-800) 88%, var(--fusion-deep-sea-700)) 0%,
-    var(--fusion-dark-band) 45%,
-    color-mix(in srgb, var(--fusion-deep-sea-800) 82%, var(--fusion-deep-sea-700)) 100%
+  background-color: var(--fusion-deep-sea-800) !important;
+  background-image: radial-gradient(
+    ellipse 80% 60% at 50% 70%,
+    color-mix(in srgb, var(--fusion-deep-sea-700) 32%, transparent),
+    transparent 72%
   ) !important;
-  color: var(--fusion-deep-sea-50) !important;
+  color: #ffffff !important;
 }
 
-html[data-theme='dark'] .fusion-featured-resources {
-  background-color: var(--fusion-dark-canvas) !important;
-  background-image: linear-gradient(
-    165deg,
-    var(--fusion-dark-canvas) 0%,
-    var(--fusion-dark-band) 40%,
-    var(--fusion-dark-canvas) 100%
-  ) !important;
-  color: var(--fusion-deep-sea-50) !important;
+html[data-theme='dark'] .fusion-quick-access__panel {
+  background:
+    radial-gradient(
+      ellipse 70% 80% at 50% 110%,
+      color-mix(in srgb, var(--fusion-deep-sea-500) 14%, transparent),
+      transparent 70%
+    ),
+    linear-gradient(
+      180deg,
+      var(--fusion-deep-sea-800) 0%,
+      color-mix(in srgb, var(--fusion-deep-sea-800) 70%, var(--fusion-deep-sea-700)) 100%
+    ) !important;
+  border-color: var(--fusion-dark-border-strong) !important;
+  color: #ffffff !important;
+  box-shadow: 0 16px 40px color-mix(in srgb, #000 22%, transparent) !important;
 }
 
-html[data-theme='dark'] .fusion-academy__offerings {
-  background-color: var(--fusion-dark-canvas) !important;
-  background-image: linear-gradient(
-    180deg,
-    var(--fusion-dark-band) 0%,
-    var(--fusion-dark-canvas) 100%
-  ) !important;
-  color: var(--fusion-deep-sea-50) !important;
+html[data-theme='dark'] .fusion-quick-access__panel-glow {
+  background-image: none !important;
 }
 
-html[data-theme='dark'] .fusion-announcements {
-  background-color: var(--fusion-dark-band) !important;
-  background-image: linear-gradient(
-    168deg,
-    var(--fusion-dark-band) 0%,
-    color-mix(in srgb, var(--fusion-deep-sea-800) 70%, var(--fusion-deep-sea-700)) 100%
-  ) !important;
-  color: var(--fusion-deep-sea-50) !important;
+html[data-theme='dark'] .fusion-quick-access a.fusion-quick-access__link,
+html[data-theme='dark'] .fusion-quick-access a.fusion-quick-access__link:visited,
+html[data-theme='dark'] .fusion-quick-access__link span,
+html[data-theme='dark'] .fusion-quick-access__link svg {
+  color: #ffffff !important;
+}
+
+html[data-theme='dark'] .fusion-quick-access__link span.mt-1,
+html[data-theme='dark'] .fusion-quick-access a.fusion-quick-access__link span:last-child {
+  color: #ffffff !important;
+}
+
+html[data-theme='dark'] .fusion-quick-access a.fusion-quick-access__link:hover {
+  background-color: color-mix(in srgb, var(--fusion-deep-sea-500) 18%, transparent) !important;
+}
+
+html[data-theme='dark'] .fusion-pathways-help .fusion-pathways-help__pill {
+  background: var(--fusion-deep-sea-800) !important;
+  border: 1px solid var(--fusion-dark-border) !important;
+  color: #ffffff !important;
+  box-shadow: none;
+}
+
+html[data-theme='dark'] .fusion-pathways-help .fusion-pathways-help__pill:hover {
+  background: color-mix(in srgb, var(--fusion-deep-sea-700) 82%, var(--fusion-deep-sea-500)) !important;
+  border-color: color-mix(in srgb, var(--fusion-deep-sea-100) 38%, transparent) !important;
+}
+
+html[data-theme='dark'] .fusion-pathways-help__pill-label,
+html[data-theme='dark'] .fusion-pathways-help__pill-chevron {
+  color: #ffffff !important;
+}
+
+html[data-theme='dark'] .fusion-pathways-help__pill-icon {
+  color: var(--fusion-yellow) !important;
+}
+
+html[data-theme='dark'] .fusion-pathways-help__pill-icon-wrap {
+  background: color-mix(in srgb, var(--fusion-deep-sea-500) 16%, transparent);
+}
+
+/* 4. Multi-Cloud: luminous left illustration on 800; 500 glow around the art */
+.fusion-multi-cloud__illustration {
+  display: none;
 }
 
 html[data-theme='dark'] .fusion-multi-cloud {
   background-color: var(--fusion-deep-sea-800) !important;
-  background-blend-mode: multiply;
+  background-image: none !important;
+  background-blend-mode: normal;
+}
+
+html[data-theme='dark'] .fusion-multi-cloud::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(
+      ellipse 58% 70% at 28% 52%,
+      color-mix(in srgb, var(--fusion-deep-sea-500) 30%, transparent),
+      transparent 68%
+    ),
+    linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--fusion-deep-sea-700) 18%, transparent) 0%,
+      transparent 48%
+    );
 }
 
 html[data-theme='dark'] .fusion-multi-cloud::after {
@@ -14096,21 +14429,64 @@ html[data-theme='dark'] .fusion-multi-cloud::after {
   position: absolute;
   inset: 0;
   pointer-events: none;
+  z-index: 0;
   background: linear-gradient(
     90deg,
-    color-mix(in srgb, var(--fusion-deep-sea-800) 12%, transparent) 0%,
-    color-mix(in srgb, var(--fusion-deep-sea-800) 42%, transparent) 48%,
+    transparent 0%,
+    transparent 46%,
+    color-mix(in srgb, var(--fusion-deep-sea-800) 28%, transparent) 64%,
     color-mix(in srgb, var(--fusion-deep-sea-800) 72%, transparent) 100%
   );
-  z-index: 0;
+}
+
+@media (min-width: 768px) {
+  html[data-theme='dark'] .fusion-multi-cloud__illustration {
+    display: block;
+    position: absolute;
+    z-index: 1;
+    pointer-events: none;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: min(100%, var(--fusion-site-max-width));
+    height: 100%;
+    max-width: none;
+    box-sizing: border-box;
+    padding-top: 1.25rem;
+    padding-bottom: 1.5rem;
+    padding-left: var(--fusion-site-padding-x-md);
+    padding-right: 46%;
+    transform: translateX(-50%);
+    object-fit: contain;
+    object-position: center center;
+    mix-blend-mode: lighten;
+    -webkit-mask-image:
+      linear-gradient(to left, transparent 0%, #000 12%),
+      linear-gradient(to bottom, transparent 0%, #000 10%, #000 82%, transparent 100%);
+    mask-image:
+      linear-gradient(to left, transparent 0%, #000 12%),
+      linear-gradient(to bottom, transparent 0%, #000 10%, #000 82%, transparent 100%);
+    -webkit-mask-composite: source-in;
+    mask-composite: intersect;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-size: 100% 100%;
+    mask-size: 100% 100%;
+  }
+}
+
+@media (min-width: 1024px) {
+  html[data-theme='dark'] .fusion-multi-cloud__illustration {
+    padding-right: 48%;
+  }
 }
 
 html[data-theme='dark'] .fusion-multi-cloud h2.fusion-multi-cloud__heading {
-  color: var(--fusion-deep-sea-50) !important;
+  color: #ffffff !important;
 }
 
 html[data-theme='dark'] .fusion-multi-cloud .fusion-multi-cloud__prose p {
-  color: var(--fusion-deep-sea-100) !important;
+  color: #ffffff !important;
 }
 
 @media (max-width: 1023px) {
@@ -14119,10 +14495,47 @@ html[data-theme='dark'] .fusion-multi-cloud .fusion-multi-cloud__prose p {
   }
 }
 
+/* 5. Featured Resources: calm 800 + 800/700 cards; 500 only on hover */
+html[data-theme='dark'] .fusion-featured-resources {
+  background-color: var(--fusion-deep-sea-800) !important;
+  background-image: linear-gradient(
+    180deg,
+    var(--fusion-deep-sea-800) 0%,
+    color-mix(in srgb, var(--fusion-deep-sea-800) 86%, var(--fusion-deep-sea-700)) 50%,
+    var(--fusion-deep-sea-800) 100%
+  ) !important;
+  color: #ffffff !important;
+}
+
+/* 6–7. Academy: luminous left illustration on 800; 500 glow around the art */
+.fusion-academy__illustration {
+  display: none;
+}
+
 html[data-theme='dark'] .fusion-academy__hero {
   position: relative;
   background-color: var(--fusion-deep-sea-800) !important;
-  background-blend-mode: multiply;
+  background-image: none !important;
+  background-blend-mode: normal;
+}
+
+html[data-theme='dark'] .fusion-academy__hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(
+      ellipse 58% 72% at 28% 48%,
+      color-mix(in srgb, var(--fusion-deep-sea-500) 32%, transparent),
+      transparent 68%
+    ),
+    linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--fusion-deep-sea-700) 20%, transparent) 0%,
+      transparent 46%
+    );
 }
 
 html[data-theme='dark'] .fusion-academy__hero::after {
@@ -14130,13 +14543,14 @@ html[data-theme='dark'] .fusion-academy__hero::after {
   position: absolute;
   inset: 0;
   pointer-events: none;
+  z-index: 0;
   background: linear-gradient(
     90deg,
-    color-mix(in srgb, var(--fusion-deep-sea-800) 18%, transparent) 0%,
-    color-mix(in srgb, var(--fusion-deep-sea-800) 55%, transparent) 48%,
-    color-mix(in srgb, var(--fusion-deep-sea-800) 78%, transparent) 100%
+    transparent 0%,
+    transparent 46%,
+    color-mix(in srgb, var(--fusion-deep-sea-800) 28%, transparent) 64%,
+    color-mix(in srgb, var(--fusion-deep-sea-800) 72%, transparent) 100%
   );
-  z-index: 0;
 }
 
 html[data-theme='dark'] .fusion-academy__hero > * {
@@ -14144,75 +14558,92 @@ html[data-theme='dark'] .fusion-academy__hero > * {
   z-index: 1;
 }
 
-html[data-theme='dark'] .fusion-hero__page-fade {
+@media (min-width: 768px) {
+  html[data-theme='dark'] .fusion-academy__illustration {
+    display: block;
+    position: absolute;
+    z-index: 1;
+    pointer-events: none;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: min(100%, var(--fusion-site-max-width));
+    height: 100%;
+    max-width: none;
+    box-sizing: border-box;
+    padding-top: 1.25rem;
+    padding-bottom: 1.5rem;
+    padding-left: var(--fusion-site-padding-x-md);
+    padding-right: 46%;
+    transform: translateX(-50%);
+    object-fit: contain;
+    object-position: center center;
+    mix-blend-mode: lighten;
+    -webkit-mask-image:
+      linear-gradient(to left, transparent 0%, #000 12%),
+      linear-gradient(to bottom, transparent 0%, #000 10%, #000 82%, transparent 100%);
+    mask-image:
+      linear-gradient(to left, transparent 0%, #000 12%),
+      linear-gradient(to bottom, transparent 0%, #000 10%, #000 82%, transparent 100%);
+    -webkit-mask-composite: source-in;
+    mask-composite: intersect;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-size: 100% 100%;
+    mask-size: 100% 100%;
+  }
+}
+
+@media (min-width: 1024px) {
+  html[data-theme='dark'] .fusion-academy__illustration {
+    padding-right: 48%;
+  }
+}
+
+html[data-theme='dark'] .fusion-academy__offerings {
+  background-color: var(--fusion-deep-sea-800) !important;
   background-image: linear-gradient(
-    to top,
-    var(--fusion-dark-canvas) 15%,
-    color-mix(in srgb, var(--fusion-dark-canvas) 40%, transparent),
-    transparent
+    180deg,
+    color-mix(in srgb, var(--fusion-deep-sea-800) 88%, var(--fusion-deep-sea-700)) 0%,
+    var(--fusion-deep-sea-800) 100%
   ) !important;
+  color: #ffffff !important;
 }
 
-/* Yellow only on the original hero accent — not Academy / FUSION. */
-html[data-theme='dark'] .fusion-hero .fusion-hero__headline-accent {
-  color: #ffe400 !important;
-  -webkit-text-fill-color: #ffe400 !important;
-}
-
-html[data-theme='dark'] .fusion-ecosphere .fusion-ecosphere__heading-accent.fusion-hero__headline-accent {
-  color: var(--fusion-deep-sea-50) !important;
-  -webkit-text-fill-color: var(--fusion-deep-sea-50) !important;
-}
-
-html[data-theme='dark'] .fusion-quick-access h2.fusion-quick-access__heading,
-html[data-theme='dark'] .fusion-featured-resources h2.fusion-featured-resources__heading,
-html[data-theme='dark'] .fusion-pathways-help h2.fusion-pathways-help__heading,
-html[data-theme='dark'] .fusion-announcements .fusion-announcements__title,
-html[data-theme='dark'] .fusion-ecosphere h2.fusion-ecosphere__heading,
-html[data-theme='dark'] .fusion-ecosphere .fusion-ecosphere__heading-muted {
-  color: var(--fusion-deep-sea-50) !important;
-  -webkit-text-fill-color: var(--fusion-deep-sea-50) !important;
-}
-
-html[data-theme='dark'] .fusion-quick-access p.fusion-quick-access__support,
-html[data-theme='dark'] .fusion-featured-resources p.fusion-featured-resources__support,
-html[data-theme='dark'] .fusion-pathways-help .fusion-pathways-help__lede,
-html[data-theme='dark'] .fusion-ecosphere .fusion-ecosphere__lede {
-  color: var(--fusion-deep-sea-100) !important;
-  -webkit-text-fill-color: var(--fusion-deep-sea-100) !important;
-}
-
-html[data-theme='dark'] .fusion-academy__hero,
 html[data-theme='dark'] .fusion-academy__hero h2,
 html[data-theme='dark'] .fusion-academy__hero .fusion-academy__heading,
-html[data-theme='dark'] .fusion-academy__hero .fusion-academy__heading-word,
+html[data-theme='dark'] .fusion-academy__hero .fusion-academy__heading-word {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
 html[data-theme='dark'] .fusion-academy__hero .fusion-academy__heading-accent {
-  color: var(--fusion-deep-sea-50) !important;
-  -webkit-text-fill-color: var(--fusion-deep-sea-50) !important;
+  color: var(--fusion-yellow) !important;
+  -webkit-text-fill-color: var(--fusion-yellow) !important;
 }
 
 html[data-theme='dark'] .fusion-academy__hero .fusion-academy__eyebrow,
 html[data-theme='dark'] .fusion-academy__hero .fusion-academy__lede,
 html[data-theme='dark'] .fusion-academy__hero .fusion-academy__body {
-  color: var(--fusion-deep-sea-100) !important;
-  -webkit-text-fill-color: var(--fusion-deep-sea-100) !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
 }
 
 html[data-theme='dark'] .fusion-academy .fusion-academy__cta-secondary.ds-c-button--ghost,
 html[data-theme='dark'] .fusion-academy .fusion-academy__cta-secondary.ds-c-button--ghost:link,
 html[data-theme='dark'] .fusion-academy .fusion-academy__cta-secondary.ds-c-button--ghost:visited {
-  --borderColor: var(--fusion-deep-sea-50);
-  --color: var(--fusion-deep-sea-50);
+  --borderColor: #ffffff;
+  --color: #ffffff;
   background-color: transparent !important;
-  color: var(--fusion-deep-sea-50) !important;
+  color: #ffffff !important;
 }
 
 html[data-theme='dark'] .fusion-academy .fusion-academy__cta-secondary.ds-c-button--ghost:hover,
 html[data-theme='dark'] .fusion-academy .fusion-academy__cta-secondary.ds-c-button--ghost:focus {
-  --borderColor: var(--fusion-deep-sea-50);
-  --color: var(--fusion-deep-sea-50);
-  background-color: color-mix(in srgb, var(--fusion-deep-sea-500) 28%, transparent) !important;
-  color: var(--fusion-deep-sea-50) !important;
+  --borderColor: #ffffff;
+  --color: #ffffff;
+  background-color: color-mix(in srgb, var(--fusion-deep-sea-500) 22%, transparent) !important;
+  color: #ffffff !important;
 }
 
 @media (max-width: 1023px) {
@@ -14222,151 +14653,512 @@ html[data-theme='dark'] .fusion-academy .fusion-academy__cta-secondary.ds-c-butt
   }
 }
 
-html[data-theme='dark'] .fusion-quick-access__panel {
-  background: var(--fusion-dark-card) !important;
-  border-color: var(--fusion-dark-border-strong) !important;
-  color: var(--fusion-deep-sea-50) !important;
-  box-shadow:
-    0 0 0 1px var(--fusion-dark-glow),
-    0 16px 40px color-mix(in srgb, #000 28%, transparent) !important;
+html[data-theme='dark'] .fusion-quick-access h2.fusion-quick-access__heading,
+html[data-theme='dark'] .fusion-featured-resources h2.fusion-featured-resources__heading,
+html[data-theme='dark'] .fusion-pathways-help h2.fusion-pathways-help__heading,
+html[data-theme='dark'] .fusion-announcements .fusion-announcements__title,
+html[data-theme='dark'] .fusion-ecosphere h2.fusion-ecosphere__heading,
+html[data-theme='dark'] .fusion-ecosphere .fusion-ecosphere__heading-muted {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
 }
 
-html[data-theme='dark'] .fusion-quick-access__panel-glow {
-  background-image: linear-gradient(
-    to top,
-    var(--fusion-dark-glow),
-    transparent
-  ) !important;
+html[data-theme='dark'] .fusion-ecosphere .fusion-ecosphere__heading-accent.fusion-hero__headline-accent {
+  color: var(--fusion-yellow) !important;
+  -webkit-text-fill-color: var(--fusion-yellow) !important;
 }
 
-html[data-theme='dark'] .fusion-quick-access a.fusion-quick-access__link,
-html[data-theme='dark'] .fusion-quick-access a.fusion-quick-access__link:visited,
-html[data-theme='dark'] .fusion-quick-access__link span,
-html[data-theme='dark'] .fusion-quick-access__link svg {
-  color: var(--fusion-deep-sea-50) !important;
+html[data-theme='dark'] .fusion-quick-access p.fusion-quick-access__support,
+html[data-theme='dark'] .fusion-featured-resources p.fusion-featured-resources__support,
+html[data-theme='dark'] .fusion-pathways-help .fusion-pathways-help__lede,
+html[data-theme='dark'] .fusion-ecosphere .fusion-ecosphere__lede {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
 }
 
-html[data-theme='dark'] .fusion-quick-access__link span.mt-1,
-html[data-theme='dark'] .fusion-quick-access a.fusion-quick-access__link span:last-child {
-  color: var(--fusion-deep-sea-100) !important;
-}
-
-html[data-theme='dark'] .fusion-quick-access a.fusion-quick-access__link:hover {
-  background-color: color-mix(in srgb, var(--fusion-dark-interactive) 28%, transparent) !important;
-}
-
-html[data-theme='dark'] .fusion-pathways-help .fusion-pathways-help__pill {
-  background: var(--fusion-dark-card) !important;
-  border: 1px solid var(--fusion-dark-border-strong) !important;
-  color: var(--fusion-deep-sea-50) !important;
-  box-shadow: 0 8px 24px color-mix(in srgb, #000 22%, transparent);
-}
-
-html[data-theme='dark'] .fusion-pathways-help .fusion-pathways-help__pill:hover {
-  background: var(--fusion-dark-card-hover) !important;
-  border-color: color-mix(in srgb, var(--fusion-deep-sea-100) 50%, transparent) !important;
-}
-
-html[data-theme='dark'] .fusion-pathways-help__pill-label,
-html[data-theme='dark'] .fusion-pathways-help__pill-chevron {
-  color: var(--fusion-deep-sea-50) !important;
-}
-
-html[data-theme='dark'] .fusion-pathways-help__pill-icon {
-  color: #ffe400 !important;
-}
-
-html[data-theme='dark'] .fusion-pathways-help__pill-icon-wrap {
-  background: color-mix(in srgb, var(--fusion-dark-interactive) 28%, transparent);
-}
-
+/* Shared dark card: 800/700 elevation, 100 border, 500 highlight on hover */
 html[data-theme='dark'] .fusion-featured-resources__card,
-html[data-theme='dark'] .fusion-academy-offerings__card {
+html[data-theme='dark'] .fusion-academy-offerings__card,
+html[data-theme='dark'] .fusion-announcements__card,
+html[data-theme='dark'] .fusion-announcements__card-link,
+html[data-theme='dark'] .fusion-ecosphere__card {
   background-color: var(--fusion-dark-card) !important;
-  border-color: var(--fusion-dark-border-strong) !important;
-  color: var(--fusion-deep-sea-50) !important;
+  border-color: var(--fusion-dark-border) !important;
+  color: #ffffff !important;
+  box-shadow: 0 10px 28px color-mix(in srgb, #000 18%, transparent) !important;
+}
+
+html[data-theme='dark'] .fusion-featured-resources__card:hover,
+html[data-theme='dark'] .fusion-academy-offerings__card:hover,
+html[data-theme='dark'] .fusion-announcements__card:hover,
+html[data-theme='dark'] .fusion-announcements__card-link:hover,
+html[data-theme='dark'] .fusion-ecosphere__card:hover {
+  background-color: var(--fusion-dark-card-hover) !important;
+  border-color: color-mix(in srgb, var(--fusion-deep-sea-100) 36%, transparent) !important;
   box-shadow:
-    0 0 0 1px var(--fusion-dark-glow),
-    0 12px 28px color-mix(in srgb, #000 24%, transparent) !important;
+    0 0 0 1px color-mix(in srgb, var(--fusion-deep-sea-500) 32%, transparent),
+    0 14px 32px color-mix(in srgb, #000 22%, transparent) !important;
 }
 
 html[data-theme='dark'] .fusion-featured-resources .fusion-featured-resources__card-title,
-html[data-theme='dark'] .fusion-academy-offerings__title,
+html[data-theme='dark'] .fusion-academy-offerings__title {
+  color: #ffffff !important;
+}
+
 html[data-theme='dark'] .fusion-academy-offerings__list,
 html[data-theme='dark'] .fusion-academy-offerings__list li {
-  color: var(--fusion-deep-sea-50) !important;
+  color: #ffffff !important;
 }
 
 html[data-theme='dark'] .fusion-featured-resources a.fusion-featured-resources__card-link,
 html[data-theme='dark'] .fusion-featured-resources a.fusion-featured-resources__card-link:visited,
 html[data-theme='dark'] .fusion-academy-offerings__cta,
 html[data-theme='dark'] .fusion-academy-offerings__cta:visited {
-  color: #ffe400 !important;
+  color: var(--fusion-yellow) !important;
 }
 
-html[data-theme='dark'] .fusion-announcements__card,
-html[data-theme='dark'] .fusion-announcements__card-link {
-  background: var(--fusion-dark-card) !important;
-  border: 1px solid var(--fusion-dark-border-strong) !important;
-  color: var(--fusion-deep-sea-50) !important;
-  box-shadow: 0 10px 28px color-mix(in srgb, #000 22%, transparent);
+/* 8. Ecosystem: 800 → 700 → 800 with a 500 core glow */
+html[data-theme='dark'] .fusion-ecosphere {
+  background-color: var(--fusion-deep-sea-700) !important;
+  background-image: linear-gradient(
+    180deg,
+    var(--fusion-deep-sea-800) 0%,
+    var(--fusion-deep-sea-700) 28%,
+    var(--fusion-deep-sea-700) 72%,
+    var(--fusion-deep-sea-800) 100%
+  ) !important;
+}
+
+html[data-theme='dark'] .fusion-ecosphere__glow {
+  opacity: 1 !important;
+  background-image: radial-gradient(
+    ellipse 48% 52% at 50% 58%,
+    color-mix(in srgb, var(--fusion-deep-sea-500) 34%, transparent),
+    transparent 70%
+  ) !important;
+}
+
+html[data-theme='dark'] .fusion-ecosphere__card-title {
+  color: #ffffff !important;
+}
+
+html[data-theme='dark'] .fusion-ecosphere__card-body {
+  color: #ffffff !important;
+}
+
+/* 9. Announcements: back to 800; 500 on small interactive chrome */
+html[data-theme='dark'] .fusion-announcements {
+  background-color: var(--fusion-deep-sea-800) !important;
+  background-image: radial-gradient(
+    ellipse 80% 60% at 50% 70%,
+    color-mix(in srgb, var(--fusion-deep-sea-700) 32%, transparent),
+    transparent 72%
+  ) !important;
+  color: #ffffff !important;
 }
 
 html[data-theme='dark'] .fusion-announcements .fusion-announcements__card-title {
-  color: var(--fusion-deep-sea-50) !important;
+  color: #ffffff !important;
 }
 
 html[data-theme='dark'] .fusion-announcements .fusion-announcements__card-desc,
 html[data-theme='dark'] .fusion-announcements .fusion-announcements__meta,
 html[data-theme='dark'] .fusion-announcements .fusion-announcements__meta time {
-  color: var(--fusion-deep-sea-100) !important;
+  color: #ffffff !important;
 }
 
 html[data-theme='dark'] .fusion-announcements__arrow {
   background: var(--fusion-dark-card) !important;
-  border-color: var(--fusion-dark-border-strong) !important;
-  color: var(--fusion-deep-sea-50) !important;
+  border-color: var(--fusion-dark-border) !important;
+  color: #ffffff !important;
 }
 
 html[data-theme='dark'] .fusion-announcements__arrow:hover {
-  background: var(--fusion-dark-card-hover) !important;
-  border-color: color-mix(in srgb, var(--fusion-deep-sea-100) 50%, transparent) !important;
+  background: var(--fusion-deep-sea-500) !important;
+  border-color: var(--fusion-deep-sea-500) !important;
+  color: #ffffff !important;
 }
 
-html[data-theme='dark'] .fusion-ecosphere__card {
-  background: var(--fusion-dark-card) !important;
-  border-color: var(--fusion-dark-border-strong) !important;
-  color: var(--fusion-deep-sea-50) !important;
-  box-shadow: 0 8px 24px color-mix(in srgb, #000 22%, transparent);
+html[data-theme='dark'] .fusion-announcements__view-all.fusion-ds-button {
+  background-color: var(--fusion-deep-sea-500) !important;
+  border-color: var(--fusion-deep-sea-500) !important;
+  color: #ffffff !important;
 }
 
-html[data-theme='dark'] .fusion-ecosphere__card-title {
-  color: var(--fusion-deep-sea-50) !important;
+html[data-theme='dark'] .fusion-announcements__view-all.fusion-ds-button:hover,
+html[data-theme='dark'] .fusion-announcements__view-all.fusion-ds-button:focus {
+  background-color: color-mix(in srgb, var(--fusion-deep-sea-500) 82%, var(--fusion-deep-sea-50)) !important;
+  color: #ffffff !important;
 }
 
-html[data-theme='dark'] .fusion-ecosphere__card-body {
-  color: var(--fusion-deep-sea-100) !important;
-}
-
+/* 10. Footer: deepest solid 800 */
 html[data-theme='dark'] .fusion-site-footer {
-  background-color: color-mix(in srgb, var(--fusion-deep-sea-800) 88%, #000) !important;
-  border-top: 1px solid var(--fusion-dark-border-strong) !important;
-  color: var(--fusion-deep-sea-100) !important;
+  background-color: var(--fusion-deep-sea-800) !important;
+  background-image: none !important;
+  border-top: 1px solid var(--fusion-dark-border) !important;
+  color: #ffffff !important;
 }
 
 html[data-theme='dark'] .fusion-site-footer__heading {
-  color: var(--fusion-deep-sea-50) !important;
+  color: #ffffff !important;
 }
 
 html[data-theme='dark'] .fusion-site-footer__link,
 html[data-theme='dark'] .fusion-site-footer__link:visited,
 html[data-theme='dark'] .fusion-site-footer__brand-body {
-  color: var(--fusion-deep-sea-100) !important;
+  color: #ffffff !important;
 }
 
 html[data-theme='dark'] .fusion-site-footer__link:hover,
 html[data-theme='dark'] .fusion-site-footer__link:focus-visible {
-  color: #ffe400 !important;
+  color: var(--fusion-yellow) !important;
 }
+
+/*
+ * Program Overview / About Hybrid Cloud — same Deep Sea rhythm as Home.
+ * 800 = atmosphere. 700 = depth. 500 = illumination / interaction only — never a filled section.
+ * 50 = primary text. 100 = secondary text / borders. Yellow = CTA.
+ */
+html[data-theme='dark'] .program-overview {
+  background-color: var(--fusion-deep-sea-800);
+  color: var(--fusion-deep-sea-50);
+}
+
+html[data-theme='dark'] .program-overview .kc-content,
+html[data-theme='dark'] .program-overview .kc-section {
+  background-color: transparent !important;
+  color: var(--fusion-deep-sea-50);
+}
+
+/* Hero: 800 left → 700 mid → localized 500 around artwork */
+html[data-theme='dark'] .program-overview .about-hybrid-cloud-hero-band--image,
+html[data-theme='dark'] .program-overview .tpl-2col-hero-band {
+  background-color: var(--fusion-deep-sea-800) !important;
+}
+
+html[data-theme='dark'] .program-overview .about-hybrid-cloud-hero-band--image::after {
+  background:
+    radial-gradient(
+      ellipse 52% 68% at 82% 46%,
+      color-mix(in srgb, var(--fusion-deep-sea-500) 30%, transparent),
+      transparent 70%
+    ),
+    linear-gradient(
+      90deg,
+      var(--fusion-deep-sea-800) 0%,
+      color-mix(in srgb, var(--fusion-deep-sea-800) 82%, var(--fusion-deep-sea-700)) 32%,
+      color-mix(in srgb, var(--fusion-deep-sea-700) 58%, transparent) 58%,
+      transparent 88%
+    ) !important;
+}
+
+html[data-theme='dark'] .program-overview .po-hero,
+html[data-theme='dark'] .program-overview .about-hybrid-cloud-hero {
+  background: transparent !important;
+}
+
+html[data-theme='dark'] .program-overview .po-hero__glow {
+  background: radial-gradient(
+    ellipse 70% 90% at 100% 40%,
+    color-mix(in srgb, var(--fusion-deep-sea-500) 18%, transparent),
+    transparent 62%
+  ) !important;
+}
+
+html[data-theme='dark'] .program-overview .tpl-2col-breadcrumb-bar,
+html[data-theme='dark'] .program-overview .tpl-2col-breadcrumb-bar .kc-breadcrumb-link,
+html[data-theme='dark'] .program-overview .tpl-2col-breadcrumb-bar .kc-breadcrumb-link:visited,
+html[data-theme='dark'] .program-overview .tpl-2col-breadcrumb-bar .kc-breadcrumb-current,
+html[data-theme='dark'] .program-overview .tpl-2col-breadcrumb-bar .kc-breadcrumb-sep {
+  color: var(--fusion-deep-sea-100) !important;
+  background: transparent !important;
+}
+
+html[data-theme='dark'] .program-overview .tpl-2col-breadcrumb-bar .kc-breadcrumb-current {
+  color: var(--fusion-deep-sea-50) !important;
+}
+
+html[data-theme='dark'] .program-overview h1.po-hero__heading,
+html[data-theme='dark'] .program-overview h1.init-hero__heading {
+  color: var(--fusion-deep-sea-50) !important;
+}
+
+html[data-theme='dark'] .program-overview .po-hero__description,
+html[data-theme='dark'] .program-overview .init-hero__description {
+  color: var(--fusion-deep-sea-100) !important;
+}
+
+html[data-theme='dark'] .program-overview .po-hero__cta-secondary.ds-c-button--ghost,
+html[data-theme='dark'] .program-overview .po-hero__cta-secondary.ds-c-button--ghost:link,
+html[data-theme='dark'] .program-overview .po-hero__cta-secondary.ds-c-button--ghost:visited,
+html[data-theme='dark'] .program-overview .po-hero__cta-secondary.ds-c-button--ghost:hover,
+html[data-theme='dark'] .program-overview .po-hero__cta-secondary.ds-c-button--ghost:focus {
+  --borderColor: var(--fusion-deep-sea-50);
+  --color: var(--fusion-deep-sea-50);
+  --color--h: var(--fusion-deep-sea-50);
+  color: var(--fusion-deep-sea-50) !important;
+  text-decoration: none !important;
+  background-color: transparent;
+}
+
+html[data-theme='dark'] .program-overview .po-hero__cta-secondary.ds-c-button--ghost:hover,
+html[data-theme='dark'] .program-overview .po-hero__cta-secondary.ds-c-button--ghost:focus {
+  background-color: color-mix(in srgb, var(--fusion-deep-sea-500) 18%, transparent);
+}
+
+/* Tabs: 800/700 elevated surface — not a white pill */
+html[data-theme='dark'] .program-overview .interior-section-nav,
+html[data-theme='dark'] .program-overview .interior-section-nav-root,
+html[data-theme='dark'] .program-overview .interior-section-nav__shell {
+  background-color: transparent !important;
+  color: var(--fusion-deep-sea-100) !important;
+  box-shadow: none !important;
+}
+
+html[data-theme='dark'] .program-overview .interior-section-nav__shell {
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--fusion-deep-sea-800) 72%, var(--fusion-deep-sea-700)) 0%,
+      var(--fusion-deep-sea-800) 100%
+    ) !important;
+  border: 1px solid color-mix(in srgb, var(--fusion-deep-sea-100) 28%, transparent) !important;
+  box-shadow: 0 8px 24px color-mix(in srgb, #000 22%, transparent) !important;
+}
+
+html[data-theme='dark'] .program-overview .interior-section-nav__link,
+html[data-theme='dark'] .program-overview .interior-section-nav__link:visited {
+  color: var(--fusion-deep-sea-100) !important;
+  background: transparent !important;
+}
+
+html[data-theme='dark'] .program-overview .interior-section-nav__link:hover,
+html[data-theme='dark'] .program-overview .interior-section-nav__link:focus-visible {
+  color: var(--fusion-deep-sea-50) !important;
+  background: color-mix(in srgb, var(--fusion-deep-sea-500) 16%, transparent) !important;
+}
+
+html[data-theme='dark'] .program-overview .interior-section-nav__link--active,
+html[data-theme='dark'] .program-overview .interior-section-nav__link--active:visited {
+  color: var(--fusion-deep-sea-50) !important;
+  background: color-mix(in srgb, var(--fusion-deep-sea-500) 22%, transparent) !important;
+}
+
+html[data-theme='dark'] .program-overview .interior-section-nav__indicator {
+  background: var(--fusion-deep-sea-500) !important;
+}
+
+html[data-theme='dark'] .program-overview .interior-section-nav__nav--overflow-right::after {
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--fusion-deep-sea-800)
+  ) !important;
+}
+
+html[data-theme='dark'] .program-overview .interior-section-nav__more {
+  background: var(--fusion-deep-sea-800) !important;
+  border-color: color-mix(in srgb, var(--fusion-deep-sea-100) 28%, transparent) !important;
+  color: var(--fusion-deep-sea-50) !important;
+}
+
+/* Section copy */
+html[data-theme='dark'] .program-overview .po-section-heading,
+html[data-theme='dark'] .program-overview h2.kc-section-heading,
+html[data-theme='dark'] .program-overview h2.po-cta__heading {
+  color: var(--fusion-deep-sea-50) !important;
+}
+
+html[data-theme='dark'] .program-overview .po-section-lede,
+html[data-theme='dark'] .program-overview .kc-section-subtitle,
+html[data-theme='dark'] .program-overview .po-cta__lede {
+  color: var(--fusion-deep-sea-100) !important;
+}
+
+/* Photo cards: keep photos; dark 700/800 body */
+html[data-theme='dark'] .program-overview .po-platform-card {
+  background: linear-gradient(
+    180deg,
+    var(--fusion-deep-sea-700) 0%,
+    var(--fusion-deep-sea-800) 100%
+  ) !important;
+  border: 1px solid color-mix(in srgb, var(--fusion-deep-sea-100) 26%, transparent) !important;
+  box-shadow: 0 10px 28px color-mix(in srgb, #000 18%, transparent) !important;
+  color: var(--fusion-deep-sea-50) !important;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+html[data-theme='dark'] .program-overview .po-platform-card:hover {
+  border-color: color-mix(in srgb, var(--fusion-deep-sea-100) 36%, transparent) !important;
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--fusion-deep-sea-500) 28%, transparent),
+    0 14px 32px color-mix(in srgb, #000 22%, transparent) !important;
+}
+
+html[data-theme='dark'] .program-overview .po-platform-card__media {
+  background: var(--fusion-deep-sea-800);
+}
+
+html[data-theme='dark'] .program-overview .po-platform-card__media::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0;
+  height: 2.75rem;
+  pointer-events: none;
+  background: linear-gradient(
+    to top,
+    var(--fusion-deep-sea-800),
+    transparent
+  );
+}
+
+html[data-theme='dark'] .program-overview h3.po-platform-card__title {
+  color: var(--fusion-deep-sea-50) !important;
+}
+
+html[data-theme='dark'] .program-overview .po-platform-card__desc {
+  color: var(--fusion-deep-sea-100) !important;
+}
+
+/* Benefit cards: Featured Resources language — 800/700, not 500 fill */
+html[data-theme='dark'] .program-overview .po-band--features {
+  background-color: var(--fusion-deep-sea-800) !important;
+  background-image: radial-gradient(
+    ellipse 80% 60% at 50% 70%,
+    color-mix(in srgb, var(--fusion-deep-sea-700) 32%, transparent),
+    transparent 72%
+  ) !important;
+}
+
+html[data-theme='dark'] .program-overview .po-feature-card {
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--fusion-deep-sea-800) 74%, var(--fusion-deep-sea-700)) 0%,
+    var(--fusion-deep-sea-800) 100%
+  ) !important;
+  border: 1px solid color-mix(in srgb, var(--fusion-deep-sea-100) 22%, transparent);
+  box-shadow: 0 10px 28px color-mix(in srgb, #000 18%, transparent) !important;
+  color: var(--fusion-deep-sea-50) !important;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
+}
+
+html[data-theme='dark'] .program-overview .po-feature-card:hover {
+  border-color: color-mix(in srgb, var(--fusion-deep-sea-100) 36%, transparent);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--fusion-deep-sea-500) 28%, transparent),
+    0 14px 32px color-mix(in srgb, #000 22%, transparent) !important;
+}
+
+html[data-theme='dark'] .program-overview .po-feature-icon {
+  background: color-mix(in srgb, var(--fusion-deep-sea-500) 30%, transparent) !important;
+  color: var(--fusion-deep-sea-50) !important;
+}
+
+html[data-theme='dark'] .program-overview h3.po-feature-card__title {
+  color: var(--fusion-deep-sea-50) !important;
+}
+
+html[data-theme='dark'] .program-overview .po-feature-card__desc {
+  color: var(--fusion-deep-sea-100) !important;
+}
+
+/* Stats: 800 → restrained 700; type is the feature */
+html[data-theme='dark'] .program-overview .po-stats-section {
+  background-image: linear-gradient(
+    180deg,
+    var(--fusion-deep-sea-800) 0%,
+    color-mix(in srgb, var(--fusion-deep-sea-800) 78%, var(--fusion-deep-sea-700)) 48%,
+    var(--fusion-deep-sea-800) 100%
+  );
+}
+
+html[data-theme='dark'] .program-overview .po-stat {
+  position: relative;
+}
+
+html[data-theme='dark'] .program-overview .po-stat::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0.35rem;
+  width: 4.5rem;
+  height: 2.25rem;
+  transform: translateX(-50%);
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at center,
+    color-mix(in srgb, var(--fusion-deep-sea-500) 22%, transparent),
+    transparent 70%
+  );
+}
+
+html[data-theme='dark'] .program-overview .po-stat__value {
+  position: relative;
+  color: var(--fusion-deep-sea-50) !important;
+}
+
+html[data-theme='dark'] .program-overview .po-stat__label {
+  position: relative;
+  color: var(--fusion-deep-sea-100) !important;
+}
+
+/* Security: back to 800 + elevated checklist rows */
+html[data-theme='dark'] .program-overview .po-band--security {
+  background-color: var(--fusion-deep-sea-800) !important;
+  background-image: none !important;
+}
+
+html[data-theme='dark'] .program-overview .po-security__item {
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--fusion-deep-sea-800) 74%, var(--fusion-deep-sea-700)) 0%,
+    var(--fusion-deep-sea-800) 100%
+  ) !important;
+  border: 1px solid color-mix(in srgb, var(--fusion-deep-sea-100) 26%, transparent);
+  color: var(--fusion-deep-sea-50) !important;
+  box-shadow: 0 8px 20px color-mix(in srgb, #000 16%, transparent);
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+html[data-theme='dark'] .program-overview .po-security__item:hover {
+  border-color: color-mix(in srgb, var(--fusion-deep-sea-100) 36%, transparent);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--fusion-deep-sea-500) 26%, transparent),
+    0 12px 28px color-mix(in srgb, #000 20%, transparent);
+}
+
+html[data-theme='dark'] .program-overview .po-security__check-well {
+  fill: color-mix(in srgb, var(--fusion-deep-sea-500) 32%, var(--fusion-deep-sea-800));
+}
+
+html[data-theme='dark'] .program-overview .po-security__check-mark {
+  stroke: var(--fusion-deep-sea-50);
+}
+
+/* Building together: 800 edges → 700 → localized 500 */
+html[data-theme='dark'] .program-overview .po-cta {
+  background-color: var(--fusion-deep-sea-800) !important;
+  background-image:
+    radial-gradient(
+      ellipse 70% 80% at 50% 45%,
+      color-mix(in srgb, var(--fusion-deep-sea-500) 26%, transparent),
+      transparent 68%
+    ),
+    linear-gradient(
+      180deg,
+      var(--fusion-deep-sea-800) 0%,
+      var(--fusion-deep-sea-700) 38%,
+      var(--fusion-deep-sea-700) 62%,
+      var(--fusion-deep-sea-800) 100%
+    ) !important;
+}
+
 
 

@@ -1,17 +1,18 @@
 /** Site color mode. Dark uses CMS.gov Deepsea 800 (`--color-primary-darkest` / `--color-background-inverse`). */
 export type ColorMode = 'light' | 'dark'
 
-export const THEME_STORAGE_KEY = 'fusion-color-mode'
+/** Only written when the visitor toggles theme — first visit defaults to dark. */
+export const THEME_STORAGE_KEY = 'fusion-color-mode-v2'
 
 export function getPreferredColorMode(): ColorMode {
-  if (typeof window === 'undefined') return 'light'
+  if (typeof window === 'undefined') return 'dark'
   try {
     const stored = window.localStorage.getItem(THEME_STORAGE_KEY)
     if (stored === 'light' || stored === 'dark') return stored
   } catch {
     /* ignore */
   }
-  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+  return 'dark'
 }
 
 /**

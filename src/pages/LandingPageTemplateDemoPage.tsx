@@ -2,6 +2,7 @@ import { SkipNav } from '@cmsgov/ds-cms-gov'
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { FusionButton } from '../components/FusionButton'
+import { ChevronRight } from '../components/icons/Chevron'
 import { useSectionReveal } from '../hooks/useSectionReveal'
 import { LandingAccordionSection } from '../components/layouts/landing/LandingAccordionSection'
 import { LandingCardGridSection } from '../components/layouts/landing/LandingCardGridSection'
@@ -31,11 +32,7 @@ import { SiteFooter } from '../components/SiteFooter'
 import { SiteHeader } from '../components/SiteHeader'
 
 function ArrowRight() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
-      <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  )
+  return <ChevronRight />
 }
 
 export default function LandingPageTemplateDemoPage() {

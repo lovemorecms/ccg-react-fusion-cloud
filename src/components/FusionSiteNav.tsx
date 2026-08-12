@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { FusionButton } from './FusionButton'
+import { ChevronRight } from './icons/Chevron'
 import { SearchIcon } from './SearchIcon'
 
 type MenuLink = { label: string; href: string }
@@ -285,11 +286,18 @@ export function FusionSiteNav({
           className="fusion-site-nav__logo inline-flex shrink-0 items-center"
         >
           <img
-            src={`${import.meta.env.BASE_URL}images/cloud-fusion-logo.png`}
+            src={`${import.meta.env.BASE_URL}images/ccg-fusion-logo-light.png`}
             alt="Cloud Fusion"
-            width={282}
-            height={40}
-            className="h-8 w-auto md:h-10"
+            width={161}
+            height={48}
+            className="fusion-site-nav__logo-img fusion-site-nav__logo-img--light h-8 w-auto md:h-10"
+          />
+          <img
+            src={`${import.meta.env.BASE_URL}images/ccg-fusion-logo-dark.png`}
+            alt="Cloud Fusion"
+            width={154}
+            height={46}
+            className="fusion-site-nav__logo-img fusion-site-nav__logo-img--dark h-8 w-auto md:h-10"
           />
         </a>
 
@@ -448,7 +456,7 @@ export function FusionSiteNav({
                 {...megaMenuCtaProps(activeItem.featured.ctaVariant)}
               >
                 {activeItem.featured.ctaLabel}
-                <span aria-hidden>&#8594;</span>
+                <ChevronRight size={16} />
               </FusionButton>
             </div>
 

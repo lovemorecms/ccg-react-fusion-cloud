@@ -1,15 +1,24 @@
 import { useTheme } from '../theme/ThemeProvider'
 
-function SettingsIcon() {
+function SunIcon() {
   return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden>
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden>
+      <circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="1.75" />
       <path
-        d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z"
+        d="M12 3v1.6M12 19.4V21M4.93 4.93l1.13 1.13M17.94 17.94l1.13 1.13M3 12h1.6M19.4 12H21M4.93 19.07l1.13-1.13M17.94 6.06l1.13-1.13"
         stroke="currentColor"
         strokeWidth="1.75"
+        strokeLinecap="round"
       />
+    </svg>
+  )
+}
+
+function MoonIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden>
       <path
-        d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9c.26.604.852.997 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"
+        d="M20 14.5A8.5 8.5 0 1 1 9.5 4 7 7 0 0 0 20 14.5Z"
         stroke="currentColor"
         strokeWidth="1.75"
         strokeLinecap="round"
@@ -19,7 +28,7 @@ function SettingsIcon() {
   )
 }
 
-/** Settings control in the primary nav — toggles CMS Deepsea-800 dark / light color mode. */
+/** Sun / moon color-mode toggle in the primary nav. */
 export function ThemeToggle({ className = '' }: { className?: string }) {
   const { isDark, toggleColorMode } = useTheme()
 
@@ -32,7 +41,15 @@ export function ThemeToggle({ className = '' }: { className?: string }) {
       aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
       title={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
     >
-      <SettingsIcon />
+      <span className="fusion-theme-toggle__track">
+        <span className="fusion-theme-toggle__thumb" />
+        <span className="fusion-theme-toggle__icon fusion-theme-toggle__icon--sun">
+          <SunIcon />
+        </span>
+        <span className="fusion-theme-toggle__icon fusion-theme-toggle__icon--moon">
+          <MoonIcon />
+        </span>
+      </span>
       <span className="sr-only">{isDark ? 'Dark mode on' : 'Light mode on'}</span>
     </button>
   )

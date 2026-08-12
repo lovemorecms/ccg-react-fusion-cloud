@@ -5,23 +5,10 @@ import {
   type AboutHybridCloudSectionId,
 } from '../../data/aboutHybridCloudContent'
 import { FusionButton } from '../FusionButton'
+import { ChevronRight } from '../icons/Chevron'
 import { InteriorSectionNav } from '../layouts/InteriorSectionNav'
 
 const aboutHeroBackground = `${import.meta.env.BASE_URL}images/sections/benefits/customer-support-hero.png`
-
-function ArrowIcon() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
-      <path
-        d="M3 8h10M9 4l4 4-4 4"
-        stroke="currentColor"
-        strokeWidth={1.5}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  )
-}
 
 function BreadcrumbChevron() {
   return (
@@ -108,9 +95,9 @@ export function AboutHybridCloudHero({
               <div className="init-hero__actions">
                 <FusionButton href="/about/contact-us" accent onDark>
                   Get Started
-                  <ArrowIcon />
+                  <ChevronRight />
                 </FusionButton>
-                <FusionButton href="/about/program-overview" variation="ghost" onDark>
+                <FusionButton href="/about/program-overview" variation="ghost" onDark className="po-hero__cta-secondary">
                   Learn More
                 </FusionButton>
               </div>

@@ -2,6 +2,7 @@ import { SkipNav } from '@cmsgov/ds-cms-gov'
 import { useEffect, useState, type ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { FusionButton } from '../components/FusionButton'
+import { ChevronLeft, ChevronRight } from '../components/icons/Chevron'
 import { SiteFooter } from '../components/SiteFooter'
 import { SiteHeader } from '../components/SiteHeader'
 
@@ -128,27 +129,7 @@ const getStartedCards = [
 const COURSES_PER_PAGE = 3
 
 function ArrowRight() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
-      <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  )
-}
-
-function ChevronLeft() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden>
-      <path d="M12 4l-6 6 6 6" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  )
-}
-
-function ChevronRight() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden>
-      <path d="M8 4l6 6-6 6" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  )
+  return <ChevronRight />
 }
 
 function TrainingIcon({ type }: { type: string }) {
@@ -469,7 +450,7 @@ export default function TrainingEnablementPage() {
                   disabled={coursePage === 0}
                   onClick={() => setCoursePage((p) => Math.max(0, p - 1))}
                 >
-                  <ChevronLeft />
+                  <ChevronLeft size={20} />
                 </button>
                 <div className="te-carousel__dots">
                   {Array.from({ length: pageCount }, (_, i) => (
@@ -490,7 +471,7 @@ export default function TrainingEnablementPage() {
                   disabled={coursePage >= pageCount - 1}
                   onClick={() => setCoursePage((p) => Math.min(pageCount - 1, p + 1))}
                 >
-                  <ChevronRight />
+                  <ChevronRight size={20} />
                 </button>
               </nav>
             </div>

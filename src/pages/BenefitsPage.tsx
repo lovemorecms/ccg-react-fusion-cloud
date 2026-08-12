@@ -5,6 +5,7 @@ import {
   AboutHybridCloudStickyNav,
 } from '../components/about-hybrid-cloud/AboutHybridCloudChrome'
 import { FusionButton } from '../components/FusionButton'
+import { ChevronRight } from '../components/icons/Chevron'
 import { InteriorSectionNavProvider } from '../components/layouts/InteriorSectionNav'
 import { SiteFooter } from '../components/SiteFooter'
 import { SiteHeader } from '../components/SiteHeader'
@@ -83,11 +84,7 @@ function RoleIcon({ type }: { type: string }) {
 }
 
 function ArrowIcon() {
-  return (
-    <svg viewBox="0 0 20 20" fill="none" aria-hidden>
-      <path d="M4 10h12M12 6l4 4-4 4" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  )
+  return <ChevronRight />
 }
 
 export default function BenefitsPage() {

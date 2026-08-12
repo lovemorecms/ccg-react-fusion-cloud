@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import { ChevronRight } from './icons/Chevron'
 import { useScrollReveal } from '../hooks/useScrollReveal'
 
 type AccentBar = 'none' | 'violet' | 'success' | 'sky'
@@ -99,7 +100,7 @@ export function FusionFeaturedResources() {
                 <a href={item.href} className="fusion-featured-resources__card-link">
                   <span className="min-w-0">{item.description}</span>
                   <span className="fusion-featured-resources__arrow" aria-hidden>
-                    →
+                    <ChevronRight size={16} />
                   </span>
                 </a>
               </article>

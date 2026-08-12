@@ -61,7 +61,7 @@ export function FusionEcosystem() {
       aria-labelledby="fusion-ecosphere-heading"
     >
       <div
-        className="pointer-events-none absolute inset-0 opacity-[0.14]"
+        className="fusion-ecosphere__glow pointer-events-none absolute inset-0 opacity-[0.14]"
         aria-hidden
         style={{
           backgroundImage:

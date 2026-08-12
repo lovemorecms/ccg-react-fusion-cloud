@@ -1,11 +1,12 @@
-/** Multi-Cloud Services — full-bleed background art + right-aligned copy */
+/** Multi-Cloud Services — light: full-bleed `new-bg-cloud.png`; dark: left illustration */
 import { FusionButton } from './FusionButton'
 import { useScrollReveal } from '../hooks/useScrollReveal'
 
 export function FusionMultiCloudServices() {
   const contentRef = useScrollReveal<HTMLDivElement>({ threshold: 0.12 })
-  /** Background from `public/images/sections/new-bg-cloud.png` (respects Vite `base`). */
-  const multiCloudBgUrl = `${import.meta.env.BASE_URL}images/sections/new-bg-cloud.png`
+  const base = import.meta.env.BASE_URL
+  const multiCloudBgUrl = `${base}images/sections/new-bg-cloud.png`
+  const multiCloudIllustrationUrl = `${base}images/sections/multi-cloud-illustration-dark.png`
 
   return (
     <section
@@ -14,6 +15,12 @@ export function FusionMultiCloudServices() {
       aria-labelledby="fusion-multi-cloud-heading"
       style={{ backgroundImage: `url(${multiCloudBgUrl})` }}
     >
+      <img
+        src={multiCloudIllustrationUrl}
+        alt=""
+        className="fusion-multi-cloud__illustration"
+        decoding="async"
+      />
       <div className="relative z-[1] mx-auto flex min-h-[min(22rem,58vh)] max-w-[var(--fusion-site-max-width)] items-center px-[var(--fusion-site-padding-x)] py-[var(--fusion-section-pad-block)] md:px-[var(--fusion-site-padding-x-md)] lg:min-h-[min(38rem,62vh)] xl:min-h-[min(42rem,64vh)]">
         <div ref={contentRef} className="fusion-multi-cloud__copy fusion-reveal">
           <h2
