@@ -204,22 +204,26 @@
   to   { opacity: 0; max-height: 0; padding-top: 0; padding-bottom: 0; }
 }
 
-/* Scroll-reveal: hidden by default, animated on [data-revealed] */
+/*
+ * Scroll-reveal: transform-only (keep opacity:1) so full-page screenshots still
+ * show section content. Opacity:0 + mid-animation captures caused blank bands.
+ */
 .fusion-reveal {
-  opacity: 0;
   transform: translateY(24px);
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.fusion-reveal[data-revealed="true"] {
-  animation: fusion-fade-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+.fusion-reveal[data-revealed='true'] {
+  transform: none;
 }
 
-/* Figma capture: show all homepage sections (scroll-reveal stays hidden until in view) */
+/* Capture / screenshot: settle layout with no pending motion */
 html.figma-capture .fusion-reveal,
 html.figma-capture .fusion-reveal-stagger .fusion-reveal-child {
   opacity: 1 !important;
   transform: none !important;
   animation: none !important;
+  transition: none !important;
 }
 
 /* Force a desktop canvas width so capture does not collapse to mobile stack */
@@ -321,20 +325,32 @@ html.figma-capture .fusion-ecosphere__tile .fusion-ecosphere__card {
 
 /* Staggered children (add .fusion-reveal-stagger to parent) */
 .fusion-reveal-stagger .fusion-reveal-child {
-  opacity: 0;
   transform: translateY(18px);
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.fusion-reveal-stagger[data-revealed="true"] .fusion-reveal-child {
-  animation: fusion-fade-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+.fusion-reveal-stagger[data-revealed='true'] .fusion-reveal-child {
+  transform: none;
 }
 
-.fusion-reveal-stagger[data-revealed="true"] .fusion-reveal-child:nth-child(1) { animation-delay: 0ms; }
-.fusion-reveal-stagger[data-revealed="true"] .fusion-reveal-child:nth-child(2) { animation-delay: 70ms; }
-.fusion-reveal-stagger[data-revealed="true"] .fusion-reveal-child:nth-child(3) { animation-delay: 140ms; }
-.fusion-reveal-stagger[data-revealed="true"] .fusion-reveal-child:nth-child(4) { animation-delay: 210ms; }
-.fusion-reveal-stagger[data-revealed="true"] .fusion-reveal-child:nth-child(5) { animation-delay: 280ms; }
-.fusion-reveal-stagger[data-revealed="true"] .fusion-reveal-child:nth-child(6) { animation-delay: 350ms; }
+.fusion-reveal-stagger[data-revealed='true'] .fusion-reveal-child:nth-child(1) {
+  transition-delay: 0ms;
+}
+.fusion-reveal-stagger[data-revealed='true'] .fusion-reveal-child:nth-child(2) {
+  transition-delay: 70ms;
+}
+.fusion-reveal-stagger[data-revealed='true'] .fusion-reveal-child:nth-child(3) {
+  transition-delay: 140ms;
+}
+.fusion-reveal-stagger[data-revealed='true'] .fusion-reveal-child:nth-child(4) {
+  transition-delay: 210ms;
+}
+.fusion-reveal-stagger[data-revealed='true'] .fusion-reveal-child:nth-child(5) {
+  transition-delay: 280ms;
+}
+.fusion-reveal-stagger[data-revealed='true'] .fusion-reveal-child:nth-child(6) {
+  transition-delay: 350ms;
+}
 
 /* Mega menu panel entrance */
 @keyframes fusion-mega-enter {
@@ -400,27 +416,42 @@ html.figma-capture .fusion-ecosphere__tile .fusion-ecosphere__card {
 .fusion-hero__bg-fill,
 .fusion-hero__bg-art {
   position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  max-width: none;
   pointer-events: none;
 }
 
 /* Full-bleed color/texture layer; fades before it can duplicate the right-side art. */
 .fusion-hero__bg-fill {
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
   object-fit: cover;
   object-position: left center;
   -webkit-mask-image: linear-gradient(to right, #000 0%, #000 34%, transparent 54%);
   mask-image: linear-gradient(to right, #000 0%, #000 34%, transparent 54%);
 }
 
-/* Uncropped focal artwork layer (cloud, orbit icons, and globe). */
+/* Focal artwork (cloud, orbit icons, globe) — same column as logo / hero copy. */
 .fusion-hero__bg-art {
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: min(100%, var(--fusion-site-max-width));
+  height: 100%;
+  max-width: none;
+  box-sizing: border-box;
+  padding-inline: var(--fusion-site-padding-x);
+  transform: translateX(-50%);
   object-fit: contain;
   object-position: right center;
   -webkit-mask-image: linear-gradient(to right, transparent 0%, transparent 26%, #000 48%, #000 100%);
   mask-image: linear-gradient(to right, transparent 0%, transparent 26%, #000 48%, #000 100%);
+}
+
+@media (min-width: 768px) {
+  .fusion-hero__bg-art {
+    padding-inline: var(--fusion-site-padding-x-md);
+  }
 }
 
 .fusion-hero__scrim {
@@ -508,73 +539,19 @@ html.figma-capture .fusion-ecosphere__tile .fusion-ecosphere__card {
 }
 
 .fusion-section-reveal {
-  opacity: 0;
   transform: translateY(12px);
+  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .fusion-section-reveal[data-revealed='true'] {
-  animation: fusion-section-fade-up 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  transform: none;
 }
 
 .fusion-section-reveal.fusion-section-settle[data-revealed='true'] {
-  animation:
-    fusion-section-fade-up 0.45s cubic-bezier(0.22, 1, 0.36, 1) forwards,
-    fusion-section-settle 0.65s ease-out;
+  animation: fusion-section-settle 0.65s ease-out;
 }
 
-.fusion-section-reveal.fusion-section-reveal--stagger[data-revealed='true'] .lpl-card-grid > *,
-.fusion-section-reveal.fusion-section-reveal--stagger[data-revealed='true'] .lpl-stats > *,
-.fusion-section-reveal.fusion-section-reveal--stagger[data-revealed='true'] .lpl-logos > *,
-.fusion-section-reveal.fusion-section-reveal--stagger[data-revealed='true'] .init-cards-grid > *,
-.fusion-section-reveal.fusion-section-reveal--stagger[data-revealed='true'] .init-happening > *,
-.fusion-section-reveal.fusion-section-reveal--stagger[data-revealed='true'] .kc-getting-started__grid > *,
-.fusion-section-reveal.fusion-section-reveal--stagger[data-revealed='true'] .ft-grid > * {
-  opacity: 0;
-  animation: fusion-section-fade-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
-.fusion-section-reveal.fusion-section-reveal--stagger[data-revealed='true'] .lpl-card-grid > *:nth-child(1),
-.fusion-section-reveal.fusion-section-reveal--stagger[data-revealed='true'] .lpl-stats > *:nth-child(1),
-.fusion-section-reveal.fusion-section-reveal--stagger[data-revealed='true'] .lpl-logos > *:nth-child(1),
-.fusion-section-reveal.fusion-section-reveal--stagger[data-revealed='true'] .init-cards-grid > *:nth-child(1),
-.fusion-section-reveal.fusion-section-reveal--stagger[data-revealed='true'] .init-happening > *:nth-child(1),
-.fusion-section-reveal.fusion-section-reveal--stagger[data-revealed='true'] .kc-getting-started__grid > *:nth-child(1),
-.fusion-section-reveal.fusion-section-reveal--stagger[data-revealed='true'] .ft-grid > *:nth-child(1) {
-  animation-delay: 40ms;
-}
-.fusion-section-reveal.fusion-section-reveal--stagger[data-revealed='true'] .lpl-card-grid > *:nth-child(2),
-.fusion-section-reveal.fusion-section-reveal--stagger[data-revealed='true'] .lpl-stats > *:nth-child(2),
-.fusion-section-reveal.fusion-section-reveal--stagger[data-revealed='true'] .lpl-logos > *:nth-child(2),
-.fusion-section-reveal.fusion-section-reveal--stagger[data-revealed='true'] .init-cards-grid > *:nth-child(2),
-.fusion-section-reveal.fusion-section-reveal--stagger[data-revealed='true'] .init-happening > *:nth-child(2),
-.fusion-section-reveal.fusion-section-reveal--stagger[data-revealed='true'] .kc-getting-started__grid > *:nth-child(2),
-.fusion-section-reveal.fusion-section-reveal--stagger[data-revealed='true'] .ft-grid > *:nth-child(2) {
-  animation-delay: 90ms;
-}
-.fusion-section-reveal.fusion-section-reveal--stagger[data-revealed='true'] .lpl-card-grid > *:nth-child(3),
-.fusion-section-reveal.fusion-section-reveal--stagger[data-revealed='true'] .lpl-stats > *:nth-child(3),
-.fusion-section-reveal.fusion-section-reveal--stagger[data-revealed='true'] .lpl-logos > *:nth-child(3),
-.fusion-section-reveal.fusion-section-reveal--stagger[data-revealed='true'] .init-cards-grid > *:nth-child(3),
-.fusion-section-reveal.fusion-section-reveal--stagger[data-revealed='true'] .init-happening > *:nth-child(3),
-.fusion-section-reveal.fusion-section-reveal--stagger[data-revealed='true'] .kc-getting-started__grid > *:nth-child(3),
-.fusion-section-reveal.fusion-section-reveal--stagger[data-revealed='true'] .ft-grid > *:nth-child(3) {
-  animation-delay: 140ms;
-}
-.fusion-section-reveal.fusion-section-reveal--stagger[data-revealed='true'] .lpl-card-grid > *:nth-child(4),
-.fusion-section-reveal.fusion-section-reveal--stagger[data-revealed='true'] .lpl-stats > *:nth-child(4),
-.fusion-section-reveal.fusion-section-reveal--stagger[data-revealed='true'] .lpl-logos > *:nth-child(4),
-.fusion-section-reveal.fusion-section-reveal--stagger[data-revealed='true'] .init-cards-grid > *:nth-child(4),
-.fusion-section-reveal.fusion-section-reveal--stagger[data-revealed='true'] .ft-grid > *:nth-child(4) {
-  animation-delay: 190ms;
-}
-.fusion-section-reveal.fusion-section-reveal--stagger[data-revealed='true'] .lpl-logos > *:nth-child(5),
-.fusion-section-reveal.fusion-section-reveal--stagger[data-revealed='true'] .init-cards-grid > *:nth-child(5) {
-  animation-delay: 240ms;
-}
-.fusion-section-reveal.fusion-section-reveal--stagger[data-revealed='true'] .lpl-logos > *:nth-child(6),
-.fusion-section-reveal.fusion-section-reveal--stagger[data-revealed='true'] .init-cards-grid > *:nth-child(6) {
-  animation-delay: 290ms;
-}
+/* Stagger children stay visible (no opacity:0) — parent section handles entrance. */
 
 html.figma-capture .fusion-section-reveal,
 html.figma-capture .fusion-section-reveal.fusion-section-reveal--stagger .lpl-card-grid > *,
@@ -587,6 +564,25 @@ html.figma-capture .fusion-section-reveal.fusion-section-reveal--stagger .ft-gri
   opacity: 1 !important;
   transform: none !important;
   animation: none !important;
+  transition: none !important;
+}
+
+@media print {
+  .fusion-reveal,
+  .fusion-reveal-stagger .fusion-reveal-child,
+  .fusion-section-reveal,
+  .fusion-section-reveal.fusion-section-reveal--stagger .lpl-card-grid > *,
+  .fusion-section-reveal.fusion-section-reveal--stagger .lpl-stats > *,
+  .fusion-section-reveal.fusion-section-reveal--stagger .lpl-logos > *,
+  .fusion-section-reveal.fusion-section-reveal--stagger .init-cards-grid > *,
+  .fusion-section-reveal.fusion-section-reveal--stagger .init-happening > *,
+  .fusion-section-reveal.fusion-section-reveal--stagger .kc-getting-started__grid > *,
+  .fusion-section-reveal.fusion-section-reveal--stagger .ft-grid > * {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+    transition: none !important;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -595,6 +591,7 @@ html.figma-capture .fusion-section-reveal.fusion-section-reveal--stagger .ft-gri
     opacity: 1;
     transform: none;
     animation: none;
+    transition: none;
   }
 
   .fusion-section-reveal,
@@ -859,6 +856,405 @@ a.fusion-ds-button.ds-c-button:visited:hover {
   .fusion-usa-banner.ds-c-usa-banner .ds-c-usa-banner__guidance {
     padding-inline: var(--fusion-site-padding-x-md);
   }
+}
+
+/* Site header — theme-aware (light defaults; dark remapped under [data-theme='dark']) */
+.fusion-site-header {
+  border-bottom: 1px solid color-mix(in srgb, var(--color-gray-lighter) 50%, transparent);
+  background-color: color-mix(in srgb, var(--color-background) 80%, transparent);
+  box-shadow:
+    0 10px 15px color-mix(in srgb, var(--color-base) 6%, transparent),
+    0 4px 6px color-mix(in srgb, var(--color-base) 5%, transparent);
+  backdrop-filter: blur(10px) saturate(1.35);
+}
+
+.fusion-site-header--scrolled {
+  border-bottom-color: color-mix(in srgb, var(--color-gray-lighter) 80%, transparent);
+  background-color: color-mix(in srgb, var(--color-background) 95%, transparent);
+  box-shadow: 0 4px 24px color-mix(in srgb, var(--color-base) 10%, transparent);
+}
+
+/* Settings / color-mode toggle in primary nav */
+.fusion-theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0.5rem;
+  border: 0;
+  border-radius: 0.5rem;
+  background: transparent;
+  color: var(--fusion-blue, var(--color-primary));
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.fusion-theme-toggle:hover,
+.fusion-theme-toggle:focus-visible {
+  background-color: var(--color-gray-lightest);
+  outline: none;
+}
+
+.fusion-theme-toggle:focus-visible {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 35%, transparent);
+}
+
+.fusion-theme-toggle[aria-pressed='true'] {
+  background-color: color-mix(in srgb, var(--color-primary) 14%, transparent);
+  color: var(--color-primary-lightest);
+}
+
+/*
+ * Dark color mode — CMS.gov Deep Sea palette (color-only theme).
+ * Foundation: Deep Sea 800 (#07124D) = --color-primary-darkest
+ * Hierarchy via 700/500 surfaces, 100/50 text — not a flat navy wash.
+ */
+html[data-theme='dark'] {
+  color-scheme: dark;
+
+  /* Explicit Deep Sea steps (CMS.gov) */
+  --fusion-deep-sea-50: #e7e9f5;
+  --fusion-deep-sea-100: #b6bde0;
+  --fusion-deep-sea-500: #0d2499;
+  --fusion-deep-sea-700: #09196b;
+  --fusion-deep-sea-800: #07124d;
+
+  /* Canvas = Deep Sea 800. Keep granite tokens for light cards/surfaces. */
+  --color-background: var(--fusion-deep-sea-800);
+  --fusion-on-dark: var(--fusion-deep-sea-50);
+  --fusion-on-dark-muted: var(--fusion-deep-sea-100);
+  --fusion-yellow: #ffe400;
+  --fusion-on-light: #262626; /* Granite 900 — readable on white cards */
+  --fusion-on-light-muted: #5a5a5a; /* Granite 700 */
+
+  /* Section band tokens — alternate depth without layout changes */
+  --fusion-dark-band-a: var(--fusion-deep-sea-800);
+  --fusion-dark-band-b: linear-gradient(
+    180deg,
+    var(--fusion-deep-sea-800) 0%,
+    var(--fusion-deep-sea-700) 48%,
+    var(--fusion-deep-sea-800) 100%
+  );
+  --fusion-dark-band-c: linear-gradient(
+    165deg,
+    color-mix(in srgb, var(--fusion-deep-sea-700) 92%, var(--fusion-deep-sea-500)) 0%,
+    var(--fusion-deep-sea-800) 55%,
+    color-mix(in srgb, var(--fusion-deep-sea-800) 88%, #000) 100%
+  );
+  --fusion-dark-surface: color-mix(in srgb, var(--fusion-deep-sea-700) 78%, transparent);
+  --fusion-dark-surface-elevated: color-mix(in srgb, var(--fusion-deep-sea-700) 55%, var(--fusion-deep-sea-500));
+  --fusion-dark-border: color-mix(in srgb, var(--fusion-deep-sea-100) 28%, transparent);
+  --fusion-dark-border-strong: color-mix(in srgb, var(--fusion-deep-sea-50) 40%, transparent);
+  --fusion-dark-glow: color-mix(in srgb, var(--fusion-deep-sea-500) 35%, transparent);
+
+  /* Neutrals for dark chrome (borders, subtle fills) — not for body copy on white cards */
+  --color-gray-lightest: color-mix(in srgb, var(--color-white) 10%, var(--fusion-deep-sea-800));
+  --color-gray-lighter: color-mix(in srgb, var(--color-white) 18%, var(--fusion-deep-sea-800));
+  --color-gray-light: color-mix(in srgb, var(--fusion-deep-sea-100) 55%, var(--fusion-deep-sea-800));
+  --color-gray: color-mix(in srgb, var(--fusion-deep-sea-100) 70%, var(--fusion-deep-sea-800));
+  --color-border: var(--fusion-dark-border);
+
+  /* Fusion aliases track the remapped tokens */
+  --fusion-mega-panel-bg:
+    radial-gradient(ellipse 90% 70% at 12% -8%, color-mix(in srgb, var(--fusion-deep-sea-500) 28%, transparent), transparent 52%),
+    linear-gradient(
+      168deg,
+      var(--fusion-deep-sea-700) 0%,
+      var(--fusion-deep-sea-800) 55%,
+      color-mix(in srgb, var(--fusion-deep-sea-800) 80%, #000) 100%
+    );
+  --fusion-mega-console-bg: color-mix(in srgb, var(--fusion-deep-sea-700) 72%, transparent);
+  --fusion-mega-panel-border: var(--fusion-dark-border);
+}
+
+html[data-theme='dark'] body {
+  background-color: var(--color-background);
+  color: var(--fusion-on-dark);
+}
+
+html[data-theme='dark'] .fusion-site-header {
+  border-bottom-color: color-mix(in srgb, var(--color-white) 14%, transparent);
+  background-color: color-mix(in srgb, var(--color-primary-darkest) 88%, transparent);
+  box-shadow: 0 8px 28px color-mix(in srgb, #000 35%, transparent);
+}
+
+html[data-theme='dark'] .fusion-site-header--scrolled {
+  background-color: color-mix(in srgb, var(--color-primary-darkest) 94%, transparent);
+}
+
+html[data-theme='dark'] .fusion-mega-trigger,
+html[data-theme='dark'] .fusion-site-nav__get-help,
+html[data-theme='dark'] .fusion-site-nav__menu-btn,
+html[data-theme='dark'] .fusion-site-nav__search-btn,
+html[data-theme='dark'] .fusion-theme-toggle {
+  color: var(--color-base-inverse);
+}
+
+html[data-theme='dark'] .fusion-mega-trigger:hover,
+html[data-theme='dark'] .fusion-mega-trigger:focus-visible {
+  color: var(--color-white);
+}
+
+html[data-theme='dark'] .fusion-site-nav__menu-btn {
+  border-color: color-mix(in srgb, var(--color-white) 22%, transparent);
+  background-color: color-mix(in srgb, var(--color-primary-darker) 80%, transparent);
+}
+
+html[data-theme='dark'] .fusion-theme-toggle:hover,
+html[data-theme='dark'] .fusion-theme-toggle:focus-visible,
+html[data-theme='dark'] .fusion-site-nav__search-btn:hover,
+html[data-theme='dark'] .fusion-site-nav__search-btn.bg-neutral-100,
+html[data-theme='dark'] .fusion-site-nav__search-btn[aria-expanded='true'] {
+  background-color: color-mix(in srgb, var(--color-white) 12%, transparent);
+}
+
+/*
+ * Mega menu (About / Explore / Learn / Get Started) — force Deepsea 800 surfaces.
+ * Overview panels hard-code `background: var(--color-white)` later in the stylesheet.
+ */
+html[data-theme='dark'] .fusion-nav-v2__mega,
+html[data-theme='dark'] .fusion-nav-v2__mega--explore,
+html[data-theme='dark'] .fusion-nav-v2__mega--about,
+html[data-theme='dark'] .fusion-nav-v2__mega--get-started,
+html[data-theme='dark'] .fusion-nav-v2__mega--learn,
+html[data-theme='dark'] .fusion-nav-v2__mega-inner,
+html[data-theme='dark'] .fusion-nav-v2__mega-inner--overview {
+  background: var(--color-primary-darkest) !important; /* Deepsea 800 */
+  background-image: none !important;
+  color: var(--color-base-inverse);
+  border-color: color-mix(in srgb, var(--color-white) 14%, transparent);
+  box-shadow: 0 16px 40px color-mix(in srgb, #000 45%, transparent);
+}
+
+html[data-theme='dark'] .fusion-nav-v2__mega::before,
+html[data-theme='dark'] .fusion-nav-v2__mega-bridge,
+html[data-theme='dark'] .fusion-nav-v2__mega-atmosphere,
+html[data-theme='dark'] .fusion-nav-v2__mega-veil {
+  display: none !important;
+}
+
+html[data-theme='dark'] .fusion-nav-v2__overview,
+html[data-theme='dark'] .fusion-nav-v2__overview-main,
+html[data-theme='dark'] .fusion-nav-v2__overview-header,
+html[data-theme='dark'] .fusion-nav-v2__overview-category,
+html[data-theme='dark'] .fusion-nav-v2__learn-category,
+html[data-theme='dark'] .fusion-nav-v2__left,
+html[data-theme='dark'] .fusion-nav-v2__panel-content {
+  background: transparent;
+  color: var(--color-base-inverse);
+  border-color: color-mix(in srgb, var(--color-white) 16%, transparent);
+}
+
+html[data-theme='dark'] .fusion-nav-v2__overview-header {
+  border-bottom-color: color-mix(in srgb, var(--color-white) 16%, transparent);
+}
+
+html[data-theme='dark'] .fusion-nav-v2__overview-title,
+html[data-theme='dark'] .fusion-nav-v2__overview-title a,
+html[data-theme='dark'] .fusion-nav-v2__overview-title a:visited,
+html[data-theme='dark'] .fusion-nav-v2__overview-category h3,
+html[data-theme='dark'] .fusion-nav-v2__overview-category h3 a,
+html[data-theme='dark'] .fusion-nav-v2__overview-category h3 a:visited,
+html[data-theme='dark'] .fusion-nav-v2__menu-title,
+html[data-theme='dark'] .fusion-nav-v2__menu-title-link,
+html[data-theme='dark'] .fusion-nav-v2__menu-title-link:visited,
+html[data-theme='dark'] .fusion-nav-v2__column-title,
+html[data-theme='dark'] .fusion-nav-v2__panel-title,
+html[data-theme='dark'] .fusion-nav-v2__panel-title-link,
+html[data-theme='dark'] .fusion-nav-v2__learn-category-heading,
+html[data-theme='dark'] .fusion-nav-v2__learn-category-heading a,
+html[data-theme='dark'] .fusion-mega-link,
+html[data-theme='dark'] .fusion-mega-link:visited,
+html[data-theme='dark'] .fusion-nav-v2 .fusion-mega-link,
+html[data-theme='dark'] .fusion-nav-v2 .fusion-mega-link:visited {
+  color: var(--color-base-inverse) !important;
+}
+
+html[data-theme='dark'] .fusion-nav-v2__overview-header p,
+html[data-theme='dark'] .fusion-nav-v2__overview-footer span,
+html[data-theme='dark'] .fusion-nav-v2__learn-view-all {
+  color: var(--color-muted-inverse) !important;
+}
+
+html[data-theme='dark'] .fusion-mega-link:hover,
+html[data-theme='dark'] .fusion-mega-link:focus-visible,
+html[data-theme='dark'] .fusion-nav-v2__overview-title a:hover,
+html[data-theme='dark'] .fusion-nav-v2__overview-category h3 a:hover,
+html[data-theme='dark'] .fusion-nav-v2 .fusion-nav-v2__overview-category .fusion-mega-link:hover {
+  color: var(--color-white) !important;
+  background: color-mix(in srgb, var(--color-white) 10%, transparent);
+}
+
+html[data-theme='dark'] .fusion-nav-v2__overview-category li,
+html[data-theme='dark'] .fusion-nav-v2__overview-category h3,
+html[data-theme='dark'] .fusion-nav-v2__overview-grid,
+html[data-theme='dark'] .fusion-nav-v2__learn-grid {
+  border-color: color-mix(in srgb, var(--color-white) 14%, transparent) !important;
+}
+
+html[data-theme='dark'] .fusion-nav-v2__overview-footer {
+  background: color-mix(in srgb, var(--color-primary-darker) 78%, #000) !important;
+  border-top-color: color-mix(in srgb, var(--color-white) 16%, transparent) !important;
+  color: var(--color-base-inverse);
+}
+
+html[data-theme='dark'] .fusion-nav-v2__overview-footer strong {
+  color: var(--color-white) !important;
+}
+
+html[data-theme='dark'] .fusion-nav-v2__overview-footer-link,
+html[data-theme='dark'] .fusion-nav-v2__overview-footer-link:visited {
+  color: var(--color-white) !important;
+  background: transparent !important;
+  border-color: color-mix(in srgb, var(--color-white) 55%, transparent) !important;
+}
+
+html[data-theme='dark'] .fusion-nav-v2__overview-footer-link:hover,
+html[data-theme='dark'] .fusion-nav-v2__overview-footer-link:focus-visible {
+  color: var(--color-primary-darkest) !important;
+  background: var(--color-white) !important;
+  border-color: var(--color-white) !important;
+}
+
+html[data-theme='dark'] .fusion-site-header {
+  background-color: var(--fusion-deep-sea-800) !important;
+  border-bottom-color: var(--fusion-dark-border) !important;
+}
+
+html[data-theme='dark'] .fusion-site-nav a.fusion-site-nav__get-help,
+html[data-theme='dark'] .fusion-site-nav a.fusion-site-nav__get-help:visited,
+html[data-theme='dark'] .fusion-site-nav a.fusion-site-nav__legacy-link.fusion-site-nav__get-help,
+html.fusion-theme-dark .fusion-site-nav a.fusion-site-nav__get-help,
+html.fusion-theme-dark .fusion-site-nav a.fusion-site-nav__get-help:visited {
+  border: 1.5px solid #ffffff !important;
+  border-color: #ffffff !important;
+  color: #ffffff !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+html[data-theme='dark'] .fusion-site-nav a.fusion-site-nav__get-help:hover,
+html[data-theme='dark'] .fusion-site-nav a.fusion-site-nav__legacy-link.fusion-site-nav__get-help:hover,
+html.fusion-theme-dark .fusion-site-nav a.fusion-site-nav__get-help:hover {
+  border: 1.5px solid #ffffff !important;
+  border-color: #ffffff !important;
+  background: color-mix(in srgb, #ffffff 12%, transparent) !important;
+  color: #ffffff !important;
+}
+
+html[data-theme='dark'] .fusion-theme-toggle[aria-pressed='true'] {
+  background-color: color-mix(in srgb, var(--color-white) 16%, transparent);
+  color: var(--color-white);
+}
+
+html[data-theme='dark'] .fusion-site-footer {
+  background-color: color-mix(in srgb, var(--color-primary-darkest) 92%, #000);
+  color: var(--color-base-inverse);
+  border-top-color: color-mix(in srgb, var(--color-white) 12%, transparent);
+}
+
+html[data-theme='dark'] .fusion-site-footer__heading,
+html[data-theme='dark'] .fusion-site-footer__link,
+html[data-theme='dark'] .fusion-site-footer__link:visited,
+html[data-theme='dark'] .fusion-site-footer__brand-body {
+  color: var(--color-base-inverse);
+}
+
+html[data-theme='dark'] .fusion-site-footer__link:hover,
+html[data-theme='dark'] .fusion-site-footer__link:focus-visible {
+  color: var(--color-primary-light);
+}
+
+/* Light page bands / cards that hard-code white */
+html[data-theme='dark'] .fusion-quick-access,
+html[data-theme='dark'] .fusion-featured-resources,
+html[data-theme='dark'] .fusion-pathways-help,
+html[data-theme='dark'] .fusion-announcements,
+html[data-theme='dark'] .ss-content,
+html[data-theme='dark'] .kc-content,
+html[data-theme='dark'] .ft-section,
+html[data-theme='dark'] main {
+  background-color: transparent;
+  color: var(--color-base-inverse);
+}
+
+html[data-theme='dark'] .fusion-quick-access__heading,
+html[data-theme='dark'] .fusion-featured-resources__heading,
+html[data-theme='dark'] .fusion-pathways-help__heading,
+html[data-theme='dark'] .fusion-announcements__title,
+html[data-theme='dark'] .ss-section__title,
+html[data-theme='dark'] .ss-section__meta,
+html[data-theme='dark'] .kc-section-heading,
+html[data-theme='dark'] .cst-section-title {
+  color: var(--color-base-inverse);
+}
+
+html[data-theme='dark'] .fusion-featured-resources__support,
+html[data-theme='dark'] .fusion-pathways-help__lede,
+html[data-theme='dark'] .fusion-quick-access p {
+  color: var(--color-muted-inverse);
+}
+
+html[data-theme='dark'] .fusion-featured-resources__card,
+html[data-theme='dark'] .fusion-quick-access__card,
+html[data-theme='dark'] .ss-acc,
+html[data-theme='dark'] .ss-service-card,
+html[data-theme='dark'] .kc-overview-card,
+html[data-theme='dark'] .kc-essentials-card,
+html[data-theme='dark'] .kc-glass-card {
+  background-color: color-mix(in srgb, var(--color-primary-darker) 78%, var(--color-white));
+  border-color: color-mix(in srgb, var(--color-white) 14%, transparent);
+  color: var(--color-base-inverse);
+}
+
+html[data-theme='dark'] .ss-acc__title,
+html[data-theme='dark'] .ss-service-card__title,
+html[data-theme='dark'] .ss-service-card__body,
+html[data-theme='dark'] .ss-acc__description {
+  color: var(--color-base-inverse);
+}
+
+html[data-theme='dark'] .ss-acc__trigger:hover {
+  background-color: color-mix(in srgb, var(--color-white) 6%, transparent);
+}
+
+/* Breadcrumb bars on light pages */
+html[data-theme='dark'] .kc-breadcrumb-bar:not(.tpl-2col-breadcrumb-bar) {
+  background-color: color-mix(in srgb, var(--color-primary-darker) 85%, #000);
+  border-bottom-color: color-mix(in srgb, var(--color-white) 12%, transparent);
+}
+
+html[data-theme='dark'] .kc-breadcrumb-link,
+html[data-theme='dark'] .kc-breadcrumb-link:visited,
+html[data-theme='dark'] .kc-breadcrumb-current {
+  color: var(--color-muted-inverse);
+}
+
+html[data-theme='dark'] .kc-breadcrumb-link:hover {
+  color: var(--color-white);
+}
+
+/* Sticky section nav */
+html[data-theme='dark'] .interior-section-nav,
+html[data-theme='dark'] .interior-section-nav-root {
+  background-color: color-mix(in srgb, var(--color-primary-darkest) 92%, #000);
+  border-color: color-mix(in srgb, var(--color-white) 12%, transparent);
+  color: var(--color-base-inverse);
+}
+
+/* Floating assist / chat */
+html[data-theme='dark'] .fusion-chat-panel,
+html[data-theme='dark'] .fusion-assist-dock {
+  background-color: var(--color-primary-darker);
+  color: var(--color-base-inverse);
+  border-color: color-mix(in srgb, var(--color-white) 16%, transparent);
+}
+
+html[data-theme='dark'] .fusion-site-nav__mobile-drawer {
+  background-color: var(--color-primary-darkest);
+  color: var(--color-base-inverse);
+  border-color: color-mix(in srgb, var(--color-white) 14%, transparent);
 }
 
 /* Nav: inherit CMS Design System font family for all nav text */
@@ -1433,8 +1829,100 @@ h2.fusion-mega-featured__title {
   color: var(--color-white);
 }
 
-.fusion-hero .fusion-hero__carousel-dot-btn[aria-pressed='true'] .fusion-hero__carousel-dot {
+/* Reset native/CMS button chrome — was painting grey squares behind dots */
+.fusion-hero .fusion-hero__carousel-dot-btn {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: inherit;
+  cursor: pointer;
+  line-height: 0;
+  width: auto;
+  height: auto;
+  min-width: 0;
+  min-height: 0;
+}
+
+.fusion-hero .fusion-hero__carousel-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 0;
+}
+
+.fusion-hero .fusion-hero__carousel-btn .fusion-hero__carousel-chevron {
+  display: block;
+}
+
+/* Optical center — chevron glyphs lean toward the outer edge */
+.fusion-hero .fusion-hero__carousel-btn--prev .fusion-hero__carousel-chevron {
+  transform: translateX(1px);
+}
+
+.fusion-hero .fusion-hero__carousel-btn--next .fusion-hero__carousel-chevron {
+  transform: translateX(-1px);
+}
+
+/* Inactive: larger ring with open center (more padding inside the border) */
+.fusion-hero .fusion-hero__carousel-dot {
+  display: block;
+  box-sizing: border-box;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 9999px;
+  border: 2px solid color-mix(in srgb, #ffffff 30%, transparent);
+  background-color: transparent;
+  box-shadow: inset 0 0 0 2px transparent;
+  transition:
+    width 0.3s ease,
+    height 0.3s ease,
+    padding 0.3s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.fusion-hero .fusion-hero__carousel-dot-btn:hover .fusion-hero__carousel-dot:not(.fusion-hero__carousel-dot--active) {
+  border-color: color-mix(in srgb, #ffffff 45%, transparent);
+  background-color: color-mix(in srgb, #ffffff 12%, transparent);
+}
+
+/* Active: roomier shell + smaller yellow core for clear padding */
+.fusion-hero .fusion-hero__carousel-dot--active {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 1rem;
+  padding: 3px 5px;
+  border: 2px solid color-mix(in srgb, #ffffff 30%, transparent);
+  background-color: color-mix(in srgb, #ffffff 10%, transparent);
+}
+
+.fusion-hero .fusion-hero__carousel-dot-core {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 9999px;
   background-color: #ffe400;
+}
+
+@media (min-width: 640px) {
+  .fusion-hero .fusion-hero__carousel-dot {
+    width: 1.125rem;
+    height: 1.125rem;
+  }
+
+  .fusion-hero .fusion-hero__carousel-dot--active {
+    width: 3.25rem;
+    height: 1.125rem;
+    padding: 4px 6px;
+  }
 }
 
 .fusion-hero .fusion-hero__cta-secondary {
@@ -13311,6 +13799,465 @@ h3.te-cta-card__title {
 .ss-hero--with-section-nav,
 .init-hero.init-hero--with-section-nav {
   padding-bottom: 0 !important;
+}
+
+/*
+ * Dark mode nav polish (placed last so it wins over mega-open / link color rules).
+ * Deepsea 800 = --color-primary-darkest / --color-background-inverse (#07124d)
+ */
+html[data-theme='dark'] .fusion-site-header,
+html[data-theme='dark'] .fusion-site-header--scrolled,
+html[data-theme='dark'] .fusion-site-header:has(.fusion-nav-v2--mega-open) {
+  background: var(--color-primary-darkest) !important;
+  background-image: none !important;
+  border-bottom-color: color-mix(in srgb, var(--color-white) 14%, transparent) !important;
+  box-shadow: 0 8px 28px color-mix(in srgb, #000 40%, transparent) !important;
+}
+
+html[data-theme='dark'] .fusion-nav-v2--mega-open .fusion-nav-v2__bar::after {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    color-mix(in srgb, var(--color-white) 35%, transparent) 22%,
+    color-mix(in srgb, var(--color-primary-light) 40%, transparent) 50%,
+    color-mix(in srgb, var(--color-white) 35%, transparent) 78%,
+    transparent 100%
+  );
+}
+
+/* USA Banner — white text on Deepsea surfaces */
+html[data-theme='dark'] .fusion-usa-banner.ds-c-usa-banner,
+html[data-theme='dark'] .fusion-usa-banner.ds-c-usa-banner .ds-c-usa-banner__header,
+html[data-theme='dark'] .fusion-usa-banner.ds-c-usa-banner .ds-c-usa-banner__header-text,
+html[data-theme='dark'] .fusion-usa-banner.ds-c-usa-banner .ds-c-usa-banner__button,
+html[data-theme='dark'] .fusion-usa-banner.ds-c-usa-banner .ds-c-usa-banner__button-text,
+html[data-theme='dark'] .fusion-usa-banner.ds-c-usa-banner button,
+html[data-theme='dark'] .fusion-usa-banner.ds-c-usa-banner a,
+html[data-theme='dark'] .fusion-usa-banner.ds-c-usa-banner p,
+html[data-theme='dark'] .fusion-usa-banner.ds-c-usa-banner span {
+  color: var(--color-white) !important;
+}
+
+html[data-theme='dark'] .fusion-usa-banner.ds-c-usa-banner {
+  background-color: var(--color-primary-darkest) !important;
+  border-bottom-color: color-mix(in srgb, var(--color-white) 12%, transparent);
+}
+
+/* All mega-menu item links → white (About overview + Learn lists + generic mega links) */
+html[data-theme='dark'] .fusion-nav-v2 .fusion-mega-link,
+html[data-theme='dark'] .fusion-nav-v2 .fusion-mega-link:visited,
+html[data-theme='dark'] .fusion-nav-v2 .fusion-nav-v2__overview-category .fusion-mega-link,
+html[data-theme='dark'] .fusion-nav-v2 .fusion-nav-v2__overview-category .fusion-mega-link:visited,
+html[data-theme='dark'] .fusion-nav-v2__learn-group-list a,
+html[data-theme='dark'] .fusion-nav-v2__learn-group-list a:visited,
+html[data-theme='dark'] .fusion-nav-v2__learn-view-all,
+html[data-theme='dark'] .fusion-nav-v2__learn-view-all:visited,
+html[data-theme='dark'] .fusion-nav-v2__learn-category h3 a,
+html[data-theme='dark'] .fusion-nav-v2__learn-category h3 a:visited,
+html[data-theme='dark'] .fusion-nav-v2__overview-title a,
+html[data-theme='dark'] .fusion-nav-v2__overview-title a:visited,
+html[data-theme='dark'] .fusion-nav-v2__overview-category h3 a,
+html[data-theme='dark'] .fusion-nav-v2__overview-category h3 a:visited,
+html[data-theme='dark'] .fusion-nav-v2__menu-title-link,
+html[data-theme='dark'] .fusion-nav-v2__menu-title-link:visited,
+html[data-theme='dark'] .fusion-nav-v2__panel-title-link,
+html[data-theme='dark'] .fusion-nav-v2__panel-title-link:visited,
+html[data-theme='dark'] .fusion-nav-v2__column-title,
+html[data-theme='dark'] .fusion-nav-v2__link-list a,
+html[data-theme='dark'] .fusion-nav-v2__link-list a:visited,
+html[data-theme='dark'] .fusion-nav-v2 a.fusion-mega-link {
+  color: var(--color-white) !important;
+}
+
+html[data-theme='dark'] .fusion-nav-v2 .fusion-mega-link:hover,
+html[data-theme='dark'] .fusion-nav-v2 .fusion-mega-link:focus-visible,
+html[data-theme='dark'] .fusion-nav-v2 .fusion-nav-v2__overview-category .fusion-mega-link:hover,
+html[data-theme='dark'] .fusion-nav-v2 .fusion-nav-v2__overview-category .fusion-mega-link:focus-visible,
+html[data-theme='dark'] .fusion-nav-v2__learn-group-list a:hover,
+html[data-theme='dark'] .fusion-nav-v2__learn-group-list a:focus-visible {
+  color: var(--color-white) !important;
+  background: color-mix(in srgb, var(--color-white) 12%, transparent) !important;
+  box-shadow: none !important;
+}
+
+html[data-theme='dark'] .fusion-nav-v2.fusion-nav-v2--mega-open button.fusion-mega-trigger,
+html[data-theme='dark'] .fusion-nav-v2.fusion-nav-v2--mega-open button.fusion-mega-trigger--active,
+html[data-theme='dark'] .fusion-site-header:has(.fusion-nav-v2--mega-open) .fusion-mega-trigger,
+html[data-theme='dark'] .fusion-site-header:has(.fusion-nav-v2--mega-open) .fusion-theme-toggle,
+html[data-theme='dark'] .fusion-site-header:has(.fusion-nav-v2--mega-open) .fusion-site-nav__search-btn,
+html[data-theme='dark'] .fusion-site-header:has(.fusion-nav-v2--mega-open) .fusion-site-nav a.fusion-site-nav__get-help,
+html.fusion-theme-dark .fusion-site-header:has(.fusion-nav-v2--mega-open) .fusion-site-nav a.fusion-site-nav__get-help {
+  color: #ffffff !important;
+  border: 1.5px solid #ffffff !important;
+  border-color: #ffffff !important;
+}
+
+html[data-theme='dark'] .fusion-nav-v2.fusion-nav-v2--mega-open button.fusion-mega-trigger--active {
+  background: color-mix(in srgb, var(--color-white) 12%, transparent) !important;
+}
+
+/*
+ * Dark-area copy → white sitewide.
+ * Light cards/chips on dark pages keep granite text for contrast.
+ */
+html[data-theme='dark'] .kc-content,
+html[data-theme='dark'] .po-band,
+html[data-theme='dark'] .program-overview,
+html[data-theme='dark'] .ss-content,
+html[data-theme='dark'] .ss-page,
+html[data-theme='dark'] .cst-page,
+html[data-theme='dark'] .explore-page,
+html[data-theme='dark'] .ft-section,
+html[data-theme='dark'] main {
+  color: var(--fusion-on-dark);
+}
+
+html[data-theme='dark'] .kc-content {
+  background: transparent !important;
+}
+
+html[data-theme='dark'] .po-band {
+  background: color-mix(in srgb, var(--color-primary-darker) 55%, var(--color-primary-darkest)) !important;
+}
+
+/* Section titles + ledes on dark canvas */
+html[data-theme='dark'] h1,
+html[data-theme='dark'] h2,
+html[data-theme='dark'] h3.po-section-heading,
+html[data-theme='dark'] .kc-section-heading,
+html[data-theme='dark'] .po-section-heading,
+html[data-theme='dark'] .kc-section-subtitle,
+html[data-theme='dark'] .po-section-lede,
+html[data-theme='dark'] .ss-section__title,
+html[data-theme='dark'] .ss-section__meta,
+html[data-theme='dark'] .cst-section-title,
+html[data-theme='dark'] .fusion-quick-access__heading,
+html[data-theme='dark'] .fusion-featured-resources__heading,
+html[data-theme='dark'] .fusion-featured-resources__support,
+html[data-theme='dark'] .fusion-pathways-help__heading,
+html[data-theme='dark'] .fusion-pathways-help__lede,
+html[data-theme='dark'] .fusion-announcements__title,
+html[data-theme='dark'] .fusion-academy__heading,
+html[data-theme='dark'] .fusion-multi-cloud__heading,
+html[data-theme='dark'] .kc-breadcrumb-link,
+html[data-theme='dark'] .kc-breadcrumb-link:visited,
+html[data-theme='dark'] .kc-breadcrumb-current,
+html[data-theme='dark'] .kc-breadcrumb-sep {
+  color: var(--fusion-on-dark) !important;
+}
+
+html[data-theme='dark'] .kc-section-subtitle,
+html[data-theme='dark'] .po-section-lede,
+html[data-theme='dark'] .ss-section__meta,
+html[data-theme='dark'] .fusion-featured-resources__support,
+html[data-theme='dark'] .fusion-pathways-help__lede {
+  color: var(--fusion-on-dark-muted) !important;
+}
+
+/* Program Overview stats on dark — was --color-primary / gray-dark (low contrast) */
+html[data-theme='dark'] .po-stat__value,
+html[data-theme='dark'] .po-stat__label {
+  color: var(--fusion-on-dark) !important;
+}
+
+html[data-theme='dark'] .po-stat__label {
+  color: var(--fusion-on-dark-muted) !important;
+}
+
+html[data-theme='dark'] .po-cta__heading,
+html[data-theme='dark'] .po-cta__lede {
+  color: var(--fusion-on-dark) !important;
+}
+
+/* Light cards / chips sitting on dark pages — granite text, not white */
+html[data-theme='dark'] .po-platform-card,
+html[data-theme='dark'] .po-feature-card,
+html[data-theme='dark'] .po-security__item,
+html[data-theme='dark'] .interior-section-nav__shell,
+html[data-theme='dark'] .interior-section-nav {
+  color: var(--fusion-on-light);
+}
+
+html[data-theme='dark'] .po-platform-card,
+html[data-theme='dark'] .po-feature-card,
+html[data-theme='dark'] .po-security__item {
+  background: var(--color-white) !important;
+  border-color: color-mix(in srgb, var(--color-white) 20%, transparent);
+}
+
+html[data-theme='dark'] .po-platform-card__title,
+html[data-theme='dark'] .po-feature-card__title,
+html[data-theme='dark'] .po-security__item,
+html[data-theme='dark'] h3.po-platform-card__title,
+html[data-theme='dark'] h3.po-feature-card__title {
+  color: var(--fusion-on-light) !important;
+}
+
+html[data-theme='dark'] .po-platform-card__desc,
+html[data-theme='dark'] .po-feature-card__desc {
+  color: var(--fusion-on-light-muted) !important;
+}
+
+/* Dark-tinted catalog cards — keep white text */
+html[data-theme='dark'] .ss-acc,
+html[data-theme='dark'] .ss-service-card,
+html[data-theme='dark'] .kc-overview-card,
+html[data-theme='dark'] .kc-essentials-card,
+html[data-theme='dark'] .kc-glass-card,
+html[data-theme='dark'] .fusion-featured-resources__card,
+html[data-theme='dark'] .fusion-quick-access__card,
+html[data-theme='dark'] .ss-acc__title,
+html[data-theme='dark'] .ss-service-card__title,
+html[data-theme='dark'] .ss-service-card__body,
+html[data-theme='dark'] .ss-acc__description {
+  color: var(--fusion-on-dark) !important;
+}
+
+html[data-theme='dark'] .interior-section-nav,
+html[data-theme='dark'] .interior-section-nav-root,
+html[data-theme='dark'] .interior-section-nav__shell {
+  background-color: var(--color-white) !important;
+  color: var(--fusion-on-light) !important;
+}
+
+html[data-theme='dark'] .interior-section-nav__link,
+html[data-theme='dark'] .interior-section-nav__link:visited {
+  color: var(--color-primary-darker) !important;
+}
+
+html[data-theme='dark'] .interior-section-nav__link--active {
+  color: var(--color-primary-darkest) !important;
+}
+
+/*
+ * Homepage dark mode — semantic color remap only.
+ * Do not replace illustration background-image, hide assets, or change layout.
+ */
+html[data-theme='dark'] .fusion-band-gradient-primary-mist {
+  background-color: var(--fusion-deep-sea-700) !important;
+  background-image: linear-gradient(
+    180deg,
+    var(--fusion-deep-sea-800) 0%,
+    var(--fusion-deep-sea-700) 42%,
+    var(--fusion-deep-sea-800) 100%
+  ) !important;
+  color: var(--fusion-deep-sea-50) !important;
+}
+
+html[data-theme='dark'] .fusion-quick-access,
+html[data-theme='dark'] .fusion-academy__offerings {
+  background-color: var(--fusion-deep-sea-800) !important;
+  color: var(--fusion-deep-sea-50) !important;
+}
+
+html[data-theme='dark'] .fusion-pathways-help,
+html[data-theme='dark'] .fusion-featured-resources {
+  background-color: var(--fusion-deep-sea-700) !important;
+  color: var(--fusion-deep-sea-50) !important;
+}
+
+html[data-theme='dark'] .fusion-announcements {
+  background-color: var(--fusion-deep-sea-700) !important;
+  background-image: linear-gradient(
+    168deg,
+    var(--fusion-deep-sea-700) 0%,
+    color-mix(in srgb, var(--fusion-deep-sea-500) 28%, var(--fusion-deep-sea-800)) 55%,
+    var(--fusion-deep-sea-800) 100%
+  ) !important;
+  color: var(--fusion-deep-sea-50) !important;
+}
+
+/* Keep Multi-Cloud + Academy photos. Color fallback only — never replace background-image. */
+html[data-theme='dark'] .fusion-multi-cloud {
+  background-color: var(--fusion-deep-sea-500) !important;
+}
+
+html[data-theme='dark'] .fusion-academy__hero {
+  background-color: var(--fusion-deep-sea-800) !important;
+}
+
+html[data-theme='dark'] .fusion-hero__page-fade {
+  background-image: linear-gradient(
+    to top,
+    var(--fusion-deep-sea-800) 15%,
+    color-mix(in srgb, var(--fusion-deep-sea-800) 40%, transparent),
+    transparent
+  ) !important;
+}
+
+/* High-emphasis branded words — CMS yellow, not --color-accent-primary (that token is blue). */
+html[data-theme='dark'] .fusion-hero .fusion-hero__headline-accent,
+html[data-theme='dark'] .fusion-ecosphere .fusion-ecosphere__heading-accent.fusion-hero__headline-accent,
+html[data-theme='dark'] .fusion-academy .fusion-academy__heading-accent {
+  color: #ffe400 !important;
+  -webkit-text-fill-color: #ffe400 !important;
+  background-image: none !important;
+  filter: none !important;
+}
+
+html[data-theme='dark'] .fusion-quick-access h2.fusion-quick-access__heading,
+html[data-theme='dark'] .fusion-featured-resources h2.fusion-featured-resources__heading,
+html[data-theme='dark'] .fusion-pathways-help h2.fusion-pathways-help__heading,
+html[data-theme='dark'] .fusion-announcements .fusion-announcements__title,
+html[data-theme='dark'] .fusion-ecosphere h2.fusion-ecosphere__heading,
+html[data-theme='dark'] .fusion-ecosphere .fusion-ecosphere__heading-muted {
+  color: var(--fusion-deep-sea-50) !important;
+  -webkit-text-fill-color: var(--fusion-deep-sea-50) !important;
+}
+
+html[data-theme='dark'] .fusion-quick-access p.fusion-quick-access__support,
+html[data-theme='dark'] .fusion-featured-resources p.fusion-featured-resources__support,
+html[data-theme='dark'] .fusion-pathways-help .fusion-pathways-help__lede,
+html[data-theme='dark'] .fusion-ecosphere .fusion-ecosphere__lede {
+  color: var(--fusion-deep-sea-100) !important;
+  -webkit-text-fill-color: var(--fusion-deep-sea-100) !important;
+}
+
+/* Academy hero sits on a light illustration — keep original dark type except the yellow word. */
+html[data-theme='dark'] .fusion-academy .fusion-academy__eyebrow,
+html[data-theme='dark'] .fusion-academy .fusion-academy__lede,
+html[data-theme='dark'] .fusion-academy .fusion-academy__body {
+  color: var(--fusion-blue-deep);
+  -webkit-text-fill-color: var(--fusion-blue-deep);
+}
+
+html[data-theme='dark'] .fusion-quick-access__panel {
+  background: color-mix(in srgb, var(--fusion-deep-sea-700) 82%, var(--fusion-deep-sea-500)) !important;
+  border-color: color-mix(in srgb, var(--fusion-deep-sea-100) 38%, transparent) !important;
+  color: var(--fusion-deep-sea-50) !important;
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--fusion-deep-sea-500) 40%, transparent),
+    0 16px 40px color-mix(in srgb, #000 35%, transparent) !important;
+}
+
+html[data-theme='dark'] .fusion-quick-access__panel-glow {
+  background-image: linear-gradient(
+    to top,
+    color-mix(in srgb, var(--fusion-deep-sea-500) 35%, transparent),
+    transparent
+  ) !important;
+}
+
+html[data-theme='dark'] .fusion-quick-access a.fusion-quick-access__link,
+html[data-theme='dark'] .fusion-quick-access a.fusion-quick-access__link:visited,
+html[data-theme='dark'] .fusion-quick-access__link span,
+html[data-theme='dark'] .fusion-quick-access__link svg {
+  color: var(--fusion-deep-sea-50) !important;
+}
+
+html[data-theme='dark'] .fusion-quick-access__link span.mt-1,
+html[data-theme='dark'] .fusion-quick-access a.fusion-quick-access__link span:last-child {
+  color: var(--fusion-deep-sea-100) !important;
+}
+
+html[data-theme='dark'] .fusion-quick-access a.fusion-quick-access__link:hover {
+  background-color: color-mix(in srgb, var(--fusion-deep-sea-500) 32%, transparent) !important;
+}
+
+html[data-theme='dark'] .fusion-pathways-help .fusion-pathways-help__pill {
+  background: var(--fusion-deep-sea-700) !important;
+  border: 1.5px solid color-mix(in srgb, var(--fusion-deep-sea-100) 45%, transparent) !important;
+  color: var(--fusion-deep-sea-50) !important;
+  box-shadow: 0 10px 28px color-mix(in srgb, #000 32%, transparent);
+}
+
+html[data-theme='dark'] .fusion-pathways-help .fusion-pathways-help__pill:hover {
+  background: color-mix(in srgb, var(--fusion-deep-sea-500) 55%, var(--fusion-deep-sea-700)) !important;
+  border-color: var(--fusion-deep-sea-100) !important;
+}
+
+html[data-theme='dark'] .fusion-pathways-help__pill-label,
+html[data-theme='dark'] .fusion-pathways-help__pill-chevron {
+  color: var(--fusion-deep-sea-50) !important;
+}
+
+html[data-theme='dark'] .fusion-pathways-help__pill-icon {
+  color: #ffe400 !important;
+}
+
+html[data-theme='dark'] .fusion-pathways-help__pill-icon-wrap {
+  background: color-mix(in srgb, var(--fusion-deep-sea-500) 40%, transparent);
+}
+
+/* Featured / Academy offering tiles stay Deep Sea 500 (already --color-primary) — do not flatten. */
+html[data-theme='dark'] .fusion-featured-resources__card,
+html[data-theme='dark'] .fusion-academy-offerings__card {
+  background-color: var(--fusion-deep-sea-500) !important;
+  border-color: color-mix(in srgb, var(--fusion-deep-sea-100) 28%, transparent) !important;
+  color: var(--fusion-deep-sea-50) !important;
+}
+
+html[data-theme='dark'] .fusion-featured-resources .fusion-featured-resources__card-title,
+html[data-theme='dark'] .fusion-academy-offerings__title,
+html[data-theme='dark'] .fusion-academy-offerings__list,
+html[data-theme='dark'] .fusion-academy-offerings__list li {
+  color: var(--fusion-deep-sea-50) !important;
+}
+
+html[data-theme='dark'] .fusion-featured-resources a.fusion-featured-resources__card-link,
+html[data-theme='dark'] .fusion-featured-resources a.fusion-featured-resources__card-link:visited,
+html[data-theme='dark'] .fusion-academy-offerings__cta,
+html[data-theme='dark'] .fusion-academy-offerings__cta:visited {
+  color: #ffe400 !important;
+}
+
+html[data-theme='dark'] .fusion-announcements__card,
+html[data-theme='dark'] .fusion-announcements__card-link {
+  background: var(--fusion-deep-sea-800) !important;
+  border: 1px solid color-mix(in srgb, var(--fusion-deep-sea-100) 32%, transparent) !important;
+  color: var(--fusion-deep-sea-50) !important;
+  box-shadow: 0 12px 32px color-mix(in srgb, #000 30%, transparent);
+}
+
+html[data-theme='dark'] .fusion-announcements .fusion-announcements__card-title {
+  color: var(--fusion-deep-sea-50) !important;
+}
+
+html[data-theme='dark'] .fusion-announcements .fusion-announcements__card-desc,
+html[data-theme='dark'] .fusion-announcements .fusion-announcements__meta,
+html[data-theme='dark'] .fusion-announcements .fusion-announcements__meta time {
+  color: var(--fusion-deep-sea-100) !important;
+}
+
+html[data-theme='dark'] .fusion-announcements__arrow {
+  background: var(--fusion-deep-sea-700) !important;
+  border-color: color-mix(in srgb, var(--fusion-deep-sea-50) 45%, transparent) !important;
+  color: var(--fusion-deep-sea-50) !important;
+}
+
+html[data-theme='dark'] .fusion-ecosphere__card {
+  background: color-mix(in srgb, var(--fusion-deep-sea-700) 88%, var(--fusion-deep-sea-500)) !important;
+  border-color: color-mix(in srgb, var(--fusion-deep-sea-100) 32%, transparent) !important;
+  color: var(--fusion-deep-sea-50) !important;
+}
+
+html[data-theme='dark'] .fusion-ecosphere__card-title {
+  color: var(--fusion-deep-sea-50) !important;
+}
+
+html[data-theme='dark'] .fusion-ecosphere__card-body {
+  color: var(--fusion-deep-sea-100) !important;
+}
+
+html[data-theme='dark'] .fusion-site-footer {
+  background-color: var(--fusion-deep-sea-800) !important;
+  border-top: 1px solid color-mix(in srgb, var(--fusion-deep-sea-100) 28%, transparent) !important;
+  color: var(--fusion-deep-sea-100) !important;
+}
+
+html[data-theme='dark'] .fusion-site-footer__heading {
+  color: var(--fusion-deep-sea-50) !important;
+}
+
+html[data-theme='dark'] .fusion-site-footer__link,
+html[data-theme='dark'] .fusion-site-footer__link:visited,
+html[data-theme='dark'] .fusion-site-footer__brand-body {
+  color: var(--fusion-deep-sea-100) !important;
+}
+
+html[data-theme='dark'] .fusion-site-footer__link:hover,
+html[data-theme='dark'] .fusion-site-footer__link:focus-visible {
+  color: #ffe400 !important;
 }
 
 

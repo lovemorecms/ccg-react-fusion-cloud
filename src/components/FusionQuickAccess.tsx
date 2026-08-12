@@ -88,7 +88,7 @@ export function FusionQuickAccess() {
           aria-labelledby="fusion-quick-access-heading"
         >
           <div
-            className="pointer-events-none absolute inset-x-0 bottom-0 z-0 h-24 bg-gradient-to-t from-[rgba(220,238,252,0.45)] via-[rgba(236,248,252,0.2)] to-transparent"
+            className="fusion-quick-access__panel-glow pointer-events-none absolute inset-x-0 bottom-0 z-0 h-24 bg-gradient-to-t from-[rgba(220,238,252,0.45)] via-[rgba(236,248,252,0.2)] to-transparent"
             aria-hidden
           />
           <ul className="fusion-quick-access__grid relative z-[1] m-0 grid list-none grid-cols-2 gap-x-4 gap-y-10 p-0 sm:grid-cols-3 xl:grid-cols-6 xl:gap-x-0">

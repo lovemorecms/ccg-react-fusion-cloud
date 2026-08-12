@@ -8,6 +8,7 @@ import {
   type NavMenuItem,
 } from '../../data/navDemoMenu'
 import { SearchIcon } from '../SearchIcon'
+import { ThemeToggle } from '../ThemeToggle'
 
 function ChevronDown({ className, rotated }: { className?: string; rotated?: boolean }) {
   return (
@@ -736,7 +737,7 @@ export function FusionSiteNavV2({
 
           <button
             type="button"
-            className={`flex size-10 items-center justify-center rounded-lg border-0 p-2 text-[color:var(--fusion-blue)] transition-colors hover:bg-neutral-100 ${
+            className={`fusion-site-nav__search-btn flex size-10 items-center justify-center rounded-lg border-0 p-2 text-[color:var(--fusion-blue)] transition-colors hover:bg-neutral-100 ${
               searchOpen ? 'bg-neutral-100' : 'bg-transparent'
             }`}
             aria-label={searchOpen ? 'Close search' : 'Open search'}
@@ -753,6 +754,8 @@ export function FusionSiteNavV2({
           >
             Get Help
           </a>
+
+          <ThemeToggle />
         </div>
       </div>
 

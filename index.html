@@ -12,15 +12,49 @@
     />
     <title>FUSION Sphere</title>
     <script>
-      // Prep homepage for Figma MCP capture: reveal scroll sections + settle layout.
+      // Apply saved color mode before paint (CMS Deepsea 800 dark / light).
       ;(function () {
-        if (!/#figmacapture=/.test(location.hash)) return
+        try {
+          var key = 'fusion-color-mode'
+          var stored = localStorage.getItem(key)
+          var mode =
+            stored === 'light' || stored === 'dark'
+              ? stored
+              : window.matchMedia('(prefers-color-scheme: dark)').matches
+                ? 'dark'
+                : 'light'
+          document.documentElement.dataset.theme = mode
+          document.documentElement.style.colorScheme = mode
+          if (mode === 'dark') {
+            document.documentElement.classList.add('fusion-theme-dark')
+            document.documentElement.classList.remove('ds-base--inverse')
+          } else {
+            document.documentElement.classList.remove('fusion-theme-dark', 'ds-base--inverse')
+          }
+        } catch (e) {}
+      })()
+    </script>
+    <script>
+      // Prep page for screenshots / Figma capture: reveal scroll sections early.
+      ;(function () {
+        var q = location.search
+        var h = location.hash.toLowerCase()
+        var capture =
+          /[?&](screenshot|capture|figma-capture)(=|&|$)/.test(q) ||
+          h.indexOf('screenshot') !== -1 ||
+          h.indexOf('figmacapture') !== -1
+        if (!capture) return
         document.documentElement.classList.add('figma-capture')
+        function revealAll() {
+          document
+            .querySelectorAll('.fusion-reveal, .fusion-reveal-stagger, .fusion-section-reveal')
+            .forEach(function (el) {
+              el.setAttribute('data-revealed', 'true')
+            })
+        }
+        revealAll()
         window.addEventListener('load', function () {
-          document.querySelectorAll('.fusion-reveal, .fusion-reveal-stagger').forEach(function (el) {
-            el.setAttribute('data-revealed', 'true')
-          })
-          // Nudge layout after images load (ecosystem orbit + tiles).
+          revealAll()
           requestAnimationFrame(function () {
             window.dispatchEvent(new Event('resize'))
           })

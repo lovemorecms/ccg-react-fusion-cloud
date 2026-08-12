@@ -76,15 +76,15 @@ function ChevronLeft({ className }: { className?: string }) {
   return (
     <svg
       className={className}
-      width={9}
-      height={16}
-      viewBox="0 0 9 16"
+      width={20}
+      height={20}
+      viewBox="0 0 20 20"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       aria-hidden
     >
       <path
-        d="M8 15L1 8L8 1"
+        d="M12.25 5.5 7.75 10l4.5 4.5"
         stroke="currentColor"
         strokeWidth={2}
         strokeLinecap="round"
@@ -98,15 +98,15 @@ function ChevronRight({ className }: { className?: string }) {
   return (
     <svg
       className={className}
-      width={9}
-      height={16}
-      viewBox="0 0 9 16"
+      width={20}
+      height={20}
+      viewBox="0 0 20 20"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       aria-hidden
     >
       <path
-        d="M1 1L8 8L1 15"
+        d="M7.75 5.5 12.25 10l-4.5 4.5"
         stroke="currentColor"
         strokeWidth={2}
         strokeLinecap="round"
@@ -207,7 +207,7 @@ export function FusionHero() {
         ))}
       </div>
 
-      <div className="pointer-events-none relative z-10 mx-auto w-full max-w-[1904px] px-4 pb-24 pt-6 sm:px-8 sm:pb-24 sm:pt-7 md:px-12 md:pb-24 md:pt-8 lg:px-16 lg:pb-28">
+      <div className="pointer-events-none relative z-10 mx-auto w-full max-w-[var(--fusion-site-max-width)] px-[var(--fusion-site-padding-x)] pb-24 pt-6 sm:pb-24 sm:pt-7 md:px-[var(--fusion-site-padding-x-md)] md:pb-24 md:pt-8 lg:pb-28">
         <div className="grid grid-cols-12 gap-y-4 lg:gap-x-10">
           <div className="col-span-12 w-full sm:col-span-10 md:col-span-8 lg:col-span-6 xl:col-span-6">
             <div className="pointer-events-auto w-full max-w-[48rem]">
@@ -273,50 +273,55 @@ export function FusionHero() {
         >
           <button
             type="button"
-            className="fusion-hero__carousel-btn flex size-11 shrink-0 items-center justify-center rounded-full border-2 border-white/30 bg-white/10 text-white transition-[background-color,transform] duration-200 ease-out hover:bg-white/20 hover:scale-110 active:scale-95"
+            className="fusion-hero__carousel-btn fusion-hero__carousel-btn--prev flex size-11 shrink-0 items-center justify-center rounded-full border-2 border-white/30 bg-white/10 p-0 leading-none text-white transition-[background-color,transform] duration-200 ease-out hover:bg-white/20 hover:scale-110 active:scale-95"
             aria-label="Previous slide"
             onClick={goPrev}
           >
-            <ChevronLeft className="shrink-0" />
+            <ChevronLeft className="fusion-hero__carousel-chevron block shrink-0" />
           </button>
-          <div className="flex items-center justify-center gap-1.5 sm:gap-2" aria-label="Slides">
-            {HERO_SLIDES.map((_, i) => (
-              <button
-                key={i}
-                type="button"
-                aria-pressed={i === slideIndex}
-                aria-label={
-                  i === slideIndex
-                    ? `Slide ${i + 1} of ${n}, current`
-                    : `Go to slide ${i + 1} of ${n}`
-                }
-                onClick={() => setSlideIndex(i)}
-                className="fusion-hero__carousel-dot-btn flex min-h-6 min-w-6 items-center justify-center rounded-full p-1"
-              >
-                <span
-                  className={`fusion-hero__carousel-dot block transition-all duration-300 ease-out ${
-                    i === slideIndex
-                      ? 'h-2 min-w-8 rounded-full bg-[var(--color-accent-primary)] sm:h-2.5 sm:min-w-10'
-                      : 'size-2 shrink-0 rounded-full bg-white/30 hover:bg-white/50 sm:size-2.5'
-                  }`}
-                  aria-hidden
-                />
-              </button>
-            ))}
+          <div className="flex items-center justify-center gap-2" aria-label="Slides">
+            {HERO_SLIDES.map((_, i) => {
+              const isActive = i === slideIndex
+              return (
+                <button
+                  key={i}
+                  type="button"
+                  aria-pressed={isActive}
+                  aria-label={
+                    isActive
+                      ? `Slide ${i + 1} of ${n}, current`
+                      : `Go to slide ${i + 1} of ${n}`
+                  }
+                  onClick={() => setSlideIndex(i)}
+                  className="fusion-hero__carousel-dot-btn"
+                >
+                  <span
+                    className={
+                      isActive
+                        ? 'fusion-hero__carousel-dot fusion-hero__carousel-dot--active'
+                        : 'fusion-hero__carousel-dot'
+                    }
+                    aria-hidden
+                  >
+                    {isActive ? <span className="fusion-hero__carousel-dot-core" /> : null}
+                  </span>
+                </button>
+              )
+            })}
           </div>
           <button
             type="button"
-            className="fusion-hero__carousel-btn flex size-11 shrink-0 items-center justify-center rounded-full border-2 border-white/30 bg-white/10 text-white transition-[background-color,transform] duration-200 ease-out hover:bg-white/20 hover:scale-110 active:scale-95"
+            className="fusion-hero__carousel-btn fusion-hero__carousel-btn--next flex size-11 shrink-0 items-center justify-center rounded-full border-2 border-white/30 bg-white/10 p-0 leading-none text-white transition-[background-color,transform] duration-200 ease-out hover:bg-white/20 hover:scale-110 active:scale-95"
             aria-label="Next slide"
             onClick={goNext}
           >
-            <ChevronRight className="shrink-0" />
+            <ChevronRight className="fusion-hero__carousel-chevron block shrink-0" />
           </button>
         </div>
       </div>
 
       <div
-        className="pointer-events-none absolute inset-x-0 bottom-0 z-[5] h-16 bg-gradient-to-t from-[#f4f6f8] from-15% via-[#f4f6f8]/35 to-transparent to-100%"
+        className="fusion-hero__page-fade pointer-events-none absolute inset-x-0 bottom-0 z-[5] h-16 bg-gradient-to-t from-[#f4f6f8] from-15% via-[#f4f6f8]/35 to-transparent to-100%"
         aria-hidden
       />
     </section>
