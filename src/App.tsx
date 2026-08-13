@@ -3,7 +3,7 @@ import { FloatingAssistDock } from './components/FloatingAssistDock'
 import { ScrollToTop } from './components/ScrollToTop'
 import HomePage from './pages/HomePage'
 import HomeV2Page from './pages/HomeV2Page'
-import ExplorePage from './pages/ExplorePage'
+import Explore2Page from './pages/Explore2Page'
 import FusionToolkitLandingPage from './pages/FusionToolkitLandingPage'
 import PlatformRoutePage from './pages/PlatformRoutePage'
 import InitiativesPage from './pages/InitiativesPage'
@@ -23,7 +23,6 @@ import ProgramOverviewPage from './pages/ProgramOverviewPage'
 import AboutHybridCloudSectionPage from './pages/AboutHybridCloudSectionPage'
 import BenefitsPage from './pages/BenefitsPage'
 import TrainingEnablementPage from './pages/TrainingEnablementPage'
-import Explore2Page from './pages/Explore2Page'
 
 function App() {
   return (
@@ -35,8 +34,8 @@ function App() {
         <Route path="/home-v2" element={<HomeV2Page />} />
         <Route path="/learn/knowledge-center" element={<KnowledgeCenterPage />} />
         <Route path="/learn/knowledge-center/devops/maven-integration" element={<MavenIntegrationDevOpsPage />} />
-        <Route path="/explore" element={<ExplorePage />} />
-        <Route path="/explore-2" element={<Explore2Page />} />
+        <Route path="/explore" element={<Explore2Page />} />
+        <Route path="/explore-2" element={<Navigate to="/explore" replace />} />
         <Route path="/explore/platforms/:platformSlug" element={<PlatformRoutePage />} />
         <Route path="/explore/fusion-toolkit" element={<FusionToolkitLandingPage />} />
         <Route path="/explore/shared-services" element={<SharedServicesPage />} />

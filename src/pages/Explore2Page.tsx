@@ -6,7 +6,7 @@ import { SiteHeader } from '../components/SiteHeader'
 
 export default function Explore2Page() {
   useEffect(() => {
-    document.title = 'Approved Services Guide | FUSION Sphere'
+    document.title = 'Explore | FUSION Sphere'
     return () => {
       document.title = 'FUSION Sphere'
     }

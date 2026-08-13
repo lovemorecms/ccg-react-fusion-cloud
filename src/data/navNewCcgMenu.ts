@@ -1,7 +1,3 @@
-import { fusionToolkitNavLinks, fusionToolkitPath } from './fusionToolkitContent'
-import { sharedServicesPath, sharedServiceCategories } from './sharedServicesContent'
-import { platformNavLinks } from './platformPages'
-
 export type NavLink = { label: string; href: string }
 
 export type NavColumn = { title: string; links: NavLink[] }
@@ -117,42 +113,6 @@ export const navNewCcgMenuItems: NavMenuItem[] = sortMenuItems([
     id: 'explore',
     label: 'Explore',
     href: '/explore',
-    categories: [
-      {
-        id: 'platforms',
-        label: 'Platforms',
-        href: '/explore#platforms',
-        panel: {
-          type: 'list',
-          links: platformNavLinks,
-        },
-      },
-      {
-        id: 'fusion-toolkit',
-        label: 'Fusion Toolkit',
-        href: fusionToolkitPath,
-        panel: {
-          type: 'list',
-          links: fusionToolkitNavLinks,
-        },
-      },
-      {
-        id: 'shared-services',
-        label: 'Shared Services',
-        href: sharedServicesPath,
-        panel: {
-          type: 'list',
-          links: sharedServiceCategories.map((category) =>
-            link(category.label, `${sharedServicesPath}#${category.id}`),
-          ),
-        },
-      },
-    ],
-  },
-  {
-    id: 'explore-2',
-    label: 'Explore 2',
-    href: '/explore-2',
     categories: [],
   },
   {

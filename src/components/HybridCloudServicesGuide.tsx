@@ -1,14 +1,10 @@
 import { useState, useMemo, useRef, useEffect, type ReactNode } from 'react'
+import { Badge, type BadgeProps } from '@cmsgov/ds-cms-gov'
 import {
   SERVICES, CATEGORIES, CATEGORY_ICONS, MATRIX, COMPARISON,
   JOURNEY_PHASES, MATURITY_LABELS, PROVIDER_META,
   type Service, type Provider, type Category,
 } from '../data/hybridCloudServicesGuide'
-
-// ── Tiny helpers ─────────────────────────────────────────────────────────────
-
-const cx = (...classes: (string | false | undefined | null)[]) =>
-  classes.filter(Boolean).join(' ')
 
 type Tab = 'overview' | 'catalog' | 'comparison' | 'journey'
 
@@ -19,36 +15,35 @@ const TABS: { id: Tab; label: string; icon: string }[] = [
   { id: 'journey',    label: 'Customer Journey',   icon: '🗺️' },
 ]
 
-// ── Provider badge ────────────────────────────────────────────────────────────
-
-function ProviderBadge({ provider, size = 'sm' }: { provider: Provider; size?: 'xs' | 'sm' | 'md' }) {
-  const m = PROVIDER_META[provider]
-  const pad = size === 'xs' ? 'px-1.5 py-0.5 text-[10px]' : size === 'sm' ? 'px-2 py-0.5 text-xs' : 'px-3 py-1 text-sm'
-  return (
-    <span
-      className={cx('rounded font-semibold tracking-wide inline-flex items-center gap-1', pad)}
-      style={{ color: m.color, background: m.bg, border: `1px solid ${m.color}22` }}
-    >
-      {provider.toUpperCase()}
-    </span>
-  )
+function providerBadgeProps(provider: Provider): Pick<BadgeProps, 'variation' | 'className'> {
+  if (provider === 'aws') return { className: 'explore-badge--aws' }
+  if (provider === 'azure') return { variation: 'info' }
+  if (provider === 'gcp') return { variation: 'success' }
+  return { variation: 'warn' }
 }
 
-// ── Maturity badge ────────────────────────────────────────────────────────────
+function ProviderBadge({ provider, size = 'sm' }: { provider: Provider; size?: 'xs' | 'sm' | 'md' }) {
+  return (
+    <Badge
+      {...providerBadgeProps(provider)}
+      size={size === 'md' ? 'big' : undefined}
+      hideScreenReaderText
+    >
+      {provider.toUpperCase()}
+    </Badge>
+  )
+}
 
 function MaturityBadge({ level }: { level: 1 | 2 | 3 | 4 | 5 }) {
   const m = MATURITY_LABELS[level]
+  const variation: BadgeProps['variation'] =
+    level === 1 ? 'alert' : level <= 3 ? 'warn' : level === 4 ? 'success' : 'info'
   return (
-    <span
-      className="text-[10px] font-semibold px-1.5 py-0.5 rounded"
-      style={{ color: m.color, background: `${m.color}18`, border: `1px solid ${m.color}33` }}
-    >
+    <Badge variation={variation}>
       L{level} · {m.label}
-    </span>
+    </Badge>
   )
 }
-
-// ── Fusion alignment row ──────────────────────────────────────────────────────
 
 const ACCENT = '#dfb01c'
 const ACCENT_SOFT = 'color-mix(in srgb, var(--fusion-yellow) 12%, transparent)'
@@ -58,21 +53,8 @@ const FUSION_COLORS: Record<string, string> = {
   Lens: '#dfb01c', CCG: '#dfb01c',
 }
 
-function textOnFill(hex: string) {
-  const light = new Set(['#dfb01c', '#6eb6ff', '#b6bde0', '#e7e9f5', '#b3a006', '#8eb4ff'])
-  return light.has(hex.toLowerCase()) ? '#040b2e' : '#ffffff'
-}
-
 function FusionTag({ tool }: { tool: string }) {
-  const color = FUSION_COLORS[tool] ?? '#b6bde0'
-  return (
-    <span
-      className="text-xs font-semibold px-2 py-0.5 rounded"
-      style={{ color, background: `${color}18`, border: `1px solid ${color}33` }}
-    >
-      {tool}
-    </span>
-  )
+  return <Badge hideScreenReaderText>{tool}</Badge>
 }
 
 // ── Service card ──────────────────────────────────────────────────────────────
@@ -110,9 +92,7 @@ function ServiceCard({ svc, onClick }: { svc: Service; onClick: () => void }) {
             {svc.definition}
           </p>
           <div className="flex items-center gap-2 mt-2 flex-wrap">
-            <span className="text-[10px] px-1.5 py-0.5 rounded" style={{ color: 'var(--color-text-muted)', background: 'rgba(255,255,255,0.05)' }}>
-              {svc.category}
-            </span>
+            <Badge hideScreenReaderText>{svc.category}</Badge>
             <MaturityBadge level={svc.maturityLevel} />
           </div>
         </div>
@@ -287,18 +267,14 @@ function ServicePanel({ svc, onClose }: { svc: Service; onClose: () => void }) {
             <div className="flex flex-wrap gap-2">
               {journeyOrder.map(phase => {
                 const active = svc.journeyPhases.includes(phase)
-                const ph = JOURNEY_PHASES.find(p => p.phase === phase)!
                 return (
-                  <span
+                  <Badge
                     key={phase}
-                    className="text-xs px-3 py-1.5 rounded-full font-medium"
-                    style={active
-                      ? { color: ph.color, background: `${ph.color}18`, border: `1px solid ${ph.color}44` }
-                      : { color: 'var(--color-text-dim)', background: 'rgba(255,255,255,0.02)', border: '1px solid var(--color-border)' }
-                    }
+                    variation={active ? 'info' : undefined}
+                    hideScreenReaderText
                   >
                     {phase}
-                  </span>
+                  </Badge>
                 )
               })}
             </div>
@@ -307,9 +283,7 @@ function ServicePanel({ svc, onClose }: { svc: Service; onClose: () => void }) {
           <Section title="Target Personas">
             <div className="flex flex-wrap gap-2">
               {svc.personas.map(p => (
-                <span key={p} className="text-xs px-2.5 py-1 rounded-full" style={{ color: 'var(--color-text)', background: 'rgba(255,255,255,0.05)', border: '1px solid var(--color-border)' }}>
-                  {p}
-                </span>
+                <Badge key={p} hideScreenReaderText>{p}</Badge>
               ))}
             </div>
           </Section>
@@ -362,37 +336,39 @@ function OverviewPage({ onSelectCategory }: { onSelectCategory: (cat: Category) 
   return (
     <div className="fade-in">
       {/* Hero */}
-      <div className="rounded-2xl p-8 mb-8 relative overflow-hidden" style={{ background: 'linear-gradient(135deg, var(--fusion-deep-sea-700) 0%, var(--fusion-deep-sea-800) 55%, var(--fusion-deep-sea-1000) 100%)', border: '1px solid var(--color-border-bright)' }}>
+      <div
+        className="explore-hero rounded-2xl mb-8 relative overflow-hidden"
+        style={{
+          background: 'linear-gradient(135deg, var(--fusion-deep-sea-700) 0%, var(--fusion-deep-sea-800) 55%, var(--fusion-deep-sea-1000) 100%)',
+          border: '1px solid var(--color-border-bright)',
+        }}
+      >
         <div className="absolute inset-0 opacity-30" style={{ background: 'radial-gradient(ellipse at 20% 50%, color-mix(in srgb, var(--fusion-deep-sea-500) 45%, transparent) 0%, transparent 60%), radial-gradient(ellipse at 80% 30%, color-mix(in srgb, var(--fusion-yellow) 22%, transparent) 0%, transparent 50%)' }} />
-        <div className="relative z-10">
-          <div className="flex items-center gap-3 mb-3">
-            <div className="px-2.5 py-1 rounded text-xs font-semibold tracking-widest" style={{ background: ACCENT_SOFT, color: ACCENT, border: '1px solid color-mix(in srgb, var(--fusion-yellow) 35%, transparent)', fontFamily: 'var(--font-body)' }}>
-              CMS CLOUD FUSION · CCG
-            </div>
-            <div className="px-2.5 py-1 rounded text-xs font-medium" style={{ background: 'rgba(255,255,255,0.06)', color: 'var(--color-text-muted)' }}>
-              Approved Services Catalog
-            </div>
-          </div>
-          <h1 className="font-black text-3xl md:text-4xl mb-3 leading-tight" style={{ color: 'var(--color-text)', fontFamily: 'var(--font-display)' }}>
+        <div className="explore-hero__content relative z-10">
+          <h1 className="font-black text-3xl md:text-4xl leading-tight" style={{ color: 'var(--color-text)', fontFamily: 'var(--font-display)', margin: '0 0 0.75rem' }}>
             CMS Cloud Fusion<br />
             <span style={{ color: 'var(--fusion-yellow)' }}>Approved Services</span> Guide
           </h1>
-          <p className="text-base max-w-2xl leading-relaxed mb-6" style={{ color: 'var(--color-text-muted)' }}>
+          <p className="text-base max-w-2xl leading-relaxed" style={{ color: 'var(--color-text-muted)', margin: '0 0 1.25rem' }}>
             The authoritative reference for all approved cloud services across AWS, Microsoft Azure, Google Cloud Platform, and Fusion Enterprise Shared Services tools. Built for Hosting Coordinators, Technical Advisors, and Application Development Organizations.
           </p>
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-wrap gap-2">
             {providers.map(p => {
-              const m = PROVIDER_META[p]
               const count = SERVICES.filter(s => s.provider === p).length
               return (
-                <div key={p} className="flex items-center gap-2 px-3 py-2 rounded-xl" style={{ background: m.bg, border: `1px solid ${m.color}33` }}>
-                  <span className="text-sm font-bold" style={{ color: m.color, fontFamily: 'var(--font-body)' }}>{p.toUpperCase()}</span>
-                  <span className="text-xs" style={{ color: 'var(--color-text-muted)' }}>{count} services</span>
-                </div>
+                <Badge key={p} size="big" hideScreenReaderText {...providerBadgeProps(p)}>
+                  {p.toUpperCase()} · {count} services
+                </Badge>
               )
             })}
           </div>
         </div>
+        <img
+          src={`${import.meta.env.BASE_URL}images/explore/cms-cloud-fusion-ecosystem.png`}
+          alt="CMS Cloud Fusion ecosystem: cost intelligence, multi-cloud innovation, governance and compliance, enterprise collaboration, and command center."
+          className="explore-hero__art"
+          decoding="async"
+        />
       </div>
 
       {/* Fusion Ecosystem */}
@@ -418,6 +394,29 @@ function OverviewPage({ onSelectCategory }: { onSelectCategory: (cat: Category) 
               </div>
             )
           })}
+        </div>
+
+        <h3
+          className="text-lg font-bold"
+          style={{ color: 'var(--color-text)', fontFamily: 'var(--font-display)', margin: '1.75rem 0 1rem' }}
+        >
+          Platforms
+        </h3>
+        <div className="grid gap-3" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))' }}>
+          <div
+            className="rounded-xl p-4"
+            style={{ background: 'var(--color-card)', border: `1px solid ${PROVIDER_META.gcp.color}22` }}
+          >
+            <div className="flex items-center gap-2 mb-2 flex-wrap">
+              <span className="font-semibold text-sm" style={{ color: 'var(--color-text)', fontFamily: 'var(--font-display)' }}>
+                Google Cloud Platform
+              </span>
+              <ProviderBadge provider="gcp" size="xs" />
+            </div>
+            <p className="text-xs leading-relaxed" style={{ color: 'var(--color-text-muted)', margin: 0 }}>
+              Google Cloud services for scalable infrastructure, modernization, data, AI, and resiliency.
+            </p>
+          </div>
         </div>
       </div>
 
@@ -530,23 +529,24 @@ function CatalogPage({
   return (
     <div className="fade-in">
       {/* Search + filters */}
-      <div className="mb-6 space-y-3">
+      <div>
         <input
-          type="text"
+          type="search"
           placeholder="Search services, capabilities, use cases…"
           value={search}
           onChange={e => setSearch(e.target.value)}
-          className="w-full rounded-xl px-4 py-3 text-sm outline-none transition-all"
+          className="w-full rounded-xl px-5 py-4 text-sm leading-normal outline-none transition-all"
           style={{
             background: 'var(--color-card)',
             border: '1px solid var(--color-border-bright)',
             color: 'var(--color-text)',
             fontFamily: 'var(--font-body)',
+            marginBottom: '1.5rem',
           }}
           onFocus={e => { (e.target as HTMLInputElement).style.borderColor = 'color-mix(in srgb, var(--fusion-yellow) 55%, transparent)' }}
           onBlur={e => { (e.target as HTMLInputElement).style.borderColor = 'var(--color-border-bright)' }}
         />
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-3" style={{ marginBottom: '1.75rem' }}>
           {/* Provider filter */}
           {providers.map(p => {
             const m = p !== 'all' ? PROVIDER_META[p] : null
@@ -554,8 +554,9 @@ function CatalogPage({
             return (
               <button
                 key={p}
+                type="button"
                 onClick={() => setProvFilter(p)}
-                className="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all"
+                className="px-4 py-2.5 rounded-lg text-xs font-semibold leading-none transition-all"
                 style={{
                   background: active ? (m?.bg ?? ACCENT_SOFT) : 'rgba(255,255,255,0.04)',
                   color: active ? (m?.color ?? ACCENT) : 'var(--color-text-muted)',
@@ -566,12 +567,12 @@ function CatalogPage({
               </button>
             )
           })}
-          <div className="w-px" style={{ background: 'var(--color-border)', margin: '0 4px' }} />
+          <div className="hidden h-8 w-px self-center sm:block" style={{ background: 'var(--color-border)', margin: '0 0.25rem' }} />
           {/* Category filter */}
           <select
             value={catFilter}
             onChange={e => setCatFilter(e.target.value as Category | 'all')}
-            className="px-3 py-1.5 rounded-lg text-xs font-semibold cursor-pointer outline-none"
+            className="px-4 py-2.5 rounded-lg text-xs font-semibold leading-none cursor-pointer outline-none"
             style={{
               background: catFilter !== 'all' ? ACCENT_SOFT : 'rgba(255,255,255,0.04)',
               color: catFilter !== 'all' ? ACCENT : 'var(--color-text-muted)',
@@ -586,7 +587,7 @@ function CatalogPage({
           <select
             value={matFilter}
             onChange={e => setMatFilter(Number(e.target.value))}
-            className="px-3 py-1.5 rounded-lg text-xs font-semibold cursor-pointer outline-none"
+            className="px-4 py-2.5 rounded-lg text-xs font-semibold leading-none cursor-pointer outline-none"
             style={{
               background: matFilter > 0 ? ACCENT_SOFT : 'rgba(255,255,255,0.04)',
               color: matFilter > 0 ? ACCENT : 'var(--color-text-muted)',
@@ -602,7 +603,14 @@ function CatalogPage({
         </div>
       </div>
 
-      <p className="text-xs mb-4" style={{ color: 'var(--color-text-muted)', fontFamily: 'var(--font-body)' }}>
+      <p
+        className="text-xs"
+        style={{
+          color: 'var(--color-text-muted)',
+          fontFamily: 'var(--font-body)',
+          margin: '0 0 1rem',
+        }}
+      >
         {results.length} service{results.length !== 1 ? 's' : ''} · click any card for full profile
       </p>
 
@@ -704,27 +712,20 @@ function ComparisonPage({ onSelectService }: { onSelectService: (svc: Service) =
                   </td>
                   {(['aws', 'azure', 'gcp'] as Provider[]).map(p => {
                     const svcName = row[p as 'aws' | 'azure' | 'gcp']
-                    const m = PROVIDER_META[p]
                     const svcObj = findSvc(svcName)
                     return (
                       <td key={p} className="px-5 py-4">
                         {svcObj ? (
                           <button
+                            type="button"
                             onClick={() => onSelectService(svcObj)}
-                            className="flex items-center gap-2 group"
+                            className="explore-compare-link"
                           >
-                            <span className="text-base">{svcObj.icon}</span>
-                            <span
-                              className="text-sm font-medium underline-offset-2 group-hover:underline"
-                              style={{ color: m.color }}
-                            >
-                              {svcName}
-                            </span>
+                            <span className="text-base" aria-hidden="true">{svcObj.icon}</span>
+                            <span className="explore-compare-link__name">{svcName}</span>
                           </button>
                         ) : (
-                          <span className="text-sm font-medium" style={{ color: m.color }}>
-                            {svcName}
-                          </span>
+                          <span className="explore-compare-name">{svcName}</span>
                         )}
                       </td>
                     )
@@ -782,32 +783,33 @@ function JourneyPage({ onSelectService }: { onSelectService: (svc: Service) => v
       </div>
 
       {/* Phase timeline */}
-      <div className="relative mb-8">
-        {/* Connector line */}
-        <div className="absolute top-6 left-0 right-0 h-px" style={{ background: 'var(--color-border)' }} />
-        <div className="grid gap-2 relative" style={{ gridTemplateColumns: `repeat(${JOURNEY_PHASES.length}, 1fr)` }}>
+      <div className="explore-journey relative mb-8">
+        <div className="explore-journey__line" aria-hidden="true" />
+        <div className="explore-journey__steps">
           {JOURNEY_PHASES.map((p, i) => {
             const active = p.phase === activePhase
             return (
               <button
                 key={p.phase}
+                type="button"
+                className="explore-journey__step"
+                aria-pressed={active}
                 onClick={() => setActivePhase(p.phase)}
-                className="flex flex-col items-center gap-2 pt-1 pb-3 transition-all"
               >
-                <div
-                  className="w-12 h-12 rounded-full flex items-center justify-center text-lg font-bold relative z-10 transition-all"
+                <span
+                  className="explore-journey__num"
                   style={{
-                    background: active ? p.color : 'var(--color-card)',
-                    border: `2px solid ${active ? p.color : 'var(--color-border)'}`,
-                    color: active ? textOnFill(p.color) : 'var(--color-text-muted)',
-                    boxShadow: active ? `0 0 20px ${p.color}44` : 'none',
+                    background: active ? 'var(--fusion-yellow)' : 'var(--color-card)',
+                    borderColor: active ? 'var(--fusion-yellow)' : 'var(--color-border)',
+                    color: active ? '#040b2e' : 'var(--color-text-muted)',
+                    boxShadow: active ? '0 0 20px color-mix(in srgb, var(--fusion-yellow) 45%, transparent)' : 'none',
                   }}
                 >
                   {i + 1}
-                </div>
+                </span>
                 <span
-                  className="text-xs font-semibold text-center"
-                  style={{ color: active ? p.color : 'var(--color-text-muted)', fontFamily: 'var(--font-display)' }}
+                  className="explore-journey__label"
+                  style={{ color: active ? 'var(--fusion-yellow)' : 'var(--color-text-muted)' }}
                 >
                   {p.phase}
                 </span>

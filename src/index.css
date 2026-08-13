@@ -9,7 +9,8 @@
 @source './**/*.{js,ts,jsx,tsx}';
 
 :root {
-  --font-lexend: 'Lexend', var(--font-family-heading, system-ui), sans-serif;
+  /* CMS.gov child DS: Lexend headings, Public Sans body (`--font-family-heading` / `--font-family-body`) */
+  --font-lexend: var(--font-family-heading);
   /* Match FusionSiteNav: max-w-[100rem] px-6 md:px-12 */
   --fusion-site-max-width: 100rem;
   --fusion-site-padding-x: 1.5rem;
@@ -1102,9 +1103,23 @@ html[data-theme='dark'] .fusion-site-nav__search-btn {
 
 html[data-theme='dark'] .fusion-mega-trigger:hover,
 html[data-theme='dark'] .fusion-mega-trigger:focus-visible,
-html[data-theme='dark'] .fusion-site-nav a.fusion-nav-v2__top-link:hover,
-html[data-theme='dark'] .fusion-site-nav a.fusion-nav-v2__top-link:focus-visible {
+html[data-theme='dark'] .fusion-site-nav a.fusion-nav-v2__top-link:hover {
   color: var(--color-white);
+}
+
+html[data-theme='dark'] .fusion-site-nav a.fusion-mega-trigger:focus,
+html[data-theme='dark'] .fusion-site-nav a.fusion-mega-trigger:focus:visited,
+html[data-theme='dark'] .fusion-site-nav a.fusion-mega-trigger:focus-visible,
+html[data-theme='dark'] .fusion-site-nav a.fusion-mega-trigger:active,
+html[data-theme='dark'] .fusion-site-nav a.fusion-nav-v2__top-link:focus,
+html[data-theme='dark'] .fusion-site-nav a.fusion-nav-v2__top-link:focus:visited,
+html[data-theme='dark'] .fusion-site-nav a.fusion-nav-v2__top-link:focus-visible,
+html[data-theme='dark'] .fusion-site-nav a.fusion-nav-v2__top-link:active {
+  color: var(--color-white) !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  outline: none !important;
+  box-shadow: none !important;
 }
 
 html[data-theme='dark'] .fusion-site-nav__menu-btn {
@@ -1393,11 +1408,11 @@ html[data-theme='dark'] .fusion-site-nav__mobile-drawer {
 
 /* Nav: inherit CMS Design System font family for all nav text */
 .fusion-site-nav {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
 }
 
 .fusion-site-nav button.fusion-mega-trigger {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-weight: 600;
   cursor: pointer;
   border-radius: 0.5rem 0.5rem 0 0;
@@ -1406,7 +1421,7 @@ html[data-theme='dark'] .fusion-site-nav__mobile-drawer {
 
 .fusion-site-nav a.fusion-nav-v2__top-link,
 .fusion-site-nav a.fusion-nav-v2__top-link:visited {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-weight: 600;
   cursor: pointer;
   border-radius: 0.5rem;
@@ -1415,15 +1430,32 @@ html[data-theme='dark'] .fusion-site-nav__mobile-drawer {
   color: var(--fusion-blue, var(--color-primary));
 }
 
-.fusion-site-nav a.fusion-nav-v2__top-link:hover,
-.fusion-site-nav a.fusion-nav-v2__top-link:focus-visible {
+.fusion-site-nav a.fusion-nav-v2__top-link:hover {
   text-decoration: none;
   color: var(--color-primary-darkest);
 }
 
-.fusion-site-nav a.fusion-nav-v2__top-link:focus-visible {
-  outline: 2px solid var(--color-primary);
-  outline-offset: 2px;
+/* CMS DS paints `a:focus` with --color-focus-light (#fff). Kill that pill on top-level links. */
+.fusion-site-nav a.fusion-nav-v2__top-link:focus,
+.fusion-site-nav a.fusion-nav-v2__top-link:focus:visited,
+.fusion-site-nav a.fusion-nav-v2__top-link:focus:not(.ds-c-button),
+.fusion-site-nav a.fusion-nav-v2__top-link:active,
+.fusion-site-nav a.fusion-mega-trigger:focus,
+.fusion-site-nav a.fusion-mega-trigger:focus:visited,
+.fusion-site-nav a.fusion-mega-trigger:focus:not(.ds-c-button),
+.fusion-site-nav a.fusion-mega-trigger:active {
+  background: transparent !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+  outline: none !important;
+  color: var(--fusion-blue, var(--color-primary)) !important;
+  text-decoration: none !important;
+}
+
+.fusion-site-nav a.fusion-nav-v2__top-link:focus-visible,
+.fusion-site-nav a.fusion-mega-trigger:focus-visible {
+  outline: none !important;
+  background: transparent !important;
 }
 
 .fusion-site-nav button.fusion-mega-trigger:focus-visible {
@@ -1598,7 +1630,7 @@ html[data-theme='dark'] .fusion-site-nav__mobile-drawer {
   display: inline-flex;
   align-items: center;
   padding: 0.4375rem 1rem;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 0.9375rem;
   font-weight: 600;
   line-height: 1;
@@ -1668,7 +1700,7 @@ html[data-theme='dark'] .fusion-site-nav__mobile-drawer {
 
 .fusion-legacy-modal__title {
   margin: 0 0 0.75rem;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 1.375rem;
   font-weight: 700;
   line-height: 1.25;
@@ -1742,7 +1774,7 @@ html[data-theme='dark'] .fusion-site-nav__mobile-drawer {
 
 /* Mega menu featured card */
 h2.fusion-mega-featured__title {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 1.5rem;
   font-weight: 700;
   line-height: 1.2;
@@ -1826,7 +1858,7 @@ h2.fusion-mega-featured__title {
   padding: 14px var(--fusion-site-padding-x);
   cursor: pointer;
   list-style: none;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 1rem;
   font-weight: 600;
   line-height: 1.3;
@@ -1869,7 +1901,7 @@ a.fusion-nav-v2__mobile-top-link.fusion-site-nav__mobile-summary::after {
 
 .fusion-site-nav__mobile-featured-title {
   margin: 0 0 8px;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 1.125rem;
   font-weight: 700;
   line-height: 1.25;
@@ -1878,7 +1910,7 @@ a.fusion-nav-v2__mobile-top-link.fusion-site-nav__mobile-summary::after {
 
 .fusion-site-nav__mobile-featured-desc {
   margin: 0 0 12px;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 0.875rem;
   line-height: 1.5;
   color: var(--color-gray-dark);
@@ -1895,7 +1927,7 @@ a.fusion-nav-v2__mobile-top-link.fusion-site-nav__mobile-summary::after {
 
 .fusion-site-nav__mobile-col-title {
   margin: 0 0 8px;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 0.6875rem;
   font-weight: 700;
   letter-spacing: 0.12em;
@@ -1917,7 +1949,7 @@ a.fusion-nav-v2__mobile-top-link.fusion-site-nav__mobile-summary::after {
   display: block;
   padding: 10px 12px;
   border-radius: 8px;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 0.9375rem;
   font-weight: 600;
   color: var(--fusion-blue-deep);
@@ -2194,7 +2226,7 @@ html[data-theme='dark'] .fusion-site-nav__logo-img--dark {
  * Tailwind utilities in `@layer`. Scoped rules here restore the intended hierarchy.
  */
 .fusion-quick-access h2.fusion-quick-access__heading {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: var(--fusion-type-section-heading);
   font-weight: 600;
   line-height: 1.08;
@@ -2204,7 +2236,7 @@ html[data-theme='dark'] .fusion-site-nav__logo-img--dark {
 }
 
 .fusion-quick-access p.fusion-quick-access__support {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: var(--fusion-type-lede);
   font-weight: 400;
   line-height: 1.5;
@@ -2221,7 +2253,7 @@ html[data-theme='dark'] .fusion-site-nav__logo-img--dark {
 
 /* Featured Resources — primary blue tiles on primary-mist band (CMS tokens) */
 .fusion-featured-resources h2.fusion-featured-resources__heading {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: var(--fusion-type-section-heading);
   font-weight: 600;
   line-height: 1.08;
@@ -2231,7 +2263,7 @@ html[data-theme='dark'] .fusion-site-nav__logo-img--dark {
 }
 
 .fusion-featured-resources p.fusion-featured-resources__support {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: var(--fusion-type-lede);
   font-weight: 400;
   line-height: 1.5;
@@ -2400,7 +2432,7 @@ html[data-theme='dark'] .fusion-site-nav__logo-img--dark {
 }
 
 .fusion-featured-resources .fusion-featured-resources__card-title {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 1rem;
   font-weight: 700;
   line-height: 1.3;
@@ -2416,7 +2448,7 @@ html[data-theme='dark'] .fusion-site-nav__logo-img--dark {
 
 .fusion-featured-resources a.fusion-featured-resources__card-link,
 .fusion-featured-resources a.fusion-featured-resources__card-link:visited {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.45;
@@ -2514,7 +2546,7 @@ html[data-theme='dark'] .fusion-site-nav__logo-img--dark {
 }
 
 .fusion-academy .fusion-academy__eyebrow {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 0.6875rem;
   font-weight: 700;
   letter-spacing: 0.14em;
@@ -2532,7 +2564,7 @@ html[data-theme='dark'] .fusion-site-nav__logo-img--dark {
 }
 
 .fusion-academy h2.fusion-academy__heading {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: clamp(1.875rem, 2.2vw + 1rem, 2.625rem);
   font-weight: 700;
   line-height: 1.08;
@@ -2556,7 +2588,7 @@ html[data-theme='dark'] .fusion-site-nav__logo-img--dark {
 }
 
 .fusion-academy .fusion-academy__lede {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: clamp(1rem, 0.35vw + 0.88rem, 1.1875rem);
   font-weight: 700;
   line-height: 1.45;
@@ -2572,7 +2604,7 @@ html[data-theme='dark'] .fusion-site-nav__logo-img--dark {
 }
 
 .fusion-academy .fusion-academy__body {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: clamp(0.9375rem, 0.15vw + 0.88rem, 1.125rem);
   font-weight: 400;
   line-height: 1.62;
@@ -2719,7 +2751,7 @@ html[data-theme='dark'] .fusion-site-nav__logo-img--dark {
 }
 
 .fusion-academy .fusion-academy-offerings__title {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 1rem;
   font-weight: 700;
   line-height: 1.3;
@@ -2753,7 +2785,7 @@ html[data-theme='dark'] .fusion-site-nav__logo-img--dark {
   position: relative;
   padding-left: 1rem;
   margin-top: 0.45rem;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.45;
@@ -2784,7 +2816,7 @@ html[data-theme='dark'] .fusion-site-nav__logo-img--dark {
 
 .fusion-academy a.fusion-academy-offerings__cta,
 .fusion-academy a.fusion-academy-offerings__cta:visited {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 0.9375rem;
   font-weight: 700;
   line-height: 1.35;
@@ -2887,7 +2919,7 @@ html[data-theme='dark'] .fusion-site-nav__logo-img--dark {
 }
 
 .fusion-pathways-help p.fusion-pathways-help__lede {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: var(--fusion-type-lede);
   font-weight: 400;
   line-height: 1.5;
@@ -2986,7 +3018,7 @@ html[data-theme='dark'] .fusion-site-nav__logo-img--dark {
 .fusion-pathways-help__pill-label {
   flex: 1;
   min-width: 0;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-weight: 600;
   font-size: clamp(0.9375rem, 0.2vw + 0.88rem, 1.125rem);
   line-height: 1.35;
@@ -3048,7 +3080,7 @@ html[data-theme='dark'] .fusion-site-nav__logo-img--dark {
 
 /* Multi-Cloud Services: section title uses global token; body uses compact on-dark scale */
 .fusion-multi-cloud h2.fusion-multi-cloud__heading {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: var(--fusion-type-section-heading);
   font-weight: 600;
   line-height: 1.08;
@@ -3062,7 +3094,7 @@ html[data-theme='dark'] .fusion-site-nav__logo-img--dark {
 }
 
 .fusion-multi-cloud .fusion-multi-cloud__prose p {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   /* Narrow column + long copy: cap below global lede for comfortable reading */
   font-size: clamp(0.8125rem, 0.15vw + 0.76rem, 0.9375rem);
   font-weight: 400;
@@ -3098,7 +3130,7 @@ html[data-theme='dark'] .fusion-site-nav__logo-img--dark {
 }
 
 .fusion-ecosphere h2.fusion-ecosphere__heading {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: clamp(2rem, 2.2vw + 1rem, 3.75rem);
   font-weight: 600;
   line-height: 1.06;
@@ -3117,7 +3149,7 @@ html[data-theme='dark'] .fusion-site-nav__logo-img--dark {
 }
 
 .fusion-ecosphere .fusion-ecosphere__lede {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: clamp(1.125rem, 0.35vw + 0.95rem, 1.5rem);
   font-weight: 600;
   line-height: 1.35;
@@ -3290,7 +3322,7 @@ html[data-theme='dark'] .fusion-site-nav__logo-img--dark {
 }
 
 .fusion-ecosphere .fusion-ecosphere__card-title {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: clamp(1.125rem, 0.2vw + 1rem, 1.5rem);
   font-weight: 700;
   line-height: 1.28;
@@ -3298,7 +3330,7 @@ html[data-theme='dark'] .fusion-site-nav__logo-img--dark {
 }
 
 .fusion-ecosphere .fusion-ecosphere__card-body {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: clamp(0.875rem, 0.12vw + 0.82rem, 1rem);
   font-weight: 400;
   line-height: 1.48;
@@ -3446,7 +3478,7 @@ ol.kc-breadcrumb-list {
   list-style: none;
   margin: 0;
   padding: 0;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 14px;
 }
 
@@ -3491,7 +3523,7 @@ ol.kc-breadcrumb-list li {
 }
 
 h1.kc-hero__heading {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: clamp(1.75rem, 2.5vw + 0.5rem, 2.5rem);
   font-weight: 700;
   color: #ffffff;
@@ -3501,7 +3533,7 @@ h1.kc-hero__heading {
 }
 
 .kc-hero__description {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 20px;
   font-weight: 400;
   color: rgba(255, 255, 255, 0.9);
@@ -3548,7 +3580,7 @@ h1.kc-hero__heading {
   padding: 0 110px 0 44px;
   border: 0;
   border-radius: 10px;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 15px;
   color: #0f172a;
   background: transparent;
@@ -3570,7 +3602,7 @@ h1.kc-hero__heading {
   border-radius: 4px;
   background: var(--color-accent-primary);
   color: var(--fusion-blue-deep);
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 14px;
   font-weight: 700;
   cursor: pointer;
@@ -3608,7 +3640,7 @@ h1.kc-hero__heading {
 }
 
 .kc-hero__stat-number {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 36px;
   font-weight: 700;
   color: #ffffff;
@@ -3616,7 +3648,7 @@ h1.kc-hero__heading {
 }
 
 .kc-hero__stat-label {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 14px;
   font-weight: 400;
   color: rgba(255, 255, 255, 0.7);
@@ -3641,7 +3673,7 @@ h1.kc-hero__heading {
   padding: 4px 16px;
   border-radius: 9999px;
   background: #f4f6f8;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 14px;
   font-weight: 500;
   color: var(--fusion-blue-deep);
@@ -3669,7 +3701,7 @@ h1.kc-hero__heading {
 
 /* Section Headings */
 h2.kc-section-heading {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: clamp(1.375rem, 1.5vw + 0.5rem, 1.75rem);
   font-weight: 700;
   line-height: 1.25;
@@ -3679,7 +3711,7 @@ h2.kc-section-heading {
 }
 
 .kc-section-subtitle {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 16px;
   font-weight: 400;
   color: #4a5565;
@@ -3718,7 +3750,7 @@ h2.kc-section-heading {
 }
 
 h3.kc-overview-card__title {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 18px;
   font-weight: 700;
   color: #0a0a0a;
@@ -3726,7 +3758,7 @@ h3.kc-overview-card__title {
 }
 
 .kc-overview-card__body {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 16px;
   font-weight: 400;
   line-height: 24px;
@@ -3759,7 +3791,7 @@ h3.kc-overview-card__title {
 }
 
 h3.kc-essentials-card__title {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 18px;
   font-weight: 700;
   color: #0a0a0a;
@@ -3767,7 +3799,7 @@ h3.kc-essentials-card__title {
 }
 
 .kc-essentials-card__body {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 16px;
   font-weight: 400;
   line-height: 24px;
@@ -3782,7 +3814,7 @@ h3.kc-essentials-card__title {
   align-items: center;
   gap: 6px;
   margin-top: 16px;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 16px;
   font-weight: 500;
   color: var(--fusion-blue-deep);
@@ -3861,7 +3893,7 @@ h3.kc-essentials-card__title {
 }
 
 .kc-category-link__text {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 16px;
   font-weight: 400;
   color: #101828;
@@ -3877,7 +3909,7 @@ h3.kc-essentials-card__title {
   min-height: 2.25rem;
   padding: 4px 8px;
   border-radius: 8px;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 13px;
   font-weight: 600;
   line-height: 1.2;
@@ -3945,7 +3977,7 @@ button.kc-category-link.kc-category-link--active .kc-category-link__count {
 
 .kc-category-panel__heading {
   margin: 0;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: clamp(1.125rem, 0.45vw + 0.95rem, 1.375rem);
   font-weight: 700;
   line-height: 1.3;
@@ -3991,7 +4023,7 @@ button.kc-category-link.kc-category-link--active .kc-category-link__count {
   text-decoration: none;
   color: var(--fusion-blue-deep);
   background: transparent;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 15px;
   font-weight: 400;
   line-height: 1.45;
@@ -4023,7 +4055,7 @@ button.kc-category-link.kc-category-link--active .kc-category-link__count {
 
 .kc-category-panel__placeholder {
   margin: clamp(0.75rem, 1.5vw, 1rem) 0 0;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 16px;
   line-height: 1.5;
   color: #4b5563;
@@ -4048,7 +4080,7 @@ button.kc-category-link.kc-category-link--active .kc-category-link__count {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 16px;
   font-weight: 500;
   color: var(--fusion-blue-deep);
@@ -4126,14 +4158,14 @@ button.kc-category-link.kc-category-link--active .kc-category-link__count {
 }
 
 .kc-topic-card__title {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 16px;
   font-weight: 600;
   color: #0a0a0a;
 }
 
 .kc-topic-card__tag {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 14px;
   font-weight: 400;
   color: #6a7282;
@@ -4182,7 +4214,7 @@ button.kc-category-link.kc-category-link--active .kc-category-link__count {
 }
 
 h2.kc-getting-started__heading {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: clamp(1.375rem, 1.5vw + 0.5rem, 1.75rem);
   font-weight: 700;
   color: #ffffff;
@@ -4218,7 +4250,7 @@ h2.kc-getting-started__heading {
 }
 
 h3.kc-glass-card__title {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 18px;
   font-weight: 700;
   color: #ffffff;
@@ -4226,7 +4258,7 @@ h3.kc-glass-card__title {
 }
 
 .kc-glass-card__body {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 16px;
   font-weight: 400;
   line-height: 26px;
@@ -4242,7 +4274,7 @@ h3.kc-glass-card__title {
   padding: 12px 24px;
   border-radius: 9999px;
   background: linear-gradient(135deg, var(--color-accent-primary), var(--color-accent-primary-dark));
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 14px;
   font-weight: 600;
   color: var(--fusion-blue-deep);
@@ -4263,7 +4295,7 @@ h3.kc-glass-card__title {
   align-items: center;
   gap: 6px;
   margin-top: 24px;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 14px;
   font-weight: 500;
   color: #ffffff;
@@ -4300,7 +4332,7 @@ h3.kc-glass-card__title {
 }
 
 h3.kc-footer-links__heading {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 18px;
   font-weight: 700;
   color: #0a0a0a;
@@ -4318,7 +4350,7 @@ h3.kc-footer-links__heading {
 
 .kc-footer-links__link,
 .kc-footer-links__link:visited {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 16px;
   font-weight: 400;
   color: var(--fusion-blue-deep);
@@ -4381,7 +4413,7 @@ h3.kc-footer-links__heading {
 }
 
 .fusion-site-footer__brand-body {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 0.9375rem;
   font-weight: 400;
   line-height: 1.55;
@@ -4396,7 +4428,7 @@ h3.kc-footer-links__heading {
 }
 
 .fusion-site-footer__heading {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 1rem;
   font-weight: 700;
   color: #0a0a0a;
@@ -4414,7 +4446,7 @@ h3.kc-footer-links__heading {
 
 .fusion-site-footer__link,
 .fusion-site-footer__link:visited {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 1rem;
   font-weight: 400;
   color: var(--color-primary, #005ea2);
@@ -4811,7 +4843,7 @@ h3.kc-footer-links__heading {
 .fusion-nav-v2__menu-title {
   margin: 0;
   padding: 0 1.125rem 0.875rem;
-  font-family: var(--font-family-heading, var(--global__font-family, 'Lexend', system-ui, sans-serif));
+  font-family: var(--font-family-heading);
   font-size: clamp(1.25rem, 0.45vw + 1.1rem, 1.5rem);
   font-weight: 700;
   line-height: 1.2;
@@ -4850,7 +4882,7 @@ h3.kc-footer-links__heading {
   background: transparent;
   padding: 0.6875rem 0.875rem 0.6875rem 1rem;
   text-align: left;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 0.9375rem;
   font-weight: 600;
   line-height: 1.35;
@@ -4936,6 +4968,19 @@ h3.kc-footer-links__heading {
   transform: none;
 }
 
+html[data-theme='dark'] .fusion-nav-v2__category--active {
+  background: color-mix(in srgb, var(--color-white) 12%, transparent);
+  color: #ffffff;
+  box-shadow: none;
+}
+
+html[data-theme='dark'] .fusion-nav-v2__category--active:hover,
+html[data-theme='dark'] .fusion-nav-v2__category--active:focus-visible {
+  background: color-mix(in srgb, var(--color-white) 16%, transparent);
+  box-shadow: none;
+  outline: none;
+}
+
 .fusion-nav-v2__right {
   position: relative;
   z-index: 1;
@@ -4984,7 +5029,7 @@ h3.kc-footer-links__heading {
     transparent 100%
   )
     1;
-  font-family: var(--font-family-heading, var(--global__font-family, 'Lexend', system-ui, sans-serif));
+  font-family: var(--font-family-heading);
   font-size: clamp(1.125rem, 0.35vw + 0.95rem, 1.25rem);
   font-weight: 700;
   line-height: 1.2;
@@ -5172,7 +5217,7 @@ h3.kc-footer-links__heading {
     transparent 100%
   )
     1;
-  font-family: var(--font-family-heading, var(--global__font-family, 'Lexend', system-ui, sans-serif));
+  font-family: var(--font-family-heading);
   font-size: 0.6875rem;
   font-weight: 700;
   letter-spacing: 0.16em;
@@ -5257,7 +5302,7 @@ h3.kc-footer-links__heading {
 
 .fusion-nav-v2__overview-title {
   margin: 0;
-  font-family: var(--font-family-heading, var(--global__font-family, 'Lexend', system-ui, sans-serif));
+  font-family: var(--font-family-heading);
   font-size: clamp(1.5rem, 0.75vw + 1.15rem, 2rem);
   font-weight: 700;
   line-height: 1.2;
@@ -5325,7 +5370,7 @@ h3.kc-footer-links__heading {
   position: relative;
   margin: 0 0 0.8rem;
   padding-bottom: 0.8rem;
-  font-family: var(--font-family-heading, var(--global__font-family, 'Lexend', system-ui, sans-serif));
+  font-family: var(--font-family-heading);
   font-size: 1rem;
   font-weight: 700;
   line-height: 1.25;
@@ -5466,7 +5511,7 @@ h3.kc-footer-links__heading {
 
 .fusion-nav-v2__learn-category h3 {
   margin: 0;
-  font-family: var(--font-family-heading, var(--global__font-family, 'Lexend', system-ui, sans-serif));
+  font-family: var(--font-family-heading);
   font-size: 1rem;
   font-weight: 700;
   line-height: 1.25;
@@ -5776,7 +5821,7 @@ h3.kc-footer-links__heading {
   background: transparent;
   padding: 0.625rem 0.75rem;
   text-align: left;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 0.9375rem;
   font-weight: 600;
   color: var(--color-primary-darker);
@@ -6380,7 +6425,7 @@ h2.po-cta__heading {
 
 h1.init-hero__heading,
 p.init-hero__heading {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: clamp(1.75rem, 2.5vw + 0.5rem, 2.5rem);
   font-weight: 700;
   line-height: 1.15;
@@ -6398,7 +6443,7 @@ p.init-hero__heading {
 }
 
 .init-hero__description {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 20px;
   font-weight: 400;
   line-height: 28px;
@@ -6425,7 +6470,7 @@ p.init-hero__heading {
   gap: 8px;
   padding: 14px 28px;
   border-radius: 10px;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 16px;
   font-weight: 700;
   text-decoration: none;
@@ -6508,7 +6553,7 @@ p.init-hero__heading {
   position: absolute;
   top: 0;
   right: 26px;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 96px;
   font-weight: 700;
   line-height: 1;
@@ -6532,7 +6577,7 @@ p.init-hero__heading {
 }
 
 .init-card__tag-text {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 12px;
   font-weight: 700;
   color: var(--color-gray-dark);
@@ -6540,7 +6585,7 @@ p.init-hero__heading {
 }
 
 h3.init-card__title {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 20px;
   font-weight: 700;
   color: var(--color-base);
@@ -6548,7 +6593,7 @@ h3.init-card__title {
 }
 
 .init-card__body {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 14px;
   font-weight: 400;
   line-height: 1.625;
@@ -6642,7 +6687,7 @@ a.init-happening__cta.ds-c-button--ghost:visited:hover {
   padding: 2px 0 0;
   grid-column: 2;
   grid-row: 1;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
 }
 
 .init-timeline__q {
@@ -6768,7 +6813,7 @@ a.init-happening__cta.ds-c-button--ghost:visited:hover {
 
 h3.init-timeline__hq-title {
   margin: 0;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: clamp(0.95rem, 0.2vw + 0.88rem, 1.05rem);
   font-weight: 700;
   line-height: 1.3;
@@ -6777,7 +6822,7 @@ h3.init-timeline__hq-title {
 
 .init-timeline__hq-desc {
   margin: 0;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 0.8125rem;
   line-height: 1.5;
   color: var(--color-gray-dark);
@@ -6808,7 +6853,7 @@ h3.init-timeline__hq-title {
 .init-timeline__tag {
   padding: 4px 10px;
   border-radius: 9999px;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 0.6875rem;
   font-weight: 700;
   letter-spacing: 0.02em;
@@ -6849,7 +6894,7 @@ h3.init-timeline__hq-title {
   display: flex;
   align-items: flex-start;
   gap: 8px;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 0.8125rem;
   color: var(--color-gray-dark);
   line-height: 1.4;
@@ -6932,14 +6977,14 @@ h3.init-timeline__hq-title {
 }
 
 .init-happening__date {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 14px;
   font-weight: 700;
   color: var(--color-primary-darker);
 }
 
 .init-happening__title {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 20px;
   font-weight: 700;
   color: var(--color-primary-darker);
@@ -6947,7 +6992,7 @@ h3.init-timeline__hq-title {
 }
 
 .init-happening__body {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 16px;
   font-weight: 400;
   line-height: 1.5;
@@ -6989,7 +7034,7 @@ h3.init-timeline__hq-title {
 }
 
 h2.init-learn__heading {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 30px;
   font-weight: 700;
   color: #ffffff;
@@ -6997,7 +7042,7 @@ h2.init-learn__heading {
 }
 
 .init-learn__description {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 16px;
   font-weight: 400;
   line-height: 1.625;
@@ -7023,7 +7068,7 @@ h2.init-learn__heading {
   border: 1px solid color-mix(in srgb, var(--color-white, #ffffff) 28%, transparent);
   text-decoration: none;
   color: var(--color-white, #ffffff);
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 14px;
   font-weight: 700;
   transition:
@@ -7082,7 +7127,7 @@ h2.init-learn__heading {
 }
 
 h2.init-get-started__heading {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 30px;
   font-weight: 700;
   color: var(--color-primary-darker);
@@ -7111,7 +7156,7 @@ h2.init-get-started__heading {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 14px;
   font-weight: 700;
   color: #ffffff;
@@ -7125,7 +7170,7 @@ h2.init-get-started__heading {
 }
 
 h3.init-step__title {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 16px;
   font-weight: 700;
   color: var(--color-base);
@@ -7133,7 +7178,7 @@ h3.init-step__title {
 }
 
 .init-step__desc {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 14px;
   font-weight: 400;
   color: var(--color-gray-dark);
@@ -7232,7 +7277,7 @@ ol.ktd-breadcrumb-list {
   list-style: none;
   margin: 0;
   padding: 0;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 14px;
 }
 
@@ -7275,7 +7320,7 @@ ol.ktd-breadcrumb-list li {
 }
 
 .ktd-hero__title {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: clamp(2rem, 4vw, 3rem);
   font-weight: 500;
   color: #ffffff;
@@ -7285,7 +7330,7 @@ ol.ktd-breadcrumb-list li {
 }
 
 .ktd-hero__lead {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 20px;
   font-weight: 400;
   line-height: 1.6;
@@ -7328,7 +7373,7 @@ ol.ktd-breadcrumb-list li {
 }
 
 h2.ktd-topics-panel__title {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 24px;
   font-weight: 500;
   color: var(--fusion-blue-deep);
@@ -7367,7 +7412,7 @@ h2.ktd-topics-panel__title {
 }
 
 .ktd-topic-row__label {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 16px;
   font-weight: 500;
   color: var(--fusion-blue-deep);
@@ -7397,7 +7442,7 @@ h2.ktd-topics-panel__title {
 }
 
 .ktd-help-bar__title {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 20px;
   font-weight: 600;
   color: #ffffff;
@@ -7406,7 +7451,7 @@ h2.ktd-topics-panel__title {
 }
 
 .ktd-help-bar__desc {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 16px;
   line-height: 1.5;
   color: rgba(255, 255, 255, 0.9);
@@ -7429,7 +7474,7 @@ h2.ktd-topics-panel__title {
   border-radius: 9999px;
   background: var(--color-accent-primary);
   color: var(--fusion-blue-deep);
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 16px;
   font-weight: 600;
   text-decoration: none;
@@ -7458,7 +7503,7 @@ h2.ktd-topics-panel__title {
 
 .ktd-hero__stat-value {
   display: block;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 24px;
   font-weight: 700;
   color: #ffffff;
@@ -7468,7 +7513,7 @@ h2.ktd-topics-panel__title {
 .ktd-hero__stat-label {
   display: block;
   margin-top: 2px;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 14px;
   color: rgba(255, 255, 255, 0.7);
 }
@@ -7503,13 +7548,13 @@ h2.ktd-topics-panel__title {
 }
 
 .ktd-pill__text {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 14px;
   color: var(--fusion-blue-deep);
 }
 
 .ktd-section-title {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: clamp(1.375rem, 2vw + 0.5rem, 1.875rem);
   font-weight: 500;
   color: var(--fusion-blue-deep);
@@ -7518,7 +7563,7 @@ h2.ktd-topics-panel__title {
 }
 
 .ktd-section-lead {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 18px;
   line-height: 1.55;
   color: #4a5565;
@@ -7585,7 +7630,7 @@ h2.ktd-topics-panel__title {
 }
 
 .ktd-topic-card__title {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 20px;
   font-weight: 500;
   color: var(--fusion-blue-deep);
@@ -7594,7 +7639,7 @@ h2.ktd-topics-panel__title {
 }
 
 .ktd-topic-card__desc {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 16px;
   line-height: 1.6;
   color: #4a5565;
@@ -7606,7 +7651,7 @@ h2.ktd-topics-panel__title {
   align-items: center;
   gap: 6px;
   margin-top: 16px;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 14px;
   font-weight: 600;
   color: var(--fusion-blue);
@@ -7654,7 +7699,7 @@ h2.ktd-topics-panel__title {
 }
 
 .ktd-cta-panel__title {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: clamp(1.25rem, 2vw + 0.5rem, 1.875rem);
   font-weight: 500;
   color: #ffffff;
@@ -7662,7 +7707,7 @@ h2.ktd-topics-panel__title {
 }
 
 .ktd-cta-panel__text {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 18px;
   line-height: 1.55;
   color: rgba(255, 255, 255, 0.9);
@@ -7689,7 +7734,7 @@ h2.ktd-topics-panel__title {
   border-radius: 9999px;
   background: var(--color-accent-primary);
   color: var(--fusion-blue-deep);
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 16px;
   font-weight: 600;
   text-decoration: none;
@@ -7708,7 +7753,7 @@ h2.ktd-topics-panel__title {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 16px;
   color: #ffffff;
   text-decoration: none;
@@ -7764,7 +7809,7 @@ h2.ktd-topics-panel__title {
 }
 
 .ktd-related-card__title {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 18px;
   font-weight: 500;
   color: var(--fusion-blue-deep);
@@ -7772,7 +7817,7 @@ h2.ktd-topics-panel__title {
 }
 
 .ktd-related-card__desc {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 14px;
   line-height: 1.45;
   color: #4a5565;
@@ -7784,7 +7829,7 @@ h2.ktd-topics-panel__title {
   align-items: center;
   gap: 6px;
   margin-top: 16px;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 14px;
   color: var(--fusion-blue);
 }
@@ -7875,7 +7920,7 @@ ol.ddoc-breadcrumb-list {
   list-style: none;
   margin: 0;
   padding: 0;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 14px;
 }
 
@@ -7923,7 +7968,7 @@ ol.ddoc-breadcrumb-list li {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 15px;
   font-weight: 600;
   color: var(--fusion-blue-deep);
@@ -7990,7 +8035,7 @@ ol.ddoc-breadcrumb-list li {
   border-radius: 10px;
   background: #ffffff;
   box-shadow: 0 1px 1.5px rgba(0, 0, 0, 0.1), 0 1px 1px rgba(0, 0, 0, 0.06);
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.04em;
@@ -8051,7 +8096,7 @@ ol.ddoc-breadcrumb-list li {
   min-width: 0;
   border: 0;
   padding: 4px 0;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 14px;
   color: #101828;
   background: transparent;
@@ -8075,7 +8120,7 @@ ol.ddoc-breadcrumb-list li {
   border: 0;
   border-radius: 6px;
   background: transparent;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 13px;
   font-weight: 600;
   color: var(--fusion-blue-deep);
@@ -8089,7 +8134,7 @@ ol.ddoc-breadcrumb-list li {
 
 .ddoc-sidebar__empty {
   margin: 8px 4px 12px;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 14px;
   line-height: 1.45;
   color: #6b7280;
@@ -8099,7 +8144,7 @@ ol.ddoc-breadcrumb-list li {
   list-style: none;
   margin: 0;
   padding: 8px 10px 8px 12px;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 13px;
   color: #6b7280;
 }
@@ -8133,7 +8178,7 @@ ol.ddoc-breadcrumb-list li {
   border: 0;
   border-radius: 4px;
   background: transparent;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 14px;
   color: var(--fusion-blue-deep);
   text-align: left;
@@ -8185,7 +8230,7 @@ ol.ddoc-breadcrumb-list li {
 }
 
 .ddoc-side-nav__group-title {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 14px;
   font-weight: 600;
   color: var(--fusion-blue-deep);
@@ -8205,7 +8250,7 @@ ol.ddoc-breadcrumb-list li {
   display: block;
   padding: 6px 8px 6px 9px;
   border-radius: 4px;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 14px;
   color: var(--fusion-blue);
   text-decoration: none;
@@ -8236,7 +8281,7 @@ ol.ddoc-breadcrumb-list li {
 }
 
 .ddoc-article__title {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: clamp(1.75rem, 2.5vw, 2.25rem);
   font-weight: 500;
   color: var(--fusion-blue-deep);
@@ -8245,7 +8290,7 @@ ol.ddoc-breadcrumb-list li {
 }
 
 .ddoc-article__intro {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 16px;
   line-height: 1.55;
   color: #364153;
@@ -8254,7 +8299,7 @@ ol.ddoc-breadcrumb-list li {
 
 .ddoc-article__h2 {
   scroll-margin-top: var(--fusion-sticky-stack-top);
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 24px;
   font-weight: 500;
   color: var(--fusion-blue-deep);
@@ -8268,7 +8313,7 @@ ol.ddoc-breadcrumb-list li {
 
 .ddoc-article__h3 {
   scroll-margin-top: var(--fusion-sticky-stack-top);
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 20px;
   font-weight: 500;
   color: var(--fusion-blue-deep);
@@ -8277,7 +8322,7 @@ ol.ddoc-breadcrumb-list li {
 }
 
 .ddoc-article__p {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 16px;
   line-height: 1.6;
   color: #364153;
@@ -8320,7 +8365,7 @@ ol.ddoc-breadcrumb-list li {
   position: relative;
   padding-left: 20px;
   margin-top: 10px;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 16px;
   line-height: 1.5;
   color: #364153;
@@ -8354,7 +8399,7 @@ ol.ddoc-breadcrumb-list li {
   display: flex;
   gap: 16px;
   align-items: flex-start;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 16px;
   line-height: 1.5;
   color: #364153;
@@ -8387,7 +8432,7 @@ ol.ddoc-breadcrumb-list li {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 16px;
   color: var(--fusion-blue);
   text-decoration: underline;
@@ -8408,7 +8453,7 @@ ol.ddoc-breadcrumb-list li {
   padding: 20px 22px;
   background: #f4f6f8;
   border-radius: 10px;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 16px;
   line-height: 1.5;
   color: #364153;
@@ -8428,7 +8473,7 @@ ol.ddoc-breadcrumb-list li {
   padding: 0 20px;
   border: 0;
   border-radius: 4px;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 16px;
   font-weight: 500;
   color: #ffffff;
@@ -8447,7 +8492,7 @@ ol.ddoc-breadcrumb-list li {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 16px;
   color: var(--fusion-blue);
   text-decoration: none;
@@ -8474,7 +8519,7 @@ ol.ddoc-breadcrumb-list li {
 
 .ddoc-rail__title {
   margin: 0 0 10px;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 16px;
   font-weight: 500;
   color: var(--fusion-blue-deep);
@@ -8516,7 +8561,7 @@ ol.ddoc-breadcrumb-list li {
 .ddoc-toc__link {
   display: block;
   padding: 3px 0 3px 2px;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 13px;
   line-height: 1.45;
   color: var(--fusion-blue);
@@ -8559,7 +8604,7 @@ ol.ddoc-breadcrumb-list li {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 13px;
   color: var(--fusion-blue);
   text-decoration: none;
@@ -8583,14 +8628,14 @@ ol.ddoc-breadcrumb-list li {
 
 .ddoc-rail__cta-title {
   margin: 0;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 18px;
   font-weight: 600;
 }
 
 .ddoc-rail__cta-text {
   margin: 10px 0 0;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 14px;
   line-height: 1.45;
   color: rgba(255, 255, 255, 0.92);
@@ -8643,7 +8688,7 @@ ol.ddoc-breadcrumb-list li {
 
 .ddoc-footer-cta__heading {
   margin: 0;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 20px;
   font-weight: 600;
   color: #ffffff;
@@ -8651,7 +8696,7 @@ ol.ddoc-breadcrumb-list li {
 
 .ddoc-footer-cta__p {
   margin: 12px 0 0;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 16px;
   line-height: 1.5;
   color: rgba(255, 255, 255, 0.9);
@@ -8667,7 +8712,7 @@ ol.ddoc-breadcrumb-list li {
   align-items: center;
   gap: 8px;
   margin-top: 16px;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 16px;
   font-weight: 600;
   color: #ffffff;
@@ -8934,7 +8979,7 @@ main:has(.tpl-3col-page) + .fusion-site-footer {
   border-left: 3px solid transparent;
   border-radius: 0;
   background: transparent;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 14px;
   font-weight: 400;
   line-height: 1.43;
@@ -8987,7 +9032,7 @@ main:has(.tpl-3col-page) + .fusion-site-footer {
   margin: 0;
   padding: 0;
   border: 0;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: clamp(1.75rem, 2.5vw, 2rem);
   font-weight: 700;
   line-height: 1.25;
@@ -9133,7 +9178,7 @@ main:has(.tpl-3col-page) + .fusion-site-footer {
 }
 
 .tpl-3col-shell .ddoc-side-nav__group-header {
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
 }
 
 .tpl-3col-shell .ddoc-side-nav__group-title {
@@ -9191,7 +9236,7 @@ main:has(.tpl-3col-page) + .fusion-site-footer {
   margin: 0 0 4px;
   padding-bottom: 0;
   border-bottom: none;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: clamp(1.75rem, 2.5vw, 2.25rem);
   font-weight: 500;
   line-height: 1.15;
@@ -9565,7 +9610,7 @@ main:has(.tpl-3col-page) + .fusion-site-footer {
 
 .fusion-chat-panel__title {
   margin: 0;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 1.125rem;
   font-weight: 700;
   line-height: 1.25;
@@ -9574,7 +9619,7 @@ main:has(.tpl-3col-page) + .fusion-site-footer {
 
 .fusion-chat-panel__subtitle {
   margin: 4px 0 0;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 13px;
   line-height: 1.35;
   color: rgba(255, 255, 255, 0.88);
@@ -9626,7 +9671,7 @@ main:has(.tpl-3col-page) + .fusion-site-footer {
   max-width: 92%;
   padding: 12px 14px;
   border-radius: 14px;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 14px;
   line-height: 1.45;
 }
@@ -9676,7 +9721,7 @@ main:has(.tpl-3col-page) + .fusion-site-footer {
   padding: 0 16px;
   border: 1px solid #e5e7eb;
   border-radius: 9999px;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 14px;
   color: #0f172a;
   background: #f8fafc;
@@ -9992,7 +10037,7 @@ main:has(.tpl-3col-page) + .fusion-site-footer {
   position: relative;
   display: block;
   padding: 0.625rem 0.875rem;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 0.875rem;
   font-weight: 500;
   line-height: 1.25;
@@ -10276,7 +10321,7 @@ main:has(.tpl-3col-page) + .fusion-site-footer {
 .ft-hero__title {
   margin: 0;
   max-width: 14ch;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: clamp(2.75rem, 6vw, 5.5rem);
   font-weight: 700;
   line-height: 1.05;
@@ -10804,7 +10849,7 @@ main:has(.tpl-3col-page) + .fusion-site-footer {
 
 h2.te-section__title {
   margin: 0;
-  font-family: var(--font-lexend, var(--global__font-family, 'Open Sans', system-ui, sans-serif));
+  font-family: var(--font-family-heading);
   font-size: clamp(1.125rem, 1vw + 0.85rem, 1.25rem);
   font-weight: 600;
   line-height: 1.35;
@@ -10814,7 +10859,7 @@ h2.te-section__title {
 .te-section__subtitle {
   margin: 0.75rem 0 0;
   max-width: 42rem;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 1rem;
   line-height: 1.5;
   color: color-mix(in srgb, var(--color-primary-darkest) 70%, var(--color-gray-dark));
@@ -10885,7 +10930,7 @@ h2.te-section__title {
 
 h3.te-card__title {
   margin: 1rem 0 0;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 1rem;
   font-weight: 600;
   line-height: 1.35;
@@ -10895,7 +10940,7 @@ h3.te-card__title {
 .te-card__body {
   flex: 1;
   margin: 0.75rem 0 0;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 0.875rem;
   line-height: 1.625;
   color: color-mix(in srgb, var(--color-primary-darkest) 70%, var(--color-gray-dark));
@@ -10907,7 +10952,7 @@ h3.te-card__title {
   align-items: center;
   gap: 0.5rem;
   margin-top: 1.25rem;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 0.875rem;
   font-weight: 600;
   color: var(--color-primary-darker);
@@ -11023,7 +11068,7 @@ h3.te-card__title {
     var(--color-primary-light) 100%
   );
   color: var(--color-white);
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 1rem;
   font-weight: 600;
   box-shadow:
@@ -11050,7 +11095,7 @@ h3.te-card__title {
 
 h3.te-path-card__title {
   margin: 1rem 0 0;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 1.125rem;
   font-weight: 600;
   line-height: 1.35;
@@ -11174,7 +11219,7 @@ h3.te-path-card__title {
 
 h2.te-cta-band__title {
   margin: 0;
-  font-family: var(--font-lexend, var(--global__font-family, 'Open Sans', system-ui, sans-serif));
+  font-family: var(--font-family-heading);
   font-size: clamp(1.125rem, 1vw + 0.85rem, 1.25rem);
   font-weight: 600;
   line-height: 1.35;
@@ -11339,7 +11384,7 @@ h3.te-cta-card__title {
 
 .te-powered__text {
   margin: 0;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 0.875rem;
   color: color-mix(in srgb, var(--color-primary-darkest) 50%, var(--color-gray));
 }
@@ -11414,7 +11459,7 @@ h3.te-cta-card__title {
 
 .lpl-section__title {
   margin: 0;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: clamp(1.75rem, 3vw, 2.75rem);
   font-weight: 700;
   line-height: 1.15;
@@ -11477,7 +11522,7 @@ h3.te-cta-card__title {
 
 .lpl-hero-copy__title {
   margin: 0;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: clamp(1.75rem, 2.5vw + 0.5rem, 2.5rem);
   font-weight: 700;
   line-height: 1.15;
@@ -11503,7 +11548,7 @@ h3.te-cta-card__title {
 .lpl-hero-copy__subtitle {
   margin: 1rem 0 0;
   max-width: 34rem;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: clamp(1rem, 1.1vw + 0.5rem, 1.25rem);
   font-weight: 400;
   line-height: 1.5;
@@ -12528,7 +12573,7 @@ h3.te-cta-card__title {
   align-items: center;
   padding: 0.25rem 0.625rem;
   border-radius: 0.375rem;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.02em;
@@ -12661,7 +12706,7 @@ h3.te-cta-card__title {
 
 .pa-article__h1 {
   margin: 0;
-  font-family: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  font-family: var(--global__font-family);
   font-size: clamp(1.75rem, 2.8vw, 2.25rem);
   font-weight: 700;
   line-height: 1.2;
@@ -14126,8 +14171,10 @@ html[data-theme='dark'] .fusion-nav-v2.fusion-nav-v2--mega-open button.fusion-me
 html[data-theme='dark'] .fusion-site-header:has(.fusion-nav-v2--mega-open) .fusion-mega-trigger,
 html[data-theme='dark'] .fusion-site-header:has(.fusion-nav-v2--mega-open) .fusion-site-nav__search-btn {
   color: #ffffff !important;
-  border: 1.5px solid #ffffff !important;
-  border-color: #ffffff !important;
+  border: none !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  outline: none !important;
 }
 
 html[data-theme='dark'] .fusion-nav-v2.fusion-nav-v2--mega-open button.fusion-mega-trigger--active {
@@ -15265,9 +15312,9 @@ html[data-theme='dark'] .program-overview .po-cta {
   --color-text: #ffffff;
   --color-text-muted: var(--fusion-deep-sea-100);
   --color-text-dim: color-mix(in srgb, var(--fusion-deep-sea-100) 70%, transparent);
-  --font-display: var(--font-family-heading, var(--font-lexend));
-  --font-body: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
-  --font-mono: var(--font-family-mono, var(--font-body));
+  --font-display: var(--font-family-heading);
+  --font-body: var(--font-family-body);
+  --font-mono: var(--font-family-mono, var(--font-family-body));
   background: var(--color-bg);
   color: var(--color-text);
   font-family: var(--font-body);
@@ -15296,6 +15343,195 @@ html[data-theme='dark'] .program-overview .po-cta {
 
 .explore-2 .fade-in {
   animation: explore-2-fade-in 0.28s ease-out;
+}
+
+.explore-2 .ds-c-badge {
+  /* Default DS badge tokens follow dark theme gray, which disappears on Deep Sea. */
+  --badge__background-color: var(--fusion-deep-sea-50);
+  --badge__font-color: var(--fusion-deep-sea-800);
+  margin-inline-end: 0;
+  vertical-align: middle;
+}
+
+.explore-2 .explore-badge--aws {
+  --badge__background-color: #ff9900;
+  --badge__font-color: #040b2e;
+}
+
+.explore-2 .explore-hero {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 18rem;
+  padding: 2.5rem 2rem;
+  box-sizing: border-box;
+}
+
+.explore-2 .explore-hero__content {
+  position: relative;
+  z-index: 2;
+  max-width: 38rem;
+}
+
+.explore-2 .explore-hero__art {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .explore-2 .explore-hero {
+    min-height: 22rem;
+    padding-right: 0;
+  }
+
+  .explore-2 .explore-hero__content {
+    max-width: min(36rem, 50%);
+  }
+
+  .explore-2 .explore-hero__art {
+    display: block;
+    position: absolute;
+    z-index: 1;
+    pointer-events: none;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 52%;
+    height: 88%;
+    margin: auto 0.75rem auto 0;
+    object-fit: contain;
+    object-position: right center;
+    mix-blend-mode: lighten;
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 16%);
+    mask-image: linear-gradient(to right, transparent 0%, #000 16%);
+  }
+}
+
+@media (min-width: 1024px) {
+  .explore-2 .explore-hero {
+    min-height: 24rem;
+  }
+
+  .explore-2 .explore-hero__art {
+    width: 48%;
+  }
+}
+
+.explore-2 .explore-hero h1 {
+  margin: 0 0 0.75rem;
+}
+
+.explore-2 .explore-journey {
+  position: relative;
+}
+
+.explore-2 .explore-journey__line {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  left: 1.5rem;
+  height: 1px;
+  background: var(--color-border);
+}
+
+.explore-2 .explore-journey__steps {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 0.5rem;
+  position: relative;
+}
+
+.explore-2 .explore-journey__step {
+  appearance: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0.25rem 0 0.5rem;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+}
+
+.explore-2 .explore-journey__step:hover,
+.explore-2 .explore-journey__step:focus,
+.explore-2 .explore-journey__step:focus-visible {
+  background: transparent;
+  box-shadow: none;
+  outline: none;
+}
+
+.explore-2 .explore-journey__step:focus-visible .explore-journey__num {
+  outline: 2px solid var(--fusion-yellow);
+  outline-offset: 3px;
+}
+
+.explore-2 .explore-journey__num {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  min-width: 3rem;
+  min-height: 3rem;
+  border: 2px solid var(--color-border);
+  border-radius: 50%;
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 1;
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box;
+}
+
+.explore-2 .explore-journey__label {
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.explore-2 .explore-compare-link {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  cursor: pointer;
+  font: inherit;
+  color: var(--color-text);
+  text-align: left;
+}
+
+.explore-2 .explore-compare-link:hover,
+.explore-2 .explore-compare-link:focus,
+.explore-2 .explore-compare-link:focus-visible,
+.explore-2 .explore-compare-link:active {
+  background: transparent;
+  box-shadow: none;
+  outline: none;
+}
+
+.explore-2 .explore-compare-link__name,
+.explore-2 .explore-compare-name {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.explore-2 .explore-compare-link:hover .explore-compare-link__name,
+.explore-2 .explore-compare-link:focus-visible .explore-compare-link__name {
+  color: var(--fusion-yellow);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
 }
 
 
