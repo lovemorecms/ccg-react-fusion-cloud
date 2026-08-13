@@ -1,5 +1,5 @@
 import { useState, useMemo, useRef, useEffect, type ReactNode } from 'react'
-import { Badge, type BadgeProps } from '@cmsgov/ds-cms-gov'
+import { Badge } from '@cmsgov/ds-cms-gov'
 import {
   SERVICES, CATEGORIES, CATEGORY_ICONS, MATRIX, COMPARISON,
   JOURNEY_PHASES, MATURITY_LABELS, PROVIDER_META,
@@ -7,6 +7,7 @@ import {
 } from '../data/hybridCloudServicesGuide'
 
 type Tab = 'overview' | 'catalog' | 'comparison' | 'journey'
+type BadgeVariation = 'info' | 'success' | 'warn' | 'alert'
 
 const TABS: { id: Tab; label: string; icon: string }[] = [
   { id: 'overview',   label: 'Quick Reference',   icon: '⚡' },
@@ -15,7 +16,7 @@ const TABS: { id: Tab; label: string; icon: string }[] = [
   { id: 'journey',    label: 'Customer Journey',   icon: '🗺️' },
 ]
 
-function providerBadgeProps(provider: Provider): Pick<BadgeProps, 'variation' | 'className'> {
+function providerBadgeProps(provider: Provider): { variation?: BadgeVariation; className?: string } {
   if (provider === 'aws') return { className: 'explore-badge--aws' }
   if (provider === 'azure') return { variation: 'info' }
   if (provider === 'gcp') return { variation: 'success' }
@@ -36,7 +37,7 @@ function ProviderBadge({ provider, size = 'sm' }: { provider: Provider; size?: '
 
 function MaturityBadge({ level }: { level: 1 | 2 | 3 | 4 | 5 }) {
   const m = MATURITY_LABELS[level]
-  const variation: BadgeProps['variation'] =
+  const variation: BadgeVariation =
     level === 1 ? 'alert' : level <= 3 ? 'warn' : level === 4 ? 'success' : 'info'
   return (
     <Badge variation={variation}>
