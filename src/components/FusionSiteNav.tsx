@@ -37,7 +37,7 @@ const megaMenuItems: MegaMenuItem[] = [
     columns: [
       {
         links: [
-          { label: 'Program Overview', href: '/about/program-overview' },
+          { label: 'About', href: '/about' },
           { label: 'Benefits', href: '/about/benefits' },
           { label: 'Success Stories', href: '/about/success-stories' },
           { label: 'Contact Us', href: '/about/contact-us' },
@@ -287,16 +287,16 @@ export function FusionSiteNav({
         >
           <img
             src={`${import.meta.env.BASE_URL}images/ccg-fusion-logo-light.png`}
-            alt="Cloud Fusion"
-            width={161}
+            alt="Cloud.CMS.gov"
+            width={207}
             height={48}
             className="fusion-site-nav__logo-img fusion-site-nav__logo-img--light h-8 w-auto md:h-10"
           />
           <img
             src={`${import.meta.env.BASE_URL}images/ccg-fusion-logo-dark.png`}
-            alt="Cloud Fusion"
-            width={154}
-            height={46}
+            alt="Cloud.CMS.gov"
+            width={207}
+            height={48}
             className="fusion-site-nav__logo-img fusion-site-nav__logo-img--dark h-8 w-auto md:h-10"
           />
         </a>

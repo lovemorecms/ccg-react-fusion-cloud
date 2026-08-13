@@ -33,7 +33,7 @@ export const navDemoMenuItems: NavMenuItem[] = [
   {
     id: 'about',
     label: 'About',
-    href: '/about/program-overview',
+    href: '/about',
     categories: [
       {
         id: 'about-hybrid-cloud',

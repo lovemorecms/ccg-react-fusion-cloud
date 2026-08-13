@@ -149,7 +149,7 @@ function LatestAnnouncementsSection({
     })
   }
 
-  const trackId = 'fusion-announcements-track'
+  const trackId = 'fusion-announcements-track-v2'
 
   return (
     <section id="fusion-announcements" className="fusion-announcements" aria-labelledby="fusion-announcements-heading">
@@ -231,22 +231,32 @@ function LatestAnnouncementsSection({
   )
 }
 
-export default function HomePage() {
+/** Clone of the live homepage — iterate here without changing `/`. */
+export default function HomeV2Page() {
+  useEffect(() => {
+    document.title = 'Home v2 | FUSION Sphere'
+    return () => {
+      document.title = 'FUSION Sphere'
+    }
+  }, [])
+
   return (
     <>
       <SkipNav href="#main-content">Skip to main content</SkipNav>
-      <SiteHeader />
-      <main id="main-content" tabIndex={-1}>
-        <FusionHero />
-        <FusionQuickAccess />
-        <FusionPathwaysHelp />
-        <FusionMultiCloudServices />
-        <FusionFeaturedResources />
-        <FusionAcademy />
-        <FusionEcosystem />
-        <LatestAnnouncementsSection />
-      </main>
-      <SiteFooter />
+      <div className="fusion-home-v2">
+        <SiteHeader />
+        <main id="main-content" tabIndex={-1}>
+          <FusionHero />
+          <FusionQuickAccess />
+          <FusionPathwaysHelp />
+          <FusionMultiCloudServices />
+          <FusionFeaturedResources />
+          <FusionAcademy />
+          <FusionEcosystem />
+          <LatestAnnouncementsSection />
+        </main>
+        <SiteFooter />
+      </div>
     </>
   )
 }

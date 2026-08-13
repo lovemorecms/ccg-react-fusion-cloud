@@ -1,14 +1,14 @@
 export type AboutHybridCloudSectionId =
-  | 'program-overview'
+  | 'about'
   | 'benefits'
   | 'success-stories'
   | 'contact-us'
 
 export const aboutHybridCloudNavItems = [
   {
-    id: 'program-overview',
-    label: 'Program Overview',
-    href: '/about/program-overview',
+    id: 'about',
+    label: 'About',
+    href: '/about',
   },
   {
     id: 'benefits',

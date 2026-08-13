@@ -67,12 +67,7 @@ function sortMenuItems(items: NavMenuItem[]): NavMenuItem[] {
   return items.map((item) => ({
     ...item,
     categories: [...item.categories]
-      .map((category) => {
-        if (item.id === 'about' && category.id === 'about-hybrid-cloud') {
-          return category
-        }
-        return { ...category, panel: sortPanel(category.panel, category.id) }
-      })
+      .map((category) => ({ ...category, panel: sortPanel(category.panel, category.id) }))
       .sort((a, b) => {
         if (item.id === 'learn') {
           const order: Record<string, number> = {
@@ -115,23 +110,8 @@ export const navNewCcgMenuItems: NavMenuItem[] = sortMenuItems([
   {
     id: 'about',
     label: 'About',
-    href: '/about/program-overview',
-    categories: [
-      {
-        id: 'about-hybrid-cloud',
-        label: 'About Hybrid Cloud',
-        href: '/about/program-overview',
-        panel: {
-          type: 'list',
-          links: [
-            link('Program Overview', '/about/program-overview'),
-            link('Benefits', '/about/benefits'),
-            link('Success Stories', '/about/success-stories'),
-            link('Contact Us', '/about/contact-us'),
-          ],
-        },
-      },
-    ],
+    href: '/about',
+    categories: [],
   },
   {
     id: 'explore',

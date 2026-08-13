@@ -153,6 +153,10 @@ function useScrollReveal() {
 export default function ProgramOverviewPage() {
   const revealRef = useScrollReveal()
 
+  useEffect(() => {
+    document.title = 'About | FUSION Sphere'
+  }, [])
+
   return (
     <>
       <SkipNav href="#main-content">Skip to main content</SkipNav>
@@ -160,8 +164,8 @@ export default function ProgramOverviewPage() {
 
       <InteriorSectionNavProvider>
         <main id="main-content" tabIndex={-1} ref={revealRef} className="program-overview">
-          <AboutHybridCloudHero currentLabel="Program Overview" />
-          <AboutHybridCloudStickyNav activeSectionId="program-overview" />
+          <AboutHybridCloudHero currentLabel="About" />
+          <AboutHybridCloudStickyNav activeSectionId="about" />
 
           <div className="kc-content">
           <section className="kc-section kc-reveal" id="critical-work">

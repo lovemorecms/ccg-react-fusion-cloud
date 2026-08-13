@@ -12,7 +12,7 @@ import type { AboutHybridCloudSectionId } from '../data/aboutHybridCloudContent'
 const aboutHeroBackground = `${import.meta.env.BASE_URL}images/sections/benefits/customer-support-hero.png`
 
 type AboutHybridCloudSectionPageProps = {
-  sectionId: Exclude<AboutHybridCloudSectionId, 'program-overview'>
+  sectionId: Exclude<AboutHybridCloudSectionId, 'about'>
   title: string
   description: string
 }

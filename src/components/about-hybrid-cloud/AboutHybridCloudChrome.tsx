@@ -5,7 +5,6 @@ import {
   type AboutHybridCloudSectionId,
 } from '../../data/aboutHybridCloudContent'
 import { FusionButton } from '../FusionButton'
-import { ChevronRight } from '../icons/Chevron'
 import { InteriorSectionNav } from '../layouts/InteriorSectionNav'
 
 const aboutHeroBackground = `${import.meta.env.BASE_URL}images/sections/benefits/customer-support-hero.png`
@@ -60,20 +59,33 @@ export function AboutHybridCloudHero({
                 Home
               </Link>
             </li>
-            <li aria-hidden="true" className="kc-breadcrumb-sep">
-              <BreadcrumbChevron />
-            </li>
-            <li>
-              <Link to="/about/program-overview" className="kc-breadcrumb-link">
-                About Hybrid Cloud
-              </Link>
-            </li>
-            <li aria-hidden="true" className="kc-breadcrumb-sep">
-              <BreadcrumbChevron />
-            </li>
-            <li>
-              <span className="kc-breadcrumb-current">{currentLabel}</span>
-            </li>
+            {currentLabel === 'About' ? (
+              <>
+                <li aria-hidden="true" className="kc-breadcrumb-sep">
+                  <BreadcrumbChevron />
+                </li>
+                <li>
+                  <span className="kc-breadcrumb-current">About</span>
+                </li>
+              </>
+            ) : (
+              <>
+                <li aria-hidden="true" className="kc-breadcrumb-sep">
+                  <BreadcrumbChevron />
+                </li>
+                <li>
+                  <Link to="/about" className="kc-breadcrumb-link">
+                    About
+                  </Link>
+                </li>
+                <li aria-hidden="true" className="kc-breadcrumb-sep">
+                  <BreadcrumbChevron />
+                </li>
+                <li>
+                  <span className="kc-breadcrumb-current">{currentLabel}</span>
+                </li>
+              </>
+            )}
           </ol>
         </nav>
       </div>
@@ -95,9 +107,8 @@ export function AboutHybridCloudHero({
               <div className="init-hero__actions">
                 <FusionButton href="/about/contact-us" accent onDark>
                   Get Started
-                  <ChevronRight />
                 </FusionButton>
-                <FusionButton href="/about/program-overview" variation="ghost" onDark className="po-hero__cta-secondary">
+                <FusionButton href="/about/benefits" variation="ghost" onDark className="po-hero__cta-secondary">
                   Learn More
                 </FusionButton>
               </div>
@@ -122,7 +133,7 @@ export function AboutHybridCloudStickyNav({
       items={items}
       sectionIds={[activeSectionId]}
       activeSectionId={activeSectionId}
-      ariaLabel="About Hybrid Cloud pages"
+      ariaLabel="About pages"
       onNavClick={(id) => {
         const target = aboutHybridCloudNavItems.find((item) => item.id === id)
         if (target) navigate(target.href)

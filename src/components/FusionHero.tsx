@@ -41,13 +41,16 @@ const STAR_STREAKS: { left: number; top: number; opacity: number }[] = [
 type HeroSlide = {
   line1: string
   line2: string
+  /** When set, line2 stays white and this phrase uses the sky accent. */
+  accent?: string
   body: string
 }
 
 const HERO_SLIDES: HeroSlide[] = [
   {
-    line1: 'Your Central Access Point for',
-    line2: 'CMS Multi-Cloud Services',
+    line1: 'Your Gateway to',
+    line2: 'CMS',
+    accent: 'Cloud Fusion',
     body: 'FUSION connects you to the right tools, guidance, and support for delivering mission outcomes.',
   },
   {
@@ -219,7 +222,8 @@ export function FusionHero() {
           <div className="col-span-12 w-full sm:col-span-10 md:col-span-8 lg:col-span-6 xl:col-span-6">
             <div className="pointer-events-auto w-full max-w-[48rem]">
               <p id={liveId} className="sr-only" aria-live="polite" aria-atomic="true">
-                Slide {slideIndex + 1} of {n}: {slide.line1} {slide.line2}. {slide.body}
+                Slide {slideIndex + 1} of {n}: {slide.line1} {slide.line2}
+                {slide.accent ? ` ${slide.accent}` : ''}. {slide.body}
               </p>
 
               <div className="fusion-hero__slide-stage">
@@ -238,8 +242,17 @@ export function FusionHero() {
                         <span className="block font-semibold leading-[1.12] tracking-wide text-white">
                           {item.line1}
                         </span>
-                        <span className="fusion-hero__headline-accent block font-semibold leading-[1.12] tracking-tight">
-                          {item.line2}
+                        <span className="block font-semibold leading-[1.12] tracking-tight">
+                          {item.accent ? (
+                            <>
+                              <span className="text-white">{item.line2} </span>
+                              <span className="fusion-hero__headline-accent fusion-hero__headline-accent--sky">
+                                {item.accent}
+                              </span>
+                            </>
+                          ) : (
+                            <span className="fusion-hero__headline-accent">{item.line2}</span>
+                          )}
                         </span>
                       </h1>
 

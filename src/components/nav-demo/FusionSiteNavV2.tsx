@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import {
   navDemoMenuItems,
   type NavCategory,
@@ -485,6 +485,7 @@ export function FusionSiteNavV2({
 }: FusionSiteNavV2Props) {
   const navRef = useRef<HTMLDivElement>(null)
   const navigate = useNavigate()
+  const { pathname } = useLocation()
 
   const [activeMenu, setActiveMenu] = useState<string | null>(null)
   const [activeCategoryId, setActiveCategoryId] = useState<string | null>(null)
@@ -692,22 +693,48 @@ export function FusionSiteNavV2({
         <a href="/" className="fusion-site-nav__logo inline-flex shrink-0 items-center">
           <img
             src={`${import.meta.env.BASE_URL}images/ccg-fusion-logo-light.png`}
-            alt="Cloud Fusion"
-            width={161}
+            alt="Cloud.CMS.gov"
+            width={207}
             height={48}
             className="fusion-site-nav__logo-img fusion-site-nav__logo-img--light h-8 w-auto md:h-10"
           />
           <img
             src={`${import.meta.env.BASE_URL}images/ccg-fusion-logo-dark.png`}
-            alt="Cloud Fusion"
-            width={154}
-            height={46}
+            alt="Cloud.CMS.gov"
+            width={207}
+            height={48}
             className="fusion-site-nav__logo-img fusion-site-nav__logo-img--dark h-8 w-auto md:h-10"
           />
         </a>
 
         <nav aria-label="Primary" className="hidden items-center gap-x-1 md:flex lg:gap-x-2">
           {menuItems.map((item) => {
+            const isTopLink = item.categories.length === 0
+            if (isTopLink) {
+              const isCurrent =
+                pathname === item.href ||
+                (item.href !== '/' && pathname.startsWith(`${item.href}/`))
+              return (
+                <a
+                  key={item.id}
+                  href={item.href}
+                  className={`fusion-mega-trigger fusion-mega-trigger--${item.id} fusion-nav-v2__top-link relative inline-flex items-center gap-1 border-0 bg-transparent px-3 py-2.5 text-[color:var(--fusion-blue)] no-underline transition-[color,background-color,box-shadow] duration-200 hover:text-[color:var(--color-primary-darkest)] lg:px-4 ${
+                    isCurrent ? 'fusion-mega-trigger--active' : ''
+                  }`}
+                  style={{ fontSize: '0.9375rem', fontWeight: 600, lineHeight: 1 }}
+                  aria-current={isCurrent ? 'page' : undefined}
+                  onClick={(e) => handleLinkClick(e, item.href)}
+                >
+                  <span>{item.label}</span>
+                  <span
+                    className={`fusion-mega-trigger__underline pointer-events-none absolute bottom-0 left-3 right-3 h-[2.5px] rounded-full transition-transform duration-200 origin-left ${
+                      isCurrent ? 'scale-x-100' : 'scale-x-0'
+                    }`}
+                  />
+                </a>
+              )
+            }
+
             const isActive = activeMenu === item.id
             return (
               <button
@@ -872,7 +899,25 @@ export function FusionSiteNavV2({
         hidden={!mobileDrawerOpen}
       >
         <nav aria-label="Primary sections" className="fusion-site-nav__mobile-nav">
-          {menuItems.map((item) => (
+          {menuItems.map((item) => {
+            if (item.categories.length === 0) {
+              const isCurrent =
+                pathname === item.href ||
+                (item.href !== '/' && pathname.startsWith(`${item.href}/`))
+              return (
+                <a
+                  key={item.id}
+                  href={item.href}
+                  className={`fusion-site-nav__mobile-summary fusion-nav-v2__mobile-top-link${isCurrent ? ' fusion-nav-v2__mobile-top-link--active' : ''}`}
+                  aria-current={isCurrent ? 'page' : undefined}
+                  onClick={(e) => handleLinkClick(e, item.href)}
+                >
+                  {item.label}
+                </a>
+              )
+            }
+
+            return (
             <details
               key={item.id}
               className={`fusion-site-nav__mobile-details fusion-nav-v2__mobile-details--${item.id}`}
@@ -916,7 +961,8 @@ export function FusionSiteNavV2({
                 ) : null}
               </div>
             </details>
-          ))}
+            )
+          })}
         </nav>
       </div>
     </div>

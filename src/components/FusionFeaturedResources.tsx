@@ -9,7 +9,7 @@ const resources = [
     id: 'spotlight',
     title: 'FUSION Spotlight',
     description: 'Platform overview',
-    href: '/about/program-overview',
+    href: '/about',
     accent: 'none' as AccentBar,
     Icon: IconDocument,
   },
@@ -88,7 +88,7 @@ export function FusionFeaturedResources() {
                 ) : null}
 
                 <FeaturedIconRing>
-                  <item.Icon className="h-5 w-5 text-[#ffe400] md:h-6 md:w-6" />
+                  <item.Icon className="fusion-accent-yellow h-5 w-5 md:h-6 md:w-6" />
                 </FeaturedIconRing>
 
                 <h3
@@ -118,11 +118,11 @@ function FeaturedIconRing({ children }: { children: ReactNode }) {
       <div
         className="pointer-events-none absolute inset-0 rounded-full opacity-25 blur-md"
         style={{
-          background: 'color-mix(in srgb, #ffe400 55%, transparent)',
+          background: 'color-mix(in srgb, var(--fusion-yellow) 55%, transparent)',
         }}
         aria-hidden
       />
-      <div className="relative flex size-11 items-center justify-center rounded-full border-2 border-[#ffe400] bg-[color:color-mix(in_srgb,var(--color-primary-darker)_35%,transparent)] md:size-[3.25rem]">
+      <div className="fusion-accent-yellow-ring relative flex size-11 items-center justify-center rounded-full border-2 bg-[color:color-mix(in_srgb,var(--color-primary-darker)_35%,transparent)] md:size-[3.25rem]">
         {children}
       </div>
     </div>

@@ -52,7 +52,7 @@ export function FusionMultiCloudServices() {
           </div>
 
           <FusionButton
-            to="/about/program-overview"
+            to="/about"
             accent
             onDark
             className="fusion-multi-cloud__cta"
