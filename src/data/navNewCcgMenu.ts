@@ -150,6 +150,12 @@ export const navNewCcgMenuItems: NavMenuItem[] = sortMenuItems([
     ],
   },
   {
+    id: 'explore-2',
+    label: 'Explore 2',
+    href: '/explore-2',
+    categories: [],
+  },
+  {
     id: 'learn',
     label: 'Learn',
     href: '/learn/knowledge-center',

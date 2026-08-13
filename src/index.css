@@ -15246,5 +15246,56 @@ html[data-theme='dark'] .program-overview .po-cta {
     ) !important;
 }
 
+/* Explore 2 — CMS Hybrid Cloud Services Guide (Deep Sea canvas in both themes) */
+.explore-2 {
+  --fusion-deep-sea-50: #e7e9f5;
+  --fusion-deep-sea-100: #b6bde0;
+  --fusion-deep-sea-500: #0d2499;
+  --fusion-deep-sea-700: #07124d;
+  --fusion-deep-sea-800: #040b2e;
+  --fusion-deep-sea-900: #040b2e;
+  --fusion-deep-sea-1000: #01040f;
+  --fusion-yellow: #dfb01c;
+  --color-bg: var(--fusion-deep-sea-800);
+  --color-surface: var(--fusion-deep-sea-700);
+  --color-card: color-mix(in srgb, var(--fusion-deep-sea-800) 74%, var(--fusion-deep-sea-700));
+  --color-card-hover: color-mix(in srgb, var(--fusion-deep-sea-700) 86%, var(--fusion-deep-sea-500));
+  --color-border: color-mix(in srgb, var(--fusion-deep-sea-100) 22%, transparent);
+  --color-border-bright: color-mix(in srgb, var(--fusion-deep-sea-100) 28%, transparent);
+  --color-text: #ffffff;
+  --color-text-muted: var(--fusion-deep-sea-100);
+  --color-text-dim: color-mix(in srgb, var(--fusion-deep-sea-100) 70%, transparent);
+  --font-display: var(--font-family-heading, var(--font-lexend));
+  --font-body: var(--global__font-family, 'Open Sans', 'Inter', system-ui, sans-serif);
+  --font-mono: var(--font-family-mono, var(--font-body));
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  min-height: 60vh;
+}
+
+.explore-2 select,
+.explore-2 select option {
+  background-color: var(--fusion-deep-sea-700);
+  color: var(--color-text);
+}
+
+@keyframes explore-2-slide-in {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes explore-2-fade-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.explore-2 .slide-in {
+  animation: explore-2-slide-in 0.28s ease-out;
+}
+
+.explore-2 .fade-in {
+  animation: explore-2-fade-in 0.28s ease-out;
+}
 
 
