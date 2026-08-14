@@ -69,8 +69,7 @@ function sortMenuItems(items: NavMenuItem[]): NavMenuItem[] {
           const order: Record<string, number> = {
             'knowledge-center': 0,
             'training-enablement': 1,
-            'resource-center': 2,
-            'customer-roadmap': 3,
+            'customer-roadmap': 2,
           }
           const rankA = order[a.id] ?? Number.MAX_SAFE_INTEGER
           const rankB = order[b.id] ?? Number.MAX_SAFE_INTEGER
@@ -122,7 +121,7 @@ export const navNewCcgMenuItems: NavMenuItem[] = sortMenuItems([
     categories: [
       {
         id: 'knowledge-center',
-        label: 'Documentation',
+        label: 'Fusion Info Center',
         href: '/learn/knowledge-center',
         panel: {
           type: 'columns',
@@ -214,61 +213,6 @@ export const navNewCcgMenuItems: NavMenuItem[] = sortMenuItems([
               'CMS CACHE IaaS Fundamentals',
             ),
             column('HYBRID CLOUD PROGRAM SESSIONS', 'Fireside Chats'),
-          ],
-        },
-      },
-      {
-        id: 'resource-center',
-        label: 'Resource Center',
-        href: '/learn/knowledge-center',
-        panel: {
-          type: 'columns',
-          columns: [
-            column(
-              'FINANCIAL OPERATIONS',
-              'Financial Management',
-              'Cost Optimization',
-              'Working Together',
-              'FinOps Engineering',
-              'Tools & Resources',
-              'Support',
-            ),
-            column(
-              'COST TOOLS',
-              'Cost Management Center',
-              'How contracting works on CMS Hybrid Cloud',
-              'Repricing and funding for CY2',
-              'Introduction to Cost Estimation Tool (CET)',
-              'Getting started with Cost Estimation Tool (CET)',
-              'Using Cost Estimate Templates',
-              'Cost Estimation Tool (CET) Workflow Enhancement Guide',
-              'VIEW',
-              'Estimate at Completion (EAC) 2.0 Dashboard',
-              'EAC 2.0 access request',
-              'Introduction to AWS Compute Optimizer',
-              'Introduction to Amazon EC2 Reserved Instances',
-              'Cloud cost saving with AWS Savings Plans',
-              'Analyzing AWS cloud costs with Cost Explorer',
-              'Understanding AWS Budgets and alerts',
-              'AWS Cost Optimization Checklist',
-              'CMS Hybrid Cloud cost allocation tags',
-              'Azure Cost Optimization Checklist',
-            ),
-            column(
-              'CLOUD CONSUMPTION',
-              'Cloud Consumption Playbook: Improving consumption effectiveness',
-              'Best practices for effective Cloud Consumption',
-              'Compute service area',
-              'Storage service area',
-              'Database service area',
-              'Other service area',
-              'Unlocking the value of cloud at CMS',
-              'Provisioning guidelines',
-              'Utilization guidelines',
-              'Savings plans guidelines',
-              'Next gen services guidelines',
-              'Cloud Consumption Consultations',
-            ),
           ],
         },
       },

@@ -11,13 +11,6 @@ const items = [
     Icon: IconLaunchpad,
   },
   {
-    id: 'governance',
-    title: 'Governance',
-    subtitle: 'Oversight and trust',
-    href: '#multi-cloud-services',
-    Icon: IconGovernance,
-  },
-  {
     id: 'pathways',
     title: 'Pathways',
     subtitle: 'Find the right path',
@@ -34,7 +27,7 @@ const items = [
   {
     id: 'support',
     title: 'Support',
-    subtitle: 'Get CST help',
+    subtitle: 'Customer Support Team',
     href: '#site-footer',
     Icon: IconSupport,
   },
@@ -89,7 +82,7 @@ export function FusionQuickAccess() {
             className="fusion-quick-access__panel-glow pointer-events-none absolute inset-x-0 bottom-0 z-0 h-24 bg-gradient-to-t from-[rgba(220,238,252,0.45)] via-[rgba(236,248,252,0.2)] to-transparent"
             aria-hidden
           />
-          <ul className="fusion-quick-access__grid relative z-[1] m-0 grid list-none grid-cols-2 gap-x-4 gap-y-10 p-0 sm:grid-cols-3 xl:grid-cols-6 xl:gap-x-0">
+          <ul className="fusion-quick-access__grid relative z-[1] m-0 grid list-none grid-cols-2 gap-x-4 gap-y-10 p-0 sm:grid-cols-3 xl:grid-cols-5 xl:gap-x-0">
             {items.map((item, index) => (
               <li
                 key={item.id}
@@ -101,7 +94,7 @@ export function FusionQuickAccess() {
               >
                 <a
                   href={item.href}
-                  className="fusion-quick-access__link group flex w-full max-w-[14rem] flex-col items-center rounded-xl px-2 py-1 outline-offset-4 transition-colors"
+                  className="fusion-quick-access__link group flex w-full max-w-[16rem] flex-col items-center rounded-xl px-2 py-1 outline-offset-4 transition-colors"
                 >
                   <IconRing>
                     <item.Icon className="h-6 w-6 text-[color:var(--fusion-blue)]" />
@@ -147,26 +140,6 @@ function IconLaunchpad({ className }: { className?: string }) {
         d="M13 2L3 14h8l-1 8 10-12h-8l1-8z"
         stroke="currentColor"
         strokeWidth="1.75"
-        strokeLinejoin="round"
-      />
-    </svg>
-  )
-}
-
-function IconGovernance({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden>
-      <path
-        d="M12 3l7 4v5c0 5-3.5 9-7 10-3.5-1-7-5-7-10V7l7-4z"
-        stroke="currentColor"
-        strokeWidth="1.75"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M9 12l2 2 4-4"
-        stroke="currentColor"
-        strokeWidth="1.75"
-        strokeLinecap="round"
         strokeLinejoin="round"
       />
     </svg>

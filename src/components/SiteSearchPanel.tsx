@@ -91,7 +91,7 @@ export function SiteSearchPanel({ open, onClose }: SiteSearchPanelProps) {
     >
       <form
         role="search"
-        className="mx-auto flex max-w-[100rem] flex-col gap-3 sm:flex-row sm:items-center"
+        className="mx-auto flex max-w-[var(--fusion-site-max-width)] flex-col gap-3 sm:flex-row sm:items-center"
         onSubmit={(e) => {
           e.preventDefault()
         }}

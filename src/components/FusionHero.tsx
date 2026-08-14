@@ -284,7 +284,7 @@ export function FusionHero() {
       {/* Carousel: full-bleed hero, bottom center */}
       <div className="fusion-hero__carousel-dock pointer-events-none absolute inset-x-0 bottom-0 z-[15] flex justify-center px-4 pb-16 pt-4 sm:pb-16 sm:pt-5 md:pb-20">
         <div
-          className="fusion-hero__carousel-well pointer-events-auto flex items-center justify-center gap-2 rounded-full border border-white/25 px-3 py-1.5 shadow-lg backdrop-blur-md sm:gap-2.5 sm:px-4 sm:py-2"
+          className="fusion-hero__carousel-well pointer-events-auto flex items-center justify-center gap-2 rounded-full px-3 py-1.5 shadow-lg backdrop-blur-md sm:gap-2.5 sm:px-4 sm:py-2"
           role="group"
           aria-label="Carousel controls"
           tabIndex={0}
@@ -292,7 +292,7 @@ export function FusionHero() {
         >
           <button
             type="button"
-            className="fusion-hero__carousel-btn fusion-hero__carousel-btn--prev flex size-11 shrink-0 items-center justify-center rounded-full border-2 border-white/30 bg-white/10 p-0 leading-none text-white transition-[background-color,transform] duration-200 ease-out hover:bg-white/20 hover:scale-110 active:scale-95"
+            className="fusion-hero__carousel-btn fusion-hero__carousel-btn--prev flex size-11 shrink-0 items-center justify-center border-0 bg-transparent p-0 leading-none text-white transition-transform duration-200 ease-out hover:scale-110 active:scale-95"
             aria-label="Previous slide"
             onClick={goPrev}
           >
@@ -330,7 +330,7 @@ export function FusionHero() {
           </div>
           <button
             type="button"
-            className="fusion-hero__carousel-btn fusion-hero__carousel-btn--next flex size-11 shrink-0 items-center justify-center rounded-full border-2 border-white/30 bg-white/10 p-0 leading-none text-white transition-[background-color,transform] duration-200 ease-out hover:bg-white/20 hover:scale-110 active:scale-95"
+            className="fusion-hero__carousel-btn fusion-hero__carousel-btn--next flex size-11 shrink-0 items-center justify-center border-0 bg-transparent p-0 leading-none text-white transition-transform duration-200 ease-out hover:scale-110 active:scale-95"
             aria-label="Next slide"
             onClick={goNext}
           >

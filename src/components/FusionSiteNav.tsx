@@ -109,7 +109,7 @@ const megaMenuItems: MegaMenuItem[] = [
     columns: [
       {
         links: [
-          { label: 'Documentation', href: '/learn/knowledge-center' },
+          { label: 'Fusion Info Center', href: '/learn/knowledge-center' },
           { label: 'Training & Enablement', href: '/learn/training-enablement' },
           { label: 'Customer Roadmap', href: '/learn/initiatives' },
         ],
@@ -312,7 +312,7 @@ export function FusionSiteNav({
               <button
                 key={item.id}
                 type="button"
-                className={`fusion-mega-trigger relative inline-flex items-center gap-1 border-0 bg-transparent px-3 py-2.5 text-[color:var(--fusion-blue)] transition-colors hover:text-[color:var(--color-primary-darkest)] lg:px-4 ${
+                className={`fusion-mega-trigger group relative inline-flex items-center gap-1 border-0 bg-transparent px-3 py-2.5 text-[color:var(--fusion-blue)] transition-colors hover:text-[color:var(--color-primary-darkest)] lg:px-4 ${
                   isActive ? 'fusion-mega-trigger--active' : ''
                 }`}
                 style={{ fontSize: '0.9375rem', fontWeight: 600, lineHeight: 1 }}
@@ -332,8 +332,8 @@ export function FusionSiteNav({
                   style={{ width: 12, height: 12, marginLeft: 4, marginTop: 2 }}
                 />
                 <span
-                  className={`pointer-events-none absolute bottom-0 left-3 right-3 h-[2.5px] rounded-full bg-[color:var(--fusion-blue)] transition-transform duration-200 origin-left ${
-                    isActive ? 'scale-x-100' : 'scale-x-0'
+                  className={`fusion-mega-trigger__underline pointer-events-none absolute bottom-0 left-3 right-3 h-[2.5px] rounded-full bg-[color:var(--fusion-blue)] transition-transform duration-200 origin-left ${
+                    isActive ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
                   }`}
                 />
               </button>

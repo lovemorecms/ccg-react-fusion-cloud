@@ -324,13 +324,10 @@ function MegaOverviewMenu({
 
 const learnCategoryCopy: Record<string, { viewLabel: string }> = {
   'knowledge-center': {
-    viewLabel: 'View all documentation',
+    viewLabel: 'View Fusion Info Center',
   },
   'training-enablement': {
     viewLabel: 'View all training',
-  },
-  'resource-center': {
-    viewLabel: 'View all resources',
   },
   'customer-roadmap': {
     viewLabel: 'View roadmap',
@@ -667,7 +664,7 @@ export function FusionSiteNavV2({
                 <a
                   key={item.id}
                   href={item.href}
-                  className={`fusion-mega-trigger fusion-mega-trigger--${item.id} fusion-nav-v2__top-link relative inline-flex items-center gap-1 border-0 bg-transparent px-3 py-2.5 text-[color:var(--fusion-blue)] no-underline transition-[color,background-color,box-shadow] duration-200 hover:text-[color:var(--color-primary-darkest)] lg:px-4 ${
+                  className={`fusion-mega-trigger fusion-mega-trigger--${item.id} fusion-nav-v2__top-link group relative inline-flex items-center gap-1 border-0 bg-transparent px-3 py-2.5 text-[color:var(--fusion-blue)] no-underline transition-[color,background-color,box-shadow] duration-200 hover:text-[color:var(--color-primary-darkest)] lg:px-4 ${
                     isCurrent ? 'fusion-mega-trigger--active' : ''
                   }`}
                   style={{ fontSize: '0.9375rem', fontWeight: 600, lineHeight: 1 }}
@@ -677,7 +674,7 @@ export function FusionSiteNavV2({
                   <span>{item.label}</span>
                   <span
                     className={`fusion-mega-trigger__underline pointer-events-none absolute bottom-0 left-3 right-3 h-[2.5px] rounded-full transition-transform duration-200 origin-left ${
-                      isCurrent ? 'scale-x-100' : 'scale-x-0'
+                      isCurrent ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
                     }`}
                   />
                 </a>
@@ -689,7 +686,7 @@ export function FusionSiteNavV2({
               <button
                 key={item.id}
                 type="button"
-                className={`fusion-mega-trigger fusion-mega-trigger--${item.id} relative inline-flex items-center gap-1 border-0 bg-transparent px-3 py-2.5 text-[color:var(--fusion-blue)] transition-[color,background-color,box-shadow] duration-200 hover:text-[color:var(--color-primary-darkest)] lg:px-4 ${
+                className={`fusion-mega-trigger fusion-mega-trigger--${item.id} group relative inline-flex items-center gap-1 border-0 bg-transparent px-3 py-2.5 text-[color:var(--fusion-blue)] transition-[color,background-color,box-shadow] duration-200 hover:text-[color:var(--color-primary-darkest)] lg:px-4 ${
                   isActive ? 'fusion-mega-trigger--active' : ''
                 }`}
                 style={{ fontSize: '0.9375rem', fontWeight: 600, lineHeight: 1 }}
@@ -701,7 +698,7 @@ export function FusionSiteNavV2({
                 <ChevronDown rotated={isActive} />
                 <span
                   className={`fusion-mega-trigger__underline pointer-events-none absolute bottom-0 left-3 right-3 h-[2.5px] rounded-full transition-transform duration-200 origin-left ${
-                    isActive ? 'scale-x-100' : 'scale-x-0'
+                    isActive ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
                   }`}
                 />
               </button>

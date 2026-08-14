@@ -53,7 +53,7 @@ const ACCENT_SOFT = 'color-mix(in srgb, var(--fusion-yellow) 12%, transparent)'
 
 const FUSION_COLORS: Record<string, string> = {
   Match: '#6eb6ff', Helix: '#8eb4ff', BaseCamp: '#b6bde0',
-  Lens: '#dfb01c', CCG: '#dfb01c',
+  Lens: '#dfb01c', 'Cloud.CMS.gov': '#dfb01c',
 }
 
 const ORACLE_COLOR = '#C74634'
@@ -387,9 +387,6 @@ function OverviewPage({ onSelectCategory }: { onSelectCategory: (cat: Category) 
             <span className="block font-semibold leading-[1.12] tracking-wide">
               CMS Cloud Fusion
             </span>
-            <span className="block font-semibold leading-[1.12] tracking-tight">
-              <span className="fusion-hero__headline-accent">Approved Services</span> Guide
-            </span>
           </h1>
           <p className="fusion-hero__body explore-hero__body mt-4 max-w-[52rem] font-sans text-base font-semibold leading-relaxed sm:mt-5 sm:text-lg">
             The authoritative reference for all approved cloud services across AWS, Microsoft Azure, Google Cloud Platform, and Fusion Enterprise Shared Services tools. Built for Hosting Coordinators, Technical Advisors, and Application Development Organizations.
@@ -407,7 +404,7 @@ function OverviewPage({ onSelectCategory }: { onSelectCategory: (cat: Category) 
         </div>
         <img
           src={`${import.meta.env.BASE_URL}images/explore/cms-cloud-fusion-logo.png`}
-          alt="CMS Cloud Fusion Ecosystem"
+          alt="CMS Cloud Fusion Toolkit"
           className="explore-hero__art"
           decoding="async"
         />
@@ -473,19 +470,23 @@ function OverviewPage({ onSelectCategory }: { onSelectCategory: (cat: Category) 
       {/* Fusion Ecosystem */}
       <div className="mb-8">
         <h2 className="text-lg font-bold mb-4" style={{ color: 'var(--color-text)', fontFamily: 'var(--font-display)' }}>
-          Cloud Fusion Ecosystem
+          Cloud Fusion Toolkit
         </h2>
-        <div className="grid gap-3" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))' }}>
+        <div className="explore-toolkit-grid">
           {Object.entries(FUSION_COLORS).map(([tool, color]) => {
             const descs: Record<string, string> = {
               Match: 'CSP recommendation engine — maps workloads to the best cloud provider',
               Helix: 'Governance & compliance platform — security, policies, landing zones',
               BaseCamp: 'Application portfolio registry — ownership, lifecycle, and integrations',
               Lens: 'Multi-cloud FinOps — cost visibility, optimization, and reporting',
-              CCG: 'Customer support hub — docs, training, onboarding, and self-service',
+              'Cloud.CMS.gov': 'Customer support hub — docs, training, onboarding, and self-service',
             }
             return (
-              <div key={tool} className="rounded-xl p-4" style={{ background: 'var(--color-card)', border: `1px solid ${color}22` }}>
+              <div
+                key={tool}
+                className="explore-toolkit-card rounded-xl p-4"
+                style={{ border: `1px solid ${color}22` }}
+              >
                 <div className="flex items-center gap-2 mb-2">
                   <FusionTag tool={tool} />
                 </div>
@@ -945,10 +946,7 @@ export function HybridCloudServicesGuide() {
         style={{ background: 'color-mix(in srgb, var(--color-bg) 92%, transparent)', backdropFilter: 'blur(12px)', borderBottom: '1px solid var(--color-border)' }}
       >
         <div className="mx-auto max-w-[var(--fusion-site-max-width)] px-[var(--fusion-site-padding-x)] md:px-[var(--fusion-site-padding-x-md)]">
-          <div className="flex flex-col gap-3 py-4 sm:flex-row sm:items-center sm:justify-between">
-            <p className="text-lg font-bold" style={{ color: 'var(--color-text)', fontFamily: 'var(--font-display)' }}>
-              Approved Services Guide
-            </p>
+          <div className="flex flex-col gap-3 py-4">
             <nav className="flex flex-wrap items-center gap-1" aria-label="Services guide sections">
               {TABS.map(t => (
                 <button

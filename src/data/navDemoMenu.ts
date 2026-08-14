@@ -227,7 +227,7 @@ export const navDemoMenuItems: NavMenuItem[] = [
     categories: [
       {
         id: 'knowledge-center',
-        label: 'Documentation',
+        label: 'Fusion Info Center',
         panel: {
           type: 'columns',
           columns: [
