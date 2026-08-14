@@ -864,23 +864,6 @@ export const CATEGORIES: Category[] = [
   'Monitoring', 'Migration', 'FinOps', 'Integration',
 ];
 
-export const CATEGORY_ICONS: Record<Category, string> = {
-  'AI & ML': '🤖',
-  'Compute': '🖥️',
-  'Containers': '📦',
-  'Storage': '🗂️',
-  'Databases': '🗄️',
-  'Networking': '🌐',
-  'Security': '🛡️',
-  'Identity': '🔑',
-  'Analytics': '📊',
-  'DevOps': '⚙️',
-  'Monitoring': '📡',
-  'Migration': '🚀',
-  'FinOps': '💰',
-  'Integration': '🔗',
-};
-
 // Quick reference matrix — which providers have approved services per category
 export const MATRIX: Record<Category, { aws: boolean; azure: boolean; gcp: boolean; cms: boolean }> = {
   'AI & ML':      { aws: true, azure: true, gcp: true, cms: true },

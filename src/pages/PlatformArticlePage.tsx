@@ -107,10 +107,10 @@ export default function PlatformArticlePage({ articleSlug }: { articleSlug: stri
 
   useEffect(() => {
     if (article) {
-      document.title = `${article.title} | Explore | FUSION Sphere`
+      document.title = `${article.title} | Explore | CCG Modernization`
     }
     return () => {
-      document.title = 'FUSION Sphere'
+      document.title = 'CCG Modernization'
     }
   }, [article])
 

@@ -154,7 +154,7 @@ export default function ProgramOverviewPage() {
   const revealRef = useScrollReveal()
 
   useEffect(() => {
-    document.title = 'About | FUSION Sphere'
+    document.title = 'About | CCG Modernization'
   }, [])
 
   return (

@@ -39,9 +39,9 @@ export default function LandingPageTemplateDemoPage() {
   const revealRef = useSectionReveal()
 
   useEffect(() => {
-    document.title = 'Landing page Layout | Page layouts | FUSION Sphere'
+    document.title = 'Landing page Layout | Page layouts | CCG Modernization'
     return () => {
-      document.title = 'FUSION Sphere'
+      document.title = 'CCG Modernization'
     }
   }, [])
 

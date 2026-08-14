@@ -45,11 +45,11 @@ export default function PlatformInteriorPage() {
 
   useEffect(() => {
     if (platform) {
-      document.title = `${platform.title} | Explore | FUSION Sphere`
+      document.title = `${platform.title} | Explore | CCG Modernization`
       setActiveSectionId(platform.sections[0]?.id ?? 'overview')
     }
     return () => {
-      document.title = 'FUSION Sphere'
+      document.title = 'CCG Modernization'
     }
   }, [platform])
 

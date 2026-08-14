@@ -5,9 +5,9 @@ import { SiteFooter } from '../components/SiteFooter'
 
 export default function NavOption2Page() {
   useEffect(() => {
-    document.title = 'Nav Option 2 | FUSION Sphere'
+    document.title = 'Nav Option 2 | CCG Modernization'
     return () => {
-      document.title = 'FUSION Sphere'
+      document.title = 'CCG Modernization'
     }
   }, [])
 

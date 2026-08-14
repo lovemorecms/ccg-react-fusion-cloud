@@ -8,6 +8,7 @@ import FusionToolkitLandingPage from './pages/FusionToolkitLandingPage'
 import PlatformRoutePage from './pages/PlatformRoutePage'
 import InitiativesPage from './pages/InitiativesPage'
 import KnowledgeCenterPage from './pages/KnowledgeCenterPage'
+import KnowledgeCenterCategoryPage from './pages/KnowledgeCenterCategoryPage'
 import MavenIntegrationDevOpsPage from './pages/MavenIntegrationDevOpsPage'
 import NavDemoPage from './pages/NavDemoPage'
 import NavNewCcgPage from './pages/NavNewCcgPage'
@@ -34,6 +35,7 @@ function App() {
         <Route path="/home-v2" element={<HomeV2Page />} />
         <Route path="/learn/knowledge-center" element={<KnowledgeCenterPage />} />
         <Route path="/learn/knowledge-center/devops/maven-integration" element={<MavenIntegrationDevOpsPage />} />
+        <Route path="/learn/knowledge-center/:categoryId" element={<KnowledgeCenterCategoryPage />} />
         <Route path="/explore" element={<Explore2Page />} />
         <Route path="/explore-2" element={<Navigate to="/explore" replace />} />
         <Route path="/explore/platforms/:platformSlug" element={<PlatformRoutePage />} />

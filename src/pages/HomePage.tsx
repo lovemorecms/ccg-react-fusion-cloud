@@ -232,6 +232,10 @@ function LatestAnnouncementsSection({
 }
 
 export default function HomePage() {
+  useEffect(() => {
+    document.title = 'CCG Modernization'
+  }, [])
+
   return (
     <>
       <SkipNav href="#main-content">Skip to main content</SkipNav>

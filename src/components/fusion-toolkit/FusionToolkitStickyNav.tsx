@@ -23,7 +23,7 @@ export function FusionToolkitStickyNav() {
       sectionIds={fusionToolkitSectionIds}
       ariaLabel="Fusion Toolkit sections"
       cta={
-        <FusionButton href="/learn/knowledge-center" variation="solid">
+        <FusionButton href="/learn/knowledge-center" accent onDark>
           Get started with Fusion Toolkit
         </FusionButton>
       }

@@ -241,9 +241,9 @@ export default function SharedServicesPage({ defaultOpenFirst = false }: SharedS
   }, [isSearching, normalizedQuery, orderedCategories])
 
   useEffect(() => {
-    document.title = 'Shared Services | Explore | FUSION Sphere'
+    document.title = 'Shared Services | Explore | CCG Modernization'
     return () => {
-      document.title = 'FUSION Sphere'
+      document.title = 'CCG Modernization'
     }
   }, [])
 

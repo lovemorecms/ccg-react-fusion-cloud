@@ -278,9 +278,9 @@ export default function TrainingEnablementPage() {
   const [coursePage, setCoursePage] = useState(0)
 
   useEffect(() => {
-    document.title = 'Training & Enablement | Learn | FUSION Sphere'
+    document.title = 'Training & Enablement | Learn | CCG Modernization'
     return () => {
-      document.title = 'FUSION Sphere'
+      document.title = 'CCG Modernization'
     }
   }, [])
 

@@ -250,9 +250,9 @@ export default function ExplorePage() {
   const exploreHeroBgUrl = `${import.meta.env.BASE_URL}images/sections/initiatives-hero-cms-gov.png`
 
   useEffect(() => {
-    document.title = 'Explore | FUSION Sphere'
+    document.title = 'Explore | CCG Modernization'
     return () => {
-      document.title = 'FUSION Sphere'
+      document.title = 'CCG Modernization'
     }
   }, [])
 

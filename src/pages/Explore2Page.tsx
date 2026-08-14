@@ -6,9 +6,9 @@ import { SiteHeader } from '../components/SiteHeader'
 
 export default function Explore2Page() {
   useEffect(() => {
-    document.title = 'Explore | FUSION Sphere'
+    document.title = 'Explore | CCG Modernization'
     return () => {
-      document.title = 'FUSION Sphere'
+      document.title = 'CCG Modernization'
     }
   }, [])
 

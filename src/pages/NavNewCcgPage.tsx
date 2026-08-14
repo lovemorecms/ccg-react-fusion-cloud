@@ -5,9 +5,9 @@ import { SiteFooter } from '../components/SiteFooter'
 
 export default function NavNewCcgPage() {
   useEffect(() => {
-    document.title = 'Nav New CCG | FUSION Sphere'
+    document.title = 'Nav New CCG | CCG Modernization'
     return () => {
-      document.title = 'FUSION Sphere'
+      document.title = 'CCG Modernization'
     }
   }, [])
 

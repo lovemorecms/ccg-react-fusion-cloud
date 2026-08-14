@@ -140,10 +140,10 @@ export default function SharedServiceArticlePage() {
 
   useEffect(() => {
     if (article) {
-      document.title = `${article.title} | Shared Services | FUSION Sphere`
+      document.title = `${article.title} | Shared Services | CCG Modernization`
     }
     return () => {
-      document.title = 'FUSION Sphere'
+      document.title = 'CCG Modernization'
     }
   }, [article])
 

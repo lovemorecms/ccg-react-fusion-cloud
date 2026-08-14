@@ -14,6 +14,7 @@ export type KnowledgeBaseNavLink = {
 export type KnowledgeBaseNavGroup = {
   id: string
   title: string
+  to?: string
   links: KnowledgeBaseNavLink[]
   defaultOpen?: boolean
 }
@@ -36,6 +37,8 @@ export type KnowledgeBasePageLayoutProps = {
   topNavSections?: string[]
   navGroups?: KnowledgeBaseNavGroup[]
   bottomNavSections?: string[]
+  /** Scroll the matching left-nav group into view and keep it open. */
+  focusGroupId?: string
   onThisPage: KnowledgeBaseTocItem[]
   quickLinks: KnowledgeBaseQuickLink[]
   showRailCta?: boolean
@@ -98,6 +101,7 @@ export function KnowledgeBasePageLayout({
   topNavSections = [],
   navGroups = [],
   bottomNavSections = [],
+  focusGroupId,
   onThisPage,
   quickLinks,
   showRailCta = true,
@@ -108,10 +112,20 @@ export function KnowledgeBasePageLayout({
   const [navSearch, setNavSearch] = useState('')
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
   const [openGroups, setOpenGroups] = useState<Record<string, boolean>>(() =>
-    Object.fromEntries(navGroups.map((g) => [g.id, g.defaultOpen ?? true])),
+    Object.fromEntries(navGroups.map((g) => [g.id, g.defaultOpen ?? g.id === focusGroupId])),
   )
 
   const filteredNav = useDocNavFilter(navSearch, topNavSections, bottomNavSections, navGroups)
+
+  useEffect(() => {
+    setOpenGroups((prev) => {
+      const next = { ...prev }
+      navGroups.forEach((g) => {
+        next[g.id] = g.defaultOpen ?? g.id === focusGroupId
+      })
+      return next
+    })
+  }, [focusGroupId])
 
   useEffect(() => {
     if (navSearch.trim()) {
@@ -124,6 +138,17 @@ export function KnowledgeBasePageLayout({
       })
     }
   }, [navSearch, navGroups])
+
+  useEffect(() => {
+    if (!focusGroupId) return
+    const target = document.getElementById(focusGroupId)
+    if (!target) return
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    target.scrollIntoView({
+      behavior: prefersReducedMotion ? 'auto' : 'smooth',
+      block: 'nearest',
+    })
+  }, [focusGroupId])
 
   useEffect(() => {
     const mq = window.matchMedia('(max-width: 1100px)')
@@ -244,24 +269,42 @@ export function KnowledgeBasePageLayout({
                         ))}
 
                         {filteredNav.groups.map((group) => {
-                          const isOpen = openGroups[group.id] ?? true
+                          const isOpen = openGroups[group.id] ?? group.id === focusGroupId
+                          const isCurrent = group.id === focusGroupId
+                          const headerClass = `ddoc-side-nav__group-header${isCurrent ? ' ddoc-side-nav__row--active' : ''}`
+                          const chevron = (
+                            <ChevronRight
+                              className={`ddoc-side-nav__chev${isOpen ? ' ddoc-side-nav__chev--open' : ''}`}
+                            />
+                          )
                           return (
-                            <div key={group.id} className="ddoc-side-nav__group">
-                              <button
-                                type="button"
-                                className="ddoc-side-nav__group-header"
-                                aria-expanded={isOpen}
-                                aria-controls={`kb-nav-group-${group.id}`}
-                                id={`kb-nav-toggle-${group.id}`}
-                                onClick={() =>
-                                  setOpenGroups((prev) => ({ ...prev, [group.id]: !isOpen }))
-                                }
-                              >
-                                <span className="ddoc-side-nav__group-title">{group.title}</span>
-                                <ChevronRight
-                                  className={`ddoc-side-nav__chev${isOpen ? ' ddoc-side-nav__chev--open' : ''}`}
-                                />
-                              </button>
+                            <div key={group.id} id={group.id} className="ddoc-side-nav__group">
+                              {group.to && !isCurrent ? (
+                                <Link
+                                  to={group.to}
+                                  className={headerClass}
+                                  aria-expanded={isOpen}
+                                  aria-controls={`kb-nav-group-${group.id}`}
+                                  id={`kb-nav-toggle-${group.id}`}
+                                >
+                                  <span className="ddoc-side-nav__group-title">{group.title}</span>
+                                  {chevron}
+                                </Link>
+                              ) : (
+                                <button
+                                  type="button"
+                                  className={headerClass}
+                                  aria-expanded={isOpen}
+                                  aria-controls={`kb-nav-group-${group.id}`}
+                                  id={`kb-nav-toggle-${group.id}`}
+                                  onClick={() =>
+                                    setOpenGroups((prev) => ({ ...prev, [group.id]: !isOpen }))
+                                  }
+                                >
+                                  <span className="ddoc-side-nav__group-title">{group.title}</span>
+                                  {chevron}
+                                </button>
+                              )}
                               <ul
                                 id={`kb-nav-group-${group.id}`}
                                 className="ddoc-side-nav__sub"
@@ -269,7 +312,9 @@ export function KnowledgeBasePageLayout({
                                 aria-labelledby={`kb-nav-toggle-${group.id}`}
                               >
                                 {group.links.length === 0 ? (
-                                  <li className="ddoc-sidebar__sub-empty">No matching topics.</li>
+                                  <li className="ddoc-sidebar__sub-empty">
+                                    {filteredNav.q ? 'No matching topics.' : 'Links coming soon'}
+                                  </li>
                                 ) : (
                                   group.links.map((item) => (
                                     <li key={item.label}>

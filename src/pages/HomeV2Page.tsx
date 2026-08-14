@@ -234,9 +234,9 @@ function LatestAnnouncementsSection({
 /** Clone of the live homepage — iterate here without changing `/`. */
 export default function HomeV2Page() {
   useEffect(() => {
-    document.title = 'Home v2 | FUSION Sphere'
+    document.title = 'Home v2 | CCG Modernization'
     return () => {
-      document.title = 'FUSION Sphere'
+      document.title = 'CCG Modernization'
     }
   }, [])
 

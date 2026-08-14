@@ -1,6 +1,11 @@
 import { SkipNav } from '@cmsgov/ds-cms-gov'
 import { useEffect, useMemo, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
+import {
+  fusionInfoCenterArticlePath,
+  fusionInfoCenterCategoryPath,
+  fusionInfoCenterNavGroups,
+} from '../data/knowledgeCenterDocCategories'
 import { DocOnThisPageNav } from '../components/layouts/DocOnThisPageNav'
 import { FusionButton } from '../components/FusionButton'
 import { SiteFooter } from '../components/SiteFooter'
@@ -29,37 +34,6 @@ const JENKINSFILE_SAMPLE = `pipeline {
     }
   }
 }`
-
-const topNavSections = [
-  'CMS Hybrid Cloud Architecture',
-  'Cloud Governance',
-  'Containers',
-  'Computing',
-]
-
-const devOpsSubLinks: { label: string; to?: string; active?: boolean }[] = [
-  { label: 'Introduction to AWS Service Catalog' },
-  { label: 'DevOps Services for MAG' },
-  { label: 'Maven Integration for DevOps', to: '/learn/knowledge-center/devops/maven-integration', active: true },
-  { label: 'CI/CD' },
-  { label: 'Distributed Load Testing (DLTA)' },
-  { label: 'JFrog Platform' },
-  { label: 'Selenium Box' },
-  { label: 'Snyk' },
-  { label: 'SonarQube' },
-  { label: 'Testing as a Service (TaaS)' },
-]
-
-const bottomNavSections = [
-  'Incident Management',
-  'Monitoring',
-  'Networking',
-  'Security & Compliance',
-  'Site reliability',
-  'Storage',
-  'User Access',
-  'Platform',
-]
 
 const onThisPage = [
   { id: 'jenkinsfile', label: 'Jenkinsfile' },
@@ -97,12 +71,12 @@ function DocIcon() {
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
       <path
         d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z"
-        stroke="var(--fusion-blue)"
+        stroke="currentColor"
         strokeWidth={1.5}
         strokeLinecap="round"
         strokeLinejoin="round"
       />
-      <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" stroke="var(--fusion-blue)" strokeWidth={1.5} strokeLinecap="round" />
+      <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" />
     </svg>
   )
 }
@@ -116,28 +90,65 @@ function ExternalLinkIcon({ className }: { className?: string }) {
 }
 
 function useDocNavFilter(query: string) {
+  const navGroups = useMemo(
+    () => fusionInfoCenterNavGroups('devops', fusionInfoCenterArticlePath),
+    [],
+  )
+
   return useMemo(() => {
     const q = query.trim().toLowerCase()
     const match = (s: string) => !q || s.toLowerCase().includes(q)
-    const top = topNavSections.filter(match)
-    const bottom = bottomNavSections.filter(match)
-    const devOpsLinks = devOpsSubLinks.filter((item) => match(item.label))
-    const showDevOpsGroup = !q || match('DevOps') || devOpsSubLinks.some((item) => match(item.label))
-    return { q, top, bottom, devOpsLinks, showDevOpsGroup }
-  }, [query])
+    const groups = navGroups
+      .map((group) => ({
+        ...group,
+        links: group.links.filter((item) => match(item.label)),
+      }))
+      .filter((group) => !q || match(group.title) || group.links.length > 0)
+    return { q, groups, navIsEmpty: groups.length === 0 }
+  }, [navGroups, query])
 }
 
 export default function MavenIntegrationDevOpsPage() {
+  const location = useLocation()
   const [mobileNavOpen, setMobileNavOpen] = useState(false)
-  const [devOpsNavOpen, setDevOpsNavOpen] = useState(true)
+  const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({ devops: true })
   const [navSearch, setNavSearch] = useState('')
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
+  const [copied, setCopied] = useState(false)
 
   const filteredNav = useDocNavFilter(navSearch)
 
   useEffect(() => {
-    if (navSearch.trim()) setDevOpsNavOpen(true)
-  }, [navSearch])
+    if (navSearch.trim()) {
+      setOpenGroups((prev) => {
+        const next = { ...prev }
+        filteredNav.groups.forEach((group) => {
+          next[group.id] = true
+        })
+        return next
+      })
+    }
+  }, [filteredNav.groups, navSearch])
+
+  useEffect(() => {
+    setOpenGroups((prev) => ({ ...prev, devops: true }))
+    const hashId = location.hash.replace('#', '')
+    const targetId = hashId || 'devops'
+    const target = document.getElementById(targetId)
+    if (!target) return
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    target.scrollIntoView({
+      behavior: prefersReducedMotion ? 'auto' : 'smooth',
+      block: 'nearest',
+    })
+  }, [location.hash])
+
+  useEffect(() => {
+    document.title = 'Maven Integration for DevOps | Fusion Info Center | CCG Modernization'
+    return () => {
+      document.title = 'CCG Modernization'
+    }
+  }, [])
 
   useEffect(() => {
     const mq = window.matchMedia('(max-width: 1100px)')
@@ -149,17 +160,12 @@ export default function MavenIntegrationDevOpsPage() {
     return () => mq.removeEventListener('change', onChange)
   }, [])
 
-  const navIsEmpty =
-    filteredNav.top.length === 0 &&
-    !filteredNav.showDevOpsGroup &&
-    filteredNav.bottom.length === 0
-
   return (
     <>
       <SkipNav href="#main-content">Skip to main content</SkipNav>
       <SiteHeader />
 
-      <main id="main-content" tabIndex={-1}>
+      <main id="main-content" className="explore-2 fic-doc" tabIndex={-1}>
         <div className="ddoc-breadcrumb-bar">
           <nav aria-label="Breadcrumb" className="ddoc-breadcrumb-inner">
             <ol className="ddoc-breadcrumb-list">
@@ -173,14 +179,14 @@ export default function MavenIntegrationDevOpsPage() {
               </li>
               <li>
                 <Link to="/learn/knowledge-center" className="ddoc-breadcrumb-link">
-                  Documentation
+                  Fusion Info Center
                 </Link>
               </li>
               <li aria-hidden="true" className="ddoc-breadcrumb-sep">
                 <ChevronRight />
               </li>
               <li>
-                <Link to="/learn/knowledge-center#category-devops" className="ddoc-breadcrumb-link">
+                <Link to={fusionInfoCenterCategoryPath('devops')} className="ddoc-breadcrumb-link">
                   DevOps
                 </Link>
               </li>
@@ -277,42 +283,58 @@ export default function MavenIntegrationDevOpsPage() {
                   </form>
                   <div id="ddoc-sidebar-panel" className="ddoc-sidebar__card">
                     <nav className="ddoc-side-nav">
-                      {navIsEmpty ? (
+                      {filteredNav.navIsEmpty ? (
                         <p className="ddoc-sidebar__empty">No matching sections.</p>
                       ) : (
-                        <>
-                          {filteredNav.top.map((label) => (
-                            <button key={label} type="button" className="ddoc-side-nav__row">
-                              <span className="ddoc-side-nav__label">{label}</span>
-                              <ChevronRight className="ddoc-side-nav__chev" />
-                            </button>
-                          ))}
-
-                          {filteredNav.showDevOpsGroup ? (
-                            <div className="ddoc-side-nav__group">
-                              <button
-                                type="button"
-                                className="ddoc-side-nav__group-header"
-                                aria-expanded={devOpsNavOpen}
-                                aria-controls="ddoc-devops-submenu"
-                                id="ddoc-devops-nav-toggle"
-                                onClick={() => setDevOpsNavOpen((o) => !o)}
-                              >
-                                <span className="ddoc-side-nav__group-title">DevOps</span>
-                                <ChevronRight
-                                  className={`ddoc-side-nav__chev${devOpsNavOpen ? ' ddoc-side-nav__chev--open' : ''}`}
-                                />
-                              </button>
+                        filteredNav.groups.map((group) => {
+                          const isOpen = openGroups[group.id] ?? group.defaultOpen
+                          const isCurrent = group.id === 'devops'
+                          const headerClass = `ddoc-side-nav__group-header${isCurrent ? ' ddoc-side-nav__row--active' : ''}`
+                          const chevron = (
+                            <ChevronRight
+                              className={`ddoc-side-nav__chev${isOpen ? ' ddoc-side-nav__chev--open' : ''}`}
+                            />
+                          )
+                          return (
+                            <div key={group.id} id={group.id} className="ddoc-side-nav__group">
+                              {isCurrent ? (
+                                <button
+                                  type="button"
+                                  className={headerClass}
+                                  aria-expanded={isOpen}
+                                  aria-controls={`ddoc-nav-group-${group.id}`}
+                                  id={`ddoc-nav-toggle-${group.id}`}
+                                  onClick={() =>
+                                    setOpenGroups((prev) => ({ ...prev, [group.id]: !isOpen }))
+                                  }
+                                >
+                                  <span className="ddoc-side-nav__group-title">{group.title}</span>
+                                  {chevron}
+                                </button>
+                              ) : (
+                                <Link
+                                  to={group.to}
+                                  className={headerClass}
+                                  aria-expanded={isOpen}
+                                  aria-controls={`ddoc-nav-group-${group.id}`}
+                                  id={`ddoc-nav-toggle-${group.id}`}
+                                >
+                                  <span className="ddoc-side-nav__group-title">{group.title}</span>
+                                  {chevron}
+                                </Link>
+                              )}
                               <ul
-                                id="ddoc-devops-submenu"
+                                id={`ddoc-nav-group-${group.id}`}
                                 className="ddoc-side-nav__sub"
-                                hidden={!devOpsNavOpen}
-                                aria-labelledby="ddoc-devops-nav-toggle"
+                                hidden={!isOpen}
+                                aria-labelledby={`ddoc-nav-toggle-${group.id}`}
                               >
-                                {filteredNav.devOpsLinks.length === 0 ? (
-                                  <li className="ddoc-sidebar__sub-empty">No matching topics.</li>
+                                {group.links.length === 0 ? (
+                                  <li className="ddoc-sidebar__sub-empty">
+                                    {filteredNav.q ? 'No matching topics.' : 'Links coming soon'}
+                                  </li>
                                 ) : (
-                                  filteredNav.devOpsLinks.map((item) => (
+                                  group.links.map((item) => (
                                     <li key={item.label}>
                                       {item.to ? (
                                         <Link
@@ -336,15 +358,8 @@ export default function MavenIntegrationDevOpsPage() {
                                 )}
                               </ul>
                             </div>
-                          ) : null}
-
-                          {filteredNav.bottom.map((label) => (
-                            <button key={label} type="button" className="ddoc-side-nav__row">
-                              <span className="ddoc-side-nav__label">{label}</span>
-                              <ChevronRight className="ddoc-side-nav__chev" />
-                            </button>
-                          ))}
-                        </>
+                          )
+                        })
                       )}
                     </nav>
                   </div>
@@ -364,9 +379,26 @@ export default function MavenIntegrationDevOpsPage() {
                 Jenkinsfile
               </h2>
               <p className="ddoc-article__p">Here is a sample Jenkinsfile for this integration</p>
-              <pre className="ddoc-code-block" tabIndex={0}>
-                <code>{JENKINSFILE_SAMPLE}</code>
-              </pre>
+              <div className="ddoc-code-wrap">
+                <button
+                  type="button"
+                  className="ddoc-code-copy"
+                  onClick={async () => {
+                    try {
+                      await navigator.clipboard.writeText(JENKINSFILE_SAMPLE)
+                      setCopied(true)
+                      window.setTimeout(() => setCopied(false), 2000)
+                    } catch {
+                      setCopied(false)
+                    }
+                  }}
+                >
+                  {copied ? 'Copied' : 'Copy'}
+                </button>
+                <pre className="ddoc-code-block" tabIndex={0}>
+                  <code>{JENKINSFILE_SAMPLE}</code>
+                </pre>
+              </div>
               <p className="ddoc-article__p">
                 This Jenkinsfile describes a simple CI/CD pipeline that runs a build, tests, and deployment using Maven.
                 The pipeline is triggered on push to your repository and can be run automatically. In a production

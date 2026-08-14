@@ -2,20 +2,22 @@ import { useState, useMemo, useRef, useEffect, type ReactNode } from 'react'
 import { Badge } from '@cmsgov/ds-cms-gov'
 import { Link } from 'react-router-dom'
 import {
-  SERVICES, CATEGORIES, CATEGORY_ICONS, MATRIX, COMPARISON,
+  SERVICES, CATEGORIES, MATRIX, COMPARISON,
   JOURNEY_PHASES, MATURITY_LABELS, PROVIDER_META,
   type Service, type Provider, type Category,
 } from '../data/hybridCloudServicesGuide'
+import { CapabilityCategoryIcon } from './icons/CapabilityCategoryIcon'
+import { fusionToolkitPath } from '../data/fusionToolkitContent'
 import { platformInteriorPath } from '../data/platformPages'
 
 type Tab = 'overview' | 'catalog' | 'comparison' | 'journey'
 type BadgeVariation = 'info' | 'success' | 'warn' | 'alert'
 
-const TABS: { id: Tab; label: string; icon: string }[] = [
-  { id: 'overview',   label: 'Quick Reference',   icon: '⚡' },
-  { id: 'catalog',    label: 'Service Catalog',    icon: '🗂️' },
-  { id: 'comparison', label: 'Cross-CSP Compare',  icon: '↔️' },
-  { id: 'journey',    label: 'Customer Journey',   icon: '🗺️' },
+const TABS: { id: Tab; label: string }[] = [
+  { id: 'overview',   label: 'Quick Reference' },
+  { id: 'catalog',    label: 'Service Catalog' },
+  { id: 'comparison', label: 'Cross-CSP Compare' },
+  { id: 'journey',    label: 'Customer Journey' },
 ]
 
 function providerBadgeProps(provider: Provider): { variation?: BadgeVariation; className?: string } {
@@ -56,6 +58,45 @@ const FUSION_COLORS: Record<string, string> = {
   Lens: '#dfb01c', 'Cloud.CMS.gov': '#dfb01c',
 }
 
+const TOOLKIT_CARDS = [
+  {
+    title: 'Match',
+    description: 'CSP recommendation engine — maps workloads to the best cloud provider',
+    icon: `${import.meta.env.BASE_URL}images/explore/toolkit/match-transparent.png`,
+    color: FUSION_COLORS.Match,
+    href: `${fusionToolkitPath}#match`,
+  },
+  {
+    title: 'Helix',
+    description: 'Governance & compliance platform — security, policies, landing zones',
+    icon: `${import.meta.env.BASE_URL}images/explore/toolkit/helix-transparent.png`,
+    color: FUSION_COLORS.Helix,
+    href: `${fusionToolkitPath}#helix`,
+  },
+  {
+    title: 'BaseCamp',
+    description: 'Application portfolio registry — ownership, lifecycle, and integrations',
+    icon: `${import.meta.env.BASE_URL}images/explore/toolkit/basecamp-transparent.png`,
+    color: FUSION_COLORS.BaseCamp,
+    href: `${fusionToolkitPath}#basecamp`,
+  },
+  {
+    title: 'Lens',
+    description: 'Multi-cloud FinOps — cost visibility, optimization, and reporting',
+    icon: `${import.meta.env.BASE_URL}images/explore/toolkit/lens-transparent.png`,
+    color: FUSION_COLORS.Lens,
+    href: `${fusionToolkitPath}#lens`,
+  },
+  {
+    title: 'Cloud.CMS.gov',
+    description: 'Customer support hub — docs, training, onboarding, and self-service',
+    icon: `${import.meta.env.BASE_URL}images/explore/toolkit/ccg-transparent.png`,
+    color: FUSION_COLORS['Cloud.CMS.gov'],
+    href: 'https://cloud.cms.gov',
+    external: true,
+  },
+] as const
+
 const ORACLE_COLOR = '#C74634'
 
 const PLATFORM_CARDS: {
@@ -70,12 +111,14 @@ const PLATFORM_CARDS: {
     description: 'Full AWS service catalog, cost-optimized workloads, broad innovation.',
     color: PROVIDER_META.aws.color,
     provider: 'aws',
+    href: platformInteriorPath('aws-commercial'),
   },
   {
     title: 'Azure Commercial',
     description: 'Identity, M365, PaaS, AI/ML services, and developer tools.',
     color: PROVIDER_META.azure.color,
     provider: 'azure',
+    href: platformInteriorPath('azure-commercial'),
   },
   {
     title: 'Google Cloud Platform',
@@ -88,6 +131,7 @@ const PLATFORM_CARDS: {
     title: 'Oracle',
     description: 'High-performance databases, enterprise apps, and intensive compute.',
     color: ORACLE_COLOR,
+    href: platformInteriorPath('oracle-cloud-infrastructure'),
   },
 ]
 
@@ -153,7 +197,7 @@ function ServicePanel({ svc, onClose }: { svc: Service; onClose: () => void }) {
 
   const Section = ({ title, children }: { title: string; children: ReactNode }) => (
     <div className="mb-6">
-      <h4 className="text-xs font-semibold tracking-widest uppercase mb-3" style={{ color: pm.color, fontFamily: 'var(--font-body)' }}>
+      <h4 className="explore-label-heading" style={{ color: pm.color }}>
         {title}
       </h4>
       {children}
@@ -190,7 +234,7 @@ function ServicePanel({ svc, onClose }: { svc: Service; onClose: () => void }) {
             <div className="flex items-center gap-3">
               <span className="text-3xl">{svc.icon}</span>
               <div>
-                <h2 className="font-bold text-xl leading-tight" style={{ color: 'var(--color-text)', fontFamily: 'var(--font-display)' }}>
+                <h2 className="explore-panel-title">
                   {svc.name}
                 </h2>
                 <div className="flex items-center gap-2 mt-1 flex-wrap">
@@ -233,7 +277,7 @@ function ServicePanel({ svc, onClose }: { svc: Service; onClose: () => void }) {
 
           <div className="grid grid-cols-1 gap-4 mb-6" style={{ gridTemplateColumns: '1fr 1fr' }}>
             <div className="rounded-xl p-4" style={{ background: 'color-mix(in srgb, var(--fusion-yellow) 10%, transparent)', border: '1px solid color-mix(in srgb, var(--fusion-yellow) 28%, transparent)' }}>
-              <h4 className="text-xs font-semibold tracking-widest uppercase mb-3 flex items-center gap-1.5" style={{ color: 'var(--fusion-yellow)', fontFamily: 'var(--font-body)' }}>
+              <h4 className="explore-label-heading flex items-center gap-1.5" style={{ color: 'var(--fusion-yellow)' }}>
                 <span>✓</span> When to Use
               </h4>
               <ul className="space-y-1.5">
@@ -243,7 +287,7 @@ function ServicePanel({ svc, onClose }: { svc: Service; onClose: () => void }) {
               </ul>
             </div>
             <div className="rounded-xl p-4" style={{ background: 'rgba(255,77,77,0.06)', border: '1px solid rgba(255,77,77,0.15)' }}>
-              <h4 className="text-xs font-semibold tracking-widest uppercase mb-3 flex items-center gap-1.5" style={{ color: '#FF6B6B', fontFamily: 'var(--font-body)' }}>
+              <h4 className="explore-label-heading flex items-center gap-1.5" style={{ color: '#FF6B6B' }}>
                 <span>✕</span> When NOT to Use
               </h4>
               <ul className="space-y-1.5">
@@ -412,11 +456,7 @@ function OverviewPage({ onSelectCategory }: { onSelectCategory: (cat: Category) 
 
       {/* Platforms */}
       <section className="mb-8" id="platforms" aria-labelledby="explore-platforms-heading">
-        <h2
-          id="explore-platforms-heading"
-          className="text-lg font-bold mb-4"
-          style={{ color: 'var(--color-text)', fontFamily: 'var(--font-display)' }}
-        >
+        <h2 id="explore-platforms-heading" className="explore-section-heading">
           Platforms
         </h2>
         <div className="explore-platform-grid">
@@ -441,27 +481,15 @@ function OverviewPage({ onSelectCategory }: { onSelectCategory: (cat: Category) 
               </>
             )
 
-            if (card.href) {
-              return (
-                <Link
-                  key={card.title}
-                  to={card.href}
-                  className="explore-platform-card explore-platform-card--link rounded-xl p-4"
-                  style={{ border: `1px solid ${card.color}44` }}
-                >
-                  {body}
-                </Link>
-              )
-            }
-
             return (
-              <div
+              <Link
                 key={card.title}
-                className="explore-platform-card rounded-xl p-4"
-                style={{ border: `1px solid ${card.color}22` }}
+                to={card.href}
+                className="explore-platform-card explore-platform-card--link rounded-xl p-4"
+                style={{ border: `1px solid ${card.color}44` }}
               >
                 {body}
-              </div>
+              </Link>
             )
           })}
         </div>
@@ -469,29 +497,47 @@ function OverviewPage({ onSelectCategory }: { onSelectCategory: (cat: Category) 
 
       {/* Fusion Ecosystem */}
       <div className="mb-8">
-        <h2 className="text-lg font-bold mb-4" style={{ color: 'var(--color-text)', fontFamily: 'var(--font-display)' }}>
+        <h2 className="explore-section-heading">
           Cloud Fusion Toolkit
         </h2>
         <div className="explore-toolkit-grid">
-          {Object.entries(FUSION_COLORS).map(([tool, color]) => {
-            const descs: Record<string, string> = {
-              Match: 'CSP recommendation engine — maps workloads to the best cloud provider',
-              Helix: 'Governance & compliance platform — security, policies, landing zones',
-              BaseCamp: 'Application portfolio registry — ownership, lifecycle, and integrations',
-              Lens: 'Multi-cloud FinOps — cost visibility, optimization, and reporting',
-              'Cloud.CMS.gov': 'Customer support hub — docs, training, onboarding, and self-service',
-            }
-            return (
-              <div
-                key={tool}
-                className="explore-toolkit-card rounded-xl p-4"
-                style={{ border: `1px solid ${color}22` }}
-              >
-                <div className="flex items-center gap-2 mb-2">
-                  <FusionTag tool={tool} />
+          {TOOLKIT_CARDS.map((card) => {
+            const inner = (
+              <>
+                <img
+                  src={card.icon}
+                  alt=""
+                  className="explore-toolkit-card__icon"
+                  decoding="async"
+                />
+                <div className="explore-toolkit-card__copy">
+                  <h3 className="explore-toolkit-card__title">{card.title}</h3>
+                  <p className="explore-toolkit-card__desc">{card.description}</p>
                 </div>
-                <p className="text-xs leading-relaxed" style={{ color: 'var(--color-text-muted)' }}>{descs[tool]}</p>
-              </div>
+              </>
+            )
+            const className = 'explore-toolkit-card explore-toolkit-card--link rounded-xl'
+            const style = { border: `1px solid ${card.color}22` }
+
+            if ('external' in card && card.external) {
+              return (
+                <a
+                  key={card.title}
+                  href={card.href}
+                  className={className}
+                  style={style}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {inner}
+                </a>
+              )
+            }
+
+            return (
+              <Link key={card.title} to={card.href} className={className} style={style}>
+                {inner}
+              </Link>
             )
           })}
         </div>
@@ -499,7 +545,7 @@ function OverviewPage({ onSelectCategory }: { onSelectCategory: (cat: Category) 
 
       {/* Quick Reference Matrix */}
       <div>
-        <h2 className="text-lg font-bold mb-4" style={{ color: 'var(--color-text)', fontFamily: 'var(--font-display)' }}>
+        <h2 className="explore-section-heading">
           Capability Quick Reference
         </h2>
         <div className="rounded-2xl overflow-hidden" style={{ border: '1px solid var(--color-border)' }}>
@@ -531,7 +577,7 @@ function OverviewPage({ onSelectCategory }: { onSelectCategory: (cat: Category) 
                 >
                   <td className="px-4 py-3">
                     <span className="flex items-center gap-2">
-                      <span>{CATEGORY_ICONS[cat]}</span>
+                      <CapabilityCategoryIcon category={cat} />
                       <span className="font-medium" style={{ color: 'var(--color-text)' }}>{cat}</span>
                     </span>
                   </td>
@@ -720,7 +766,7 @@ function ComparisonPage({ onSelectService }: { onSelectService: (svc: Service) =
   return (
     <div className="fade-in">
       <div className="mb-6">
-        <h2 className="text-lg font-bold mb-1" style={{ color: 'var(--color-text)', fontFamily: 'var(--font-display)' }}>
+        <h2 className="explore-section-heading explore-section-heading--lede">
           Cross-CSP Service Equivalents
         </h2>
         <p className="text-sm" style={{ color: 'var(--color-text-muted)' }}>
@@ -815,7 +861,7 @@ function ComparisonPage({ onSelectService }: { onSelectService: (svc: Service) =
 
       {/* Fusion Enterprise Shared Services row */}
       <div className="mt-4 rounded-xl p-5" style={{ background: 'color-mix(in srgb, var(--fusion-yellow) 8%, transparent)', border: '1px solid color-mix(in srgb, var(--fusion-yellow) 28%, transparent)' }}>
-        <h3 className="text-xs font-semibold tracking-widest mb-3" style={{ color: 'var(--fusion-yellow)', fontFamily: 'var(--font-body)' }}>
+        <h3 className="explore-label-heading" style={{ color: 'var(--fusion-yellow)' }}>
           CMS ENTERPRISE CROSS-CUTTING SERVICES
         </h3>
         <div className="flex flex-wrap gap-3">
@@ -851,7 +897,7 @@ function JourneyPage({ onSelectService }: { onSelectService: (svc: Service) => v
   return (
     <div className="fade-in">
       <div className="mb-6">
-        <h2 className="text-lg font-bold mb-1" style={{ color: 'var(--color-text)', fontFamily: 'var(--font-display)' }}>
+        <h2 className="explore-section-heading explore-section-heading--lede">
           Customer Journey Map
         </h2>
         <p className="text-sm" style={{ color: 'var(--color-text-muted)' }}>
@@ -900,7 +946,7 @@ function JourneyPage({ onSelectService }: { onSelectService: (svc: Service) => v
       {JOURNEY_PHASES.map(p => p.phase === activePhase && (
         <div key={p.phase}>
           <div className="rounded-xl p-4 mb-5" style={{ background: `${p.color}0F`, border: `1px solid ${p.color}33` }}>
-            <h3 className="font-bold text-base mb-1" style={{ color: p.color, fontFamily: 'var(--font-display)' }}>
+            <h3 className="explore-phase-heading" style={{ color: p.color }}>
               {p.phase} Phase
             </h3>
             <p className="text-sm" style={{ color: 'var(--color-text-muted)' }}>{p.desc}</p>
@@ -946,27 +992,19 @@ export function HybridCloudServicesGuide() {
         style={{ background: 'color-mix(in srgb, var(--color-bg) 92%, transparent)', backdropFilter: 'blur(12px)', borderBottom: '1px solid var(--color-border)' }}
       >
         <div className="mx-auto max-w-[var(--fusion-site-max-width)] px-[var(--fusion-site-padding-x)] md:px-[var(--fusion-site-padding-x-md)]">
-          <div className="flex flex-col gap-3 py-4">
-            <nav className="flex flex-wrap items-center gap-1" aria-label="Services guide sections">
-              {TABS.map(t => (
-                <button
-                  key={t.id}
-                  type="button"
-                  onClick={() => setTab(t.id)}
-                  aria-pressed={tab === t.id}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all"
-                  style={{
-                    background: tab === t.id ? 'color-mix(in srgb, var(--fusion-yellow) 16%, transparent)' : 'transparent',
-                    color: tab === t.id ? 'var(--fusion-yellow)' : 'var(--color-text-muted)',
-                    border: `1px solid ${tab === t.id ? 'color-mix(in srgb, var(--fusion-yellow) 35%, transparent)' : 'transparent'}`,
-                  }}
-                >
-                  <span className="hidden sm:inline">{t.icon}</span>
-                  <span>{t.label}</span>
-                </button>
-              ))}
-            </nav>
-          </div>
+          <nav className="explore-tabs" aria-label="Services guide sections">
+            {TABS.map(t => (
+              <button
+                key={t.id}
+                type="button"
+                onClick={() => setTab(t.id)}
+                aria-pressed={tab === t.id}
+                className={`explore-tabs__tab${tab === t.id ? ' explore-tabs__tab--active' : ''}`}
+              >
+                {t.label}
+              </button>
+            ))}
+          </nav>
         </div>
       </div>
 

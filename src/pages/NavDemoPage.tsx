@@ -5,9 +5,9 @@ import { SiteFooter } from '../components/SiteFooter'
 
 export default function NavDemoPage() {
   useEffect(() => {
-    document.title = 'Nav Legacy Demo | FUSION Sphere'
+    document.title = 'Nav Legacy Demo | CCG Modernization'
     return () => {
-      document.title = 'FUSION Sphere'
+      document.title = 'CCG Modernization'
     }
   }, [])
   return (

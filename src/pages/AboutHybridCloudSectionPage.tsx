@@ -9,8 +9,6 @@ import { SiteFooter } from '../components/SiteFooter'
 import { SiteHeader } from '../components/SiteHeader'
 import type { AboutHybridCloudSectionId } from '../data/aboutHybridCloudContent'
 
-const aboutHeroBackground = `${import.meta.env.BASE_URL}images/sections/benefits/customer-support-hero.png`
-
 type AboutHybridCloudSectionPageProps = {
   sectionId: Exclude<AboutHybridCloudSectionId, 'about'>
   title: string
@@ -23,7 +21,7 @@ export default function AboutHybridCloudSectionPage({
   description,
 }: AboutHybridCloudSectionPageProps) {
   useEffect(() => {
-    document.title = `${title} | FUSION Sphere`
+    document.title = `${title} | CCG Modernization`
   }, [title])
 
   return (
@@ -41,7 +39,6 @@ export default function AboutHybridCloudSectionPage({
             currentLabel={title}
             title={title}
             description={description}
-            backgroundImage={aboutHeroBackground}
             showActions={false}
           />
           <AboutHybridCloudStickyNav activeSectionId={sectionId} />

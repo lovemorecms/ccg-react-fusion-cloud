@@ -1,94 +1,44 @@
-﻿import { useNavigate } from 'react-router-dom'
+﻿import type { ReactNode } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { ChevronRight } from './icons/Chevron'
 import { useScrollReveal } from '../hooks/useScrollReveal'
 
-/** “How can we help you today?” — staggered pill pathways */
+/** “How can we help you today?” — featured-resource-style pathway cards */
 const pathways = [
   {
     id: 'host',
     title: 'I Need to Host an Application',
+    description: 'Cloud hosting services',
     href: '#multi-cloud-services',
     Icon: IconSpeechBubble,
   },
   {
     id: 'migrate',
     title: 'I Need to Migrate an Application',
+    description: 'Application migration',
     href: '/learn/initiatives',
     Icon: IconRefresh,
   },
   {
-    id: 'guidance',
-    title: 'I Need Guidance',
-    href: '/learn/knowledge-center',
-    Icon: IconStopwatch,
-  },
-  {
     id: 'support',
     title: 'I Need Support',
+    description: 'Help and contact',
     href: '#site-footer',
     Icon: IconQuestion,
-    iconWrapSupport: true,
   },
   {
     id: 'explore',
     title: 'Explore Options',
+    description: 'Browse the ecosystem',
     href: '#fusion-ecosystem',
     Icon: IconGrid,
   },
 ] as const
 
-type PathwayCard = (typeof pathways)[number]
-
-function PathwayPill({ card, compact }: { card: PathwayCard; compact: boolean }) {
-  const navigate = useNavigate()
-
-  const iconWrapClass =
-    'iconWrapSupport' in card && card.iconWrapSupport
-      ? 'fusion-pathways-help__pill-icon-wrap fusion-pathways-help__pill-icon-wrap--support'
-      : 'fusion-pathways-help__pill-icon-wrap'
-
-  const className = compact
-    ? 'fusion-pathways-help__pill fusion-pathways-help__pill--compact fusion-reveal-child'
-    : 'fusion-pathways-help__pill fusion-reveal-child'
-
-  const inner = (
-    <>
-      <span className={iconWrapClass} aria-hidden>
-        <card.Icon className="fusion-pathways-help__pill-icon" />
-      </span>
-      <span className="fusion-pathways-help__pill-label">{card.title}</span>
-      <ChevronRight className="fusion-pathways-help__pill-chevron" />
-    </>
-  )
-
-  if (card.href.startsWith('/')) {
-    return (
-      <a
-        href={card.href}
-        className={className}
-        onClick={(e) => {
-          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return
-          if (e.button !== 0) return
-          e.preventDefault()
-          navigate(card.href)
-        }}
-      >
-        {inner}
-      </a>
-    )
-  }
-
-  return (
-    <a href={card.href} className={className}>
-      {inner}
-    </a>
-  )
-}
-
 export function FusionPathwaysHelp() {
   const headerRef = useScrollReveal<HTMLElement>()
-  const rowsRef = useScrollReveal<HTMLDivElement>({ threshold: 0.08, rootMargin: '0px 0px -20px 0px' })
-  const row1 = pathways.slice(0, 2)
-  const row2 = pathways.slice(2, 5)
+  const gridRef = useScrollReveal<HTMLUListElement>({ threshold: 0.08, rootMargin: '0px 0px -20px 0px' })
+  const navigate = useNavigate()
 
   return (
     <section
@@ -118,38 +68,67 @@ export function FusionPathwaysHelp() {
           </p>
         </header>
 
-        <nav ref={rowsRef} className="fusion-pathways-help__layout fusion-reveal-stagger" aria-labelledby="fusion-pathways-heading">
-          <ul className="fusion-pathways-help__row fusion-pathways-help__row--two m-0 list-none p-0">
-            {row1.map((card) => (
-              <li key={card.id} className="flex min-w-0">
-                <PathwayPill card={card} compact={false} />
-              </li>
-            ))}
-          </ul>
-          <ul className="fusion-pathways-help__row fusion-pathways-help__row--three m-0 list-none p-0">
-            {row2.map((card) => (
-              <li key={card.id} className="flex min-w-0">
-                <PathwayPill card={card} compact />
-              </li>
-            ))}
-          </ul>
-        </nav>
+        <ul
+          ref={gridRef}
+          className="fusion-pathways-help__grid fusion-reveal-stagger m-0 list-none p-0"
+        >
+          {pathways.map((item) => (
+            <li key={item.id} className="flex min-h-0 min-w-0">
+              <article
+                className="fusion-featured-resources__card fusion-reveal-child relative flex h-full min-h-[10rem] min-w-0 flex-1 flex-col rounded-xl bg-[color:var(--color-primary)] p-3 pt-4 text-white shadow-md sm:min-h-[10.5rem] sm:rounded-2xl sm:p-5 sm:pt-6 md:min-h-[11rem] md:p-6"
+                aria-labelledby={`fusion-pathway-${item.id}`}
+              >
+                <span className="fusion-featured-resources__status-dot" aria-hidden />
+
+                <PathwayIconRing>
+                  <item.Icon className="fusion-accent-yellow h-5 w-5 md:h-6 md:w-6" />
+                </PathwayIconRing>
+
+                <h3
+                  id={`fusion-pathway-${item.id}`}
+                  className="fusion-featured-resources__card-title m-0 mt-3 sm:mt-4"
+                >
+                  {item.title}
+                </h3>
+                <a
+                  href={item.href}
+                  className="fusion-featured-resources__card-link"
+                  onClick={(e) => {
+                    if (!item.href.startsWith('/')) return
+                    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return
+                    if (e.button !== 0) return
+                    e.preventDefault()
+                    navigate(item.href)
+                  }}
+                >
+                  <span className="min-w-0">{item.description}</span>
+                  <span className="fusion-featured-resources__arrow" aria-hidden>
+                    <ChevronRight size={16} />
+                  </span>
+                </a>
+              </article>
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   )
 }
 
-function ChevronRight({ className }: { className?: string }) {
+function PathwayIconRing({ children }: { children: ReactNode }) {
   return (
-    <svg className={className} width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
-      <path
-        d="M9 18l6-6-6-6"
-        stroke="currentColor"
-        strokeWidth={2}
-        strokeLinecap="round"
-        strokeLinejoin="round"
+    <div className="relative flex size-11 shrink-0 items-center justify-center md:size-[3.25rem]">
+      <div
+        className="pointer-events-none absolute inset-0 rounded-full opacity-25 blur-md"
+        style={{
+          background: 'color-mix(in srgb, var(--fusion-yellow) 55%, transparent)',
+        }}
+        aria-hidden
       />
-    </svg>
+      <div className="fusion-accent-yellow-ring relative flex size-11 items-center justify-center rounded-full border-2 bg-[color:color-mix(in_srgb,var(--color-primary-darker)_35%,transparent)] md:size-[3.25rem]">
+        {children}
+      </div>
+    </div>
   )
 }
 
@@ -189,16 +168,6 @@ function IconRefresh({ className }: { className?: string }) {
         strokeLinecap="round"
         strokeLinejoin="round"
       />
-    </svg>
-  )
-}
-
-function IconStopwatch({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden>
-      <circle cx="12" cy="14" r="7" stroke="currentColor" strokeWidth={1.75} />
-      <path d="M12 10V7M9 3h6" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" />
-      <path d="M12 14l3-2" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" />
     </svg>
   )
 }

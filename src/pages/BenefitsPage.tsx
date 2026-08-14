@@ -89,7 +89,7 @@ function ArrowIcon() {
 
 export default function BenefitsPage() {
   useEffect(() => {
-    document.title = 'Benefits | FUSION Sphere'
+    document.title = 'Benefits | CCG Modernization'
   }, [])
 
   return (

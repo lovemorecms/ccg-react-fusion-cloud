@@ -66,7 +66,6 @@ export function FusionFeaturedResources() {
           <h2 id="fusion-featured-resources-heading" className="fusion-featured-resources__heading m-0">
             Featured Resources
           </h2>
-          <p className="fusion-featured-resources__support m-0 max-w-[935px]">Heading support info</p>
         </header>
 
         <ul

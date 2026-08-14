@@ -1,20 +1,23 @@
 export type FusionToolkitProduct = {
-  id: string
+  id: 'basecamp' | 'helix' | 'lens' | 'match'
   name: string
   tagline: string
   cardDescription: string
   detailDescription: string
   features: string[]
+  image: string
   imageReverse?: boolean
   sectionVariant?: 'light' | 'blue' | 'gloss'
 }
+
+const toolkitImage = (file: string) => `${import.meta.env.BASE_URL}images/explore/toolkit/${file}`
 
 export const fusionToolkitHero = {
   title: 'Fusion Toolkit',
   lede:
     'Four powerful products, one unified ecosystem. Build, orchestrate, observe, and optimize with elegance.',
   primaryCta: { label: 'Explore the Toolkit', href: '#toolkit-grid' },
-  secondaryCta: { label: 'View Documentation', href: '/learn/knowledge-center' },
+  secondaryCta: { label: 'View Fusion Info Center', href: '/learn/knowledge-center' },
 }
 
 export const fusionToolkitGridIntro = {
@@ -38,6 +41,7 @@ export const fusionToolkitProducts: FusionToolkitProduct[] = [
       'Real-time monitoring and alerts',
       'Collaborative workspace',
     ],
+    image: toolkitImage('basecamp-transparent.png'),
     sectionVariant: 'light',
   },
   {
@@ -54,6 +58,7 @@ export const fusionToolkitProducts: FusionToolkitProduct[] = [
       'Event-driven automation',
       'Advanced analytics',
     ],
+    image: toolkitImage('helix-transparent.png'),
     imageReverse: true,
     sectionVariant: 'blue',
   },
@@ -71,6 +76,7 @@ export const fusionToolkitProducts: FusionToolkitProduct[] = [
       'Custom metrics and logs',
       'Performance optimization',
     ],
+    image: toolkitImage('lens-transparent.png'),
     sectionVariant: 'gloss',
   },
   {
@@ -87,6 +93,7 @@ export const fusionToolkitProducts: FusionToolkitProduct[] = [
       'Policy-driven placement',
       'FinOps-aligned recommendations',
     ],
+    image: toolkitImage('match-transparent.png'),
     imageReverse: true,
     sectionVariant: 'blue',
   },

@@ -7,7 +7,7 @@ import {
 import { FusionButton } from '../FusionButton'
 import { InteriorSectionNav } from '../layouts/InteriorSectionNav'
 
-const aboutHeroBackground = `${import.meta.env.BASE_URL}images/sections/benefits/customer-support-hero.png`
+const aboutHeroArt = `${import.meta.env.BASE_URL}images/about/about-hero-transparent.png`
 
 function BreadcrumbChevron() {
   return (
@@ -35,24 +35,13 @@ export function AboutHybridCloudHero({
   currentLabel,
   title = aboutHybridCloudHero.title,
   description = aboutHybridCloudHero.description,
-  backgroundImage = aboutHeroBackground,
+  backgroundImage = aboutHeroArt,
   showActions = true,
 }: AboutHybridCloudHeroProps) {
   return (
-    <header
-      className={`tpl-2col-hero-band${backgroundImage ? ' about-hybrid-cloud-hero-band--image' : ''}`}
-    >
-      {backgroundImage ? (
-        <img
-          src={backgroundImage}
-          alt=""
-          className="about-hybrid-cloud-hero__background"
-          decoding="async"
-          fetchPriority="high"
-        />
-      ) : null}
-      <div className="tpl-2col-breadcrumb-bar">
-        <nav aria-label="Breadcrumb" className="kc-breadcrumb-inner">
+    <header className="explore-2 about-hybrid-cloud-hero-band">
+      <div className="about-hybrid-cloud-hero-band__shell">
+        <nav aria-label="Breadcrumb" className="about-hybrid-cloud-hero-band__crumb">
           <ol className="kc-breadcrumb-list">
             <li>
               <Link to="/" className="kc-breadcrumb-link">
@@ -88,23 +77,31 @@ export function AboutHybridCloudHero({
             )}
           </ol>
         </nav>
-      </div>
 
-      <section
-        className={`po-hero about-hybrid-cloud-hero${backgroundImage ? ' about-hybrid-cloud-hero--image' : ''}`}
-        aria-labelledby="about-hybrid-cloud-heading"
-      >
-        <div className="po-hero__glow" aria-hidden />
-        <div className="init-hero__inner po-hero__inner">
-          <div className="init-hero__text po-hero__text">
-            <h1 id="about-hybrid-cloud-heading" className="init-hero__heading po-hero__heading">
-              {title}
+        <section
+          className="explore-hero about-hybrid-cloud-hero rounded-2xl relative overflow-hidden"
+          aria-labelledby="about-hybrid-cloud-heading"
+          style={{
+            background:
+              'linear-gradient(135deg, var(--fusion-deep-sea-700) 0%, var(--fusion-deep-sea-800) 55%, var(--fusion-deep-sea-1000) 100%)',
+            border: '1px solid var(--color-border-bright)',
+          }}
+        >
+          <div
+            className="absolute inset-0 opacity-30"
+            style={{
+              background:
+                'radial-gradient(ellipse at 20% 50%, color-mix(in srgb, var(--fusion-deep-sea-500) 45%, transparent) 0%, transparent 60%), radial-gradient(ellipse at 80% 30%, color-mix(in srgb, var(--fusion-yellow) 22%, transparent) 0%, transparent 50%)',
+            }}
+            aria-hidden
+          />
+          <div className="explore-hero__content about-hybrid-cloud-hero__copy relative z-10">
+            <h1 id="about-hybrid-cloud-heading" className="fusion-hero__headline explore-hero__headline">
+              <span className="block font-semibold leading-[1.12] tracking-wide">{title}</span>
             </h1>
-            <p className="init-hero__description po-hero__description">
-              {description}
-            </p>
+            <p className="fusion-hero__body explore-hero__body">{description}</p>
             {showActions ? (
-              <div className="init-hero__actions">
+              <div className="init-hero__actions about-hybrid-cloud-hero__actions">
                 <FusionButton href="/about/contact-us" accent onDark>
                   Get Started
                 </FusionButton>
@@ -114,8 +111,17 @@ export function AboutHybridCloudHero({
               </div>
             ) : null}
           </div>
-        </div>
-      </section>
+          {backgroundImage ? (
+            <img
+              src={backgroundImage}
+              alt="CMS Hybrid Cloud mission diagram with identity, zero trust, and cloud security integrations"
+              className="explore-hero__art about-hybrid-cloud-hero__art"
+              decoding="async"
+              fetchPriority="high"
+            />
+          ) : null}
+        </section>
+      </div>
     </header>
   )
 }
