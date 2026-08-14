@@ -154,8 +154,7 @@ export function FusionHero() {
   )
 
   const base = import.meta.env.BASE_URL
-  const heroBgLightUrl = `${base}images/sections/hero-cms-home-primary-blue.png`
-  const heroIllustrationDarkUrl = `${base}images/sections/hero-cms-home-dark-illustration.png`
+  const heroEcosystemUrl = `${base}images/sections/hero-cms-fusion-ecosystem.png`
 
   return (
     <section
@@ -171,21 +170,21 @@ export function FusionHero() {
       </p>
 
       <img
-        src={heroBgLightUrl}
+        src={heroEcosystemUrl}
         alt=""
         className="fusion-hero__bg-fill fusion-hero__bg--light"
         decoding="async"
         fetchPriority="high"
       />
       <img
-        src={heroBgLightUrl}
+        src={heroEcosystemUrl}
         alt=""
         className="fusion-hero__bg-art fusion-hero__bg--light"
         decoding="async"
         fetchPriority="high"
       />
       <img
-        src={heroIllustrationDarkUrl}
+        src={heroEcosystemUrl}
         alt=""
         className="fusion-hero__illustration"
         decoding="async"
@@ -218,9 +217,9 @@ export function FusionHero() {
       </div>
 
       <div className="pointer-events-none relative z-10 mx-auto w-full max-w-[var(--fusion-site-max-width)] px-[var(--fusion-site-padding-x)] pb-24 pt-6 sm:pb-24 sm:pt-7 md:px-[var(--fusion-site-padding-x-md)] md:pb-24 md:pt-8 lg:pb-28">
-        <div className="grid grid-cols-12 gap-y-4 lg:gap-x-10">
-          <div className="col-span-12 w-full sm:col-span-10 md:col-span-8 lg:col-span-6 xl:col-span-6">
-            <div className="pointer-events-auto w-full max-w-[48rem]">
+        <div className="grid grid-cols-12 gap-y-4 lg:gap-x-6">
+          <div className="col-span-12 w-full sm:col-span-10 md:col-span-7 lg:col-span-5 xl:col-span-5">
+            <div className="pointer-events-auto w-full max-w-[36rem]">
               <p id={liveId} className="sr-only" aria-live="polite" aria-atomic="true">
                 Slide {slideIndex + 1} of {n}: {slide.line1} {slide.line2}
                 {slide.accent ? ` ${slide.accent}` : ''}. {slide.body}
@@ -283,7 +282,7 @@ export function FusionHero() {
       </div>
 
       {/* Carousel: full-bleed hero, bottom center */}
-      <div className="fusion-hero__carousel-dock pointer-events-none absolute inset-x-0 bottom-0 z-[15] flex justify-center px-4 pb-12 pt-4 sm:pb-12 sm:pt-5 md:pb-12">
+      <div className="fusion-hero__carousel-dock pointer-events-none absolute inset-x-0 bottom-0 z-[15] flex justify-center px-4 pb-16 pt-4 sm:pb-16 sm:pt-5 md:pb-20">
         <div
           className="fusion-hero__carousel-well pointer-events-auto flex items-center justify-center gap-2 rounded-full border border-white/25 px-3 py-1.5 shadow-lg backdrop-blur-md sm:gap-2.5 sm:px-4 sm:py-2"
           role="group"

@@ -1,10 +1,12 @@
 import { useState, useMemo, useRef, useEffect, type ReactNode } from 'react'
 import { Badge } from '@cmsgov/ds-cms-gov'
+import { Link } from 'react-router-dom'
 import {
   SERVICES, CATEGORIES, CATEGORY_ICONS, MATRIX, COMPARISON,
   JOURNEY_PHASES, MATURITY_LABELS, PROVIDER_META,
   type Service, type Provider, type Category,
 } from '../data/hybridCloudServicesGuide'
+import { platformInteriorPath } from '../data/platformPages'
 
 type Tab = 'overview' | 'catalog' | 'comparison' | 'journey'
 type BadgeVariation = 'info' | 'success' | 'warn' | 'alert'
@@ -53,6 +55,41 @@ const FUSION_COLORS: Record<string, string> = {
   Match: '#6eb6ff', Helix: '#8eb4ff', BaseCamp: '#b6bde0',
   Lens: '#dfb01c', CCG: '#dfb01c',
 }
+
+const ORACLE_COLOR = '#C74634'
+
+const PLATFORM_CARDS: {
+  title: string
+  description: string
+  color: string
+  provider?: Provider
+  href?: string
+}[] = [
+  {
+    title: 'AWS Commercial',
+    description: 'Full AWS service catalog, cost-optimized workloads, broad innovation.',
+    color: PROVIDER_META.aws.color,
+    provider: 'aws',
+  },
+  {
+    title: 'Azure Commercial',
+    description: 'Identity, M365, PaaS, AI/ML services, and developer tools.',
+    color: PROVIDER_META.azure.color,
+    provider: 'azure',
+  },
+  {
+    title: 'Google Cloud Platform',
+    description: 'BigQuery analytics, AI/ML, data engineering, and Kubernetes workloads.',
+    color: PROVIDER_META.gcp.color,
+    provider: 'gcp',
+    href: platformInteriorPath('google-cloud-platform'),
+  },
+  {
+    title: 'Oracle',
+    description: 'High-performance databases, enterprise apps, and intensive compute.',
+    color: ORACLE_COLOR,
+  },
+]
 
 function FusionTag({ tool }: { tool: string }) {
   return <Badge hideScreenReaderText>{tool}</Badge>
@@ -346,11 +383,15 @@ function OverviewPage({ onSelectCategory }: { onSelectCategory: (cat: Category) 
       >
         <div className="absolute inset-0 opacity-30" style={{ background: 'radial-gradient(ellipse at 20% 50%, color-mix(in srgb, var(--fusion-deep-sea-500) 45%, transparent) 0%, transparent 60%), radial-gradient(ellipse at 80% 30%, color-mix(in srgb, var(--fusion-yellow) 22%, transparent) 0%, transparent 50%)' }} />
         <div className="explore-hero__content relative z-10">
-          <h1 className="font-black text-3xl md:text-4xl leading-tight" style={{ color: 'var(--color-text)', fontFamily: 'var(--font-display)', margin: '0 0 0.75rem' }}>
-            CMS Cloud Fusion<br />
-            <span style={{ color: 'var(--fusion-yellow)' }}>Approved Services</span> Guide
+          <h1 className="fusion-hero__headline explore-hero__headline space-y-1 sm:space-y-1.5">
+            <span className="block font-semibold leading-[1.12] tracking-wide">
+              CMS Cloud Fusion
+            </span>
+            <span className="block font-semibold leading-[1.12] tracking-tight">
+              <span className="fusion-hero__headline-accent">Approved Services</span> Guide
+            </span>
           </h1>
-          <p className="text-base max-w-2xl leading-relaxed" style={{ color: 'var(--color-text-muted)', margin: '0 0 1.25rem' }}>
+          <p className="fusion-hero__body explore-hero__body mt-4 max-w-[52rem] font-sans text-base font-semibold leading-relaxed sm:mt-5 sm:text-lg">
             The authoritative reference for all approved cloud services across AWS, Microsoft Azure, Google Cloud Platform, and Fusion Enterprise Shared Services tools. Built for Hosting Coordinators, Technical Advisors, and Application Development Organizations.
           </p>
           <div className="flex flex-wrap gap-2">
@@ -365,12 +406,69 @@ function OverviewPage({ onSelectCategory }: { onSelectCategory: (cat: Category) 
           </div>
         </div>
         <img
-          src={`${import.meta.env.BASE_URL}images/explore/cms-cloud-fusion-ecosystem.png`}
-          alt="CMS Cloud Fusion ecosystem: cost intelligence, multi-cloud innovation, governance and compliance, enterprise collaboration, and command center."
+          src={`${import.meta.env.BASE_URL}images/explore/cms-cloud-fusion-logo.png`}
+          alt="CMS Cloud Fusion Ecosystem"
           className="explore-hero__art"
           decoding="async"
         />
       </div>
+
+      {/* Platforms */}
+      <section className="mb-8" id="platforms" aria-labelledby="explore-platforms-heading">
+        <h2
+          id="explore-platforms-heading"
+          className="text-lg font-bold mb-4"
+          style={{ color: 'var(--color-text)', fontFamily: 'var(--font-display)' }}
+        >
+          Platforms
+        </h2>
+        <div className="explore-platform-grid">
+          {PLATFORM_CARDS.map((card) => {
+            const body = (
+              <>
+                <div className="mb-2">
+                  {card.provider ? (
+                    <ProviderBadge provider={card.provider} size="xs" />
+                  ) : (
+                    <Badge variation="warn" hideScreenReaderText>
+                      ORACLE
+                    </Badge>
+                  )}
+                </div>
+                <span className="font-semibold text-sm" style={{ color: 'var(--color-text)', fontFamily: 'var(--font-display)' }}>
+                  {card.title}
+                </span>
+                <p className="text-xs leading-relaxed" style={{ color: 'var(--color-text-muted)', margin: '0.5rem 0 0' }}>
+                  {card.description}
+                </p>
+              </>
+            )
+
+            if (card.href) {
+              return (
+                <Link
+                  key={card.title}
+                  to={card.href}
+                  className="explore-platform-card explore-platform-card--link rounded-xl p-4"
+                  style={{ border: `1px solid ${card.color}44` }}
+                >
+                  {body}
+                </Link>
+              )
+            }
+
+            return (
+              <div
+                key={card.title}
+                className="explore-platform-card rounded-xl p-4"
+                style={{ border: `1px solid ${card.color}22` }}
+              >
+                {body}
+              </div>
+            )
+          })}
+        </div>
+      </section>
 
       {/* Fusion Ecosystem */}
       <div className="mb-8">
@@ -395,29 +493,6 @@ function OverviewPage({ onSelectCategory }: { onSelectCategory: (cat: Category) 
               </div>
             )
           })}
-        </div>
-
-        <h3
-          className="text-lg font-bold"
-          style={{ color: 'var(--color-text)', fontFamily: 'var(--font-display)', margin: '1.75rem 0 1rem' }}
-        >
-          Platforms
-        </h3>
-        <div className="grid gap-3" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))' }}>
-          <div
-            className="rounded-xl p-4"
-            style={{ background: 'var(--color-card)', border: `1px solid ${PROVIDER_META.gcp.color}22` }}
-          >
-            <div className="flex items-center gap-2 mb-2 flex-wrap">
-              <span className="font-semibold text-sm" style={{ color: 'var(--color-text)', fontFamily: 'var(--font-display)' }}>
-                Google Cloud Platform
-              </span>
-              <ProviderBadge provider="gcp" size="xs" />
-            </div>
-            <p className="text-xs leading-relaxed" style={{ color: 'var(--color-text-muted)', margin: 0 }}>
-              Google Cloud services for scalable infrastructure, modernization, data, AI, and resiliency.
-            </p>
-          </div>
         </div>
       </div>
 

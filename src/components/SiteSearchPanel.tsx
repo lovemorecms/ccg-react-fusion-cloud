@@ -86,7 +86,7 @@ export function SiteSearchPanel({ open, onClose }: SiteSearchPanelProps) {
   return (
     <div
       id="site-search-region"
-      className={`border-t border-neutral-200/60 bg-white/95 px-4 py-4 shadow-inner sm:px-8 md:px-12 ${animClass}`}
+      className={`fusion-site-search px-4 py-4 sm:px-8 md:px-12 ${animClass}`}
       onAnimationEnd={onAnimEnd}
     >
       <form
@@ -105,7 +105,7 @@ export function SiteSearchPanel({ open, onClose }: SiteSearchPanelProps) {
           type="search"
           name="q"
           placeholder="Search cloud topics, guidance, and services…"
-          className="fusion-site-search__input min-h-11 w-full flex-1 rounded-lg border-2 border-neutral-300 bg-white px-4 py-2 font-sans text-base text-neutral-900 outline-none ring-[color:var(--fusion-blue)] transition-shadow placeholder:text-neutral-500 focus-visible:border-[color:var(--fusion-blue)] focus-visible:ring-2"
+          className="fusion-site-search__input min-h-11 w-full flex-1 rounded-lg border-2 px-4 py-2 font-sans text-base outline-none transition-shadow"
           autoComplete="off"
           tabIndex={phase === 'exiting' ? -1 : 0}
         />

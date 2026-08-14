@@ -54,7 +54,7 @@ export function FusionQuickAccess() {
   return (
     <section
       id="fusion-quick-access"
-      className="fusion-quick-access fusion-band-gradient-primary-mist relative overflow-hidden"
+      className="fusion-quick-access fusion-band-gradient-primary-mist relative"
       aria-labelledby="fusion-quick-access-heading"
     >
       <div
@@ -66,7 +66,8 @@ export function FusionQuickAccess() {
         aria-hidden
       />
 
-      <div className="relative z-[1] mx-auto max-w-[var(--fusion-site-max-width)] px-[var(--fusion-site-padding-x)] pb-[var(--fusion-section-pad-block)] pt-[var(--fusion-section-pad-after-hero)] md:px-[var(--fusion-site-padding-x-md)]">
+      <div className="fusion-quick-access__inner relative z-[1] mx-auto max-w-[var(--fusion-site-max-width)] px-[var(--fusion-site-padding-x)] pb-[var(--fusion-section-pad-block)] md:px-[var(--fusion-site-padding-x-md)]">
+        <div className="fusion-quick-access__shell">
         <header
           ref={headerRef}
           className="fusion-quick-access__header fusion-home-section__header fusion-reveal max-w-[935px]"
@@ -77,14 +78,11 @@ export function FusionQuickAccess() {
           >
             Quick Access
           </h2>
-          <p className="fusion-quick-access__support m-0 max-w-[935px]">
-            Heading support info
-          </p>
         </header>
 
         <nav
           ref={panelRef}
-          className="fusion-quick-access__panel fusion-reveal-stagger relative overflow-hidden rounded-2xl border bg-[rgba(255,255,255,0.45)] p-6 backdrop-blur-sm md:p-8"
+          className="fusion-quick-access__panel fusion-reveal-stagger relative"
           aria-labelledby="fusion-quick-access-heading"
         >
           <div
@@ -108,10 +106,10 @@ export function FusionQuickAccess() {
                   <IconRing>
                     <item.Icon className="h-6 w-6 text-[color:var(--fusion-blue)]" />
                   </IconRing>
-                  <span className="mt-5 font-sans text-sm font-semibold uppercase tracking-[0.35px] text-[color:var(--fusion-blue)] sm:text-base">
+                  <span className="fusion-quick-access__title mt-5 font-sans text-sm font-semibold uppercase tracking-[0.35px] sm:text-base">
                     {item.title}
                   </span>
-                  <span className="mt-1 font-sans text-xs leading-tight text-[color:color-mix(in_srgb,var(--fusion-blue)_90%,transparent)] sm:text-sm">
+                  <span className="fusion-quick-access__subtitle">
                     {item.subtitle}
                   </span>
                 </a>
@@ -119,6 +117,7 @@ export function FusionQuickAccess() {
             ))}
           </ul>
         </nav>
+        </div>
       </div>
     </section>
   )

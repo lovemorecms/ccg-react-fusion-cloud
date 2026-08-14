@@ -241,43 +241,18 @@ function RightPanel({
   )
 }
 
-const overviewMenuCopy: Record<
-  string,
-  {
-    description: string
-    footerTitle: string
-    footerDescription: string
-    footerLabel: string
-    footerHref: string
-  }
-> = {
+const overviewMenuCopy: Record<string, { description: string }> = {
   explore: {
     description: 'Discover our cloud platforms, solutions, and shared services.',
-    footerTitle: 'Need guidance?',
-    footerDescription: 'Explore documentation, tutorials, and resources to help you succeed in the cloud.',
-    footerLabel: 'Visit Documentation',
-    footerHref: '/learn/knowledge-center',
   },
   about: {
     description: 'Learn about CMS Hybrid Cloud, its benefits, and the team supporting your cloud journey.',
-    footerTitle: 'Have questions?',
-    footerDescription: 'Connect with our team to learn how CMS Hybrid Cloud can support your organization.',
-    footerLabel: 'Contact Us',
-    footerHref: '/about/contact-us',
   },
   'get-started': {
     description: 'Find the onboarding and migration resources you need to begin your cloud journey.',
-    footerTitle: 'Need help getting started?',
-    footerDescription: 'Our support team can help you identify the right path and next steps.',
-    footerLabel: 'Get Help',
-    footerHref: '#get-help',
   },
   learn: {
     description: 'Build your expertise. Access documentation, training, and resources to succeed in the cloud.',
-    footerTitle: 'Need help finding something?',
-    footerDescription: 'Visit our documentation center for articles, tutorials, and support.',
-    footerLabel: 'Go to Documentation',
-    footerHref: '/learn/knowledge-center',
   },
 }
 
@@ -343,21 +318,6 @@ function MegaOverviewMenu({
           })}
         </div>
       </div>
-
-      <footer className="fusion-nav-v2__overview-footer">
-        <div>
-          <strong>{copy.footerTitle}</strong>
-          <span>{copy.footerDescription}</span>
-        </div>
-        <a
-          href={copy.footerHref}
-          className="fusion-nav-v2__overview-footer-link"
-          onClick={(e) => onNavigate(e, copy.footerHref)}
-        >
-          {copy.footerLabel}
-          <LinkIndicatorIcon />
-        </a>
-      </footer>
     </div>
   )
 }
@@ -455,17 +415,6 @@ function LearnOverviewMenu({
           })}
         </div>
       </div>
-
-      <footer className="fusion-nav-v2__overview-footer">
-        <div>
-          <strong>{copy.footerTitle}</strong>
-          <span>{copy.footerDescription}</span>
-        </div>
-        <a href={copy.footerHref} className="fusion-nav-v2__overview-footer-link" onClick={(e) => onNavigate(e, copy.footerHref)}>
-          {copy.footerLabel}
-          <LinkIndicatorIcon />
-        </a>
-      </footer>
     </div>
   )
 }
@@ -689,21 +638,21 @@ export function FusionSiteNavV2({
       className={`fusion-nav-v2 fusion-site-nav relative${activeMenu ? ` fusion-nav-v2--mega-open fusion-nav-v2--mega-open-${activeMenu}` : ''}`}
       ref={navRef}
     >
-      <div className="fusion-nav-v2__bar mx-auto flex max-w-[var(--fusion-site-max-width)] items-center justify-between px-[var(--fusion-site-padding-x)] py-3 md:px-[var(--fusion-site-padding-x-md)]">
+      <div className="fusion-nav-v2__bar mx-auto flex h-14 max-w-[var(--fusion-site-max-width)] items-center justify-between px-[var(--fusion-site-padding-x)] py-0 md:h-16 md:px-[var(--fusion-site-padding-x-md)]">
         <a href="/" className="fusion-site-nav__logo inline-flex shrink-0 items-center">
           <img
             src={`${import.meta.env.BASE_URL}images/ccg-fusion-logo-light.png`}
             alt="Cloud.CMS.gov"
             width={207}
             height={48}
-            className="fusion-site-nav__logo-img fusion-site-nav__logo-img--light h-8 w-auto md:h-10"
+            className="fusion-site-nav__logo-img fusion-site-nav__logo-img--light h-10 w-auto md:h-12"
           />
           <img
             src={`${import.meta.env.BASE_URL}images/ccg-fusion-logo-dark.png`}
             alt="Cloud.CMS.gov"
             width={207}
             height={48}
-            className="fusion-site-nav__logo-img fusion-site-nav__logo-img--dark h-8 w-auto md:h-10"
+            className="fusion-site-nav__logo-img fusion-site-nav__logo-img--dark h-10 w-auto md:h-12"
           />
         </a>
 

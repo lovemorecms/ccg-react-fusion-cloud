@@ -279,7 +279,7 @@ export function FusionSiteNav({
 
   return (
     <div className="fusion-site-nav relative" ref={navRef}>
-      <div className="mx-auto flex max-w-[var(--fusion-site-max-width)] items-center justify-between px-[var(--fusion-site-padding-x)] py-3 md:px-[var(--fusion-site-padding-x-md)]">
+      <div className="mx-auto flex h-14 max-w-[var(--fusion-site-max-width)] items-center justify-between px-[var(--fusion-site-padding-x)] py-0 md:h-16 md:px-[var(--fusion-site-padding-x-md)]">
         {/* Logo */}
         <a
           href="/"
@@ -290,14 +290,14 @@ export function FusionSiteNav({
             alt="Cloud.CMS.gov"
             width={207}
             height={48}
-            className="fusion-site-nav__logo-img fusion-site-nav__logo-img--light h-8 w-auto md:h-10"
+            className="fusion-site-nav__logo-img fusion-site-nav__logo-img--light h-10 w-auto md:h-12"
           />
           <img
             src={`${import.meta.env.BASE_URL}images/ccg-fusion-logo-dark.png`}
             alt="Cloud.CMS.gov"
             width={207}
             height={48}
-            className="fusion-site-nav__logo-img fusion-site-nav__logo-img--dark h-8 w-auto md:h-10"
+            className="fusion-site-nav__logo-img fusion-site-nav__logo-img--dark h-10 w-auto md:h-12"
           />
         </a>
 
