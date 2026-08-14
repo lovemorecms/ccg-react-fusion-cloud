@@ -104,7 +104,7 @@ const PLATFORM_CARDS: {
   description: string
   color: string
   provider?: Provider
-  href?: string
+  href: string
 }[] = [
   {
     title: 'AWS Commercial',
