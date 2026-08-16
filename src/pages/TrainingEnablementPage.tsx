@@ -36,7 +36,6 @@ const learningOpportunities = [
 const learningPaths = [
   {
     step: 1,
-    activeDots: 1,
     title: 'Foundations',
     description:
       'Build strong fundamentals with basic principles and best practices for CMS Hybrid Cloud architecture and operations.',
@@ -44,7 +43,6 @@ const learningPaths = [
   },
   {
     step: 2,
-    activeDots: 2,
     title: 'Enablement',
     description:
       'Advance your capabilities with intermediate workflows, tools, and strategies for implementing cloud solutions.',
@@ -193,16 +191,6 @@ function TrainingIcon({ type }: { type: string }) {
   }
 }
 
-function PathDots({ active }: { active: number }) {
-  return (
-    <span className="te-path-dots" aria-hidden>
-      {[1, 2, 3].map((dot) => (
-        <span key={dot} className={`te-path-dots__dot${dot <= active ? ' te-path-dots__dot--active' : ''}`} />
-      ))}
-    </span>
-  )
-}
-
 type TeActionLinkProps = {
   href: string
   label: string
@@ -211,12 +199,72 @@ type TeActionLinkProps = {
 }
 
 /** 508-friendly action link: unique name, visible focus, internal routes via React Router */
-function TeActionLink({ href, label, context, className = 'te-card__link' }: TeActionLinkProps) {
+function TeIconRing({ children }: { children: ReactNode }) {
+  return (
+    <div className="relative flex size-11 shrink-0 items-center justify-center md:size-[3.25rem]">
+      <div
+        className="pointer-events-none absolute inset-0 rounded-full opacity-25 blur-md"
+        style={{ background: 'color-mix(in srgb, var(--fusion-yellow) 55%, transparent)' }}
+        aria-hidden
+      />
+      <div className="fusion-accent-yellow-ring relative flex size-11 items-center justify-center rounded-full border-2 bg-[color:color-mix(in_srgb,var(--color-primary-darker)_35%,transparent)] md:size-[3.25rem]">
+        {children}
+      </div>
+    </div>
+  )
+}
+
+function TeFeaturedCard({
+  id,
+  title,
+  description,
+  href,
+  cta,
+  icon,
+  accent = 'none',
+}: {
+  id: string
+  title: string
+  description: string
+  href: string
+  cta: string
+  icon: string
+  accent?: 'none' | 'violet' | 'success' | 'sky'
+}) {
+  return (
+    <article
+      className="fusion-featured-resources__card te-featured-card relative flex h-full min-h-[12rem] min-w-0 flex-1 flex-col rounded-xl p-5 pt-6 text-white sm:rounded-2xl md:p-6"
+      aria-labelledby={`te-card-${id}`}
+    >
+      <span className="fusion-featured-resources__status-dot" aria-hidden />
+      {accent !== 'none' ? (
+        <span
+          className={`fusion-featured-resources__accent-glow fusion-featured-resources__accent-glow--${accent}`}
+          aria-hidden
+        />
+      ) : null}
+      <TeIconRing>
+        <span className="fusion-accent-yellow">
+          <TrainingIcon type={icon} />
+        </span>
+      </TeIconRing>
+      <h3 id={`te-card-${id}`} className="fusion-featured-resources__card-title m-0 mt-3 sm:mt-4">
+        {title}
+      </h3>
+      <p className="te-featured-card__body">{description}</p>
+      <TeActionLink href={href} label={cta} context={title} className="fusion-featured-resources__card-link" />
+    </article>
+  )
+}
+
+function TeActionLink({ href, label, context, className = 'fusion-featured-resources__card-link' }: TeActionLinkProps) {
   const content: ReactNode = (
     <>
-      {label}
+      <span className="min-w-0">{label}</span>
       {context ? <span className="sr-only">{`: ${context}`}</span> : null}
-      <ArrowRight />
+      <span className="fusion-featured-resources__arrow" aria-hidden>
+        <ArrowRight />
+      </span>
     </>
   )
 
@@ -239,35 +287,16 @@ function SectionHeading({
   id,
   title,
   subtitle,
-  centered,
-  accentVariant = 'blue',
 }: {
   id: string
   title: string
   subtitle: string
-  centered?: boolean
-  accentVariant?: 'blue' | 'gold'
 }) {
   return (
-    <header className={`te-section__header${centered ? ' te-section__header--centered' : ''}`}>
-      <div className="te-section__title-row">
-        {centered ? (
-          <>
-            <span className="te-section__rule te-section__rule--left" aria-hidden />
-            <h2 id={id} className="te-section__title">
-              {title}
-            </h2>
-            <span className="te-section__rule te-section__rule--right" aria-hidden />
-          </>
-        ) : (
-          <>
-            <span className={`te-section__accent te-section__accent--${accentVariant}`} aria-hidden />
-            <h2 id={id} className="te-section__title">
-              {title}
-            </h2>
-          </>
-        )}
-      </div>
+    <header className="te-section__header">
+      <h2 id={id} className="explore-section-heading explore-section-heading--lede">
+        {title}
+      </h2>
       <p className="te-section__subtitle">{subtitle}</p>
     </header>
   )
@@ -294,65 +323,76 @@ export default function TrainingEnablementPage() {
       <SkipNav href="#main-content">Skip to main content</SkipNav>
       <SiteHeader />
 
-      <main id="main-content" tabIndex={-1} className="te-page">
-        <header className="tpl-2col-hero-band">
-          <div className="tpl-2col-breadcrumb-bar">
-            <nav aria-label="Breadcrumb" className="kc-breadcrumb-inner">
-              <ol className="kc-breadcrumb-list">
-                <li>
-                  <Link to="/" className="kc-breadcrumb-link">
-                    Home
-                  </Link>
-                </li>
-                <li aria-hidden="true" className="kc-breadcrumb-sep">
-                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
-                    <path d="M6 4l4 4-4 4" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </li>
-                <li>
-                  <Link to="/learn/knowledge-center" className="kc-breadcrumb-link">
-                    Learn
-                  </Link>
-                </li>
-                <li aria-hidden="true" className="kc-breadcrumb-sep">
-                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
-                    <path d="M6 4l4 4-4 4" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </li>
-                <li>
-                  <span className="kc-breadcrumb-current">Training &amp; Enablement</span>
-                </li>
-              </ol>
-            </nav>
-          </div>
+      <main id="main-content" tabIndex={-1} className="explore-2 te-page">
+        <div className="te-page__shell">
+          <nav aria-label="Breadcrumb" className="te-breadcrumb">
+            <ol className="kc-breadcrumb-list">
+              <li>
+                <Link to="/" className="kc-breadcrumb-link">
+                  Home
+                </Link>
+              </li>
+              <li aria-hidden="true" className="kc-breadcrumb-sep">
+                /
+              </li>
+              <li>
+                <Link to="/learn/knowledge-center" className="kc-breadcrumb-link">
+                  Learn
+                </Link>
+              </li>
+              <li aria-hidden="true" className="kc-breadcrumb-sep">
+                /
+              </li>
+              <li>
+                <span className="kc-breadcrumb-current">Training &amp; Enablement</span>
+              </li>
+            </ol>
+          </nav>
 
-          <section className="po-hero te-hero" aria-labelledby="te-hero-heading">
-            <div className="te-hero__orbit" aria-hidden />
-            <div className="te-hero__fade" aria-hidden />
-            <div className="po-hero__glow" aria-hidden />
-
-            <div className="init-hero__inner po-hero__inner te-hero__inner">
-              <div className="init-hero__text po-hero__text te-hero__text">
-                <h1 id="te-hero-heading" className="init-hero__heading po-hero__heading">
-                  Training
-                </h1>
-                <p className="init-hero__description po-hero__description">
-                  Build and enhance your CMS Hybrid Cloud technical expertise. Discover our end-to-end learning
-                  resources, structured paths, and expert-led modules designed to accelerate your journey.
-                </p>
-                <div className="init-hero__actions te-hero__actions">
-                  <FusionButton href="#learning-paths" accent onDark>
-                    Get Started
-                    <ArrowRight />
-                  </FusionButton>
-                  <FusionButton href="#featured-learning" variation="ghost" onDark>
-                    View All Courses
-                  </FusionButton>
-                </div>
+          <section
+            className="explore-hero te-hero rounded-2xl relative overflow-hidden"
+            aria-labelledby="te-hero-heading"
+            style={{
+              background:
+                'linear-gradient(135deg, var(--fusion-deep-sea-700) 0%, var(--fusion-deep-sea-800) 55%, var(--fusion-deep-sea-1000) 100%)',
+              border: '1px solid var(--color-border-bright)',
+            }}
+          >
+            <div
+              className="absolute inset-0 opacity-30"
+              style={{
+                background:
+                  'radial-gradient(ellipse at 20% 50%, color-mix(in srgb, var(--fusion-deep-sea-500) 45%, transparent) 0%, transparent 60%), radial-gradient(ellipse at 80% 30%, color-mix(in srgb, var(--fusion-yellow) 22%, transparent) 0%, transparent 50%)',
+              }}
+              aria-hidden
+            />
+            <div className="explore-hero__content te-hero__copy relative z-10">
+              <h1 id="te-hero-heading" className="fusion-hero__headline explore-hero__headline">
+                <span className="block font-semibold leading-[1.12] tracking-wide">
+                  Training &amp; Enablement
+                </span>
+              </h1>
+              <p className="fusion-hero__body explore-hero__body">
+                Build technical expertise for CMS Hybrid Cloud. Discover structured paths, expert-led
+                sessions, and self-paced modules designed to accelerate your journey.
+              </p>
+              <div className="te-hero__actions">
+                <FusionButton href="#learning-paths" accent onDark>
+                  Get Started
+                </FusionButton>
+                <FusionButton href="#featured-learning" variation="ghost" onDark className="te-btn-secondary">
+                  View All Courses
+                </FusionButton>
               </div>
             </div>
+            <img
+              src={`${import.meta.env.BASE_URL}images/sections/academy-illustration-dark.png`}
+              alt=""
+              className="explore-hero__art te-hero__art"
+              decoding="async"
+            />
           </section>
-        </header>
+        </div>
 
         <section className="te-section" aria-labelledby="te-opportunities-heading">
           <div className="te-container">
@@ -363,20 +403,19 @@ export default function TrainingEnablementPage() {
             />
             <div className="te-card-grid te-card-grid--3">
               {learningOpportunities.map((item) => (
-                <article key={item.id} className="te-card">
-                  <div className="te-card__icon" aria-hidden>
-                    <TrainingIcon type={item.icon} />
-                  </div>
-                  <h3 className="te-card__title">{item.title}</h3>
-                  <p className="te-card__body">{item.description}</p>
-                  <TeActionLink href={item.href} label="Learn more" context={item.title} />
-                </article>
+                <TeFeaturedCard
+                  key={item.id}
+                  id={item.id}
+                  title={item.title}
+                  description={item.description}
+                  href={item.href}
+                  cta="Learn more"
+                  icon={item.icon}
+                />
               ))}
             </div>
           </div>
         </section>
-
-        <div className="te-divider te-divider--dots" aria-hidden />
 
         <section id="learning-paths" className="te-section te-section--paths" aria-labelledby="te-paths-heading">
           <div className="te-container">
@@ -384,33 +423,23 @@ export default function TrainingEnablementPage() {
               id="te-paths-heading"
               title="Choose Your Learning Path"
               subtitle="Explore three interconnected paths to build your knowledge and capabilities from the ground up"
-              centered
             />
-            <div className="te-path-grid">
-              {learningPaths.map((path, index) => (
-                <article key={path.step} className="te-path-card">
-                  <div className="te-path-card__rail" aria-hidden />
-                  {index < learningPaths.length - 1 && <span className="te-path-card__connector" aria-hidden />}
-                  <div className="te-path-card__step-row">
-                    <span className="te-path-card__step">{path.step}</span>
-                    <PathDots active={path.activeDots} />
-                  </div>
-                  <h3 className="te-path-card__title">{path.title}</h3>
-                  <p className="te-path-card__body">{path.description}</p>
-                  <TeActionLink href={path.href} label="Learn more" context={path.title} />
-                </article>
+            <div className="te-card-grid te-card-grid--3">
+              {learningPaths.map((path) => (
+                <TeFeaturedCard
+                  key={path.step}
+                  id={`path-${path.step}`}
+                  title={path.title}
+                  description={path.description}
+                  href={path.href}
+                  cta="Learn more"
+                  icon={path.step === 1 ? 'book' : path.step === 2 ? 'graduation' : 'rocket'}
+                  accent={path.step === 1 ? 'sky' : path.step === 2 ? 'violet' : 'success'}
+                />
               ))}
             </div>
           </div>
         </section>
-
-        <div className="te-divider te-divider--beads" aria-hidden>
-          <span />
-          <span />
-          <span />
-          <span />
-          <span />
-        </div>
 
         <section id="featured-learning" className="te-section" aria-labelledby="te-featured-heading">
           <div className="te-container">
@@ -418,7 +447,6 @@ export default function TrainingEnablementPage() {
               id="te-featured-heading"
               title="Featured Learning"
               subtitle="Discover our most popular courses and latest learning content"
-              accentVariant="gold"
             />
             <div className="te-carousel" aria-labelledby="te-featured-heading">
               <p className="sr-only" aria-live="polite" aria-atomic="true">
@@ -427,19 +455,17 @@ export default function TrainingEnablementPage() {
                 {featuredCourses.length}
               </p>
               <div className="te-card-grid te-card-grid--3">
-                {visibleCourses.map((course) => (
-                  <article key={course.id} className="te-card te-card--featured">
-                    <div className="te-card__icon te-card__icon--lg" aria-hidden>
-                      <TrainingIcon type={course.icon} />
-                    </div>
-                    <h3 className="te-card__title">{course.title}</h3>
-                    <p className="te-card__body">{course.description}</p>
-                    <TeActionLink
-                      href="#get-started"
-                      label="Explore course"
-                      context={course.title}
-                    />
-                  </article>
+                {visibleCourses.map((course, index) => (
+                  <TeFeaturedCard
+                    key={course.id}
+                    id={course.id}
+                    title={course.title}
+                    description={course.description}
+                    href="#get-started"
+                    cta="Explore course"
+                    icon={course.icon}
+                    accent={(['violet', 'success', 'sky'] as const)[index % 3]}
+                  />
                 ))}
               </div>
               <nav className="te-carousel__controls" aria-label="Featured course pagination">
@@ -478,13 +504,11 @@ export default function TrainingEnablementPage() {
           </div>
         </section>
 
-        <div className="te-divider te-divider--wave" aria-hidden />
-
         <section id="get-started" className="te-cta-band" aria-labelledby="te-cta-heading">
           <div className="te-cta-band__glow" aria-hidden />
           <div className="te-container">
             <header className="te-cta-band__header">
-              <h2 id="te-cta-heading" className="te-cta-band__title">
+              <h2 id="te-cta-heading" className="explore-section-heading explore-section-heading--lede">
                 Getting Started with CMS Hybrid Cloud
               </h2>
               <p className="te-cta-band__subtitle">
@@ -493,29 +517,19 @@ export default function TrainingEnablementPage() {
             </header>
             <div className="te-card-grid te-card-grid--3">
               {getStartedCards.map((card) => (
-                <article key={card.id} className="te-cta-card">
-                  <div className="te-cta-card__icon" aria-hidden>
-                    <TrainingIcon type={card.icon} />
-                  </div>
-                  <h3 className="te-cta-card__title">{card.title}</h3>
-                  <p className="te-cta-card__body">{card.description}</p>
-                  <TeActionLink
-                    href={card.href}
-                    label={card.cta}
-                    context={card.title}
-                    className="te-cta-card__link"
-                  />
-                </article>
+                <TeFeaturedCard
+                  key={card.id}
+                  id={card.id}
+                  title={card.title}
+                  description={card.description}
+                  href={card.href}
+                  cta={card.cta}
+                  icon={card.icon}
+                />
               ))}
             </div>
           </div>
         </section>
-
-        <div className="te-powered">
-          <span className="te-powered__rule" aria-hidden />
-          <p className="te-powered__text">Powered by CMS Hybrid Cloud</p>
-          <span className="te-powered__rule" aria-hidden />
-        </div>
       </main>
 
       <SiteFooter />

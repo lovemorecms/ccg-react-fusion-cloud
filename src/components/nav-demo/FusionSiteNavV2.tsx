@@ -324,7 +324,7 @@ function MegaOverviewMenu({
 
 const learnCategoryCopy: Record<string, { viewLabel: string }> = {
   'knowledge-center': {
-    viewLabel: 'View Fusion Info Center',
+    viewLabel: 'View Documentation',
   },
   'training-enablement': {
     viewLabel: 'View all training',

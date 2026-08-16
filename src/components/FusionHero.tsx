@@ -264,11 +264,18 @@ export function FusionHero() {
               </div>
 
               <div className="fusion-hero__actions mt-4 flex flex-col gap-3 sm:mt-5 sm:flex-row sm:flex-nowrap sm:items-center sm:gap-4">
-                <FusionButton href="#pathways" accent onDark className="fusion-hero__cta-primary">
+                <FusionButton
+                  href="https://cmsitsm.servicenowservices.com/esc?id=sc_cat_item&sys_id=19b369561bb2a550fed48512f54bcbba"
+                  accent
+                  onDark
+                  className="fusion-hero__cta-primary"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   Start your journey
                 </FusionButton>
                 <FusionButton
-                  href="#multi-cloud-services"
+                  href="/explore"
                   variation="ghost"
                   onDark
                   className="fusion-hero__cta-secondary"

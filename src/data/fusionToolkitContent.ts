@@ -17,7 +17,7 @@ export const fusionToolkitHero = {
   lede:
     'Four powerful products, one unified ecosystem. Build, orchestrate, observe, and optimize with elegance.',
   primaryCta: { label: 'Explore the Toolkit', href: '#toolkit-grid' },
-  secondaryCta: { label: 'View Fusion Info Center', href: '/learn/knowledge-center' },
+  secondaryCta: { label: 'View Documentation', href: '/learn/knowledge-center' },
 }
 
 export const fusionToolkitGridIntro = {

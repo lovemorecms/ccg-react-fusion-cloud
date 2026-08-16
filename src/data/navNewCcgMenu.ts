@@ -67,8 +67,8 @@ function sortMenuItems(items: NavMenuItem[]): NavMenuItem[] {
       .sort((a, b) => {
         if (item.id === 'learn') {
           const order: Record<string, number> = {
-            'knowledge-center': 0,
-            'training-enablement': 1,
+            'training-enablement': 0,
+            'knowledge-center': 1,
             'customer-roadmap': 2,
           }
           const rankA = order[a.id] ?? Number.MAX_SAFE_INTEGER
@@ -103,12 +103,6 @@ function sortMenuItems(items: NavMenuItem[]): NavMenuItem[] {
 
 export const navNewCcgMenuItems: NavMenuItem[] = sortMenuItems([
   {
-    id: 'about',
-    label: 'About',
-    href: '/about',
-    categories: [],
-  },
-  {
     id: 'explore',
     label: 'Explore',
     href: '/explore',
@@ -121,7 +115,7 @@ export const navNewCcgMenuItems: NavMenuItem[] = sortMenuItems([
     categories: [
       {
         id: 'knowledge-center',
-        label: 'Fusion Info Center',
+        label: 'Documentation',
         href: '/learn/knowledge-center',
         panel: {
           type: 'columns',
@@ -261,5 +255,23 @@ export const navNewCcgMenuItems: NavMenuItem[] = sortMenuItems([
         },
       },
     ],
+  },
+  {
+    id: 'resources',
+    label: 'Resources',
+    href: '/#fusion-featured-resources',
+    categories: [],
+  },
+  {
+    id: 'about',
+    label: 'About',
+    href: '/about',
+    categories: [],
+  },
+  {
+    id: 'support',
+    label: 'Support',
+    href: '/about/contact-us',
+    categories: [],
   },
 ])

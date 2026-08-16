@@ -116,7 +116,7 @@ export default function FusionToolkitLandingPage() {
                     {fusionToolkitHero.primaryCta.label}
                     <ArrowRight />
                   </FusionButton>
-                  <FusionButton href={fusionToolkitHero.secondaryCta.href} variation="ghost" onDark>
+                  <FusionButton href={fusionToolkitHero.secondaryCta.href} variation="ghost" onDark className="ft-btn-secondary">
                     {fusionToolkitHero.secondaryCta.label}
                   </FusionButton>
                 </div>
@@ -193,7 +193,7 @@ export default function FusionToolkitLandingPage() {
                     Get Started with {product.name}
                   </FusionButton>
                   <FusionButton href="/learn/knowledge-center" variation="ghost" onDark className="ft-btn-secondary">
-                    Fusion Info Center
+                    Documentation
                   </FusionButton>
                 </div>
               </div>

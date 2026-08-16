@@ -7,7 +7,7 @@ import {
 import { FusionButton } from '../FusionButton'
 import { InteriorSectionNav } from '../layouts/InteriorSectionNav'
 
-const aboutHeroArt = `${import.meta.env.BASE_URL}images/about/about-hero-transparent.png`
+const aboutHeroArt = `${import.meta.env.BASE_URL}images/about/about-hero-2.jpg`
 
 function BreadcrumbChevron() {
   return (

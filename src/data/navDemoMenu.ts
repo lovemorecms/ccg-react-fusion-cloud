@@ -29,7 +29,7 @@ const column = (title: string, ...labels: string[]): NavColumn => ({
   links: list(...labels),
 })
 
-export const navDemoMenuItems: NavMenuItem[] = [
+const rawNavDemoMenuItems: NavMenuItem[] = [
   {
     id: 'about',
     label: 'About',
@@ -226,8 +226,37 @@ export const navDemoMenuItems: NavMenuItem[] = [
     href: '/learn/knowledge-center',
     categories: [
       {
+        id: 'training-enablement',
+        label: 'Training & Enablement',
+        href: '/learn/training-enablement',
+        panel: {
+          type: 'columns',
+          columns: [
+            column(
+              'CLOUD PLATFORM',
+              'AWS Training',
+              'Google Cloud Platform Training',
+              'Microsoft Azure Training',
+              'CloudTamer Training',
+              'Datadog Training',
+              'Snyk training',
+              'Splunk training',
+            ),
+            column('AGILE TOOLS', 'Confluence Training', 'Jira Training'),
+            column(
+              'HYBRID CLOUD HOSTING SERVICES SELF-PACED LEARNING',
+              'CMS Hybrid Cloud Ecosystem',
+              'CMS Hybrid Cloud Computer Based Learning',
+              'CMS CACHE IaaS Fundamentals',
+            ),
+            column('HYBRID CLOUD PROGRAM SESSIONS', 'Fireside Chats'),
+          ],
+        },
+      },
+      {
         id: 'knowledge-center',
-        label: 'Fusion Info Center',
+        label: 'Documentation',
+        href: '/learn/knowledge-center',
         panel: {
           type: 'columns',
           columns: [
@@ -290,34 +319,6 @@ export const navDemoMenuItems: NavMenuItem[] = [
               'Site reliability',
               'Incident Management',
             ),
-          ],
-        },
-      },
-      {
-        id: 'training-enablement',
-        label: 'Training & Enablement',
-        href: '/learn/training-enablement',
-        panel: {
-          type: 'columns',
-          columns: [
-            column(
-              'CLOUD PLATFORM',
-              'AWS Training',
-              'Google Cloud Platform Training',
-              'Microsoft Azure Training',
-              'CloudTamer Training',
-              'Datadog Training',
-              'Snyk training',
-              'Splunk training',
-            ),
-            column('AGILE TOOLS', 'Confluence Training', 'Jira Training'),
-            column(
-              'HYBRID CLOUD HOSTING SERVICES SELF-PACED LEARNING',
-              'CMS Hybrid Cloud Ecosystem',
-              'CMS Hybrid Cloud Computer Based Learning',
-              'CMS CACHE IaaS Fundamentals',
-            ),
-            column('HYBRID CLOUD PROGRAM SESSIONS', 'Fireside Chats'),
           ],
         },
       },
@@ -417,4 +418,26 @@ export const navDemoMenuItems: NavMenuItem[] = [
       },
     ],
   },
+  {
+    id: 'resources',
+    label: 'Resources',
+    href: '/#fusion-featured-resources',
+    categories: [],
+  },
+  {
+    id: 'support',
+    label: 'Support',
+    href: '/about/contact-us',
+    categories: [],
+  },
 ]
+
+const NAV_TAB_ORDER = ['explore', 'get-started', 'learn', 'resources', 'about', 'support'] as const
+
+export const navDemoMenuItems: NavMenuItem[] = [...rawNavDemoMenuItems].sort((a, b) => {
+  const rank = (id: string) => {
+    const index = (NAV_TAB_ORDER as readonly string[]).indexOf(id)
+    return index === -1 ? Number.MAX_SAFE_INTEGER : index
+  }
+  return rank(a.id) - rank(b.id)
+})

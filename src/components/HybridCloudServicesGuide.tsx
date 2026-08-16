@@ -419,7 +419,7 @@ function OverviewPage({ onSelectCategory }: { onSelectCategory: (cat: Category) 
     <div className="fade-in">
       {/* Hero */}
       <div
-        className="explore-hero rounded-2xl mb-8 relative overflow-hidden"
+        className="explore-hero explore-overview-hero rounded-2xl mb-8 relative overflow-hidden"
         style={{
           background: 'linear-gradient(135deg, var(--fusion-deep-sea-700) 0%, var(--fusion-deep-sea-800) 55%, var(--fusion-deep-sea-1000) 100%)',
           border: '1px solid var(--color-border-bright)',

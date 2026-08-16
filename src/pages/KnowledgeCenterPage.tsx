@@ -304,7 +304,7 @@ export default function KnowledgeCenterPage() {
   const revealRef = useScrollReveal()
 
   useEffect(() => {
-    document.title = 'Fusion Info Center | Learn | CCG Modernization'
+    document.title = 'Documentation | Learn | CCG Modernization'
     return () => {
       document.title = 'CCG Modernization'
     }
@@ -328,7 +328,7 @@ export default function KnowledgeCenterPage() {
                 /
               </li>
               <li>
-                <span className="kc-breadcrumb-current">Fusion Info Center</span>
+                <span className="kc-breadcrumb-current">Documentation</span>
               </li>
             </ol>
           </nav>
@@ -337,7 +337,7 @@ export default function KnowledgeCenterPage() {
             <div className="explore-hero__content fic-hero__copy">
               <h1 id="fic-hero-heading" className="fusion-hero__headline explore-hero__headline">
                 <span className="block font-semibold leading-[1.12] tracking-wide">
-                  Fusion Info Center
+                  Documentation
                 </span>
               </h1>
               <p className="fusion-hero__body explore-hero__body">
@@ -358,9 +358,9 @@ export default function KnowledgeCenterPage() {
                     type="search"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="Search Fusion Info Center..."
+                    placeholder="Search Documentation..."
                     className="kc-hero__search-input"
-                    aria-label="Search Fusion Info Center"
+                    aria-label="Search Documentation"
                   />
                   <FusionButton type="submit" accent onDark size="small">
                     Search

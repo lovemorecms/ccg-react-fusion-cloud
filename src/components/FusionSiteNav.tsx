@@ -109,8 +109,8 @@ const megaMenuItems: MegaMenuItem[] = [
     columns: [
       {
         links: [
-          { label: 'Fusion Info Center', href: '/learn/knowledge-center' },
           { label: 'Training & Enablement', href: '/learn/training-enablement' },
+          { label: 'Documentation', href: '/learn/knowledge-center' },
           { label: 'Customer Roadmap', href: '/learn/initiatives' },
         ],
       },
