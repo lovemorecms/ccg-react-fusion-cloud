@@ -1541,40 +1541,16 @@ html[data-theme='dark'] .fusion-site-nav__mobile-drawer {
   pointer-events: none;
 }
 
-/* Mega-menu open: section accent underlines */
+/* Primary header: gold underline, same as Explore sticky nav */
 .fusion-site-nav .fusion-mega-trigger__underline {
   height: 3px;
-  background: linear-gradient(
-    90deg,
-    var(--fusion-blue) 0%,
-    color-mix(in srgb, var(--fusion-mega-cyan) 55%, var(--fusion-blue)) 100%
-  );
-  box-shadow: 0 0 10px color-mix(in srgb, var(--fusion-mega-cyan) 35%, transparent);
+  background: var(--fusion-yellow);
+  box-shadow: none;
 }
 
 .fusion-site-nav .fusion-mega-trigger:hover .fusion-mega-trigger__underline,
 .fusion-site-nav .fusion-nav-v2__top-link:hover .fusion-mega-trigger__underline {
   transform: scaleX(1);
-}
-
-.fusion-site-nav .fusion-mega-trigger--active.fusion-mega-trigger--about .fusion-mega-trigger__underline {
-  background: linear-gradient(90deg, var(--color-primary-darker), var(--fusion-mega-cyan));
-}
-
-.fusion-site-nav .fusion-mega-trigger--active.fusion-mega-trigger--explore .fusion-mega-trigger__underline {
-  background: linear-gradient(90deg, var(--color-secondary), var(--fusion-mega-cyan));
-}
-
-.fusion-site-nav .fusion-mega-trigger--active.fusion-mega-trigger--learn .fusion-mega-trigger__underline {
-  background: linear-gradient(
-    90deg,
-    var(--color-primary-light),
-    color-mix(in srgb, var(--fusion-dandelion) 45%, var(--fusion-mega-cyan))
-  );
-}
-
-.fusion-site-nav .fusion-mega-trigger--active.fusion-mega-trigger--get-started .fusion-mega-trigger__underline {
-  background: linear-gradient(90deg, var(--fusion-dandelion), var(--fusion-mega-cyan));
 }
 
 /* Header + mega menu — one connected surface when open */
