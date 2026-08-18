@@ -99,6 +99,54 @@ function firstRoutableHref(links: { href: string }[]): string | undefined {
   return links.find((item) => item.href && item.href !== '#')?.href
 }
 
+function hrefPath(href: string): string {
+  return href.split('#')[0] || ''
+}
+
+function pathIsUnder(pathname: string, href: string): boolean {
+  return pathname === href || pathname.startsWith(`${href}/`)
+}
+
+function collectItemHrefs(item: NavMenuItem): string[] {
+  const hrefs = new Set<string>()
+  const add = (href?: string) => {
+    const path = href ? hrefPath(href) : ''
+    if (path && path !== '/') hrefs.add(path)
+  }
+
+  add(item.href)
+  for (const category of item.categories) {
+    add(getCategoryHref(category, item))
+  }
+  return [...hrefs]
+}
+
+function isMenuSectionCurrent(item: NavMenuItem, pathname: string, menuItems: NavMenuItem[]): boolean {
+  const ownMatches = collectItemHrefs(item).filter((href) => pathIsUnder(pathname, href))
+  if (ownMatches.length > 0) {
+    const longestOwn = Math.max(...ownMatches.map((href) => href.length))
+    const longestOther = Math.max(
+      0,
+      ...menuItems
+        .filter((other) => other.id !== item.id)
+        .flatMap((other) => collectItemHrefs(other))
+        .filter((href) => pathIsUnder(pathname, href))
+        .map((href) => href.length),
+    )
+    return longestOwn >= longestOther
+  }
+
+  const segment = hrefPath(item.href).split('/').filter(Boolean)[0]
+  if (!segment) return false
+  const prefix = `/${segment}`
+  if (!(pathname === prefix || pathname.startsWith(`${prefix}/`))) return false
+
+  return !menuItems
+    .filter((other) => other.id !== item.id)
+    .flatMap((other) => collectItemHrefs(other))
+    .some((href) => pathIsUnder(pathname, href))
+}
+
 function getCategoryHref(category: NavCategory, menuItem: NavMenuItem): string {
   if (category.href) {
     return category.href
@@ -681,24 +729,26 @@ export function FusionSiteNavV2({
               )
             }
 
-            const isActive = activeMenu === item.id
+            const isOpen = activeMenu === item.id
+            const isCurrent = isMenuSectionCurrent(item, pathname, menuItems)
             return (
               <button
                 key={item.id}
                 type="button"
                 className={`fusion-mega-trigger fusion-mega-trigger--${item.id} group relative inline-flex items-center gap-1 border-0 bg-transparent px-3 py-2.5 text-[color:var(--fusion-blue)] transition-[color,background-color,box-shadow] duration-200 hover:text-[color:var(--color-primary-darkest)] lg:px-4 ${
-                  isActive ? 'fusion-mega-trigger--active' : ''
+                  isOpen ? 'fusion-mega-trigger--active' : ''
                 }`}
                 style={{ fontSize: '0.9375rem', fontWeight: 600, lineHeight: 1 }}
-                aria-expanded={isActive}
-                aria-controls={isActive ? `fusion-nav-v2-mega-${item.id}` : undefined}
+                aria-expanded={isOpen}
+                aria-controls={isOpen ? `fusion-nav-v2-mega-${item.id}` : undefined}
+                aria-current={isCurrent ? 'true' : undefined}
                 onClick={() => toggleMenu(item.id)}
               >
                 <span>{item.label}</span>
-                <ChevronDown rotated={isActive} />
+                <ChevronDown rotated={isOpen} />
                 <span
                   className={`fusion-mega-trigger__underline pointer-events-none absolute bottom-0 left-3 right-3 h-[2.5px] rounded-full transition-transform duration-200 origin-left ${
-                    isActive ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
+                    isOpen || isCurrent ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
                   }`}
                 />
               </button>
