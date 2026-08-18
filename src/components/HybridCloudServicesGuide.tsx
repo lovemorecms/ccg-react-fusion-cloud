@@ -39,14 +39,14 @@ function ProviderBadge({ provider, size = 'sm' }: { provider: Provider; size?: '
   )
 }
 
-function OracleBadge({ size = 'sm', children }: { size?: 'xs' | 'sm' | 'md'; children?: ReactNode }) {
+function OracleBadge({ size = 'sm' }: { size?: 'xs' | 'sm' | 'md' }) {
   return (
     <Badge
       className="explore-badge--oracle"
       size={size === 'md' ? 'big' : undefined}
       hideScreenReaderText
     >
-      {children ?? 'ORACLE'}
+      ORACLE
     </Badge>
   )
 }
@@ -451,11 +451,7 @@ function OverviewPage({ onSelectCategory }: { onSelectCategory: (cat: Category) 
           <div className="flex flex-wrap gap-2">
             {heroProviders.map(p => {
               if (p === 'oracle') {
-                return (
-                  <OracleBadge key={p} size="md">
-                    ORACLE
-                  </OracleBadge>
-                )
+                return <OracleBadge key={p} size="md" />
               }
               const count = SERVICES.filter(s => s.provider === p).length
               return (
