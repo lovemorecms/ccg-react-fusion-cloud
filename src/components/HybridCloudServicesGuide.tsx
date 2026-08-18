@@ -39,6 +39,18 @@ function ProviderBadge({ provider, size = 'sm' }: { provider: Provider; size?: '
   )
 }
 
+function OracleBadge({ size = 'sm', children }: { size?: 'xs' | 'sm' | 'md'; children?: ReactNode }) {
+  return (
+    <Badge
+      className="explore-badge--oracle"
+      size={size === 'md' ? 'big' : undefined}
+      hideScreenReaderText
+    >
+      {children ?? 'ORACLE'}
+    </Badge>
+  )
+}
+
 function MaturityBadge({ level }: { level: 1 | 2 | 3 | 4 | 5 }) {
   const m = MATURITY_LABELS[level]
   const variation: BadgeVariation =
@@ -414,6 +426,7 @@ function ServicePanel({ svc, onClose }: { svc: Service; onClose: () => void }) {
 
 function OverviewPage({ onSelectCategory }: { onSelectCategory: (cat: Category) => void }) {
   const providers: Provider[] = ['aws', 'azure', 'gcp', 'cms']
+  const heroProviders: Array<Provider | 'oracle'> = ['aws', 'azure', 'gcp', 'oracle', 'cms']
 
   return (
     <div className="fade-in">
@@ -436,7 +449,14 @@ function OverviewPage({ onSelectCategory }: { onSelectCategory: (cat: Category) 
             The authoritative reference for all approved cloud services across AWS, Microsoft Azure, Google Cloud Platform, and Fusion Enterprise Shared Services tools. Built for Hosting Coordinators, Technical Advisors, and Application Development Organizations.
           </p>
           <div className="flex flex-wrap gap-2">
-            {providers.map(p => {
+            {heroProviders.map(p => {
+              if (p === 'oracle') {
+                return (
+                  <OracleBadge key={p} size="md">
+                    ORACLE
+                  </OracleBadge>
+                )
+              }
               const count = SERVICES.filter(s => s.provider === p).length
               return (
                 <Badge key={p} size="big" hideScreenReaderText {...providerBadgeProps(p)}>
@@ -467,9 +487,7 @@ function OverviewPage({ onSelectCategory }: { onSelectCategory: (cat: Category) 
                   {card.provider ? (
                     <ProviderBadge provider={card.provider} size="xs" />
                   ) : (
-                    <Badge variation="warn" hideScreenReaderText>
-                      ORACLE
-                    </Badge>
+                    <OracleBadge size="xs" />
                   )}
                 </div>
                 <span className="font-semibold text-sm" style={{ color: 'var(--color-text)', fontFamily: 'var(--font-display)' }}>

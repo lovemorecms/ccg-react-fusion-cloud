@@ -15449,6 +15449,13 @@ html[data-theme='dark'] .program-overview .po-cta {
   --badge__font-color: #040b2e;
 }
 
+.explore-2 .explore-badge--oracle {
+  --badge__background-color: #c74634;
+  --badge__font-color: #ffffff;
+  background-color: #c74634;
+  color: #ffffff;
+}
+
 .explore-2 .explore-hero {
   display: flex;
   flex-direction: column;
