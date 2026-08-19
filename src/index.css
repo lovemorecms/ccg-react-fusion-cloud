@@ -16196,6 +16196,69 @@ html[data-theme='dark'] .program-overview .po-cta {
   margin: 0.5rem 0;
 }
 
+.gcp-page .azure-hero__panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.gcp-page .azure-hero__kicker {
+  margin: 0 0 0.35rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--fusion-deep-sea-100) 70%, transparent);
+}
+
+.gcp-page .azure-hero__badges {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.gcp-page .azure-hero__badge {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.45rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border: 1px solid color-mix(in srgb, var(--fusion-deep-sea-100) 22%, transparent);
+  background: color-mix(in srgb, var(--fusion-deep-sea-800) 55%, transparent);
+  color: var(--fusion-deep-sea-100);
+}
+
+.gcp-page .azure-hero__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: currentColor;
+}
+
+.gcp-page .azure-hero__badge--gold {
+  color: var(--fusion-yellow);
+  background: color-mix(in srgb, var(--fusion-yellow) 10%, transparent);
+  border-color: color-mix(in srgb, var(--fusion-yellow) 28%, transparent);
+}
+
+.gcp-page .azure-hero__badge--sky {
+  color: #6eb6ff;
+  background: color-mix(in srgb, #6eb6ff 12%, transparent);
+  border-color: color-mix(in srgb, #6eb6ff 28%, transparent);
+}
+
+.gcp-page .azure-hero__badge--mint {
+  color: #34A853;
+  background: color-mix(in srgb, #34A853 10%, transparent);
+  border-color: color-mix(in srgb, #34A853 28%, transparent);
+}
+
 .gcp-page .gcp-section {
   max-width: none;
   margin: 0;
