@@ -3,22 +3,22 @@ import { Link } from 'react-router-dom'
 import { FusionButton } from '../FusionButton'
 
 const C = {
-  deepBg: 'var(--fusion-deep-sea-800)',
-  mainBg: 'var(--fusion-deep-sea-700)',
-  cardBg: 'color-mix(in srgb, var(--fusion-deep-sea-800) 74%, var(--fusion-deep-sea-700))',
-  hoverBg: 'color-mix(in srgb, var(--fusion-deep-sea-700) 86%, var(--fusion-deep-sea-500))',
-  sidebarBg: 'var(--fusion-deep-sea-800)',
+  deepBg: 'color-mix(in srgb, var(--fusion-deep-sea-900) 58%, var(--fusion-deep-sea-1000))',
+  mainBg: 'color-mix(in srgb, var(--fusion-deep-sea-900) 55%, var(--fusion-deep-sea-800))',
+  cardBg: 'color-mix(in srgb, var(--fusion-deep-sea-900) 62%, var(--fusion-deep-sea-800))',
+  hoverBg: 'color-mix(in srgb, var(--fusion-deep-sea-800) 86%, var(--fusion-deep-sea-500))',
+  sidebarBg: 'color-mix(in srgb, var(--fusion-deep-sea-900) 58%, var(--fusion-deep-sea-1000))',
   textPrimary: '#ffffff',
-  textSecondary: 'var(--fusion-deep-sea-100)',
-  textMuted: 'color-mix(in srgb, var(--fusion-deep-sea-100) 70%, transparent)',
+  textSecondary: 'color-mix(in srgb, var(--fusion-deep-sea-100) 62%, var(--fusion-deep-sea-50))',
+  textMuted: 'var(--fusion-deep-sea-100)',
   cmsBlue: '#6eb6ff',
   azure: '#6eb6ff',
   gold: 'var(--fusion-yellow)',
   amber: 'var(--fusion-yellow)',
   green: '#34A853',
   red: '#C74634',
-  border: 'color-mix(in srgb, var(--fusion-deep-sea-100) 22%, transparent)',
-  borderMid: 'color-mix(in srgb, var(--fusion-deep-sea-100) 28%, transparent)',
+  border: 'color-mix(in srgb, #ffffff 7%, transparent)',
+  borderMid: 'color-mix(in srgb, #ffffff 13%, transparent)',
 }
 
 const TABS = [
@@ -74,6 +74,30 @@ const SIDEBAR_LINKS: Record<string, { id: string; label: string }[]> = {
 
 // ─── Shared small components ─────────────────────────────────────────────────
 
+function HomeTabIcon({ active }: { active: boolean }) {
+  return (
+    <svg
+      aria-hidden
+      focusable="false"
+      width="11"
+      height="11"
+      viewBox="0 0 13 13"
+      fill="none"
+      className="gcp-tabs__home"
+      style={{ opacity: active ? 1 : 0.55 }}
+    >
+      <path
+        d="M1 5.5L6.5 1 12 5.5V12H8.5V8.5H4.5V12H1V5.5Z"
+        stroke="currentColor"
+        strokeWidth="1.3"
+        strokeLinejoin="round"
+        fill={active ? 'currentColor' : 'none'}
+        fillOpacity="0.25"
+      />
+    </svg>
+  )
+}
+
 function ExternalIcon() {
   return (
     <svg aria-hidden="true" focusable="false" width="12" height="12" viewBox="0 0 12 12" fill="currentColor" style={{ display: 'inline', marginLeft: 3 }}>
@@ -99,7 +123,7 @@ function _CheckIcon() {
   )
 }
 
-function Callout({ text, accent = 'var(--fusion-yellow)', bg = 'color-mix(in srgb, var(--fusion-yellow) 12%, transparent)' }: { text: string; accent?: string; bg?: string }) {
+function Callout({ text, accent = '#6eb6ff', bg = 'color-mix(in srgb, #6eb6ff 7%, transparent)' }: { text: string; accent?: string; bg?: string }) {
   return (
     <div style={{ borderLeft: `4px solid ${accent}`, background: bg, borderTop: '1px solid rgba(255,255,255,0.05)', borderBottom: '1px solid rgba(255,255,255,0.05)', padding: '22px 28px', margin: '28px 0' }}>
       <p style={{ fontSize: '1rem', fontWeight: 500, color: C.textPrimary, margin: 0, lineHeight: 1.7 }}>{text}</p>
@@ -241,15 +265,14 @@ function Table({ heads, rows }: { heads: string[]; rows: (ReactNode[])[] }) {
 function OvIntro() {
   return (
     <div>
-      <H2>Introduction to Google Cloud Platform</H2>
-      <Body>Google Cloud Platform (GCP) is CMS's strategic cloud provider for scalable, compliant, and mission-critical workloads. It provides a suite of managed services — from compute and storage to AI and data analytics — all operated within a FedRAMP High-authorized boundary.</Body>
+      <p className="gcp-guide__lede">Google Cloud Platform (GCP) is CMS's strategic cloud provider for scalable, compliant, and mission-critical workloads. It provides a suite of managed services — from compute and storage to AI and data analytics — all operated within a FedRAMP High-authorized boundary.</p>
       <Callout text="GCP offers a secure, scalable foundation for modernizing healthcare technology. CMS teams benefit from pre-approved hosting options, shared security controls, and centrally managed infrastructure." />
       <Divider />
-      <H3>Why Consider Google Cloud?</H3>
+      <H2>Why Consider Google Cloud?</H2>
       <Body>Google Cloud Platform provides a modern alternative to traditional on-premises and co-location hosting. Teams that move to GCP benefit from elastic infrastructure that scales with demand, built-in security controls aligned to FISMA and FedRAMP requirements, and access to managed services that reduce operational overhead.</Body>
       <Body>Rather than managing physical hardware or operating system patches, teams can focus on building and delivering software. Google's global network and managed database, caching, and compute offerings provide high availability and performance without requiring deep infrastructure expertise.</Body>
       <Divider />
-      <H3>Virtual Private Cloud (VPC) Overview</H3>
+      <H2>Virtual Private Cloud (VPC) Overview</H2>
       <Body>A Virtual Private Cloud (VPC) is a logically isolated network within Google Cloud. CMS workloads operate within Shared VPCs, which allow multiple projects to share a single centrally managed network. This model reduces duplication, improves traffic control, and allows security teams to apply consistent firewall and routing policies across all hosted applications.</Body>
       <Body>Each application team receives a project connected to the Shared VPC. Network access is controlled through firewall rules, Private Google Access, and VPC Service Controls. Direct internet egress is not permitted; all traffic routes through centrally managed gateways.</Body>
       <Bullet items={[
@@ -559,45 +582,45 @@ function ArchHosting() {
           </defs>
 
           {/* ── On-premises ── */}
-          <rect x="10" y="110" width="130" height="120" rx="8" fill="#07124d" stroke="#4a5588" strokeWidth="1.5" />
-          <text x="75" y="135" textAnchor="middle" fill="#b6bde0" fontSize="9" fontFamily="Lexend, Public Sans, sans-serif" letterSpacing="0.08em" fontWeight="600">ON-PREMISES</text>
+          <rect x="10" y="110" width="130" height="120" rx="8" fill="#040b2e" stroke="#4a5588" strokeWidth="1.5" />
+          <text x="75" y="135" textAnchor="middle" fill="#e7e9f5" fontSize="9" fontFamily="Lexend, Public Sans, sans-serif" letterSpacing="0.08em" fontWeight="600">ON-PREMISES</text>
           <rect x="26" y="145" width="98" height="28" rx="5" fill="#040b2e" stroke="#4a5588" strokeWidth="1" />
-          <text x="75" y="163" textAnchor="middle" fill="#b6bde0" fontSize="10" fontFamily="Lexend, Public Sans, sans-serif" fontWeight="500">CMS Data Center</text>
+          <text x="75" y="163" textAnchor="middle" fill="#e7e9f5" fontSize="10" fontFamily="Lexend, Public Sans, sans-serif" fontWeight="500">CMS Data Center</text>
           <rect x="26" y="183" width="98" height="28" rx="5" fill="#040b2e" stroke="#4a5588" strokeWidth="1" />
-          <text x="75" y="201" textAnchor="middle" fill="#b6bde0" fontSize="10" fontFamily="Lexend, Public Sans, sans-serif" fontWeight="500">CMSNet / EDC</text>
+          <text x="75" y="201" textAnchor="middle" fill="#e7e9f5" fontSize="10" fontFamily="Lexend, Public Sans, sans-serif" fontWeight="500">CMSNet / EDC</text>
 
           {/* On-prem → NCC arrow + label */}
           <line x1="140" y1="170" x2="196" y2="170" stroke="#4a5588" strokeWidth="1.5" strokeDasharray="5,3" markerEnd="url(#arr)" />
-          <text x="168" y="159" textAnchor="middle" fill="#b6bde0" fontSize="8.5" fontFamily="Lexend, Public Sans, sans-serif">Interconnect</text>
-          <text x="168" y="170" textAnchor="middle" fill="#b6bde0" fontSize="8.5" fontFamily="Lexend, Public Sans, sans-serif">/ VPN</text>
+          <text x="168" y="159" textAnchor="middle" fill="#e7e9f5" fontSize="8.5" fontFamily="Lexend, Public Sans, sans-serif">Interconnect</text>
+          <text x="168" y="170" textAnchor="middle" fill="#e7e9f5" fontSize="8.5" fontFamily="Lexend, Public Sans, sans-serif">/ VPN</text>
 
           {/* ── NCC Hub ── */}
-          <rect x="200" y="96" width="138" height="148" rx="8" fill="#07124d" stroke="#6eb6ff" strokeWidth="1.5" />
+          <rect x="200" y="96" width="138" height="148" rx="8" fill="#040b2e" stroke="#6eb6ff" strokeWidth="1.5" />
           <text x="269" y="118" textAnchor="middle" fill="#6eb6ff" fontSize="9" fontFamily="Lexend, Public Sans, sans-serif" letterSpacing="0.08em" fontWeight="700">CONNECTIVITY</text>
           <rect x="216" y="128" width="106" height="30" rx="5" fill="#040b2e" stroke="#6eb6ff" strokeWidth="1" strokeOpacity="0.5" />
           <text x="269" y="147" textAnchor="middle" fill="#6eb6ff" fontSize="10" fontFamily="Lexend, Public Sans, sans-serif" fontWeight="600">NCC Hub</text>
           <rect x="216" y="167" width="106" height="26" rx="5" fill="#040b2e" stroke="#4a5588" strokeWidth="1" />
-          <text x="269" y="184" textAnchor="middle" fill="#b6bde0" fontSize="10" fontFamily="Lexend, Public Sans, sans-serif">Cloud Router</text>
+          <text x="269" y="184" textAnchor="middle" fill="#e7e9f5" fontSize="10" fontFamily="Lexend, Public Sans, sans-serif">Cloud Router</text>
           <rect x="216" y="200" width="106" height="26" rx="5" fill="#040b2e" stroke="#4a5588" strokeWidth="1" />
-          <text x="269" y="217" textAnchor="middle" fill="#b6bde0" fontSize="10" fontFamily="Lexend, Public Sans, sans-serif">Cloud NAT</text>
+          <text x="269" y="217" textAnchor="middle" fill="#e7e9f5" fontSize="10" fontFamily="Lexend, Public Sans, sans-serif">Cloud NAT</text>
 
           {/* NCC → Shared VPC arrow */}
           <line x1="338" y1="170" x2="390" y2="170" stroke="#6eb6ff" strokeWidth="1.5" markerEnd="url(#arrBlue)" />
           <text x="364" y="162" textAnchor="middle" fill="#6eb6ff" fontSize="8.5" fontFamily="Lexend, Public Sans, sans-serif">VPC Peering</text>
 
           {/* ── Shared VPC (host project) ── */}
-          <rect x="394" y="60" width="158" height="220" rx="8" fill="#07124d" stroke="#dfb01c" strokeWidth="1.5" />
+          <rect x="394" y="60" width="158" height="220" rx="8" fill="#040b2e" stroke="#dfb01c" strokeWidth="1.5" />
           <text x="473" y="83" textAnchor="middle" fill="#dfb01c" fontSize="9" fontFamily="Lexend, Public Sans, sans-serif" letterSpacing="0.08em" fontWeight="700">HOST PROJECT</text>
           <rect x="410" y="93" width="126" height="30" rx="5" fill="#040b2e" stroke="#dfb01c" strokeWidth="1" strokeOpacity="0.6" />
           <text x="473" y="112" textAnchor="middle" fill="#dfb01c" fontSize="10.5" fontFamily="Lexend, Public Sans, sans-serif" fontWeight="700">Shared VPC</text>
           <rect x="410" y="133" width="126" height="26" rx="5" fill="#040b2e" stroke="#4a5588" strokeWidth="1" />
-          <text x="473" y="150" textAnchor="middle" fill="#b6bde0" fontSize="10" fontFamily="Lexend, Public Sans, sans-serif">Subnets (us-east4)</text>
+          <text x="473" y="150" textAnchor="middle" fill="#e7e9f5" fontSize="10" fontFamily="Lexend, Public Sans, sans-serif">Subnets (us-east4)</text>
           <rect x="410" y="167" width="126" height="26" rx="5" fill="#040b2e" stroke="#4a5588" strokeWidth="1" />
-          <text x="473" y="184" textAnchor="middle" fill="#b6bde0" fontSize="10" fontFamily="Lexend, Public Sans, sans-serif">Firewall Rules</text>
+          <text x="473" y="184" textAnchor="middle" fill="#e7e9f5" fontSize="10" fontFamily="Lexend, Public Sans, sans-serif">Firewall Rules</text>
           <rect x="410" y="201" width="126" height="26" rx="5" fill="#040b2e" stroke="#4a5588" strokeWidth="1" />
-          <text x="473" y="218" textAnchor="middle" fill="#b6bde0" fontSize="10" fontFamily="Lexend, Public Sans, sans-serif">Org Policies</text>
+          <text x="473" y="218" textAnchor="middle" fill="#e7e9f5" fontSize="10" fontFamily="Lexend, Public Sans, sans-serif">Org Policies</text>
           <rect x="410" y="235" width="126" height="26" rx="5" fill="#040b2e" stroke="#4a5588" strokeWidth="1" />
-          <text x="473" y="252" textAnchor="middle" fill="#b6bde0" fontSize="10" fontFamily="Lexend, Public Sans, sans-serif">Cloud Router</text>
+          <text x="473" y="252" textAnchor="middle" fill="#e7e9f5" fontSize="10" fontFamily="Lexend, Public Sans, sans-serif">Cloud Router</text>
 
           {/* Shared VPC → Service projects arrow */}
           <line x1="552" y1="170" x2="604" y2="170" stroke="#6eb6ff" strokeWidth="1.5" markerEnd="url(#arrBlue)" />
@@ -606,40 +629,40 @@ function ArchHosting() {
 
           {/* ── Service projects column ── */}
           {/* Prod */}
-          <rect x="608" y="50" width="130" height="60" rx="7" fill="#07124d" stroke="#34A853" strokeWidth="1.5" />
+          <rect x="608" y="50" width="130" height="60" rx="7" fill="#040b2e" stroke="#34A853" strokeWidth="1.5" />
           <text x="673" y="70" textAnchor="middle" fill="#34A853" fontSize="8.5" fontFamily="Lexend, Public Sans, sans-serif" letterSpacing="0.06em" fontWeight="700">PRODUCTION</text>
-          <text x="673" y="88" textAnchor="middle" fill="#b6bde0" fontSize="10" fontFamily="Lexend, Public Sans, sans-serif">App Project(s)</text>
+          <text x="673" y="88" textAnchor="middle" fill="#e7e9f5" fontSize="10" fontFamily="Lexend, Public Sans, sans-serif">App Project(s)</text>
           <line x1="608" y1="80" x2="552" y2="150" stroke="#34A853" strokeWidth="1" strokeOpacity="0.4" strokeDasharray="4,3" />
 
           {/* Non-prod */}
-          <rect x="608" y="140" width="130" height="60" rx="7" fill="#07124d" stroke="#6eb6ff" strokeWidth="1.5" />
+          <rect x="608" y="140" width="130" height="60" rx="7" fill="#040b2e" stroke="#6eb6ff" strokeWidth="1.5" />
           <text x="673" y="160" textAnchor="middle" fill="#6eb6ff" fontSize="8.5" fontFamily="Lexend, Public Sans, sans-serif" letterSpacing="0.06em" fontWeight="700">NON-PRODUCTION</text>
-          <text x="673" y="178" textAnchor="middle" fill="#b6bde0" fontSize="10" fontFamily="Lexend, Public Sans, sans-serif">Dev / Impl</text>
+          <text x="673" y="178" textAnchor="middle" fill="#e7e9f5" fontSize="10" fontFamily="Lexend, Public Sans, sans-serif">Dev / Impl</text>
 
           {/* Sandbox */}
-          <rect x="608" y="230" width="130" height="60" rx="7" fill="#07124d" stroke="#b6bde0" strokeWidth="1.5" strokeDasharray="5,3" />
-          <text x="673" y="250" textAnchor="middle" fill="#b6bde0" fontSize="8.5" fontFamily="Lexend, Public Sans, sans-serif" letterSpacing="0.06em" fontWeight="700">SANDBOX</text>
-          <text x="673" y="268" textAnchor="middle" fill="#b6bde0" fontSize="10" fontFamily="Lexend, Public Sans, sans-serif">Experimental</text>
+          <rect x="608" y="230" width="130" height="60" rx="7" fill="#040b2e" stroke="#b6bde0" strokeWidth="1.5" strokeDasharray="5,3" />
+          <text x="673" y="250" textAnchor="middle" fill="#e7e9f5" fontSize="8.5" fontFamily="Lexend, Public Sans, sans-serif" letterSpacing="0.06em" fontWeight="700">SANDBOX</text>
+          <text x="673" y="268" textAnchor="middle" fill="#e7e9f5" fontSize="10" fontFamily="Lexend, Public Sans, sans-serif">Experimental</text>
           <line x1="608" y1="260" x2="552" y2="190" stroke="#b6bde0" strokeWidth="1" strokeOpacity="0.35" strokeDasharray="4,3" />
 
           {/* ── Org node at top ── */}
-          <rect x="280" y="10" width="260" height="32" rx="6" fill="#07124d" stroke="#4a5588" strokeWidth="1" />
-          <text x="410" y="30" textAnchor="middle" fill="#b6bde0" fontSize="10" fontFamily="Lexend, Public Sans, sans-serif" fontWeight="600" letterSpacing="0.04em">CMS Organization Node  ·  Org-level Policies</text>
+          <rect x="280" y="10" width="260" height="32" rx="6" fill="#040b2e" stroke="#4a5588" strokeWidth="1" />
+          <text x="410" y="30" textAnchor="middle" fill="#e7e9f5" fontSize="10" fontFamily="Lexend, Public Sans, sans-serif" fontWeight="600" letterSpacing="0.04em">CMS Organization Node  ·  Org-level Policies</text>
           <line x1="410" y1="42" x2="410" y2="59" stroke="#4a5588" strokeWidth="1" strokeDasharray="3,2" />
 
           {/* ── Google APIs callout ── */}
-          <rect x="608" y="305" width="130" height="30" rx="6" fill="#07124d" stroke="#4a5588" strokeWidth="1" strokeDasharray="4,3" />
-          <text x="673" y="324" textAnchor="middle" fill="#b6bde0" fontSize="9.5" fontFamily="Lexend, Public Sans, sans-serif">Private Google Access</text>
+          <rect x="608" y="305" width="130" height="30" rx="6" fill="#040b2e" stroke="#4a5588" strokeWidth="1" strokeDasharray="4,3" />
+          <text x="673" y="324" textAnchor="middle" fill="#e7e9f5" fontSize="9.5" fontFamily="Lexend, Public Sans, sans-serif">Private Google Access</text>
           <line x1="673" y1="305" x2="673" y2="290" stroke="#4a5588" strokeWidth="1" strokeDasharray="3,2" />
 
           {/* Legend */}
           <g transform="translate(10, 308)">
             <rect x="0" y="0" width="8" height="8" rx="1" fill="none" stroke="#dfb01c" strokeWidth="1.5" />
-            <text x="13" y="8" fill="#b6bde0" fontSize="9" fontFamily="Lexend, Public Sans, sans-serif">Host Project</text>
+            <text x="13" y="8" fill="#e7e9f5" fontSize="9" fontFamily="Lexend, Public Sans, sans-serif">Host Project</text>
             <rect x="90" y="0" width="8" height="8" rx="1" fill="none" stroke="#6eb6ff" strokeWidth="1.5" />
-            <text x="103" y="8" fill="#b6bde0" fontSize="9" fontFamily="Lexend, Public Sans, sans-serif">Connectivity Layer</text>
+            <text x="103" y="8" fill="#e7e9f5" fontSize="9" fontFamily="Lexend, Public Sans, sans-serif">Connectivity Layer</text>
             <line x1="210" y1="4" x2="228" y2="4" stroke="#4a5588" strokeWidth="1.5" strokeDasharray="4,2" />
-            <text x="233" y="8" fill="#b6bde0" fontSize="9" fontFamily="Lexend, Public Sans, sans-serif">Peering / Policy boundary</text>
+            <text x="233" y="8" fill="#e7e9f5" fontSize="9" fontFamily="Lexend, Public Sans, sans-serif">Peering / Policy boundary</text>
           </g>
         </svg>
       </div>
@@ -2240,25 +2263,28 @@ export function GcpPlatformGuide() {
     <div className="gcp-guide">
 
       {activeTab === 'overview' && (
+        <>
+        <div className="gcp-crumb-bar">
+          <nav className="gcp-crumb gcp-page__shell" aria-label="Breadcrumb">
+            <ol className="kc-breadcrumb-list">
+              <li>
+                <Link to="/" className="kc-breadcrumb-link">Cloud.CMS.gov</Link>
+              </li>
+              <li className="kc-breadcrumb-sep" aria-hidden="true">›</li>
+              <li>
+                <Link to="/explore" className="kc-breadcrumb-link">Explore</Link>
+              </li>
+              <li className="kc-breadcrumb-sep" aria-hidden="true">›</li>
+              <li>
+                <span className="kc-breadcrumb-current" aria-current="page">Google Cloud Platform</span>
+              </li>
+            </ol>
+          </nav>
+        </div>
         <section className="gcp-hero" aria-labelledby="gcp-hero-heading">
           <div className="gcp-page__shell gcp-hero__inner">
-            <nav className="gcp-crumb" aria-label="Breadcrumb">
-              <ol className="kc-breadcrumb-list">
-                <li>
-                  <Link to="/" className="kc-breadcrumb-link">Cloud.CMS.gov</Link>
-                </li>
-                <li className="kc-breadcrumb-sep" aria-hidden="true">›</li>
-                <li>
-                  <Link to="/explore" className="kc-breadcrumb-link">Explore</Link>
-                </li>
-                <li className="kc-breadcrumb-sep" aria-hidden="true">›</li>
-                <li>
-                  <span className="kc-breadcrumb-current" aria-current="page">Google Cloud Platform</span>
-                </li>
-              </ol>
-            </nav>
             <h1 id="gcp-hero-heading" className="fusion-hero__headline explore-hero__headline gcp-hero__title">
-              <span className="block font-semibold leading-[1.12] tracking-wide">
+              <span className="block font-semibold leading-[1.2] tracking-tight">
                 Google Cloud Platform
               </span>
             </h1>
@@ -2303,6 +2329,7 @@ export function GcpPlatformGuide() {
             </div>
           </div>
         </section>
+        </>
       )}
 
       <nav className="gcp-tabs-bar" aria-label="Content sections">
@@ -2318,6 +2345,7 @@ export function GcpPlatformGuide() {
                 onClick={() => switchTab(tab.id)}
                 className={`explore-tabs__tab${activeTab === tab.id ? ' explore-tabs__tab--active' : ''}`}
               >
+                {tab.id === 'overview' ? <HomeTabIcon active={activeTab === 'overview'} /> : null}
                 {tab.label}
               </button>
             ))}
@@ -2422,12 +2450,12 @@ export function GcpPlatformGuide() {
                 overflow: 'hidden',
                 flexShrink: 0,
                 background: 'linear-gradient(135deg, var(--fusion-deep-sea-700) 0%, var(--fusion-deep-sea-800) 55%, var(--fusion-deep-sea-1000) 100%)',
-                borderBottom: '1px solid var(--color-border-bright)',
+                borderBottom: `1px solid ${C.border}`,
               }}>
                 <div aria-hidden style={{ position: 'absolute', inset: 0, opacity: 0.35, background: 'radial-gradient(ellipse at 18% 40%, color-mix(in srgb, var(--fusion-deep-sea-500) 50%, transparent) 0%, transparent 58%), radial-gradient(ellipse at 82% 20%, color-mix(in srgb, var(--fusion-yellow) 18%, transparent) 0%, transparent 50%)' }} />
                 <div style={{ position: 'absolute', inset: 0, background: `linear-gradient(to bottom, transparent 0%, ${C.mainBg} 100%)` }} />
-                <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', padding: '0 48px 28px' }}>
-                  <div style={{ fontFamily: 'var(--font-family-heading)', fontSize: '1.5rem', fontWeight: 600, color: C.textPrimary, letterSpacing: '-0.02em', lineHeight: 1.1, marginBottom: 6 }}>{b.label}</div>
+                <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', padding: '0 48px 36px' }}>
+                  <div style={{ fontFamily: 'var(--font-family-heading)', fontSize: '1.5rem', fontWeight: 600, color: C.textPrimary, letterSpacing: '-0.02em', lineHeight: 1.25, marginBottom: 6 }}>{b.label}</div>
                   <div style={{ fontSize: '0.8125rem', color: C.textMuted, letterSpacing: '0.04em', fontWeight: 500 }}>{b.sub}</div>
                 </div>
               </div>

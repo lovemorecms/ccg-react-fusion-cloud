@@ -3,22 +3,22 @@ import { Link } from 'react-router-dom'
 import { FusionButton } from '../FusionButton'
 
 const C = {
-  deepBg: 'var(--fusion-deep-sea-800)',
-  mainBg: 'var(--fusion-deep-sea-700)',
-  cardBg: 'color-mix(in srgb, var(--fusion-deep-sea-800) 74%, var(--fusion-deep-sea-700))',
-  hoverBg: 'color-mix(in srgb, var(--fusion-deep-sea-700) 86%, var(--fusion-deep-sea-500))',
-  sidebarBg: 'var(--fusion-deep-sea-800)',
+  deepBg: 'color-mix(in srgb, var(--fusion-deep-sea-900) 58%, var(--fusion-deep-sea-1000))',
+  mainBg: 'color-mix(in srgb, var(--fusion-deep-sea-900) 55%, var(--fusion-deep-sea-800))',
+  cardBg: 'color-mix(in srgb, var(--fusion-deep-sea-900) 62%, var(--fusion-deep-sea-800))',
+  hoverBg: 'color-mix(in srgb, var(--fusion-deep-sea-800) 86%, var(--fusion-deep-sea-500))',
+  sidebarBg: 'color-mix(in srgb, var(--fusion-deep-sea-900) 58%, var(--fusion-deep-sea-1000))',
   textPrimary: '#ffffff',
-  textSecondary: 'var(--fusion-deep-sea-100)',
-  textMuted: 'color-mix(in srgb, var(--fusion-deep-sea-100) 70%, transparent)',
+  textSecondary: 'color-mix(in srgb, var(--fusion-deep-sea-100) 62%, var(--fusion-deep-sea-50))',
+  textMuted: 'var(--fusion-deep-sea-100)',
   cmsBlue: '#6eb6ff',
   azure: '#6eb6ff',
   gold: 'var(--fusion-yellow)',
   amber: 'var(--fusion-yellow)',
   green: '#34A853',
   red: '#C74634',
-  border: 'color-mix(in srgb, var(--fusion-deep-sea-100) 22%, transparent)',
-  borderMid: 'color-mix(in srgb, var(--fusion-deep-sea-100) 28%, transparent)',
+  border: 'color-mix(in srgb, #ffffff 7%, transparent)',
+  borderMid: 'color-mix(in srgb, #ffffff 13%, transparent)',
 }
 
 const TABS = [
@@ -62,6 +62,30 @@ const SIDEBAR_LINKS: Record<string, { id: string; label: string }[]> = {
 
 // ─── Shared small components ─────────────────────────────────────────────────
 
+function HomeTabIcon({ active }: { active: boolean }) {
+  return (
+    <svg
+      aria-hidden
+      focusable="false"
+      width="11"
+      height="11"
+      viewBox="0 0 13 13"
+      fill="none"
+      className="gcp-tabs__home"
+      style={{ opacity: active ? 1 : 0.55 }}
+    >
+      <path
+        d="M1 5.5L6.5 1 12 5.5V12H8.5V8.5H4.5V12H1V5.5Z"
+        stroke="currentColor"
+        strokeWidth="1.3"
+        strokeLinejoin="round"
+        fill={active ? 'currentColor' : 'none'}
+        fillOpacity="0.25"
+      />
+    </svg>
+  )
+}
+
 function ExternalIcon() {
   return (
     <svg aria-hidden="true" focusable="false" width="12" height="12" viewBox="0 0 12 12" fill="currentColor" style={{ display: 'inline', marginLeft: 3 }}>
@@ -87,7 +111,7 @@ function _CheckIcon() {
   )
 }
 
-function Callout({ text, accent = 'var(--fusion-yellow)', bg = 'color-mix(in srgb, var(--fusion-yellow) 12%, transparent)' }: { text: string; accent?: string; bg?: string }) {
+function Callout({ text, accent = '#6eb6ff', bg = 'color-mix(in srgb, #6eb6ff 7%, transparent)' }: { text: string; accent?: string; bg?: string }) {
   return (
     <div style={{ borderLeft: `4px solid ${accent}`, background: bg, borderTop: '1px solid rgba(255,255,255,0.05)', borderBottom: '1px solid rgba(255,255,255,0.05)', padding: '22px 28px', margin: '28px 0' }}>
       <p style={{ fontSize: '1rem', fontWeight: 500, color: C.textPrimary, margin: 0, lineHeight: 1.7 }}>{text}</p>
@@ -232,8 +256,8 @@ function SectionPhotoBanner({ sectionId }: { sectionId: string }) {
     }}>
       <div aria-hidden style={{ position: 'absolute', inset: 0, opacity: 0.35, background: 'radial-gradient(ellipse at 18% 40%, color-mix(in srgb, var(--fusion-deep-sea-500) 50%, transparent) 0%, transparent 58%), radial-gradient(ellipse at 82% 20%, color-mix(in srgb, var(--fusion-yellow) 18%, transparent) 0%, transparent 50%)' }} />
       <div style={{ position: 'absolute', inset: 0, background: `linear-gradient(to bottom, transparent 0%, ${C.mainBg} 100%)` }} />
-      <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', padding: '0 48px 28px' }}>
-        <div style={{ fontFamily: 'var(--font-family-heading)', fontSize: '1.5rem', fontWeight: 600, color: C.textPrimary, letterSpacing: '-0.02em', lineHeight: 1.1, marginBottom: 6 }}>{b.label}</div>
+      <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', padding: '0 48px 36px' }}>
+        <div style={{ fontFamily: 'var(--font-family-heading)', fontSize: '1.5rem', fontWeight: 600, color: C.textPrimary, letterSpacing: '-0.02em', lineHeight: 1.25, marginBottom: 6 }}>{b.label}</div>
         <div style={{ fontSize: '0.8125rem', color: C.textMuted, letterSpacing: '0.04em', fontWeight: 500 }}>{b.sub}</div>
       </div>
     </div>
@@ -1545,25 +1569,28 @@ export function AzurePlatformGuide() {
     <div className="gcp-guide">
 
       {activeTab === 'overview' && (
+        <>
+        <div className="gcp-crumb-bar">
+          <nav className="gcp-crumb gcp-page__shell" aria-label="Breadcrumb">
+            <ol className="kc-breadcrumb-list">
+              <li>
+                <Link to="/" className="kc-breadcrumb-link">Cloud.CMS.gov</Link>
+              </li>
+              <li className="kc-breadcrumb-sep" aria-hidden="true">›</li>
+              <li>
+                <Link to="/explore" className="kc-breadcrumb-link">Explore</Link>
+              </li>
+              <li className="kc-breadcrumb-sep" aria-hidden="true">›</li>
+              <li>
+                <span className="kc-breadcrumb-current" aria-current="page">Azure Commercial</span>
+              </li>
+            </ol>
+          </nav>
+        </div>
         <section className="gcp-hero" aria-labelledby="azure-hero-heading">
           <div className="gcp-page__shell gcp-hero__inner">
-            <nav className="gcp-crumb" aria-label="Breadcrumb">
-              <ol className="kc-breadcrumb-list">
-                <li>
-                  <Link to="/" className="kc-breadcrumb-link">Cloud.CMS.gov</Link>
-                </li>
-                <li className="kc-breadcrumb-sep" aria-hidden="true">›</li>
-                <li>
-                  <Link to="/explore" className="kc-breadcrumb-link">Explore</Link>
-                </li>
-                <li className="kc-breadcrumb-sep" aria-hidden="true">›</li>
-                <li>
-                  <span className="kc-breadcrumb-current" aria-current="page">Azure Commercial</span>
-                </li>
-              </ol>
-            </nav>
             <h1 id="azure-hero-heading" className="fusion-hero__headline explore-hero__headline gcp-hero__title">
-              <span className="block font-semibold leading-[1.12] tracking-wide">
+              <span className="block font-semibold leading-[1.2] tracking-tight">
                 Azure Commercial
               </span>
             </h1>
@@ -1602,6 +1629,7 @@ export function AzurePlatformGuide() {
             </div>
           </div>
         </section>
+        </>
       )}
 
       <nav className="gcp-tabs-bar" aria-label="Content sections">
@@ -1617,6 +1645,7 @@ export function AzurePlatformGuide() {
                 onClick={() => switchTab(tab.id)}
                 className={`explore-tabs__tab${activeTab === tab.id ? ' explore-tabs__tab--active' : ''}`}
               >
+                {tab.id === 'overview' ? <HomeTabIcon active={activeTab === 'overview'} /> : null}
                 {tab.label}
               </button>
             ))}

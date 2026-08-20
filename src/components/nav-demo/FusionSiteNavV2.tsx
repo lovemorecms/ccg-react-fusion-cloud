@@ -785,7 +785,7 @@ export function FusionSiteNavV2({
             className="fusion-site-nav__legacy-link fusion-site-nav__get-help"
             onClick={(e) => handleLinkClick(e, '#get-help')}
           >
-            Get Help
+            Get Support
           </a>
 
           <ThemeToggle />
