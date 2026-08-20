@@ -354,7 +354,7 @@ export default function TrainingEnablementPage() {
             aria-labelledby="te-hero-heading"
             style={{
               background:
-                'linear-gradient(135deg, var(--fusion-deep-sea-700) 0%, var(--fusion-deep-sea-800) 55%, var(--fusion-deep-sea-1000) 100%)',
+                'linear-gradient(135deg, var(--fusion-deep-sea-900) 0%, var(--fusion-deep-sea-800) 55%, var(--fusion-deep-sea-1000) 100%)',
               border: '1px solid var(--color-border-bright)',
             }}
           >

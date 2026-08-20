@@ -1056,9 +1056,9 @@ html[data-theme='dark'] {
   --fusion-on-light-muted: #5a5a5a; /* Granite 700 */
 
   --fusion-dark-canvas: var(--fusion-deep-sea-900);
-  --fusion-dark-band: color-mix(in srgb, var(--fusion-deep-sea-900) 82%, var(--fusion-deep-sea-800));
-  --fusion-dark-card: color-mix(in srgb, var(--fusion-deep-sea-900) 74%, var(--fusion-deep-sea-800));
-  --fusion-dark-card-hover: color-mix(in srgb, var(--fusion-deep-sea-800) 86%, var(--fusion-deep-sea-500));
+  --fusion-dark-band: color-mix(in srgb, var(--fusion-deep-sea-900) 88%, var(--fusion-deep-sea-800));
+  --fusion-dark-card: color-mix(in srgb, var(--fusion-deep-sea-900) 86%, var(--fusion-deep-sea-800));
+  --fusion-dark-card-hover: color-mix(in srgb, var(--fusion-deep-sea-900) 72%, var(--fusion-deep-sea-800));
   --fusion-dark-interactive: var(--fusion-deep-sea-500);
   --fusion-dark-border: color-mix(in srgb, var(--fusion-deep-sea-100) 22%, transparent);
   --fusion-dark-border-strong: color-mix(in srgb, var(--fusion-deep-sea-100) 28%, transparent);
@@ -14490,6 +14490,58 @@ html[data-theme='dark'] .fusion-nav-v2__learn-group-list a:focus-visible {
   text-underline-offset: 0.2em;
 }
 
+/* CMS DS paints a:focus with --color-focus-light (#fff). Mega titles inherit that white box. */
+.fusion-site-nav .fusion-nav-v2__overview-title a:focus,
+.fusion-site-nav .fusion-nav-v2__overview-title a:focus:visited,
+.fusion-site-nav .fusion-nav-v2__overview-title a:focus:not(.ds-c-button),
+.fusion-site-nav .fusion-nav-v2__overview-title a:active,
+.fusion-site-nav .fusion-nav-v2__overview-category h3 a:focus,
+.fusion-site-nav .fusion-nav-v2__overview-category h3 a:focus:visited,
+.fusion-site-nav .fusion-nav-v2__overview-category h3 a:focus:not(.ds-c-button),
+.fusion-site-nav .fusion-nav-v2__overview-category h3 a:active,
+.fusion-site-nav .fusion-nav-v2__learn-category h3 a:focus,
+.fusion-site-nav .fusion-nav-v2__learn-category h3 a:focus:visited,
+.fusion-site-nav .fusion-nav-v2__learn-category h3 a:focus:not(.ds-c-button),
+.fusion-site-nav .fusion-nav-v2__learn-category h3 a:active,
+.fusion-site-nav .fusion-nav-v2__menu-title-link:focus,
+.fusion-site-nav .fusion-nav-v2__menu-title-link:focus:visited,
+.fusion-site-nav .fusion-nav-v2__menu-title-link:focus:not(.ds-c-button),
+.fusion-site-nav .fusion-nav-v2__menu-title-link:active,
+.fusion-site-nav .fusion-nav-v2__panel-title-link:focus,
+.fusion-site-nav .fusion-nav-v2__panel-title-link:focus:visited,
+.fusion-site-nav .fusion-nav-v2__panel-title-link:focus:not(.ds-c-button),
+.fusion-site-nav .fusion-nav-v2__panel-title-link:active,
+.fusion-site-nav .fusion-nav-v2__learn-view-all:focus,
+.fusion-site-nav .fusion-nav-v2__learn-view-all:focus:visited,
+.fusion-site-nav .fusion-nav-v2__learn-view-all:focus:not(.ds-c-button),
+.fusion-site-nav .fusion-nav-v2__learn-view-all:active,
+.fusion-site-nav .fusion-mega-link:focus,
+.fusion-site-nav .fusion-mega-link:focus:visited,
+.fusion-site-nav .fusion-mega-link:focus:not(.ds-c-button),
+.fusion-site-nav .fusion-mega-link:active {
+  background: transparent !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+html[data-theme='dark'] .fusion-site-nav .fusion-nav-v2__overview-title a:focus,
+html[data-theme='dark'] .fusion-site-nav .fusion-nav-v2__overview-title a:active,
+html[data-theme='dark'] .fusion-site-nav .fusion-nav-v2__overview-category h3 a:focus,
+html[data-theme='dark'] .fusion-site-nav .fusion-nav-v2__overview-category h3 a:active,
+html[data-theme='dark'] .fusion-site-nav .fusion-nav-v2__learn-category h3 a:focus,
+html[data-theme='dark'] .fusion-site-nav .fusion-nav-v2__learn-category h3 a:active,
+html[data-theme='dark'] .fusion-site-nav .fusion-nav-v2__menu-title-link:focus,
+html[data-theme='dark'] .fusion-site-nav .fusion-nav-v2__menu-title-link:active,
+html[data-theme='dark'] .fusion-site-nav .fusion-nav-v2__panel-title-link:focus,
+html[data-theme='dark'] .fusion-site-nav .fusion-nav-v2__panel-title-link:active,
+html[data-theme='dark'] .fusion-site-nav .fusion-nav-v2__learn-view-all:focus,
+html[data-theme='dark'] .fusion-site-nav .fusion-nav-v2__learn-view-all:active,
+html[data-theme='dark'] .fusion-site-nav .fusion-mega-link:focus,
+html[data-theme='dark'] .fusion-site-nav .fusion-mega-link:active {
+  color: #ffffff !important;
+}
+
 html[data-theme='dark'] .fusion-nav-v2.fusion-nav-v2--mega-open button.fusion-mega-trigger,
 html[data-theme='dark'] .fusion-nav-v2.fusion-nav-v2--mega-open button.fusion-mega-trigger--active,
 html[data-theme='dark'] .fusion-site-header:has(.fusion-nav-v2--mega-open) .fusion-mega-trigger,
@@ -14628,18 +14680,18 @@ html[data-theme='dark'] .interior-section-nav__link--active {
 
 /*
  * Homepage dark mode — Deep Sea rhythm (not 800/700/500 slabs).
- * 800 atmosphere → 700 depth around artwork → 800/700 cards → localized 500 glow.
+ * 900 atmosphere → 800 depth around artwork → 900/800 cards → localized 500 glow.
  * 500 is illumination, interaction, and focus — never a filled rectangle.
  */
 html[data-theme='dark'] .fusion-band-gradient-primary-mist {
-  background-color: var(--fusion-deep-sea-800) !important;
+  background-color: var(--fusion-deep-sea-900) !important;
   background-image: none !important;
   color: #ffffff !important;
 }
 
-/* 1. Hero: same 800 → 700 → 800 wash as ecosystem, plus localized 500 around artwork */
+/* 1. Hero: same 900 → 800 → 900 wash as ecosystem, plus localized 500 around artwork */
 html[data-theme='dark'] .fusion-hero {
-  background-color: var(--fusion-deep-sea-800);
+  background-color: var(--fusion-deep-sea-900);
   background-image:
     radial-gradient(
       ellipse 52% 68% at 78% 46%,
@@ -14648,10 +14700,10 @@ html[data-theme='dark'] .fusion-hero {
     ),
     linear-gradient(
       180deg,
-      var(--fusion-deep-sea-800) 0%,
-      var(--fusion-deep-sea-700) 28%,
-      var(--fusion-deep-sea-700) 72%,
-      var(--fusion-deep-sea-800) 100%
+      var(--fusion-deep-sea-900) 0%,
+      var(--fusion-deep-sea-800) 28%,
+      var(--fusion-deep-sea-800) 72%,
+      var(--fusion-deep-sea-900) 100%
     );
 }
 
@@ -14703,9 +14755,9 @@ html[data-theme='dark'] .fusion-hero__page-fade {
   height: 14rem;
   background-image: linear-gradient(
     to top,
-    var(--fusion-deep-sea-800) 0%,
-    color-mix(in srgb, var(--fusion-deep-sea-800) 82%, transparent) 38%,
-    color-mix(in srgb, var(--fusion-deep-sea-800) 28%, transparent) 72%,
+    var(--fusion-deep-sea-900) 0%,
+    color-mix(in srgb, var(--fusion-deep-sea-900) 82%, transparent) 38%,
+    color-mix(in srgb, var(--fusion-deep-sea-900) 28%, transparent) 72%,
     transparent 100%
   ) !important;
 }
@@ -14748,13 +14800,13 @@ html[data-theme='dark'] .fusion-hero .fusion-hero__cta-secondary.ds-c-button--gh
   text-decoration: none;
 }
 
-/* 2–3. Quick Access + pathways: start at 800 so the hero seam matches ecosystem → announcements */
+/* 2–3. Quick Access + pathways: start at 900 so the hero seam matches ecosystem → announcements */
 html[data-theme='dark'] .fusion-quick-access,
 html[data-theme='dark'] .fusion-pathways-help {
-  background-color: var(--fusion-deep-sea-800) !important;
+  background-color: var(--fusion-deep-sea-900) !important;
   background-image: radial-gradient(
     ellipse 80% 60% at 50% 70%,
-    color-mix(in srgb, var(--fusion-deep-sea-700) 32%, transparent),
+    color-mix(in srgb, var(--fusion-deep-sea-800) 32%, transparent),
     transparent 72%
   ) !important;
   color: #ffffff !important;
@@ -14769,8 +14821,8 @@ html[data-theme='dark'] .fusion-quick-access__shell {
     ),
     linear-gradient(
       180deg,
-      var(--fusion-deep-sea-800) 0%,
-      color-mix(in srgb, var(--fusion-deep-sea-800) 70%, var(--fusion-deep-sea-700)) 100%
+      var(--fusion-deep-sea-900) 0%,
+      color-mix(in srgb, var(--fusion-deep-sea-900) 70%, var(--fusion-deep-sea-800)) 100%
     ) !important;
   border: 1px solid var(--fusion-dark-border-strong) !important;
   color: #ffffff !important;
@@ -14805,14 +14857,14 @@ html[data-theme='dark'] .fusion-quick-access a.fusion-quick-access__link:hover {
 }
 
 html[data-theme='dark'] .fusion-pathways-help .fusion-pathways-help__pill {
-  background: var(--fusion-deep-sea-800) !important;
+  background: var(--fusion-deep-sea-900) !important;
   border: 1px solid var(--fusion-dark-border) !important;
   color: #ffffff !important;
   box-shadow: none;
 }
 
 html[data-theme='dark'] .fusion-pathways-help .fusion-pathways-help__pill:hover {
-  background: color-mix(in srgb, var(--fusion-deep-sea-700) 82%, var(--fusion-deep-sea-500)) !important;
+  background: color-mix(in srgb, var(--fusion-deep-sea-800) 82%, var(--fusion-deep-sea-500)) !important;
   border-color: color-mix(in srgb, var(--fusion-deep-sea-100) 38%, transparent) !important;
 }
 
@@ -14829,13 +14881,13 @@ html[data-theme='dark'] .fusion-pathways-help__pill-icon-wrap {
   background: color-mix(in srgb, var(--fusion-deep-sea-500) 16%, transparent);
 }
 
-/* 4. Multi-Cloud: luminous left illustration on 800; 500 glow around the art */
+/* 4. Multi-Cloud: luminous left illustration on 900; 500 glow around the art */
 .fusion-multi-cloud__illustration {
   display: none;
 }
 
 html[data-theme='dark'] .fusion-multi-cloud {
-  background-color: var(--fusion-deep-sea-800) !important;
+  background-color: var(--fusion-deep-sea-900) !important;
   background-image: none !important;
   background-blend-mode: normal;
 }
@@ -14854,7 +14906,7 @@ html[data-theme='dark'] .fusion-multi-cloud::before {
     ),
     linear-gradient(
       90deg,
-      color-mix(in srgb, var(--fusion-deep-sea-700) 18%, transparent) 0%,
+      color-mix(in srgb, var(--fusion-deep-sea-800) 18%, transparent) 0%,
       transparent 48%
     );
 }
@@ -14869,8 +14921,8 @@ html[data-theme='dark'] .fusion-multi-cloud::after {
     90deg,
     transparent 0%,
     transparent 46%,
-    color-mix(in srgb, var(--fusion-deep-sea-800) 28%, transparent) 64%,
-    color-mix(in srgb, var(--fusion-deep-sea-800) 72%, transparent) 100%
+    color-mix(in srgb, var(--fusion-deep-sea-900) 28%, transparent) 64%,
+    color-mix(in srgb, var(--fusion-deep-sea-900) 72%, transparent) 100%
   );
 }
 
@@ -14926,30 +14978,30 @@ html[data-theme='dark'] .fusion-multi-cloud .fusion-multi-cloud__prose p {
 
 @media (max-width: 1023px) {
   html[data-theme='dark'] .fusion-multi-cloud__copy {
-    background-color: color-mix(in srgb, var(--fusion-deep-sea-800) 82%, transparent) !important;
+    background-color: color-mix(in srgb, var(--fusion-deep-sea-900) 82%, transparent) !important;
   }
 }
 
-/* 5. Featured Resources: calm 800 + 800/700 cards; 500 only on hover */
+/* 5. Featured Resources: calm 900 + 900/800 cards; 500 only on hover */
 html[data-theme='dark'] .fusion-featured-resources {
-  background-color: var(--fusion-deep-sea-800) !important;
+  background-color: var(--fusion-deep-sea-900) !important;
   background-image: linear-gradient(
     180deg,
-    var(--fusion-deep-sea-800) 0%,
-    color-mix(in srgb, var(--fusion-deep-sea-800) 86%, var(--fusion-deep-sea-700)) 50%,
-    var(--fusion-deep-sea-800) 100%
+    var(--fusion-deep-sea-900) 0%,
+    color-mix(in srgb, var(--fusion-deep-sea-900) 86%, var(--fusion-deep-sea-800)) 50%,
+    var(--fusion-deep-sea-900) 100%
   ) !important;
   color: #ffffff !important;
 }
 
-/* 6–7. Academy: luminous left illustration on 800; 500 glow around the art */
+/* 6–7. Academy: luminous left illustration on 900; 500 glow around the art */
 .fusion-academy__illustration {
   display: none;
 }
 
 html[data-theme='dark'] .fusion-academy__hero {
   position: relative;
-  background-color: var(--fusion-deep-sea-800) !important;
+  background-color: var(--fusion-deep-sea-900) !important;
   background-image: none !important;
   background-blend-mode: normal;
 }
@@ -14968,7 +15020,7 @@ html[data-theme='dark'] .fusion-academy__hero::before {
     ),
     linear-gradient(
       90deg,
-      color-mix(in srgb, var(--fusion-deep-sea-700) 20%, transparent) 0%,
+      color-mix(in srgb, var(--fusion-deep-sea-800) 20%, transparent) 0%,
       transparent 46%
     );
 }
@@ -14983,8 +15035,8 @@ html[data-theme='dark'] .fusion-academy__hero::after {
     90deg,
     transparent 0%,
     transparent 46%,
-    color-mix(in srgb, var(--fusion-deep-sea-800) 28%, transparent) 64%,
-    color-mix(in srgb, var(--fusion-deep-sea-800) 72%, transparent) 100%
+    color-mix(in srgb, var(--fusion-deep-sea-900) 28%, transparent) 64%,
+    color-mix(in srgb, var(--fusion-deep-sea-900) 72%, transparent) 100%
   );
 }
 
@@ -15036,11 +15088,11 @@ html[data-theme='dark'] .fusion-academy__hero > * {
 }
 
 html[data-theme='dark'] .fusion-academy__offerings {
-  background-color: var(--fusion-deep-sea-800) !important;
+  background-color: var(--fusion-deep-sea-900) !important;
   background-image: linear-gradient(
     180deg,
-    color-mix(in srgb, var(--fusion-deep-sea-800) 88%, var(--fusion-deep-sea-700)) 0%,
-    var(--fusion-deep-sea-800) 100%
+    color-mix(in srgb, var(--fusion-deep-sea-900) 88%, var(--fusion-deep-sea-800)) 0%,
+    var(--fusion-deep-sea-900) 100%
   ) !important;
   color: #ffffff !important;
 }
@@ -15083,7 +15135,7 @@ html[data-theme='dark'] .fusion-academy .fusion-academy__cta-secondary.ds-c-butt
 
 @media (max-width: 1023px) {
   html[data-theme='dark'] .fusion-academy__copy {
-    background-color: color-mix(in srgb, var(--fusion-deep-sea-800) 82%, transparent) !important;
+    background-color: color-mix(in srgb, var(--fusion-deep-sea-900) 82%, transparent) !important;
     box-shadow: none;
   }
 }
@@ -15157,15 +15209,15 @@ html[data-theme='dark'] .fusion-academy-offerings__cta:visited {
   color: var(--fusion-yellow) !important;
 }
 
-/* 8. Ecosystem: 800 → 700 → 800 with a 500 core glow */
+/* 8. Ecosystem: 900 → 800 → 900 with a 500 core glow */
 html[data-theme='dark'] .fusion-ecosphere {
-  background-color: var(--fusion-deep-sea-700) !important;
+  background-color: var(--fusion-deep-sea-800) !important;
   background-image: linear-gradient(
     180deg,
-    var(--fusion-deep-sea-800) 0%,
-    var(--fusion-deep-sea-700) 28%,
-    var(--fusion-deep-sea-700) 72%,
-    var(--fusion-deep-sea-800) 100%
+    var(--fusion-deep-sea-900) 0%,
+    var(--fusion-deep-sea-800) 28%,
+    var(--fusion-deep-sea-800) 72%,
+    var(--fusion-deep-sea-900) 100%
   ) !important;
 }
 
@@ -15186,12 +15238,12 @@ html[data-theme='dark'] .fusion-ecosphere__card-body {
   color: #ffffff !important;
 }
 
-/* 9. Announcements: back to 800; 500 on small interactive chrome */
+/* 9. Announcements: back to 900; 500 on small interactive chrome */
 html[data-theme='dark'] .fusion-announcements {
-  background-color: var(--fusion-deep-sea-800) !important;
+  background-color: var(--fusion-deep-sea-900) !important;
   background-image: radial-gradient(
     ellipse 80% 60% at 50% 70%,
-    color-mix(in srgb, var(--fusion-deep-sea-700) 32%, transparent),
+    color-mix(in srgb, var(--fusion-deep-sea-800) 32%, transparent),
     transparent 72%
   ) !important;
   color: #ffffff !important;
@@ -15621,9 +15673,9 @@ html[data-theme='dark'] .program-overview .po-cta {
   --fusion-deep-sea-1000: #01040f;
   --fusion-yellow: #dfb01c;
   --color-bg: var(--fusion-deep-sea-900);
-  --color-surface: var(--fusion-deep-sea-800);
-  --color-card: color-mix(in srgb, var(--fusion-deep-sea-900) 74%, var(--fusion-deep-sea-800));
-  --color-card-hover: color-mix(in srgb, var(--fusion-deep-sea-800) 86%, var(--fusion-deep-sea-500));
+  --color-surface: color-mix(in srgb, var(--fusion-deep-sea-900) 86%, var(--fusion-deep-sea-800));
+  --color-card: color-mix(in srgb, var(--fusion-deep-sea-900) 86%, var(--fusion-deep-sea-800));
+  --color-card-hover: color-mix(in srgb, var(--fusion-deep-sea-900) 72%, var(--fusion-deep-sea-800));
   --color-border: color-mix(in srgb, var(--fusion-deep-sea-100) 22%, transparent);
   --color-border-bright: color-mix(in srgb, var(--fusion-deep-sea-100) 28%, transparent);
   --color-text: #ffffff;
@@ -16911,7 +16963,7 @@ html[data-theme='dark'] body:has(.gcp-page) .fusion-site-header:has(.fusion-nav-
   gap: 1.5rem;
   background: linear-gradient(
     135deg,
-    var(--fusion-deep-sea-700) 0%,
+    var(--fusion-deep-sea-900) 0%,
     var(--fusion-deep-sea-800) 55%,
     var(--fusion-deep-sea-1000) 100%
   );
@@ -17315,9 +17367,9 @@ html[data-theme='dark'] body:has(.gcp-page) .fusion-site-header:has(.fusion-nav-
 
 .fic-page .fic-getting-started {
   padding: 1.75rem 1.5rem 1.85rem;
-  border: 1px solid var(--color-border-bright);
+  border: 1px solid var(--color-border);
   border-radius: 1rem;
-  background: var(--fusion-deep-sea-800);
+  background: color-mix(in srgb, var(--fusion-deep-sea-900) 86%, var(--fusion-deep-sea-800));
 }
 
 .fic-page .fic-getting-started .explore-section-heading {
@@ -17413,7 +17465,7 @@ html[data-theme='dark'] body:has(.gcp-page) .fusion-site-header:has(.fusion-nav-
   max-height: none !important;
   background: linear-gradient(
     135deg,
-    var(--fusion-deep-sea-700) 0%,
+    var(--fusion-deep-sea-900) 0%,
     var(--fusion-deep-sea-800) 55%,
     var(--fusion-deep-sea-1000) 100%
   );
@@ -18022,7 +18074,7 @@ html[data-theme='dark'] .explore-2.ft-page .interior-section-nav__more {
 
 /* Training & Enablement — Explore Deep Sea + homepage featured cards */
 .explore-2.te-page {
-  background: var(--fusion-deep-sea-800) !important;
+  background: var(--fusion-deep-sea-900) !important;
   color: #ffffff;
   padding-bottom: 2rem;
 }
@@ -18146,12 +18198,12 @@ html[data-theme='dark'] .explore-2.te-page .te-btn-secondary.fusion-ds-button.ds
 }
 
 .explore-2.te-page .te-cta-band {
-  background: var(--fusion-deep-sea-700);
-  border: 1px solid var(--color-border-bright);
+  background: color-mix(in srgb, var(--fusion-deep-sea-900) 82%, var(--fusion-deep-sea-800));
+  border: 1px solid var(--color-border);
   border-radius: 1.25rem;
   margin: 0.5rem var(--fusion-site-padding-x) 0;
   padding: 2rem 0 2.25rem;
-  box-shadow: 0 0 0 1px color-mix(in srgb, var(--fusion-deep-sea-500) 28%, transparent);
+  box-shadow: 0 10px 28px color-mix(in srgb, #000 18%, transparent);
 }
 
 @media (min-width: 768px) {
