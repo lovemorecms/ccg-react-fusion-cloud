@@ -268,10 +268,4 @@ export const navNewCcgMenuItems: NavMenuItem[] = sortMenuItems([
     href: '/about',
     categories: [],
   },
-  {
-    id: 'support',
-    label: 'Support',
-    href: '/about/contact-us',
-    categories: [],
-  },
 ])

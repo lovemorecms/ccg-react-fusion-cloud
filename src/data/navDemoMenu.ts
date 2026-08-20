@@ -424,15 +424,9 @@ const rawNavDemoMenuItems: NavMenuItem[] = [
     href: '/#fusion-featured-resources',
     categories: [],
   },
-  {
-    id: 'support',
-    label: 'Support',
-    href: '/about/contact-us',
-    categories: [],
-  },
 ]
 
-const NAV_TAB_ORDER = ['explore', 'get-started', 'learn', 'resources', 'about', 'support'] as const
+const NAV_TAB_ORDER = ['explore', 'get-started', 'learn', 'resources', 'about'] as const
 
 export const navDemoMenuItems: NavMenuItem[] = [...rawNavDemoMenuItems].sort((a, b) => {
   const rank = (id: string) => {
