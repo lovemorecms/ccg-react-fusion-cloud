@@ -9,7 +9,7 @@ const C = {
   hoverBg: 'color-mix(in srgb, var(--fusion-deep-sea-800) 86%, var(--fusion-deep-sea-500))',
   sidebarBg: 'color-mix(in srgb, var(--fusion-deep-sea-900) 58%, var(--fusion-deep-sea-1000))',
   textPrimary: '#ffffff',
-  textSecondary: 'color-mix(in srgb, var(--fusion-deep-sea-100) 62%, var(--fusion-deep-sea-50))',
+  textSecondary: '#ffffff',
   textMuted: 'var(--fusion-deep-sea-100)',
   cmsBlue: '#6eb6ff',
   azure: '#6eb6ff',

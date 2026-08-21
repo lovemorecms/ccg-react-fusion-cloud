@@ -16308,7 +16308,7 @@ html[data-theme='dark'] .program-overview .po-cta {
 
 .gcp-page .gcp-hero__body {
   margin: 0 0 1rem;
-  color: rgb(255 255 255 / 0.88);
+  color: #ffffff;
   font-weight: 400;
 }
 
@@ -16333,7 +16333,7 @@ html[data-theme='dark'] .program-overview .po-cta {
   position: relative;
   padding-left: 1.15rem;
   margin: 0;
-  color: var(--color-text-muted);
+  color: #ffffff;
   font-size: 0.9375rem;
 }
 
@@ -16650,7 +16650,7 @@ html[data-theme='dark'] body:has(.gcp-page) .fusion-site-header:has(.fusion-nav-
   margin: 0 0 1rem;
   font-size: 0.9375rem;
   line-height: 1.7;
-  color: var(--color-text-muted);
+  color: #ffffff;
 }
 
 .gcp-page .gcp-copy--tight {
@@ -18304,7 +18304,7 @@ html[data-theme='dark'] .explore-2.te-page .te-btn-secondary.fusion-ds-button.ds
   font-size: 1rem !important;
   font-weight: 400;
   line-height: 1.75;
-  color: color-mix(in srgb, var(--fusion-deep-sea-100) 62%, var(--fusion-deep-sea-50)) !important;
+  color: #ffffff !important;
   margin: 0 0 1.25rem;
 }
 
@@ -18314,7 +18314,7 @@ html[data-theme='dark'] .explore-2.te-page .te-btn-secondary.fusion-ds-button.ds
   font-size: 0.9375rem;
   font-weight: 400;
   line-height: 1.85;
-  color: color-mix(in srgb, var(--fusion-deep-sea-100) 62%, var(--fusion-deep-sea-50)) !important;
+  color: #ffffff !important;
   margin: 0;
 }
 
