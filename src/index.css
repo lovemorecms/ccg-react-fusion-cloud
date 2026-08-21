@@ -16259,13 +16259,18 @@ html[data-theme='dark'] .program-overview .po-cta {
   position: relative;
   z-index: 2;
   pointer-events: auto;
-  color: color-mix(in srgb, var(--fusion-deep-sea-100) 72%, transparent);
+  color: #d4d4d4 !important;
 }
 
 .gcp-page .gcp-crumb .kc-breadcrumb-link:hover,
 .gcp-page .gcp-crumb .kc-breadcrumb-link:focus-visible {
   color: #ffffff !important;
   text-decoration: none;
+}
+
+.gcp-page .gcp-crumb .kc-breadcrumb-sep,
+.gcp-page .gcp-crumb .kc-breadcrumb-sep::after {
+  color: #d4d4d4 !important;
 }
 
 .gcp-page .gcp-crumb .kc-breadcrumb-current {
