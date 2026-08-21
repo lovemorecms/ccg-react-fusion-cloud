@@ -1652,6 +1652,7 @@ export function AzurePlatformGuide() {
           </div>
           <FusionButton href="/#pathways" accent onDark size="small" className="gcp-tabs-cta">
             Get started with Azure
+            <ChevronRight />
           </FusionButton>
         </div>
       </nav>

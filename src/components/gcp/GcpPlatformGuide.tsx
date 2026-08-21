@@ -2352,6 +2352,7 @@ export function GcpPlatformGuide() {
           </div>
           <FusionButton href="/#pathways" accent onDark size="small" className="gcp-tabs-cta">
             Get started with Google Cloud
+            <ChevronRight />
           </FusionButton>
         </div>
       </nav>
