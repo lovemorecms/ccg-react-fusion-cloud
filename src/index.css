@@ -16240,6 +16240,40 @@ html[data-theme='dark'] .program-overview .po-cta {
   overflow: visible;
 }
 
+.gcp-page-v2 .gcp-v2-badge {
+  display: inline-block;
+  margin-left: 0.55rem;
+  vertical-align: middle;
+  padding: 0.18em 0.5em;
+  border-radius: 999px;
+  font-family: var(--font-family-body);
+  font-size: 0.7rem !important;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+  text-transform: uppercase;
+  color: var(--fusion-deep-sea-900) !important;
+  background: var(--fusion-yellow);
+}
+
+/* v2: darker 900 canvas on hero/content; sticky tabs use Deep Sea 800 (the old content blue) */
+.gcp-page-v2 {
+  --gcp-v2-nav: var(--fusion-deep-sea-800);
+  --gcp-v2-canvas: var(--fusion-deep-sea-900);
+}
+
+.gcp-page.gcp-page-v2 .gcp-tabs-bar {
+  background: var(--gcp-v2-nav);
+}
+
+.gcp-page.gcp-page-v2 .gcp-hero {
+  background: var(--gcp-v2-canvas);
+}
+
+.gcp-page.gcp-page-v2 .gcp-crumb-bar {
+  background: var(--gcp-v2-canvas);
+}
+
 .gcp-page .gcp-crumb {
   margin: 0 0 1.75rem;
   border: 0;

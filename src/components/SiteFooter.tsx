@@ -31,6 +31,7 @@ const cmsHhsWebsites: { label: string; href: string }[] = [
 ]
 
 const additionalResources: { label: string; href: string }[] = [
+  { label: 'Google Cloud v2', href: '/explore/platforms/google-cloud-platform-v2' },
   { label: 'Page layouts', href: '/resources/page-layouts' },
   { label: 'Shared Services (first open)', href: '/resources/shared-services-first-open' },
   { label: 'Nav Legacy Demo', href: '/nav-demo' },
