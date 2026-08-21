@@ -16535,10 +16535,18 @@ html[data-theme='dark'] body:has(.gcp-page) .fusion-site-footer {
 
 .gcp-page .gcp-guide table th {
   color: #ffffff !important;
+  font-weight: 400;
 }
 
 .gcp-page .gcp-guide table td {
   color: color-mix(in srgb, var(--fusion-deep-sea-100) 50%, var(--fusion-deep-sea-50)) !important;
+  font-weight: 400;
+}
+
+.gcp-page .gcp-guide table td code {
+  color: inherit !important;
+  font-weight: 400;
+  background: color-mix(in srgb, #ffffff 10%, transparent);
 }
 
 /* Hard seam under the site header — Figma tab bar is a solid Deep Sea strip, not a fade */

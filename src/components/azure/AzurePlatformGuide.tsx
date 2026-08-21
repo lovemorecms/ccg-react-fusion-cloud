@@ -3,11 +3,11 @@ import { Link } from 'react-router-dom'
 import { FusionButton } from '../FusionButton'
 
 const C = {
-  deepBg: 'color-mix(in srgb, var(--fusion-deep-sea-900) 58%, var(--fusion-deep-sea-1000))',
+  deepBg: 'var(--fusion-deep-sea-900)',
   mainBg: 'color-mix(in srgb, var(--fusion-deep-sea-900) 55%, var(--fusion-deep-sea-800))',
   cardBg: 'color-mix(in srgb, var(--fusion-deep-sea-900) 62%, var(--fusion-deep-sea-800))',
   hoverBg: 'color-mix(in srgb, var(--fusion-deep-sea-800) 86%, var(--fusion-deep-sea-500))',
-  sidebarBg: 'color-mix(in srgb, var(--fusion-deep-sea-900) 58%, var(--fusion-deep-sea-1000))',
+  sidebarBg: 'var(--fusion-deep-sea-900)',
   textPrimary: '#ffffff',
   textSecondary: 'color-mix(in srgb, var(--fusion-deep-sea-100) 62%, var(--fusion-deep-sea-50))',
   textMuted: 'var(--fusion-deep-sea-100)',
@@ -199,7 +199,7 @@ function Table({ heads, rows }: { heads: string[]; rows: (ReactNode[])[] }) {
         <thead>
           <tr style={{ background: C.mainBg }}>
             {heads.map(h => (
-              <th key={h} scope="col" style={{ padding: '10px 14px', textAlign: 'left', fontWeight: 600, color: C.textPrimary, borderBottom: `1px solid ${C.borderMid}`, borderRight: `1px solid ${C.border}`, whiteSpace: 'nowrap' }}>{h}</th>
+              <th key={h} scope="col" style={{ padding: '10px 14px', textAlign: 'left', fontWeight: 400, color: C.textPrimary, borderBottom: `1px solid ${C.borderMid}`, borderRight: `1px solid ${C.border}`, whiteSpace: 'nowrap' }}>{h}</th>
             ))}
           </tr>
         </thead>
