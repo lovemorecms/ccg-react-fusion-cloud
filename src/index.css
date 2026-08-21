@@ -16207,12 +16207,7 @@ html[data-theme='dark'] .program-overview .po-cta {
   border: 0;
   border-radius: 0;
   box-shadow: none;
-  background: linear-gradient(
-    135deg,
-    var(--fusion-deep-sea-900) 0%,
-    color-mix(in srgb, var(--fusion-deep-sea-900) 55%, var(--fusion-deep-sea-800)) 50%,
-    color-mix(in srgb, var(--fusion-deep-sea-800) 62%, var(--fusion-deep-sea-900)) 100%
-  );
+  background: var(--fusion-deep-sea-900);
 }
 
 .gcp-page .gcp-hero::before {
@@ -16498,7 +16493,7 @@ html[data-theme='dark'] .program-overview .po-cta {
   top: var(--fusion-nav-sticky-height, 5rem);
   z-index: 40;
   margin: 0;
-  background: var(--fusion-deep-sea-900);
+  background: var(--fusion-deep-sea-800);
   background-image: none;
   border-top: 1px solid color-mix(in srgb, #ffffff 7%, transparent);
   border-bottom: 1px solid color-mix(in srgb, #ffffff 7%, transparent);

@@ -4,7 +4,7 @@ import { FusionButton } from '../FusionButton'
 
 const C = {
   deepBg: 'var(--fusion-deep-sea-900)',
-  mainBg: 'color-mix(in srgb, var(--fusion-deep-sea-900) 55%, var(--fusion-deep-sea-800))',
+  mainBg: 'var(--fusion-deep-sea-900)',
   cardBg: 'color-mix(in srgb, var(--fusion-deep-sea-900) 62%, var(--fusion-deep-sea-800))',
   hoverBg: 'color-mix(in srgb, var(--fusion-deep-sea-800) 86%, var(--fusion-deep-sea-500))',
   sidebarBg: 'var(--fusion-deep-sea-900)',
