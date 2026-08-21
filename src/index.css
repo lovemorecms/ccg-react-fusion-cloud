@@ -16191,15 +16191,11 @@ html[data-theme='dark'] .program-overview .po-cta {
 }
 
 .gcp-page .gcp-crumb-bar .gcp-crumb {
-  margin: 0;
+  /* Keep max-width + auto margins from .gcp-page__shell so the trail
+     sits on the 1440 canvas with the header/hero, not the viewport edge. */
+  margin-block: 0;
+  margin-inline: auto;
   padding-block: 10px;
-  padding-inline: var(--fusion-site-padding-x);
-}
-
-@media (min-width: 768px) {
-  .gcp-page .gcp-crumb-bar .gcp-crumb {
-    padding-inline: var(--fusion-site-padding-x-md);
-  }
 }
 
 .gcp-page .gcp-hero {
