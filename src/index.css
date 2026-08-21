@@ -1121,9 +1121,8 @@ html[data-theme='dark'] .fusion-site-nav__search-btn {
 }
 
 html[data-theme='dark'] .fusion-mega-trigger:hover,
-html[data-theme='dark'] .fusion-mega-trigger:focus-visible,
 html[data-theme='dark'] .fusion-site-nav a.fusion-nav-v2__top-link:hover {
-  color: var(--color-white);
+  color: var(--fusion-yellow);
 }
 
 html[data-theme='dark'] .fusion-site-nav a.fusion-mega-trigger:focus,
@@ -1134,11 +1133,22 @@ html[data-theme='dark'] .fusion-site-nav a.fusion-nav-v2__top-link:focus,
 html[data-theme='dark'] .fusion-site-nav a.fusion-nav-v2__top-link:focus:visited,
 html[data-theme='dark'] .fusion-site-nav a.fusion-nav-v2__top-link:focus-visible,
 html[data-theme='dark'] .fusion-site-nav a.fusion-nav-v2__top-link:active {
-  color: var(--color-white) !important;
+  color: #ffffff !important;
   background: transparent !important;
   background-color: transparent !important;
-  outline: none !important;
   box-shadow: none !important;
+}
+
+html[data-theme='dark'] .fusion-site-nav a.fusion-mega-trigger:focus-visible,
+html[data-theme='dark'] .fusion-site-nav a.fusion-mega-trigger:focus,
+html[data-theme='dark'] .fusion-site-nav a.fusion-nav-v2__top-link:focus-visible,
+html[data-theme='dark'] .fusion-site-nav a.fusion-nav-v2__top-link:focus,
+html[data-theme='dark'] .fusion-site-nav button.fusion-mega-trigger:focus,
+html[data-theme='dark'] .fusion-site-nav button.fusion-mega-trigger:focus-visible {
+  color: #ffffff !important;
+  outline: 1px dashed var(--fusion-yellow) !important;
+  outline-offset: 4px;
+  border-radius: 0.5rem;
 }
 
 html[data-theme='dark'] .fusion-site-nav__menu-btn {
@@ -1457,9 +1467,10 @@ html[data-theme='dark'] .fusion-site-nav__mobile-drawer {
   color: var(--fusion-blue, var(--color-primary));
 }
 
-.fusion-site-nav a.fusion-nav-v2__top-link:hover {
+.fusion-site-nav a.fusion-nav-v2__top-link:hover,
+.fusion-site-nav .fusion-mega-trigger:hover {
   text-decoration: none;
-  color: var(--color-primary-darkest);
+  color: var(--fusion-yellow);
 }
 
 /* CMS DS paints `a:focus` with --color-focus-light (#fff). Kill that pill on top-level links. */
@@ -1474,23 +1485,21 @@ html[data-theme='dark'] .fusion-site-nav__mobile-drawer {
   background: transparent !important;
   background-color: transparent !important;
   box-shadow: none !important;
-  outline: none !important;
-  color: var(--fusion-blue, var(--color-primary)) !important;
   text-decoration: none !important;
 }
 
+.fusion-site-nav a.fusion-nav-v2__top-link:focus,
 .fusion-site-nav a.fusion-nav-v2__top-link:focus-visible,
-.fusion-site-nav a.fusion-mega-trigger:focus-visible {
-  outline: none !important;
-  background: transparent !important;
-}
-
+.fusion-site-nav a.fusion-mega-trigger:focus,
+.fusion-site-nav a.fusion-mega-trigger:focus-visible,
+.fusion-site-nav button.fusion-mega-trigger:focus,
 .fusion-site-nav button.fusion-mega-trigger:focus-visible {
-  outline: 2px solid var(--color-primary);
-  outline-offset: 2px;
-  box-shadow:
-    var(--fusion-mega-glow-cyan),
-    inset 0 -2px 0 var(--fusion-dandelion);
+  color: #ffffff !important;
+  outline: 1px dashed var(--fusion-yellow) !important;
+  outline-offset: 4px;
+  border-radius: 0.5rem;
+  background: transparent !important;
+  box-shadow: none !important;
 }
 
 /*
@@ -1515,10 +1524,11 @@ html[data-theme='dark'] .fusion-site-nav__mobile-drawer {
 
 .fusion-nav-v2.fusion-nav-v2--mega-open button.fusion-mega-trigger--active:focus,
 .fusion-nav-v2.fusion-nav-v2--mega-open button.fusion-mega-trigger--active:focus-visible {
-  outline: none;
-  box-shadow:
-    inset 0 1px 0 color-mix(in srgb, var(--color-white) 90%, transparent),
-    0 0 24px var(--fusion-mega-cyan-soft);
+  color: #ffffff !important;
+  outline: 1px dashed var(--fusion-yellow) !important;
+  outline-offset: 4px;
+  border-radius: 0.5rem;
+  box-shadow: none !important;
 }
 
 .fusion-site-nav button.fusion-mega-trigger--active {
@@ -1553,9 +1563,11 @@ html[data-theme='dark'] .fusion-site-nav__mobile-drawer {
   box-shadow: none;
 }
 
-.fusion-site-nav .fusion-mega-trigger:hover .fusion-mega-trigger__underline,
-.fusion-site-nav .fusion-nav-v2__top-link:hover .fusion-mega-trigger__underline {
-  transform: scaleX(1);
+.fusion-site-nav .fusion-mega-trigger:focus .fusion-mega-trigger__underline,
+.fusion-site-nav .fusion-mega-trigger:focus-visible .fusion-mega-trigger__underline,
+.fusion-site-nav a.fusion-nav-v2__top-link:focus .fusion-mega-trigger__underline,
+.fusion-site-nav a.fusion-nav-v2__top-link:focus-visible .fusion-mega-trigger__underline {
+  transform: scaleX(0) !important;
 }
 
 /* Header + mega menu — one connected surface when open */
@@ -14555,6 +14567,28 @@ html[data-theme='dark'] .fusion-site-header:has(.fusion-nav-v2--mega-open) .fusi
 
 html[data-theme='dark'] .fusion-nav-v2.fusion-nav-v2--mega-open button.fusion-mega-trigger--active {
   background: transparent !important;
+}
+
+html[data-theme='dark'] .fusion-site-header:has(.fusion-nav-v2--mega-open) .fusion-mega-trigger:hover,
+html[data-theme='dark'] .fusion-nav-v2.fusion-nav-v2--mega-open button.fusion-mega-trigger:hover,
+html[data-theme='dark'] .fusion-site-header:has(.fusion-nav-v2--mega-open) a.fusion-nav-v2__top-link:hover {
+  color: var(--fusion-yellow) !important;
+}
+
+html[data-theme='dark'] .fusion-site-header:has(.fusion-nav-v2--mega-open) button.fusion-mega-trigger:focus,
+html[data-theme='dark'] .fusion-site-header:has(.fusion-nav-v2--mega-open) button.fusion-mega-trigger:focus-visible,
+html[data-theme='dark'] .fusion-nav-v2.fusion-nav-v2--mega-open button.fusion-mega-trigger:focus,
+html[data-theme='dark'] .fusion-nav-v2.fusion-nav-v2--mega-open button.fusion-mega-trigger:focus-visible,
+html[data-theme='dark'] .fusion-nav-v2.fusion-nav-v2--mega-open button.fusion-mega-trigger--active:focus,
+html[data-theme='dark'] .fusion-nav-v2.fusion-nav-v2--mega-open button.fusion-mega-trigger--active:focus-visible,
+html[data-theme='dark'] .fusion-site-header:has(.fusion-nav-v2--mega-open) a.fusion-nav-v2__top-link:focus,
+html[data-theme='dark'] .fusion-site-header:has(.fusion-nav-v2--mega-open) a.fusion-nav-v2__top-link:focus-visible,
+html[data-theme='dark'] .fusion-site-header:has(.fusion-nav-v2--mega-open) a.fusion-mega-trigger:focus,
+html[data-theme='dark'] .fusion-site-header:has(.fusion-nav-v2--mega-open) a.fusion-mega-trigger:focus-visible {
+  color: #ffffff !important;
+  outline: 1px dashed var(--fusion-yellow) !important;
+  outline-offset: 4px;
+  border-radius: 0.5rem;
 }
 
 /*
