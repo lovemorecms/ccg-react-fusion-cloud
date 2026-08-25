@@ -16691,6 +16691,20 @@ html[data-theme='dark'] body:has(.gcp-page) .fusion-site-header:has(.fusion-nav-
   border-color: color-mix(in srgb, #34A853 28%, transparent);
 }
 
+.gcp-page .oracle-hero__panel,
+.gcp-page .oracle-hero__topology {
+  width: 100%;
+  min-width: 0;
+}
+
+.gcp-page .oracle-hero__topology svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 520px;
+  margin-left: auto;
+}
+
 .gcp-page .gcp-section {
   max-width: none;
   margin: 0;

@@ -3,6 +3,7 @@ import { getPlatformArticleBySlug } from '../data/platformArticleContent'
 import AzurePlatformPage from './AzurePlatformPage'
 import GcpPlatformPage from './GcpPlatformPage'
 import GcpPlatformPageV2 from './GcpPlatformPageV2'
+import OraclePlatformPage from './OraclePlatformPage'
 import PlatformArticlePage from './PlatformArticlePage'
 import PlatformInteriorPage from './PlatformInteriorPage'
 
@@ -19,6 +20,10 @@ export default function PlatformRoutePage() {
 
   if (platformSlug === 'azure-commercial') {
     return <AzurePlatformPage />
+  }
+
+  if (platformSlug === 'oracle-cloud-infrastructure') {
+    return <OraclePlatformPage />
   }
 
   if (platformSlug && getPlatformArticleBySlug(platformSlug)) {
