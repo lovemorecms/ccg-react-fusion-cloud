@@ -15768,6 +15768,11 @@ html[data-theme='dark'] .program-overview .po-cta {
   color: #ffffff;
 }
 
+.explore-2 .explore-badge--cms {
+  --badge__background-color: var(--fusion-yellow);
+  --badge__font-color: #040b2e;
+}
+
 .explore-2 .explore-hero {
   display: flex;
   flex-direction: column;
@@ -15941,6 +15946,7 @@ html[data-theme='dark'] .program-overview .po-cta {
   font-weight: 700;
   line-height: 1.3;
   margin: 0 0 0.25rem;
+  color: var(--color-text);
 }
 
 .explore-2 .explore-hero .explore-hero__headline > span {
@@ -16196,6 +16202,152 @@ html[data-theme='dark'] .program-overview .po-cta {
   color: var(--fusion-yellow);
   text-decoration: underline;
   text-underline-offset: 0.2em;
+}
+
+.explore-2 .service-catalog-icon {
+  display: block;
+  flex-shrink: 0;
+  object-fit: contain;
+  background: transparent;
+}
+
+.explore-2 .service-catalog-icon--sm {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.explore-2 .service-catalog-icon--md {
+  width: 2rem;
+  height: 2rem;
+}
+
+.explore-2 .service-catalog-icon--lg {
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+.explore-2 button.service-catalog-card {
+  appearance: none;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0;
+  padding: 1.5rem;
+  text-align: left;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  border-radius: 1rem;
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  box-shadow: none;
+  outline: none;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.explore-2 button.service-catalog-card:hover,
+.explore-2 button.service-catalog-card:focus,
+.explore-2 button.service-catalog-card:focus-visible,
+.explore-2 button.service-catalog-card:active {
+  background: var(--color-card-hover);
+  border-color: color-mix(in srgb, var(--fusion-yellow) 42%, var(--color-border));
+  box-shadow: none;
+  outline: none;
+}
+
+.explore-2 .service-catalog-card__header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.explore-2 .service-catalog-card__icon-wrap {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 0.5rem;
+  background: color-mix(in srgb, var(--fusion-deep-sea-800) 72%, var(--fusion-deep-sea-900));
+}
+
+.explore-2 .service-catalog-card__heading {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.explore-2 .service-catalog-card__title {
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--color-text);
+}
+
+.explore-2 .service-catalog-card__desc {
+  margin: 0.9rem 0 0;
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--color-text-muted);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.explore-2 .service-catalog-card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-top: auto;
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--color-border);
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  font-weight: 400;
+  line-height: 1.3;
+  color: var(--color-text-muted);
+}
+
+.explore-2 .service-catalog-card__category,
+.explore-2 .service-catalog-card__maturity {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-width: 0;
+}
+
+.explore-2 .service-catalog-card__category .explore-capability-icon {
+  width: 1rem;
+  height: 1rem;
+  color: var(--color-text-muted);
+}
+
+.explore-2 .service-catalog-card__maturity {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.explore-2 .service-catalog-card__dot {
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
+  background: #6eb6ff;
+  flex-shrink: 0;
+}
+
+.explore-2 .service-catalog-card__chevron {
+  display: flex;
+  flex-shrink: 0;
+  color: var(--color-text-muted);
 }
 
 /* Google Cloud Platform interior — Deep Sea / Lexend Explore standards */

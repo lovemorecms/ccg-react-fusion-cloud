@@ -2,7 +2,7 @@ import { useState, useMemo, useRef, useEffect, type ReactNode } from 'react'
 import { Badge } from '@cmsgov/ds-cms-gov'
 import { Link } from 'react-router-dom'
 import {
-  SERVICES, CATEGORIES, MATRIX, COMPARISON,
+  SERVICES, CATEGORIES, MATRIX, COMPARISON, COMPARISON_ICON_BY_NAME,
   JOURNEY_PHASES, MATURITY_LABELS, PROVIDER_META,
   type Service, type Provider, type Category,
 } from '../data/hybridCloudServicesGuide'
@@ -12,6 +12,31 @@ import { platformInteriorPath } from '../data/platformPages'
 
 type Tab = 'overview' | 'catalog' | 'comparison' | 'journey'
 type BadgeVariation = 'info' | 'success' | 'warn' | 'alert'
+type CatalogIconSize = 'sm' | 'md' | 'lg'
+
+function catalogIconSrc(id: string) {
+  return `${import.meta.env.BASE_URL}images/explore/catalog/${id}.svg`
+}
+
+function ServiceCatalogIcon({
+  id,
+  size = 'md',
+}: {
+  id: string
+  size?: CatalogIconSize
+}) {
+  const px = size === 'lg' ? 40 : size === 'sm' ? 20 : 32
+  return (
+    <img
+      src={catalogIconSrc(id)}
+      alt=""
+      width={px}
+      height={px}
+      className={`service-catalog-icon service-catalog-icon--${size}`}
+      aria-hidden="true"
+    />
+  )
+}
 
 const TABS: { id: Tab; label: string }[] = [
   { id: 'overview',   label: 'Quick Reference' },
@@ -24,7 +49,7 @@ function providerBadgeProps(provider: Provider): { variation?: BadgeVariation; c
   if (provider === 'aws') return { className: 'explore-badge--aws' }
   if (provider === 'azure') return { variation: 'info' }
   if (provider === 'gcp') return { variation: 'success' }
-  return { variation: 'warn' }
+  return { className: 'explore-badge--cms' }
 }
 
 function ProviderBadge({ provider, size = 'sm' }: { provider: Provider; size?: 'xs' | 'sm' | 'md' }) {
@@ -154,42 +179,37 @@ function FusionTag({ tool }: { tool: string }) {
 // ── Service card ──────────────────────────────────────────────────────────────
 
 function ServiceCard({ svc, onClick }: { svc: Service; onClick: () => void }) {
-  const pm = PROVIDER_META[svc.provider]
+  const maturity = MATURITY_LABELS[svc.maturityLevel]
   return (
     <button
+      type="button"
       onClick={onClick}
-      className="text-left w-full rounded-xl p-4 transition-all duration-200 group"
-      style={{
-        background: 'var(--color-card)',
-        border: '1px solid var(--color-border)',
-        outline: 'none',
-      }}
-      onMouseEnter={e => {
-        (e.currentTarget as HTMLButtonElement).style.borderColor = `${pm.color}44`
-        ;(e.currentTarget as HTMLButtonElement).style.background = 'var(--color-card-hover)'
-      }}
-      onMouseLeave={e => {
-        (e.currentTarget as HTMLButtonElement).style.borderColor = 'var(--color-border)'
-        ;(e.currentTarget as HTMLButtonElement).style.background = 'var(--color-card)'
-      }}
+      className="service-catalog-card"
     >
-      <div className="flex items-start gap-3">
-        <span className="text-2xl shrink-0 mt-0.5">{svc.icon}</span>
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 flex-wrap mb-1">
-            <span className="font-semibold text-sm" style={{ color: 'var(--color-text)', fontFamily: 'var(--font-display)' }}>
-              {svc.name}
-            </span>
-            <ProviderBadge provider={svc.provider} size="xs" />
-          </div>
-          <p className="text-xs leading-relaxed line-clamp-2" style={{ color: 'var(--color-text-muted)' }}>
-            {svc.definition}
-          </p>
-          <div className="flex items-center gap-2 mt-2 flex-wrap">
-            <Badge hideScreenReaderText>{svc.category}</Badge>
-            <MaturityBadge level={svc.maturityLevel} />
-          </div>
-        </div>
+      <div className="service-catalog-card__header">
+        <span className="service-catalog-card__icon-wrap">
+          <ServiceCatalogIcon id={svc.id} size="md" />
+        </span>
+        <span className="service-catalog-card__heading">
+          <span className="service-catalog-card__title">{svc.name}</span>
+          <ProviderBadge provider={svc.provider} size="xs" />
+        </span>
+      </div>
+      <p className="service-catalog-card__desc">{svc.definition}</p>
+      <div className="service-catalog-card__footer">
+        <span className="service-catalog-card__category">
+          <CapabilityCategoryIcon category={svc.category} />
+          {svc.category}
+        </span>
+        <span className="service-catalog-card__maturity">
+          <span className="service-catalog-card__dot" aria-hidden="true" />
+          L{svc.maturityLevel} · {maturity.label}
+        </span>
+        <span className="service-catalog-card__chevron" aria-hidden="true">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M9 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </span>
       </div>
     </button>
   )
@@ -244,7 +264,7 @@ function ServicePanel({ svc, onClose }: { svc: Service; onClose: () => void }) {
         >
           <div className="flex items-start justify-between gap-4">
             <div className="flex items-center gap-3">
-              <span className="text-3xl">{svc.icon}</span>
+              <ServiceCatalogIcon id={svc.id} size="lg" />
               <div>
                 <h2 className="explore-panel-title">
                   {svc.name}
@@ -407,7 +427,7 @@ function ServicePanel({ svc, onClose }: { svc: Service; onClose: () => void }) {
                   if (!related) return null
                   return (
                     <span key={rid} className="text-xs px-2.5 py-1 rounded-lg flex items-center gap-1.5" style={{ color: 'var(--color-text)', background: 'rgba(255,255,255,0.05)', border: '1px solid var(--color-border)' }}>
-                      <span>{related.icon}</span>
+                      <ServiceCatalogIcon id={related.id} size="sm" />
                       <span>{related.name}</span>
                       <ProviderBadge provider={related.provider} size="xs" />
                     </span>
@@ -757,7 +777,7 @@ function CatalogPage({
           <p>No services match your filters.</p>
         </div>
       ) : (
-        <div className="grid gap-3" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))' }}>
+        <div className="grid gap-4" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))' }}>
           {results.map(svc => (
             <ServiceCard key={svc.id} svc={svc} onClick={() => onSelectService(svc)} />
           ))}
@@ -775,7 +795,15 @@ function ComparisonPage({ onSelectService }: { onSelectService: (svc: Service) =
   const rows = Object.entries(COMPARISON)
   const providers: Provider[] = ['aws', 'azure', 'gcp']
 
-  const findSvc = (name: string) => SERVICES.find(s => s.name === name || s.name.includes(name.split('/')[0]))
+  const findSvc = (name: string) => {
+    const iconId = COMPARISON_ICON_BY_NAME[name]
+    if (iconId) {
+      const byId = SERVICES.find(s => s.id === iconId)
+      if (byId) return byId
+    }
+    const token = name.split('/')[0].trim()
+    return SERVICES.find(s => s.name === name || s.name.includes(token))
+  }
 
   return (
     <div className="fade-in">
@@ -850,6 +878,8 @@ function ComparisonPage({ onSelectService }: { onSelectService: (svc: Service) =
                   {(['aws', 'azure', 'gcp'] as Provider[]).map(p => {
                     const svcName = row[p as 'aws' | 'azure' | 'gcp']
                     const svcObj = findSvc(svcName)
+                    const iconId = COMPARISON_ICON_BY_NAME[svcName] ?? svcObj?.id
+                    const icon = iconId ? <ServiceCatalogIcon id={iconId} size="sm" /> : null
                     return (
                       <td key={p} className="px-5 py-4">
                         {svcObj ? (
@@ -858,11 +888,14 @@ function ComparisonPage({ onSelectService }: { onSelectService: (svc: Service) =
                             onClick={() => onSelectService(svcObj)}
                             className="explore-compare-link"
                           >
-                            <span className="text-base" aria-hidden="true">{svcObj.icon}</span>
+                            {icon}
                             <span className="explore-compare-link__name">{svcName}</span>
                           </button>
                         ) : (
-                          <span className="explore-compare-name">{svcName}</span>
+                          <span className="explore-compare-link">
+                            {icon}
+                            <span className="explore-compare-name">{svcName}</span>
+                          </span>
                         )}
                       </td>
                     )
@@ -888,7 +921,7 @@ function ComparisonPage({ onSelectService }: { onSelectService: (svc: Service) =
               onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = 'color-mix(in srgb, var(--fusion-yellow) 20%, transparent)' }}
               onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = 'color-mix(in srgb, var(--fusion-yellow) 12%, transparent)' }}
             >
-              <span>{svc.icon}</span>
+              <ServiceCatalogIcon id={svc.id} size="sm" />
               <span>{svc.name}</span>
             </button>
           ))}
@@ -901,7 +934,7 @@ function ComparisonPage({ onSelectService }: { onSelectService: (svc: Service) =
 // ── Journey page ──────────────────────────────────────────────────────────────
 
 function JourneyPage({ onSelectService }: { onSelectService: (svc: Service) => void }) {
-  const [activePhase, setActivePhase] = useState<string>('Build')
+  const [activePhase, setActivePhase] = useState<string>(JOURNEY_PHASES[0].phase)
 
   const phaseServices = useMemo(() =>
     SERVICES.filter(s => s.journeyPhases.includes(activePhase)),
@@ -959,14 +992,20 @@ function JourneyPage({ onSelectService }: { onSelectService: (svc: Service) => v
       {/* Active phase detail */}
       {JOURNEY_PHASES.map(p => p.phase === activePhase && (
         <div key={p.phase}>
-          <div className="rounded-xl p-4 mb-5" style={{ background: `${p.color}0F`, border: `1px solid ${p.color}33` }}>
-            <h3 className="explore-phase-heading" style={{ color: p.color }}>
+          <div
+            className="rounded-xl p-4 mb-5"
+            style={{
+              background: `color-mix(in srgb, ${p.color} 16%, var(--color-card))`,
+              border: `1px solid color-mix(in srgb, ${p.color} 42%, var(--color-border))`,
+            }}
+          >
+            <h3 className="explore-phase-heading">
               {p.phase} Phase
             </h3>
             <p className="text-sm" style={{ color: 'var(--color-text-muted)' }}>{p.desc}</p>
           </div>
 
-          <div className="grid gap-3" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))' }}>
+          <div className="grid gap-4" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))' }}>
             {phaseServices.map(svc => (
               <ServiceCard key={svc.id} svc={svc} onClick={() => onSelectService(svc)} />
             ))}
