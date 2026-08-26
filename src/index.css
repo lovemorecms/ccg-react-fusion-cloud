@@ -9655,7 +9655,7 @@ main:has(.tpl-3col-page) + .fusion-site-footer {
   color: color-mix(in srgb, var(--color-primary-darker) 82%, var(--color-gray-dark));
 }
 
-/* ─── Global floating dock: scroll-to-top + CMS Assistant chat ─────────────── */
+/* ─── Global floating dock: CMS Assistant chat ─────────────── */
 
 .fusion-float-dock {
   position: fixed;
@@ -9677,40 +9677,6 @@ main:has(.tpl-3col-page) + .fusion-site-footer {
   flex-direction: column;
   align-items: flex-end;
   gap: 12px;
-}
-
-.fusion-float-dock__scroll-top {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 52px;
-  height: 52px;
-  padding: 0;
-  border: none;
-  border-radius: 50%;
-  color: var(--color-primary-darkest);
-  background: var(--fusion-yellow);
-  box-shadow:
-    0 4px 14px color-mix(in srgb, var(--fusion-yellow) 40%, transparent),
-    0 2px 6px rgba(0, 0, 0, 0.12);
-  cursor: pointer;
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease,
-    background 0.2s ease;
-}
-
-.fusion-float-dock__scroll-top:hover {
-  transform: translateY(-2px);
-  background: #b3a006;
-  box-shadow:
-    0 6px 20px color-mix(in srgb, var(--fusion-yellow) 48%, transparent),
-    0 2px 8px rgba(0, 0, 0, 0.14);
-}
-
-.fusion-float-dock__scroll-top:focus-visible {
-  outline: 2px solid var(--fusion-yellow);
-  outline-offset: 3px;
 }
 
 .fusion-float-dock button {
@@ -10093,13 +10059,11 @@ main:has(.tpl-3col-page) + .fusion-site-footer {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .fusion-float-dock__scroll-top,
   .fusion-chat-fab,
   .fusion-chat-panel__send {
     transition: none;
   }
 
-  .fusion-float-dock__scroll-top:hover,
   .fusion-chat-fab:hover {
     transform: none;
   }

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useId, useRef, useState, type FormEvent } from 'react'
+import { useEffect, useId, useRef, useState, type FormEvent } from 'react'
 import { createPortal } from 'react-dom'
 import { CMS_CHAT_OPEN_EVENT } from '../cmsChat'
 
@@ -43,14 +43,6 @@ function IconClose() {
   )
 }
 
-function IconChevronUp() {
-  return (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden>
-      <path d="M6 15l6-6 6 6" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  )
-}
-
 function IconSend() {
   return (
     <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden>
@@ -79,23 +71,10 @@ export function FloatingAssistDock() {
   const [messages, setMessages] = useState<ChatMessage[]>([
     { id: 'welcome', role: 'assistant', text: WELCOME },
   ])
-  const [showScrollTop, setShowScrollTop] = useState(false)
   const listRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
   const hasUserMessage = messages.some((msg) => msg.role === 'user')
   const canSend = input.trim().length > 0
-
-  const scrollToTop = useCallback(() => {
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    window.scrollTo({ top: 0, behavior: reduced ? 'auto' : 'smooth' })
-  }, [])
-
-  useEffect(() => {
-    const onScroll = () => setShowScrollTop(window.scrollY > 360)
-    onScroll()
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
 
   useEffect(() => {
     function openFromApp() {
@@ -142,12 +121,6 @@ export function FloatingAssistDock() {
 
   const dock = (
     <div className="fusion-float-dock">
-      {showScrollTop ? (
-        <button type="button" className="fusion-float-dock__scroll-top" onClick={scrollToTop} aria-label="Scroll to top">
-          <IconChevronUp />
-        </button>
-      ) : null}
-
       <div className="fusion-float-dock__assist">
         {chatOpen ? (
           <div
