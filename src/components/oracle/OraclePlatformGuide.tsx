@@ -251,20 +251,20 @@ function OvWhy() {
       <Divider />
       <div style={{ display: 'flex', flexDirection: 'column', gap: 14, marginBottom: 24 }}>
         {[
-          { title: 'Built for security', color: C.oracleRed, desc: 'FedRAMP High certified platforms to support regulated and mission-critical workloads. Oracle Cloud has achieved FedRAMP High authorization, providing the highest tier of compliance coverage for federal healthcare systems.' },
-          { title: 'Strong database and AI foundation', color: C.gold, desc: 'Especially valuable for workloads already using Oracle Database, Exadata, or Oracle AI Database services. Teams can modernize without large-scale rewrites or data migrations to unfamiliar platforms.' },
-          { title: 'Ready for performance', color: C.azure, desc: 'Optimized for Oracle technologies and enterprise-scale demands. OCI compute and storage are engineered from the ground up to deliver the performance Oracle Database workloads require.' },
-          { title: 'Easier modernization', color: C.green, desc: 'Move forward without large-scale rewrites. OCI supports lift-and-shift of existing Oracle workloads, enabling teams to modernize incrementally while maintaining continuity of operations.' },
-          { title: 'More deployment choice', color: C.cmsBlue, desc: 'Use public cloud, on-premises (ExaCC), or a hybrid approach. No other cloud provider offers the same breadth of deployment options for Oracle workloads, giving CMS teams flexibility to match architecture to requirements.' },
-          { title: 'Clearer cost planning', color: C.amber, desc: 'Gain pricing transparency and make better use of existing Oracle investments. Oracle License Included and BYOL options allow teams to leverage existing agreements, often reducing total cost of ownership.' },
-        ].map(({ title, color, desc }) => (
-          <div key={title} style={{ background: C.cardBg, border: `1px solid ${C.border}`, borderLeft: `3px solid ${color}`, borderRadius: 8, padding: '18px 20px' }}>
+          { title: 'Built for security', desc: 'FedRAMP High certified platforms to support regulated and mission-critical workloads. Oracle Cloud has achieved FedRAMP High authorization, providing the highest tier of compliance coverage for federal healthcare systems.' },
+          { title: 'Strong database and AI foundation', desc: 'Especially valuable for workloads already using Oracle Database, Exadata, or Oracle AI Database services. Teams can modernize without large-scale rewrites or data migrations to unfamiliar platforms.' },
+          { title: 'Ready for performance', desc: 'Optimized for Oracle technologies and enterprise-scale demands. OCI compute and storage are engineered from the ground up to deliver the performance Oracle Database workloads require.' },
+          { title: 'Easier modernization', desc: 'Move forward without large-scale rewrites. OCI supports lift-and-shift of existing Oracle workloads, enabling teams to modernize incrementally while maintaining continuity of operations.' },
+          { title: 'More deployment choice', desc: 'Use public cloud, on-premises (ExaCC), or a hybrid approach. No other cloud provider offers the same breadth of deployment options for Oracle workloads, giving CMS teams flexibility to match architecture to requirements.' },
+          { title: 'Clearer cost planning', desc: 'Gain pricing transparency and make better use of existing Oracle investments. Oracle License Included and BYOL options allow teams to leverage existing agreements, often reducing total cost of ownership.' },
+        ].map(({ title, desc }) => (
+          <div key={title} style={{ background: C.cardBg, border: `1px solid ${C.border}`, borderLeft: `3px solid ${C.oracleRed}`, borderRadius: 8, padding: '18px 20px' }}>
             <div style={{ fontSize: '0.9375rem', fontWeight: 700, color: C.textPrimary, marginBottom: 8 }}>{title}</div>
             <p style={{ fontSize: '0.9rem', color: C.textSecondary, lineHeight: 1.75, margin: 0 }}>{desc}</p>
           </div>
         ))}
       </div>
-      <Callout text="Oracle Cloud is not a replacement for all CMS cloud workloads — it is the right choice for teams with existing Oracle database dependencies, regulated data that benefits from ExaCC's on-premises model, or workloads that require Oracle-native performance at scale." accent={C.gold} bg="rgba(223,176,28,0.07)" />
+      <Callout text="Oracle Cloud is not a replacement for all CMS cloud workloads — it is the right choice for teams with existing Oracle database dependencies, regulated data that benefits from ExaCC's on-premises model, or workloads that require Oracle-native performance at scale." accent={C.oracleRed} bg="rgba(199,70,52,0.07)" />
     </div>
   )
 }
@@ -937,7 +937,6 @@ function ResGettingStarted() {
         'Confirm which operational shared services (logging, monitoring, backup) need to be enabled from day one',
         'Submit an onboarding request through the OIT Customer Support Team portal',
       ]} />
-      <Callout text="Last updated: August 14, 2026. For the latest Oracle Cloud service availability and program details, contact the OIT Customer Support Team." accent={C.textMuted} bg="rgba(125,143,168,0.07)" />
     </div>
   )
 }

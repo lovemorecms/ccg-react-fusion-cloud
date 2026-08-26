@@ -52,14 +52,6 @@ export function SiteFooter() {
         <div className="fusion-site-footer__brand">
           <div className="fusion-site-footer__brand-logos">
             <img
-              className="fusion-site-footer__brand-logo fusion-site-footer__brand-logo--hhs"
-              src={`${brandBase}hhs-logo.png`}
-              alt="U.S. Department of Health and Human Services"
-              width={72}
-              height={72}
-              decoding="async"
-            />
-            <img
               className="fusion-site-footer__brand-logo fusion-site-footer__brand-logo--cms"
               src={`${brandBase}cms-logo.png`}
               alt="Centers for Medicare & Medicaid Services"
@@ -67,9 +59,19 @@ export function SiteFooter() {
               height={72}
               decoding="async"
             />
+            <img
+              className="fusion-site-footer__brand-logo fusion-site-footer__brand-logo--hhs"
+              src={`${brandBase}hhs-logo.png`}
+              alt="U.S. Department of Health and Human Services"
+              width={72}
+              height={72}
+              decoding="async"
+            />
           </div>
           <p className="fusion-site-footer__brand-body">
-            A federal government website managed by the Centers for Medicare &amp; Medicaid Services
+            A federal government website managed
+            <br />
+            by the Centers for Medicare &amp; Medicaid Services
             <br />
             <span className="fusion-site-footer__brand-address">
               7500 Security Boulevard, Baltimore, MD 21244
